@@ -1,0 +1,22 @@
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+
+# Environment
+.env
+*.env
+
+# Node
+node_modules/
+
+# Build/cache
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Secrets
+*.pem
+*.key
