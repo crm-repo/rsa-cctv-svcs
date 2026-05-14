@@ -180,18 +180,29 @@ footer {
   }
 
   .mobile-contact-row {
+    width: 100% !important;
+    align-self: stretch !important;
+    justify-content: center !important;
+    text-align: center;
     font-size: 13px;
     line-height: 1.2;
   }
-
+  
   .mobile-social-row {
+    width: 100% !important;
+    align-self: stretch !important;
+    justify-content: center !important;
     margin-top: -2px;
   }
-
+  
   .mobile-social-row a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #dc2626;
     transition: 0.3s ease;
   }
-
+  
   .mobile-social-row a:hover {
     color: #ffffff;
   }
