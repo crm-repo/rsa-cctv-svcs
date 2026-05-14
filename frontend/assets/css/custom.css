@@ -151,8 +151,13 @@ footer {
   }
 
   header .max-w-7xl {
+    align-items: flex-start !important;
     padding-top: 14px !important;
     padding-bottom: 12px !important;
+  }
+
+  header a.block {
+    align-self: flex-start;
   }
 
   .main-logo {
@@ -160,7 +165,8 @@ footer {
     height: 90px;
     object-fit: cover;
     object-position: left center;
-    margin-left: -18px;
+    display: block;
+    margin-left: -42px;
     transform: translateY(2px);
   }
 
@@ -170,15 +176,29 @@ footer {
     top: 20px !important;
     margin: 0 !important;
     transform: none !important;
+    z-index: 9999 !important;
   }
+
   .mobile-contact-row {
     font-size: 13px;
     line-height: 1.2;
   }
 
+  .mobile-social-row {
+    margin-top: -2px;
+  }
+
+  .mobile-social-row a {
+    transition: 0.3s ease;
+  }
+
+  .mobile-social-row a:hover {
+    color: #ffffff;
+  }
+
   .hero-bg {
-    background-position: 82% center;
-    background-size: auto 82%;
+    background-position: 78% center;
+    background-size: auto 68%;
     opacity: 0.95;
   }
 
