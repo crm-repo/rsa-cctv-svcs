@@ -169,12 +169,10 @@ footer {
   }
 
   .main-logo {
-    display: block;
     width: 400px;
     height: 100px;
-    object-fit: cover; 
+    object-fit: cover;
     object-position: left center;
-    display: block;
     margin-top: -20px !important;
     margin-left: -42px;
     transform: translateY(20px);
@@ -649,6 +647,8 @@ footer {
   .main-logo {
     width: 400px;
     height: 100px;
+    object-fit: cover;
+    object-position: left center;
     margin-top: -20px !important;
     margin-left: -42px;
     transform: translateY(20px);
