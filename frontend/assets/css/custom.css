@@ -187,6 +187,24 @@ footer {
     z-index: 9999 !important;
   }
 
+    #mobileMenu:not(.hidden) {
+    display: flex !important;
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    height: 100vh !important;
+    width: 80% !important;
+    max-width: 360px !important;
+    background: #000 !important;
+    z-index: 9998 !important;
+    padding: 96px 32px 32px !important;
+    flex-direction: column !important;
+  }
+
+  #mobileMenuOverlay:not(.hidden) {
+    display: block !important;
+  }
+
   .mobile-header-extra {
     width: 100% !important;
     align-self: stretch !important;
@@ -416,6 +434,19 @@ footer {
   /* Allow mobile menu to open when JS removes hidden */
   #mobileMenu:not(.hidden) {
     display: flex !important;
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    height: 100vh !important;
+    width: 80% !important;
+    max-width: 360px !important;
+    background: #000 !important;
+    z-index: 9998 !important;
+    padding: 96px 32px 32px !important;
+  }
+
+   #mobileMenuOverlay:not(.hidden) {
+    display: block !important;
   }
 
   /* Mobile-style hero for tablet portrait */
@@ -635,13 +666,19 @@ footer {
 
   #mobileMenu:not(.hidden) {
     display: flex !important;
-    position: absolute !important;
-    top: 120px !important;
-    right: 20px !important;
-    width: 320px !important;
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    height: 100vh !important;
+    width: 80% !important;
+    max-width: 360px !important;
     background: #000 !important;
     z-index: 9998 !important;
-    padding: 18px !important;
+    padding: 96px 32px 32px !important;
+  }
+
+  #mobileMenuOverlay:not(.hidden) {
+    display: block !important;
   }
 
   .main-logo {
