@@ -93,7 +93,6 @@ header .max-w-7xl {
 }
 
 .featured-product-card {
-  display: grid !important;
   grid-template-rows: 220px 44px 24px 30px !important;
   text-align: center !important;
   align-items: center !important;
@@ -210,6 +209,21 @@ footer {
     max-width: 920px;
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+/* =========================
+   HOMEPAGE SECTION GAP FIX
+========================= */
+
+@media (max-width: 1180px) {
+
+  .content-card-grid {
+    padding-top: 16px !important;
+  }
+
+  .top-brands-grid {
+    transform: translateY(-10px);
   }
 }
 
@@ -446,6 +460,39 @@ footer {
     padding-bottom: 1px !important;
   }
 }
+
+/* =========================
+   FEATURED PRODUCTS - MOBILE PORTRAIT
+========================= */
+
+@media (max-width: 767px) and (orientation: portrait) {
+  #featuredProductsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 22px 16px !important;
+  }
+
+  .featured-product-card {
+    grid-template-rows: 130px 46px 34px 28px !important;
+  }
+
+  .featured-product-image {
+    height: 130px !important;
+  }
+
+  .featured-product-image img {
+    padding: 8px !important;
+  }
+
+  .featured-product-name {
+    height: 46px !important;
+    font-size: 14px !important;
+    line-height: 1.15 !important;
+  }
+
+  .featured-dots {
+    margin-top: 30px !important;
+  }
+  }
 
 /* =========================
    IPAD MINI / IPAD AIR PORTRAIT FIX
@@ -833,4 +880,14 @@ footer {
     opacity: 0.95;
   }
 
+}
+
+/* =========================
+   TOP BRANDS LOGO ALIGNMENT - DESKTOP
+========================= */
+
+@media (min-width: 1181px) {
+  .top-brands-grid {
+    transform: translateY(12px);
+  }
 }

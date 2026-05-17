@@ -27,25 +27,59 @@ if (mobileMenuButton && mobileMenu && mobileMenuOverlay) {
   });
 }
 
-const featuredPages = document.querySelectorAll(".featured-products-page");
-const featuredDots = document.querySelectorAll(".featured-dot");
+const featuredGrid = document.getElementById("featuredProductsGrid");
+const featuredDotsContainer = document.getElementById("featuredProductsDots");
 
-if (featuredPages.length && featuredDots.length) {
-  featuredDots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-      featuredPages.forEach((page) => {
-        page.classList.remove("active");
-      });
+if (featuredGrid && featuredDotsContainer) {
+  const productCards = Array.from(featuredGrid.querySelectorAll(".featured-product-card"));
+  let currentPage = 0;
 
-      featuredDots.forEach((dotItem) => {
-        dotItem.classList.remove("active");
-      });
+  function getProductsPerPage() {
+    return window.innerWidth <= 767 &&
+          window.matchMedia("(orientation: portrait)").matches
+          ? 6
+          : 5;
+  }
 
-      if (featuredPages[index]) {
-        featuredPages[index].classList.add("active");
+  function renderFeaturedProducts() {
+    const perPage = getProductsPerPage();
+    const totalPages = Math.ceil(productCards.length / perPage);
+
+    if (currentPage >= totalPages) {
+      currentPage = totalPages - 1;
+    }
+
+    productCards.forEach((card, index) => {
+      const start = currentPage * perPage;
+      const end = start + perPage;
+
+      card.style.display = index >= start && index < end ? "grid" : "none";
+    });
+
+    featuredDotsContainer.innerHTML = "";
+
+    for (let i = 0; i < totalPages; i++) {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "featured-dot";
+
+      if (i === currentPage) {
+        dot.classList.add("active");
       }
 
-      dot.classList.add("active");
-    });
+      dot.addEventListener("click", () => {
+        currentPage = i;
+        renderFeaturedProducts();
+      });
+
+      featuredDotsContainer.appendChild(dot);
+    }
+  }
+
+  renderFeaturedProducts();
+
+  window.addEventListener("resize", () => {
+    currentPage = 0;
+    renderFeaturedProducts();
   });
 }
