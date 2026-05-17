@@ -891,3 +891,30 @@ footer {
     transform: translateY(12px);
   }
 }
+/* =========================
+   TOP BRANDS - IPAD LANDSCAPE
+========================= */
+
+@media (min-width: 769px) and (max-width: 1180px) and (orientation: landscape) {
+  .top-brands-grid {
+    transform: translateY(0px) !important;
+    row-gap: 12px !important;
+    column-gap: 18px !important;
+  }
+
+  .top-brands-grid > div {
+    height: 140px !important;
+    padding: 8px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .top-brands-grid img {
+    max-height: 150% !important;
+    max-width: 150% !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+}
