@@ -1336,7 +1336,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 14px;
+  padding: 0 10px;
   border-right: 1px solid #e5e7eb;
 }
 
@@ -1345,7 +1345,7 @@ footer {
 }
 
 .brand-strip-item img {
-  max-height: 100px;
+  max-height: 120px;
   width: auto;
   object-fit: contain;
   opacity: 0.95;
@@ -1387,20 +1387,18 @@ footer {
 
 .catalog-product-image {
   width: 100%;
-  height: 120px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0;
-  overflow: hidden;
+  margin-bottom: 18px;
 }
 
 .catalog-product-image img {
-  width: 150%;
-  height: 150%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   display: block;
-  transform: translateY(-6px);
 }
 
 .catalog-brand-logo {
