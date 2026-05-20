@@ -1364,7 +1364,7 @@ footer {
 .products-catalog-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 22px;
+  gap: 14px;
 }
 
 .catalog-product-card {
@@ -1404,11 +1404,11 @@ footer {
 }
 
 .catalog-brand-logo {
-  width: 140px;
-  height: 42px;
+  width: 190px;
+  height: 54px;
   object-fit: contain;
   object-position: left center;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   display: block;
 }
 
