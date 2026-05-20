@@ -1332,7 +1332,7 @@ footer {
 .brand-strip-item {
   flex: 1;
   min-width: 110px;
-  min-height: 50px;
+  min-height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
