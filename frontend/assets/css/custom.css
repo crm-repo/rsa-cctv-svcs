@@ -291,6 +291,25 @@ footer {
   display: flex;
   align-items: center;
 }
+/* =========================
+   TOP BRANDS - DEFAULT DESKTOP
+========================= */
+
+.top-brands-grid > div {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.top-brands-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transform: scale(1.1);
+}
 
 /* MOBILE PORTRAIT */
 @media (max-width: 768px) and (orientation: portrait) {
@@ -1081,7 +1100,7 @@ footer {
   }
 
   .top-brands-grid > div {
-    height: 140px !important;
+    height: 100px !important;
     padding: 8px !important;
 
     display: flex !important;
@@ -1090,8 +1109,8 @@ footer {
   }
 
   .top-brands-grid img {
-    max-height: 150% !important;
-    max-width: 150% !important;
+    max-height: 100% !important;
+    max-width: 100% !important;
     object-fit: contain !important;
     display: block !important;
   }
@@ -1105,13 +1124,13 @@ footer {
   }
 
   .top-brands-grid > div {
-    height: 110px !important;
+    height: 90px !important;
     padding: 10px !important;
   }
 
   .top-brands-grid img {
-    max-height: 85% !important;
-    max-width: 85% !important;
+    max-height: 70% !important;
+    max-width: 70% !important;
     object-fit: contain !important;
   }
 
@@ -1126,7 +1145,7 @@ footer {
   }
 
   .top-brands-grid > div {
-    height: 120px !important;
+    height: 100px !important;
     padding: 0 !important;
     display: grid !important;
     place-items: center !important;
@@ -1134,8 +1153,8 @@ footer {
   }
 
   .top-brands-grid > div > div {
-    width: 100% !important;
-    height: 100% !important;
+    width: 70% !important;
+    height: 70% !important;
     display: grid !important;
     place-items: center !important;
   }
@@ -1171,13 +1190,13 @@ footer {
   }
 
   .top-brands-grid > div {
-    height: 130px !important;
+    height: 100px !important;
     padding: 4px !important;
   }
 
   .top-brands-grid img {
-    width: 82% !important;
-    height: 82% !important;
+    width: 70% !important;
+    height: 70% !important;
     object-fit: contain !important;
   }
 
