@@ -139,3 +139,78 @@ if (promoGrid && promoDotsContainer) {
     renderPromoProducts();
   });
 }
+/* =========================
+   PRODUCTS PAGE PAGINATION
+========================= */
+
+const productsGrid = document.querySelector(".products-catalog-grid");
+const productsCount = document.getElementById("productsCount");
+const productsPageNumbers = document.getElementById("productsPageNumbers");
+const productsPrevBtn = document.getElementById("productsPrevBtn");
+const productsNextBtn = document.getElementById("productsNextBtn");
+
+if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
+  const productCards = Array.from(
+    productsGrid.querySelectorAll(".catalog-product-card")
+  );
+
+  const productsPerPage = 12;
+  let currentProductsPage = 0;
+
+  function renderProductsPage() {
+    const totalProducts = productCards.length;
+    const totalPages = Math.ceil(totalProducts / productsPerPage);
+
+    const start = currentProductsPage * productsPerPage;
+    const end = start + productsPerPage;
+
+    productCards.forEach((card, index) => {
+      card.style.display = index >= start && index < end ? "flex" : "none";
+    });
+
+    if (productsCount) {
+      productsCount.textContent = `Showing ${start + 1}–${Math.min(end, totalProducts)} of ${totalProducts} products`;
+    }
+
+    productsPageNumbers.innerHTML = "";
+
+    for (let i = 0; i < totalPages; i++) {
+      const pageBtn = document.createElement("button");
+      pageBtn.type = "button";
+      pageBtn.className = "product-page-btn";
+      pageBtn.textContent = i + 1;
+
+      if (i === currentProductsPage) {
+        pageBtn.classList.add("active");
+      }
+
+      pageBtn.addEventListener("click", () => {
+        currentProductsPage = i;
+        renderProductsPage();
+      });
+
+      productsPageNumbers.appendChild(pageBtn);
+    }
+
+    productsPrevBtn.disabled = currentProductsPage === 0;
+    productsNextBtn.disabled = currentProductsPage === totalPages - 1;
+  }
+
+  productsPrevBtn.addEventListener("click", () => {
+    if (currentProductsPage > 0) {
+      currentProductsPage--;
+      renderProductsPage();
+    }
+  });
+
+  productsNextBtn.addEventListener("click", () => {
+    const totalPages = Math.ceil(productCards.length / productsPerPage);
+
+    if (currentProductsPage < totalPages - 1) {
+      currentProductsPage++;
+      renderProductsPage();
+    }
+  });
+
+  renderProductsPage();
+}
