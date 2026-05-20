@@ -154,10 +154,15 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     productsGrid.querySelectorAll(".catalog-product-card")
   );
 
-  const productsPerPage = 12;
+  function getProductsPerPage() {
+    const isMobilePortrait = window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
+    return isMobilePortrait ? 6 : 12;
+  }
   let currentProductsPage = 0;
 
   function renderProductsPage() {
+    const productsPerPage = getProductsPerPage();
+
     const totalProducts = productCards.length;
     const totalPages = Math.ceil(totalProducts / productsPerPage);
 
@@ -204,12 +209,17 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
   });
 
   productsNextBtn.addEventListener("click", () => {
-    const totalPages = Math.ceil(productCards.length / productsPerPage);
+    const totalPages = Math.ceil(productCards.length / getProductsPerPage());
 
     if (currentProductsPage < totalPages - 1) {
       currentProductsPage++;
       renderProductsPage();
     }
+  });
+
+  window.addEventListener("resize", () => {
+  currentProductsPage = 0;
+  renderProductsPage();
   });
 
   renderProductsPage();
