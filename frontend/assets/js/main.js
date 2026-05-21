@@ -149,8 +149,10 @@ const productsPageNumbers = document.getElementById("productsPageNumbers");
 const productsPrevBtn = document.getElementById("productsPrevBtn");
 const productsNextBtn = document.getElementById("productsNextBtn");
 const productFilterButtons = document.querySelectorAll(".product-filter-btn");
+const productsSectionTitle = document.getElementById("productsSectionTitle");
 
 if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
+
   const allProductCards = Array.from(
     productsGrid.querySelectorAll(".catalog-product-card")
   );
@@ -159,11 +161,15 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
   let currentFilter = "all";
 
   function getProductsPerPage() {
-    const isMobilePortrait = window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
+    const isMobilePortrait = window.matchMedia(
+      "(max-width: 768px) and (orientation: portrait)"
+    ).matches;
+
     return isMobilePortrait ? 6 : 12;
   }
 
   function getFilteredProducts() {
+
     if (currentFilter === "sale") {
       return allProductCards.filter((card) =>
         card.querySelector(".catalog-sale-price")
@@ -180,6 +186,7 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
   }
 
   function renderProductsPage() {
+
     const productsPerPage = getProductsPerPage();
     const filteredProducts = getFilteredProducts();
 
@@ -193,25 +200,35 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     const start = currentProductsPage * productsPerPage;
     const end = start + productsPerPage;
 
+    /* Hide all products first */
     allProductCards.forEach((card) => {
       card.style.display = "none";
     });
 
+    /* Show only filtered page products */
     filteredProducts.slice(start, end).forEach((card) => {
       card.style.display = "flex";
     });
 
+    /* Products count text */
     if (productsCount) {
-      productsCount.textContent =
-        totalProducts > 0
-          ? `Showing ${start + 1}–${Math.min(end, totalProducts)} of ${totalProducts} products`
-          : `Showing 0 products`;
+
+      if (totalProducts > 0) {
+        productsCount.textContent =
+          `Showing ${start + 1}–${Math.min(end, totalProducts)} of ${totalProducts} products`;
+      } else {
+        productsCount.textContent = "Showing 0 products";
+      }
+
     }
 
+    /* Pagination buttons */
     productsPageNumbers.innerHTML = "";
 
     for (let i = 0; i < totalPages; i++) {
+
       const pageBtn = document.createElement("button");
+
       pageBtn.type = "button";
       pageBtn.className = "product-page-btn";
       pageBtn.textContent = i + 1;
@@ -226,31 +243,74 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
       });
 
       productsPageNumbers.appendChild(pageBtn);
+
     }
 
+    /* Prev / Next state */
     productsPrevBtn.disabled = currentProductsPage === 0;
     productsNextBtn.disabled = currentProductsPage >= totalPages - 1;
 
-    productsPrevBtn.style.display = totalPages <= 1 ? "none" : "flex";
-    productsNextBtn.style.display = totalPages <= 1 ? "none" : "flex";
+    /* Hide Prev/Next if only 1 page */
+    productsPrevBtn.style.display =
+      totalPages <= 1 ? "none" : "flex";
+
+    productsNextBtn.style.display =
+      totalPages <= 1 ? "none" : "flex";
   }
 
+  /* =========================
+     FILTER BUTTONS
+  ========================= */
+
   productFilterButtons.forEach((button) => {
+
     button.addEventListener("click", () => {
-      productFilterButtons.forEach((btn) => btn.classList.remove("active"));
+
+      productFilterButtons.forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
       button.classList.add("active");
 
-      currentFilter = button.getAttribute("data-filter") || "all";
+      currentFilter =
+        button.getAttribute("data-filter") || "all";
+
+      /* Dynamic section title */
+      const filterTitles = {
+        all: "All Products",
+        sale: "Sale Products",
+        cctv: "CCTV Cameras",
+        recorders: "Recorders",
+        networking: "Networking",
+        accessories: "Accessories",
+        power: "Power Supply",
+        storage: "Storage",
+		Packages/Kits: "Packages/Kits"
+      };
+
+      if (productsSectionTitle) {
+        productsSectionTitle.textContent =
+          filterTitles[currentFilter] || "Products";
+      }
+
       currentProductsPage = 0;
 
       renderProductsPage();
+
     });
+
   });
+
+  /* =========================
+     RESPONSIVE RE-RENDER
+  ========================= */
 
   window.addEventListener("resize", () => {
     currentProductsPage = 0;
     renderProductsPage();
   });
 
+  /* Initial render */
   renderProductsPage();
+
 }
