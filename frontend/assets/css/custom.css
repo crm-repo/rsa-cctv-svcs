@@ -1337,15 +1337,14 @@ footer {
   .products-hero-content > p:nth-of-type(2) {
     display: block;
     margin-top: auto !important;
-    max-width: 100% !important;
     width: 100% !important;
+    max-width: 100% !important;
     font-size: 13px !important;
     line-height: 1.45 !important;
     margin-bottom: 180px !important;
     position: relative;
     top: 160px;
     padding-left: 4px;
-    white-space: nowrap;
   }
 
   .hero-nowrap {
