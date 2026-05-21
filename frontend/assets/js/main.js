@@ -285,7 +285,7 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
         accessories: "Accessories",
         power: "Power Supply",
         storage: "Storage",
-		Packages/Kits: "Packages/Kits"
+		packages: "Packages/Kits"
       };
 
       if (productsSectionTitle) {
