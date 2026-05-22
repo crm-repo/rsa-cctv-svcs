@@ -988,6 +988,62 @@ footer {
     background-size: cover !important;
     background-position: center right !important;
   }
+/**PRODUCTS PAGE*//
+
+  /* HERO HEIGHT */
+  .products-hero-section {
+    min-height: 480px !important;
+    height: 480px !important;
+    overflow: hidden !important;
+  }
+
+  /* HERO CONTENT SPACING */
+  .products-hero-content {
+    padding-top: 34px !important;
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+  }
+
+  /* TITLE */
+  .products-hero-content h1 {
+    font-size: 58px !important;
+    line-height: 1.0 !important;
+    margin-bottom: 18px !important;
+  }
+
+  /* FORCE CCTV SOLUTIONS SINGLE LINE */
+  .hero-nowrap {
+    white-space: nowrap !important;
+  }
+
+  /* PARAGRAPH */
+  .products-hero-section .products-hero-content > p:nth-of-type(2) {
+
+    max-width: 320px !important;
+    width: 320px !important;
+
+    font-size: 20px !important;
+    line-height: 1.5 !important;
+
+    position: relative !important;
+    top: 50px !important;
+
+    white-space: normal !important;
+  }
+
+  /* FEATURES */
+  .products-hero-features {
+    gap: 34px !important;
+
+    position: relative !important;
+    top: 120px !important;
+  }
+
+  /* BACKGROUND IMAGE */
+  .products-hero-bg {
+    background-size: cover !important;
+    background-position: 72% center !important;
+  }
 }
 /* =========================
    MOBILE LANDSCAPE FIX - IPHONE SE
@@ -2279,7 +2335,7 @@ footer {
   }
 
 }
-/**IPAD MINI*/
+/**IPAD MINI - LANDSCAPE*/
 @media (min-width: 950px) and (max-width: 1200px) and (orientation: landscape) {
 
   .products-hero-section {
@@ -2322,63 +2378,6 @@ footer {
   .products-hero-features {
     gap: 42px !important;
     margin-top: 50px !important;
-  }
-
-}
-/**IPAD AIR PORTRAIT*/
-@media (min-width: 900px) and (max-width: 1200px) and (orientation: portrait) {
-
-  .products-hero-section {
-    min-height: 620px !important;
-    height: 620px !important;
-    overflow: hidden !important;
-  }
-
-  .products-hero-content {
-    padding-top: 48px !important;
-    padding-left: 36px !important;
-    padding-right: 36px !important;
-  }
-
-  .products-hero-content h1 {
-    width: 100% !important;
-    max-width: none !important;
-
-    font-size: 60px !important;
-    line-height: 1.2 !important;
-
-    margin-bottom: 18px !important;
-  }
-
-  /* FORCE CCTV SOLUTIONS TO STAY ONE LINE */
-  .products-hero-content h1 .text-red-600,
-  .products-hero-content h1 .hero-nowrap {
-    display: inline-block !important;
-    white-space: nowrap !important;
-  }
-
-  .products-hero-section .products-hero-content > p:nth-of-type(2) {
-
-    max-width: 500px !important;
-    width: 500px !important;
-
-    font-size: 22px !important;
-    line-height: 1.55 !important;
-
-    position: relative !important;
-    top: 40px !important;
-
-    white-space: normal !important;
-  }
-
-  .products-hero-features {
-    gap: 42px !important;
-    margin-top: 65px !important;
-  }
-
-  .products-hero-bg {
-    background-size: cover !important;
-    background-position: center right !important;
   }
 
 }
