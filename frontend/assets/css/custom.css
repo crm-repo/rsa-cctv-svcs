@@ -44,10 +44,10 @@ header .hidden.md\:flex i {
   background: #b91c1c;
 }
 
-.book-btn-icon svg {
-  width: 18px;
-  height: 18px;
-  stroke: #ffffff;
+.book-btn-icon i {
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1;
 }
 
 .feature-strip {
