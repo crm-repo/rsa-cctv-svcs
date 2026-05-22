@@ -21,6 +21,11 @@ header .max-w-7xl {
   padding-bottom: 10px !important;
 }
 
+header .hidden.md\:flex i {
+  width: 20px;
+  text-align: center;
+}
+
 .hero-bg {
   background-image: url("../images/hero-cctv.jpg");
   background-repeat: no-repeat;
@@ -83,6 +88,13 @@ header .max-w-7xl {
   color: #d1d5db;
   line-height: 1.6;
 }
+
+.mobile-contact-row i {
+  width: 14px;
+  text-align: center;
+}
+
+
 
 /* =========================
    FEATURED PRODUCTS PAGING
