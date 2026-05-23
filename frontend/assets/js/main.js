@@ -35,10 +35,11 @@ if (featuredGrid && featuredDotsContainer) {
   let currentPage = 0;
 
   function getProductsPerPage() {
-    return window.innerWidth <= 767 &&
-          window.matchMedia("(orientation: portrait)").matches
-          ? 6
-          : 5;
+    return window.matchMedia(
+      "(max-width: 767px) and (orientation: portrait)"
+    ).matches
+      ? 6
+      : 5;
   }
 
   function renderFeaturedProducts() {
@@ -94,6 +95,7 @@ if (featuredGrid && featuredDotsContainer) {
 
   });
 }
+
 const promoGrid = document.getElementById("promoProductsGrid");
 const promoDotsContainer = document.getElementById("promoProductsDots");
 
@@ -102,10 +104,11 @@ if (promoGrid && promoDotsContainer) {
   let currentPromoPage = 0;
 
   function getPromoProductsPerPage() {
-    return window.innerWidth <= 767 &&
-           window.matchMedia("(orientation: portrait)").matches
-           ? 6
-           : 5;
+    return window.matchMedia(
+      "(max-width: 767px) and (orientation: portrait)"
+    ).matches
+      ? 6
+      : 5;
   }
 
   function renderPromoProducts() {
