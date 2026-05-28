@@ -171,6 +171,7 @@ const productsNextBtn = document.getElementById("productsNextBtn");
 const productFilterButtons = document.querySelectorAll(".product-filter-btn");
 const productsSectionTitle = document.getElementById("productsSectionTitle");
 const productsSearchInput = document.getElementById("productsSearchInput");
+const productsEmptyState = document.getElementById("productsEmptyState");
 
 if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
   const allProductCards = Array.from(
@@ -254,6 +255,16 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     const filteredProducts = getFilteredProducts();
 
     const totalProducts = filteredProducts.length;
+
+    if (productsEmptyState) {
+
+      if (totalProducts === 0) {
+        productsEmptyState.classList.remove("hidden");
+      } else {
+        productsEmptyState.classList.add("hidden");
+      }
+    }
+
     const totalPages = Math.ceil(totalProducts / productsPerPage);
 
     if (currentProductsPage >= totalPages) {

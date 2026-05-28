@@ -198,11 +198,7 @@
           <!-- Search Toolbar -->
           <div class="products-search-wrap">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input
-            id="productsSearchInput"
-            class="products-search-input"
-            type="text"
-            placeholder="Search">
+            <input type="search" id="productsSearchInput" class="products-search-input" placeholder="Search">
           </div>
         </div>
         <!-- Category Filters Overlay Arrows/Button -->
@@ -692,7 +688,7 @@
               <p class="catalog-product-subcategory">2MP Bullet Camera</p>
               <div class="catalog-price-row"><span class="catalog-old-price">₱2,000.00</span><span class="catalog-sale-price">₱1,650.00</span></div>
             </div>
-          <div class="catalog-product-card"
+            <div class="catalog-product-card"
                 data-category="cctv"
                 data-product-name="Ezviz Wi-Fi Smart Home Camera"
                 data-product-model="CS-C3TN(2MP)"
@@ -750,12 +746,20 @@
               <p class="catalog-product-price">₱2,250.00</p>
             </div>
           </div>
+          <!-- No result search -->
+          <div id="productsEmptyState" class="products-empty-state hidden">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <h3>No products found.</h3>
+            <p>
+              Try another keyword or select a different category.
+            </p>
+         </div>
           <!-- Pagination Preview -->
-		  <div class="products-pagination">
-		    <button id="productsPrevBtn" class="product-page-btn">‹ Previous</button>
-		    <div id="productsPageNumbers" class="flex gap-3"></div>
-		    <button id="productsNextBtn" class="product-page-btn">Next ›</button>
-		  </div>
+          <div class="products-pagination">
+            <button id="productsPrevBtn" class="product-page-btn">‹ Previous</button>
+            <div id="productsPageNumbers" class="flex gap-3"></div>
+            <button id="productsNextBtn" class="product-page-btn">Next ›</button>
+          </div>
 
       </div>
     </section>
