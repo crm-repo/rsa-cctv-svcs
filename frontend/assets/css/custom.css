@@ -606,6 +606,20 @@ footer {
 
 }
 
+/* ==========================================
+   DESKTOP MODAL FIX - LONG KEY FEATURES
+========================================== */
+
+@media (min-width: 769px) {
+
+  .product-modal-features {
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+
+}
+
 /* MOBILE LANDSCAPE + TABLET */
 @media (min-width: 769px) {
 
@@ -2162,7 +2176,7 @@ footer {
   object-position: left center;
   display: block;
   margin-bottom: -26px;
-  margin-left: 0;
+  margin-left: -4px;
 }
 
 .catalog-product-model {
@@ -2855,6 +2869,91 @@ footer {
   font-size: 12px;
   line-height: 1.45;
   color: #374151;
+}
+/* =========================
+   PROMOTIONS HERO
+========================= */
+
+.promotions-hero-section {
+  background: #000000;
+  padding: 44px 0 52px;
+  border-top: 1px solid #111827;
+  border-bottom: 1px solid #1f2937;
+}
+
+.promotions-hero-heading {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.promotions-hero-heading h1 {
+  color: #ffffff;
+  font-size: 38px;
+  line-height: 1.15;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.promotions-hero-heading span {
+  display: block;
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1.7;
+  font-weight: 400;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.promotions-hero-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.promotions-hero-banner {
+  background: transparent;
+  transition: 0.25s ease;
+}
+
+.promotions-hero-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.promotions-hero-banner:hover {
+  transform: translateY(-4px);
+}
+
+.promo-sale-locked {
+  cursor: default !important;
+  opacity: 1 !important;
+  pointer-events: none;
+}
+
+/* Mobile */
+@media (max-width: 767px) and (orientation: portrait) {
+  .promotions-hero-section {
+    padding: 28px 0 34px;
+  }
+
+  .promotions-hero-heading {
+    margin-bottom: 22px;
+  }
+
+  .promotions-hero-heading h1 {
+    font-size: 28px;
+  }
+
+  .promotions-hero-heading span {
+    font-size: 14px;
+  }
+
+  .promotions-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }
 
 /* Tablet */

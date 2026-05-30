@@ -225,6 +225,7 @@ const productsSearchInput = document.getElementById("productsSearchInput");
 const productsEmptyState = document.getElementById("productsEmptyState");
 const productsSortDropdown = document.getElementById("productsSortDropdown");
 const brandFilterItems = document.querySelectorAll(".brand-strip-item");
+const isPromotionsPage = document.body.classList.contains("promotions-page");
 
 if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
   const allProductCards = Array.from(
@@ -270,6 +271,32 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
   function getFilteredProducts() {
     let filtered = [...allProductCards];
 
+  if (isPromotionsPage) {
+
+    // Packages button
+    if (currentFilter === "packages") {
+
+      filtered = filtered.filter((card) =>
+        card.dataset.category === "packages"
+      );
+
+    } else {
+
+      // Default promotions = sale items only
+      filtered = filtered.filter((card) =>
+        card.querySelector(".catalog-sale-price")
+      );
+
+      // Additional category filters
+      if (currentFilter !== "all" && currentFilter !== "sale") {
+        filtered = filtered.filter((card) =>
+          card.dataset.category === currentFilter
+        );
+      }
+
+    }
+
+  } else {
     if (currentFilter === "sale") {
       filtered = filtered.filter((card) =>
         card.querySelector(".catalog-sale-price")
@@ -279,6 +306,7 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
         card.dataset.category === currentFilter
       );
     }
+  }
 
     /* BRAND FILTER */
     if (currentBrand !== "all") {
@@ -466,8 +494,15 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
 
   productFilterButtons.forEach((button) => {
     button.addEventListener("click", () => {
+
+      if (isPromotionsPage && button.dataset.filter === "sale") {
+        return;
+      }
+
       productFilterButtons.forEach((btn) => {
-        btn.classList.remove("active");
+        if (!(isPromotionsPage && btn.dataset.filter === "sale")) {
+          btn.classList.remove("active");
+        }
       });
 
       button.classList.add("active");
