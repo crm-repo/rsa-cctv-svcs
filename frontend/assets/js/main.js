@@ -262,7 +262,7 @@ if (homePackageSlider && homePackageDots) {
 
   function isMobilePortraitView() {
     return window.matchMedia(
-      "(max-width: 767px) and (orientation: portrait)"
+      "(max-width: 799px) and (orientation: portrait), (max-height: 430px) and (orientation: landscape)"
     ).matches;
   }
 
@@ -343,9 +343,17 @@ if (homeBrandsGrid && homeBrandsDots) {
   );
 
   let currentBrandPage = 0;
-  const brandsPerPage = 6; // 2 columns x 3 rows
+  let brandTouchStartX = 0;
+  let brandTouchEndX = 0;
+
+  function getHomeBrandsPerPage() {
+    return window.matchMedia("(max-width: 767px) and (orientation: portrait)").matches
+      ? 6   // mobile: 2 columns x 3 rows
+      : 9;  // desktop: 3 columns x 3 rows
+  }
 
   function renderHomeBrands() {
+    const brandsPerPage = getHomeBrandsPerPage();
     const totalPages = Math.ceil(brandItems.length / brandsPerPage);
 
     if (currentBrandPage >= totalPages) {
@@ -379,7 +387,121 @@ if (homeBrandsGrid && homeBrandsDots) {
     }
   }
 
+  homeBrandsGrid.addEventListener("touchstart", (event) => {
+    brandTouchStartX = event.touches[0].clientX;
+  });
+
+  homeBrandsGrid.addEventListener("touchend", (event) => {
+    brandTouchEndX = event.changedTouches[0].clientX;
+
+    const swipeDistance = brandTouchStartX - brandTouchEndX;
+
+    if (Math.abs(swipeDistance) < 40) return;
+
+    const brandsPerPage = getHomeBrandsPerPage();
+    const totalPages = Math.ceil(brandItems.length / brandsPerPage);
+
+    if (swipeDistance > 0) {
+      currentBrandPage = (currentBrandPage + 1) % totalPages;
+    } else {
+      currentBrandPage =
+        (currentBrandPage - 1 + totalPages) % totalPages;
+    }
+
+    renderHomeBrands();
+  });
+
   renderHomeBrands();
+
+  window.addEventListener("resize", () => {
+    currentBrandPage = 0;
+    renderHomeBrands();
+  });
+}
+/* =========================
+   HOME SERVICES MOBILE SLIDER
+========================= */
+
+const homeServicesSlider = document.getElementById("homeServicesSlider");
+const homeServicesDots = document.getElementById("homeServicesDots");
+
+if (homeServicesSlider && homeServicesDots) {
+  const serviceSlides = Array.from(
+    homeServicesSlider.querySelectorAll(".service-preview-card")
+  );
+
+  let currentServiceSlide = 0;
+  let serviceTouchStartX = 0;
+  let serviceTouchEndX = 0;
+
+  function isServicesMobilePortrait() {
+    return window.matchMedia(
+      "(max-width: 799px) and (orientation: portrait), (max-height: 430px) and (orientation: landscape)"
+    ).matches;
+  }
+
+  function renderHomeServicesSlider() {
+    serviceSlides.forEach((slide) => {
+      slide.style.transform = isServicesMobilePortrait()
+        ? `translateX(-${currentServiceSlide * 100}%)`
+        : "translateX(0)";
+    });
+
+    homeServicesDots.innerHTML = "";
+
+    serviceSlides.forEach((_, index) => {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "home-services-dot";
+
+      if (index === currentServiceSlide) {
+        dot.classList.add("active");
+      }
+
+      dot.addEventListener("click", () => {
+        currentServiceSlide = index;
+        renderHomeServicesSlider();
+      });
+
+      homeServicesDots.appendChild(dot);
+    });
+  }
+
+  homeServicesSlider.addEventListener("touchstart", (event) => {
+    if (!isServicesMobilePortrait()) return;
+    serviceTouchStartX = event.touches[0].clientX;
+  });
+
+  homeServicesSlider.addEventListener("touchend", (event) => {
+    if (!isServicesMobilePortrait()) return;
+
+    serviceTouchEndX = event.changedTouches[0].clientX;
+
+    const swipeDistance = serviceTouchStartX - serviceTouchEndX;
+
+    if (Math.abs(swipeDistance) < 40) return;
+
+    if (swipeDistance > 0) {
+      currentServiceSlide =
+        (currentServiceSlide + 1) % serviceSlides.length;
+    } else {
+      currentServiceSlide =
+        (currentServiceSlide - 1 + serviceSlides.length) %
+        serviceSlides.length;
+    }
+
+    renderHomeServicesSlider();
+  });
+
+  renderHomeServicesSlider();
+
+  window.addEventListener("resize", () => {
+    if (!isServicesMobilePortrait()) {
+      currentServiceSlide = 0;
+    }
+
+    renderHomeServicesSlider();
+  });
 }
 
 /* =========================

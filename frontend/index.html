@@ -608,21 +608,55 @@
       </div>
     </section>
     <!--About Us-->
-    <section class="max-w-7xl mx-auto px-4 pt-2 pb-8 grid grid-cols-1 lg:grid-cols-3 gap-6 content-card-grid">
+    <section class="max-w-7xl mx-auto px-4 pt-2 pb-8 grid grid-cols-1 lg:grid-cols-2 gap-6 content-card-grid">
       <div class="home-soft-card p-6 md:p-8">
-        <p class="text-red-700 text-sm font-bold uppercase mb-2">About Us</p>
-        <h2 class="text-3xl font-black mb-4">
-          Your Security,<br>
-          <span class="text-red-700">Our Priority</span>
-        </h2>
-        <p class="text-gray-700 text-sm leading-7 mb-6">
-          R.S.A. CCTV Installation Services is dedicated to providing high-quality CCTV solutions
-          for homes, businesses and commercial establishments.
-        </p>
-        <a href="about.html"
-           class="inline-block border border-red-700 text-red-700 font-bold px-5 py-2 rounded hover:bg-red-700 hover:text-white">
-          Learn More
-        </a>
+        <div class="about-why-grid">
+          <!--About Us Card-->
+          <div>
+            <p class="text-red-700 text-sm font-bold uppercase mb-2">About Us</p>
+            <div class="about-content">
+              <h2 class="text-3xl font-black mb-4">
+                Your Security,<br>
+                <span class="text-red-700">Our Priority</span>
+              </h2>
+              <p class="text-gray-700 text-sm leading-7 mb-6">
+                R.S.A. CCTV Installation Services is dedicated to providing high-quality CCTV solutions
+                for homes, businesses and commercial establishments.
+              </p>
+            </div>
+          </div>
+          <!--Why Choose Us-->
+          <div>
+            <div class="why-choose-content">
+              <p class="text-red-700 text-sm font-bold uppercase mb-8">Why Choose Us</p>
+              <ul class="space-y-4 text-sm">
+                <li class="flex items-start gap-3">
+                  <i class="fa-solid fa-circle-check text-red-600 mt-[2px]"></i>
+                  <span>Quality Products You Can Trust</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <i class="fa-solid fa-circle-check text-red-600 mt-[2px]"></i>
+                  <span>Professional & Clean Installation</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <i class="fa-solid fa-circle-check text-red-600 mt-[2px]"></i>
+                  <span>Reliable & Fast Response</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <i class="fa-solid fa-circle-check text-red-600 mt-[2px]"></i>
+                  <span>Affordable Pricing</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <i class="fa-solid fa-circle-check text-red-600 mt-[2px]"></i>
+                  <span>100% Customer Satisfaction</span>
+                </li>
+              </ul>
+              <div class="why-choose-button-wrapper">
+                <a href="about.html" class="about-learn-more-btn">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="home-soft-card p-6 md:p-8">
         <div class="flex justify-between items-center mb-6">
@@ -698,31 +732,6 @@
         </div>
         <div id="homeBrandsDots" class="home-brands-dots"></div>
       </div>
-      <div class="home-soft-card p-6 md:p-8">
-        <p class="text-red-700 text-sm font-bold uppercase mb-8">Why Choose Us</p>
-        <ul class="space-y-4 text-sm">
-          <li class="flex items-start gap-3">
-            <i class="fa-solid fa-circle-check text-red-600 mt-[2px]"></i>
-            <span>Quality Products You Can Trust</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <i class="fa-solid fa-circle-check text-red-600 mt-[2px]"></i>
-            <span>Professional & Clean Installation</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <i class="fa-solid fa-circle-check text-red-600 mt-[2px]"></i>
-            <span>Reliable & Fast Response</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <i class="fa-solid fa-circle-check text-red-600 mt-[2px]"></i>
-            <span>Affordable Pricing</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <i class="fa-solid fa-circle-check text-red-600 mt-[2px]"></i>
-            <span>100% Customer Satisfaction</span>
-          </li>
-        </ul>
-      </div>
     </section>
     <!--Our Services-->
     <section class="services-section bg-gray-100 py-8">
@@ -732,7 +741,7 @@
             <p class="text-red-700 text-sm font-bold uppercase">Our Services</p>
             <a href="services.html" class="text-sm font-bold hover:text-red-700">View All ›</a>
           </div>
-          <div class="grid gap-6 services-preview-grid">
+          <div id="homeServicesSlider" class="grid gap-6 services-preview-grid">
             <div class="service-preview-card">
               <img src="./assets/images/services/service-cctv-installation.png"
                   alt="CCTV Installation"
@@ -769,8 +778,8 @@
               </p>
             </div>
           </div>
+          <div id="homeServicesDots" class="home-services-dots"></div>
         </div>
-
       </div>
     </section>
     <section class="bg-black text-white py-10 border-t border-red-950 mt-2">

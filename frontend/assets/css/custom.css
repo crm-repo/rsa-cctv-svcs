@@ -439,14 +439,14 @@ footer {
 }
 
 .service-preview-image {
-  width: 100%;
+  width: 90%;
   height: 300px;
   object-fit: cover;
   border-radius: 8px;
 }
 
 .service-preview-title {
-  min-height: 42px;
+  min-height: 30px;
   display: flex;
   align-items: center;
 }
@@ -474,7 +474,7 @@ footer {
 }
 
 /* MOBILE PORTRAIT ONLY */
-@media (max-width: 767px) and (orientation: portrait) {
+@media (max-width: 799px) and (orientation: portrait) {
 
   #homePackageSlider.package-banner-grid {
     display: flex !important;
@@ -505,6 +505,73 @@ footer {
   }
 
 }
+
+/* ==========================================
+   SMALL PHONE LANDSCAPE
+   Recommended Packages = 1 banner slider
+========================================== */
+
+@media (max-height: 430px) and (orientation: landscape) {
+
+  #homePackageSlider.package-banner-grid {
+    display: flex !important;
+    overflow: hidden !important;
+    gap: 0 !important;
+    width: 100% !important;
+  }
+
+  #homePackageSlider .package-banner-card {
+    min-width: 100% !important;
+    flex: 0 0 100% !important;
+    transition: transform 0.35s ease !important;
+  }
+
+  #homePackageSlider .package-banner-card img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  .home-package-dots {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    min-height: 20px;
+    margin-top: 20px;
+  }
+
+}
+/* ==========================================
+   SMALL PHONE LANDSCAPE
+   Our Services = 1 service slider
+========================================== */
+
+@media (max-height: 430px) and (orientation: landscape) {
+
+  #homeServicesSlider.services-preview-grid {
+    display: flex !important;
+    overflow: hidden !important;
+    gap: 0 !important;
+    width: 100% !important;
+  }
+
+  #homeServicesSlider .service-preview-card {
+    min-width: 100% !important;
+    flex: 0 0 100% !important;
+    transition: transform 0.35s ease !important;
+  }
+
+  .home-services-dots {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    min-height: 20px;
+    margin-top: 24px;
+  }
+
+}
 /* =========================
    TOP BRANDS - DEFAULT DESKTOP
 ========================= 
@@ -526,13 +593,157 @@ footer {
 }
 */
 /* =========================
+   ABOUT US / WHY CHOOSE US
+========================= */
+.content-card-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  max-width: 1280px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.about-why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.about-content {
+  margin-top: 28px;
+}
+
+.about-learn-more-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28px;
+  margin-left: 100px; /* push right on desktop */
+  padding: 10px 20px;
+  background: #b91c1c;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.about-learn-more-btn:hover {
+  background: #991b1b;
+  color: #ffffff;
+}
+
+@media (max-width: 767px) and (orientation: portrait) {
+  .content-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-why-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  .about-learn-more-btn {
+    display: flex;
+    background: #b91c1c;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+/* iPhone landscape */
+@media (max-width: 950px) and (orientation: landscape) {
+
+  .content-card-grid {
+    grid-template-columns: 1fr !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .about-why-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .about-content {
+    margin-top: 0 !important;
+  }
+
+  .why-choose-content {
+    text-align: center;
+  }
+
+  .why-choose-content ul {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .about-learn-more-btn {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .why-choose-button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+  }
+
+}
+
+/* iPad Mini / Air / Pro portrait */
+@media (min-width: 768px) and (max-width: 1366px) and (orientation: portrait) {
+
+  .content-card-grid {
+    grid-template-columns: 1fr !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .about-why-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+    .about-content {
+    margin-top: 0 !important;
+  }
+
+  .why-choose-content {
+    text-align: center;
+  }
+
+  .why-choose-content ul {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .about-learn-more-btn {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .why-choose-button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+  }
+
+}
+
+/* =========================
    HOME TOP BRANDS PAGING
 ========================= */
 
 .home-brands-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px 28px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
   min-height: 0;
   margin-top: 10px;
 
@@ -619,6 +830,99 @@ footer {
     width: 200%;
     height: 200%;
   }
+}
+/* =========================
+   HOME SERVICES MOBILE SLIDER
+========================= */
+
+.home-services-dots {
+  display: none;
+}
+
+.home-services-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: #d1d5db;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.home-services-dot.active {
+  background: #b91c1c;
+}
+
+@media (max-width: 799px) and (orientation: portrait) {
+
+  #homeServicesSlider.services-preview-grid {
+    display: flex !important;
+    overflow: hidden !important;
+    gap: 0 !important;
+    width: 100%;
+  }
+
+  #homeServicesSlider .service-preview-card {
+    min-width: 100%;
+    flex: 0 0 100%;
+    transition: transform 0.35s ease;
+  }
+
+  .home-services-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    min-height: 20px;
+    margin-top: 24px;
+  }
+
+}
+/* ==========================================
+   OUR SERVICES - IPAD AIR / IPAD PRO PORTRAIT
+   Restore desktop image proportions
+========================================== */
+
+@media (min-width: 800px) and (max-width: 1366px) and (orientation: portrait) {
+
+  #homeServicesSlider.services-preview-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 24px !important;
+    overflow: visible !important;
+  }
+
+  #homeServicesSlider .service-preview-card {
+    display: grid !important;
+    grid-template-rows: 240px auto auto !important;
+    row-gap: 14px !important;
+    min-width: 0 !important;
+    flex: initial !important;
+    transform: none !important;
+  }
+
+  #homeServicesSlider .service-preview-image {
+    width: 100% !important;
+    height: 230px !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    display: block !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 8px !important;
+  }
+
+  #homeServicesSlider .service-preview-card h3,
+  #homeServicesSlider .service-preview-card p {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .home-services-dots {
+    display: none !important;
+  }
+
 }
 /* =========================
    NO RESULT SEARCH
@@ -1002,11 +1306,12 @@ footer {
     margin-top: 2px;
   }
 
-  .content-card-grid {
-    max-width: 390px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.content-card-grid {
+  max-width: none;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
  
   footer {
     padding-top: 22px;
@@ -1723,7 +2028,7 @@ footer {
 }
   */
 /* =========================
-   SERVICES PREVIEW - IPAD PORTRAIT FINAL
+   SERVICES PREVIEW - IPAD MINI PORTRAIT FINAL
 ========================= */
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
