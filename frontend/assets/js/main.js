@@ -1129,3 +1129,111 @@ if (
     }
   });
 }
+/* =========================
+   BRANDS PAGE BRAND STRIP
+========================= */
+
+const brandsPageStrip = document.getElementById("brandsPageStrip");
+const brandScrollLeft = document.querySelector(".brand-scroll-left");
+const brandScrollRight = document.querySelector(".brand-scroll-right");
+
+if (brandsPageStrip) {
+  const brandStripItems = Array.from(
+    brandsPageStrip.querySelectorAll(".brand-strip-item")
+  );
+
+  function balanceBrandRows() {
+    const totalBrands = brandStripItems.length;
+
+    brandsPageStrip.innerHTML = "";
+
+    if (totalBrands <= 15) {
+      brandsPageStrip.classList.remove("two-row");
+
+      brandStripItems.forEach((brand) => {
+        brandsPageStrip.appendChild(brand);
+      });
+
+      return;
+    }
+
+    brandsPageStrip.classList.add("two-row");
+
+    const firstRowCount = Math.ceil(totalBrands / 2);
+    const firstRow = brandStripItems.slice(0, firstRowCount);
+    const secondRow = brandStripItems.slice(firstRowCount);
+
+    for (let i = 0; i < firstRowCount; i++) {
+      if (firstRow[i]) brandsPageStrip.appendChild(firstRow[i]);
+      if (secondRow[i]) brandsPageStrip.appendChild(secondRow[i]);
+    }
+  }
+
+  balanceBrandRows();
+
+  if (brandScrollLeft && brandScrollRight) {
+    brandScrollLeft.addEventListener("click", () => {
+      brandsPageStrip.scrollBy({
+        left: -300,
+        behavior: "smooth"
+      });
+    });
+
+    brandScrollRight.addEventListener("click", () => {
+      brandsPageStrip.scrollBy({
+        left: 300,
+        behavior: "smooth"
+      });
+    });
+  }
+}
+
+/* =========================
+   DRAG SCROLL - BRANDS STRIP
+========================= */
+
+const brandsStrip = document.getElementById("brandsPageStrip");
+
+if (brandsStrip) {
+  let isBrandDragging = false;
+  let brandStartX = 0;
+  let brandScrollStart = 0;
+  let brandHasMoved = false;
+
+  brandsStrip.addEventListener("mousedown", (event) => {
+    isBrandDragging = true;
+    brandHasMoved = false;
+    brandStartX = event.pageX;
+    brandScrollStart = brandsStrip.scrollLeft;
+    brandsStrip.classList.add("dragging");
+  });
+
+  brandsStrip.addEventListener("mousemove", (event) => {
+    if (!isBrandDragging) return;
+
+    const moveX = event.pageX - brandStartX;
+
+    if (Math.abs(moveX) > 5) {
+      brandHasMoved = true;
+      event.preventDefault();
+      brandsStrip.scrollLeft = brandScrollStart - moveX;
+    }
+  });
+
+  brandsStrip.addEventListener("mouseup", () => {
+    isBrandDragging = false;
+    brandsStrip.classList.remove("dragging");
+  });
+
+  brandsStrip.addEventListener("mouseleave", () => {
+    isBrandDragging = false;
+    brandsStrip.classList.remove("dragging");
+  });
+
+  brandsStrip.addEventListener("click", (event) => {
+    if (brandHasMoved) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  });
+}
