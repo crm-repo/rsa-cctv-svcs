@@ -1,10 +1,17 @@
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   font-family: Arial, sans-serif;
   background: #ffffff;
   color: #111827;
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
 }
-
 .main-logo {
   width: 450px;
   height: 100px;
@@ -4013,9 +4020,10 @@ footer {
     margin-top: 0 !important;
     margin-bottom: 30px !important;
 
-    max-width: none !important;
+    max-width: 100% !important;
     width: 100% !important;
     white-space: nowrap !important;
+    overflow: hidden !important;
   }
 
   
