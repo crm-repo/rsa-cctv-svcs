@@ -4271,3 +4271,365 @@ footer {
     white-space: nowrap !important;
   }
 }
+/* =========================
+   BRANDS PAGE - MOBILE LANDSCAPE
+========================= */
+
+@media (max-width: 950px) and (orientation: landscape) {
+
+  .brands-hero-section {
+    min-height: auto !important;
+    overflow: hidden !important;
+  }
+
+  .brands-hero-content {
+    grid-template-columns: 0.9fr 1.1fr !important;
+    gap: 28px !important;
+
+    padding-top: 26px !important;
+    padding-bottom: 26px !important;
+
+    align-items: center !important;
+  }
+
+  .brands-hero-text h1 {
+    color: #ffffff;
+    font-size: 34px !important;
+    line-height: 1.02 !important;
+    font-weight: 900 !important;
+    letter-spacing: -1px !important;
+    text-transform: uppercase !important;
+
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+
+    max-width: none !important;
+    width: 100% !important;
+    white-space: nowrap !important;
+  }
+
+  .brands-hero-text h1 span {
+    color: #dc2626;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+
+    display: block;
+    white-space: nowrap;
+
+    margin-top: 6px;
+  }
+
+  .brands-hero-text p {
+    font-size: 16px !important;
+    line-height: 1.45 !important;
+    margin-bottom: 24px !important;
+    max-width: 520px !important;
+  }
+
+  .brands-hero-features {
+    gap: 20px !important;
+    margin-top: 0 !important;
+  }
+
+  .brands-hero-features div {
+    font-size: 14px !important;
+    line-height: 1.15 !important;
+    gap: 7px !important;
+  }
+
+  .brands-hero-features i {
+    font-size: 26px !important;
+  }
+
+  .brands-hero-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .brands-hero-grid div {
+    height: 74px !important;
+    padding: 10px !important;
+    border-radius: 9px !important;
+  }
+
+  .brands-hero-grid img {
+    max-height: 60px !important;
+    transform: scale(1.45) !important;
+  }
+}
+
+/* =========================
+   BRANDS PAGE - IPAD MINI / SMALL TABLET PORTRAIT
+   Show hero logo grid like mobile landscape
+========================= */
+
+@media (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
+
+  .brands-hero-section {
+    min-height: auto !important;
+    overflow: hidden !important;
+  }
+
+  .brands-hero-content {
+    display: grid !important;
+    grid-template-columns: 0.9fr 1.1fr !important;
+    gap: 22px !important;
+
+    padding-top: 34px !important;
+    padding-bottom: 34px !important;
+
+    align-items: center !important;
+  }
+
+  .brands-hero-text h1 {
+    font-size: 30px !important;
+    line-height: 1.02 !important;
+    letter-spacing: -1px !important;
+    margin-bottom: 18px !important;
+    white-space: normal !important;
+  }
+
+  .brands-hero-text h1 br {
+    display: none !important;
+  }
+
+  .brands-hero-text h1 span {
+    display: block !important;
+    margin-top: 6px !important;
+  }
+
+  .brands-hero-text p {
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+    margin-bottom: 26px !important;
+    max-width: 100% !important;
+  }
+
+  .brands-hero-features {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 10px !important;
+    margin-top: 0 !important;
+  }
+
+  .brands-hero-features div {
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+    gap: 6px !important;
+  }
+
+  .brands-hero-features i {
+    font-size: 22px !important;
+  }
+
+  .brands-hero-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+    margin-top: 0 !important;
+  }
+
+  .brands-hero-grid div {
+    height: 64px !important;
+    padding: 8px !important;
+    border-radius: 9px !important;
+  }
+
+  .brands-hero-grid img {
+    max-height: 50px !important;
+    transform: scale(1.35) !important;
+  }
+}
+
+/* =========================
+   BRANDS PAGE - IPAD PRO / LARGE TABLET PORTRAIT
+   Match iPad Mini portrait spacing/formatting
+========================= */
+
+@media (min-width: 901px) and (max-width: 1366px) and (orientation: portrait) {
+
+  .brands-hero-section {
+    min-height: auto !important;
+    overflow: hidden !important;
+  }
+
+  .brands-hero-content {
+    display: grid !important;
+    grid-template-columns: 0.9fr 1.1fr !important;
+    gap: 42px !important;
+
+    padding-top: 58px !important;
+    padding-bottom: 58px !important;
+
+    align-items: center !important;
+  }
+
+  .brands-hero-text h1 {
+    font-size: 44px !important;
+    line-height: 1.04 !important;
+    letter-spacing: -1px !important;
+    text-transform: uppercase !important;
+
+    margin-top: 0 !important;
+    margin-bottom: 24px !important;
+
+    max-width: none !important;
+    width: 100% !important;
+    white-space: nowrap !important;
+  }
+
+  .brands-hero-text h1 br {
+    display: none !important;
+  }
+
+  .brands-hero-text h1 span {
+    display: block !important;
+    color: #dc2626 !important;
+    font: inherit !important;
+    letter-spacing: inherit !important;
+    text-transform: inherit !important;
+    white-space: nowrap !important;
+
+    margin-top: 8px !important;
+  }
+
+  .brands-hero-text p {
+    max-width: 520px !important;
+    font-size: 17px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 34px !important;
+  }
+
+  .brands-hero-features {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 28px !important;
+    margin-top: 0 !important;
+  }
+
+  .brands-hero-features div {
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    gap: 8px !important;
+  }
+
+  .brands-hero-features i {
+    font-size: 28px !important;
+  }
+
+  .brands-hero-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 10px !important;
+    margin-top: 0 !important;
+  }
+
+  .brands-hero-grid div {
+    height: 92px !important;
+    padding: 12px !important;
+    border-radius: 10px !important;
+  }
+
+  .brands-hero-grid img {
+    max-height: 60px !important;
+    transform: scale(1.55) !important;
+  }
+}
+
+/* =========================
+   BRANDS PAGE - IPAD MINI LANDSCAPE
+   Fix hero spacing and title formatting
+========================= */
+
+@media (min-width: 901px) and (max-width: 1180px) and (orientation: landscape) {
+
+  .brands-hero-section {
+    min-height: auto !important;
+    overflow: hidden !important;
+  }
+
+  .brands-hero-content {
+    display: grid !important;
+    grid-template-columns: 0.9fr 1.1fr !important;
+    gap: 38px !important;
+
+    padding-top: 46px !important;
+    padding-bottom: 46px !important;
+
+    align-items: center !important;
+  }
+
+  .brands-hero-text h1 {
+    color: #ffffff;
+    font-size: 40px !important;
+    line-height: 1.04 !important;
+    font-weight: 900 !important;
+    letter-spacing: -1px !important;
+    text-transform: uppercase !important;
+
+    margin-top: 0 !important;
+    margin-bottom: 22px !important;
+
+    max-width: none !important;
+    width: 100% !important;
+    white-space: nowrap !important;
+  }
+
+  .brands-hero-text h1 br {
+    display: none !important;
+  }
+
+  .brands-hero-text h1 span {
+    display: block !important;
+    color: #dc2626 !important;
+    font: inherit !important;
+    letter-spacing: inherit !important;
+    text-transform: inherit !important;
+    white-space: nowrap !important;
+
+    margin-top: 6px !important;
+  }
+
+  .brands-hero-text p {
+    max-width: 500px !important;
+    font-size: 16px !important;
+    line-height: 1.55 !important;
+    margin-bottom: 30px !important;
+  }
+
+  .brands-hero-features {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 24px !important;
+    margin-top: 0 !important;
+  }
+
+  .brands-hero-features div {
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    gap: 8px !important;
+  }
+
+  .brands-hero-features i {
+    font-size: 28px !important;
+  }
+
+  .brands-hero-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 10px !important;
+    margin-top: 0 !important;
+  }
+
+  .brands-hero-grid div {
+    height: 86px !important;
+    padding: 10px !important;
+    border-radius: 10px !important;
+  }
+
+  .brands-hero-grid img {
+    max-height: 60px !important;
+    transform: scale(1.5) !important;
+  }
+}
