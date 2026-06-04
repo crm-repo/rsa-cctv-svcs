@@ -4026,7 +4026,6 @@ footer {
     overflow: hidden !important;
   }
 
-  
   .brands-hero-text h1 span {
   color: #dc2626;
   font: inherit;
@@ -4135,6 +4134,41 @@ footer {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
+  }
+
+      /* Disable Brands-page custom active styling */
+    .brands-page .brand-strip-item.active {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+      position: relative !important;
+    }
+  
+  /* Re-use Products page active indicator */
+  .brands-page .brand-strip-item.active::after {
+    content: "" !important;
+
+    position: absolute !important;
+
+    top: 8px !important;
+    bottom: 8px !important;
+    left: 10px !important;
+    right: 10px !important;
+
+    border: 2px solid #b91c1c !important;
+    border-radius: 14px !important;
+
+    background: transparent !important;
+    box-shadow: none !important;
+
+    pointer-events: none !important;
+    display: block !important;
+    z-index: 2 !important;
+
+    width: auto !important;
+    height: auto !important;
+    transform: none !important;
   }
 
     /* 2-row mobile brand strip */
