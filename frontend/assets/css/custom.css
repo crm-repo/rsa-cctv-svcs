@@ -3981,7 +3981,7 @@ footer {
    BRANDS PAGE MOBILE VIEW
 ========================= */
 
-@media (max-width: 767px) and (orientation: portrait) {
+@media (max-width: 768px) {
 
   /* HERO SECTION SPACING ONLY */
   .brands-hero-section {
@@ -4065,8 +4065,6 @@ footer {
     margin-top: 2px !important;
     flex-shrink: 0 !important;
   }
-
-
 
   /* Hide hero logo grid on mobile */
   .brands-hero-grid {
