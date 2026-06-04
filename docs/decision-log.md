@@ -322,3 +322,25 @@ This document records significant project decisions and their rationale. For imp
 | Decision | `architecture.md` controls technical design; `requirements.md` controls business/functional requirements. |
 | Reasoning | Improves maintainability and AI-agent usability. |
 | Impact | Future updates should place information in the correct document and cross-reference related docs. |
+
+## ADR-030: AWS Free-Tier-First Deployment Strategy
+
+| Field | Value |
+|---|---|
+| Date | Current documentation baseline |
+| Status | Accepted |
+| Context | From the start of the project, RSA CMS / Mini-CRM was intended to fit AWS Free Tier as much as practical during the first 12 months, then continue as a low-cost AWS deployment after the free-tier window. |
+| Decision | The completed project must use a Free-Tier-first AWS architecture: one eligible EC2 micro instance, DynamoDB with low provisioned capacity, S3 for compressed assets, Cognito admin-only authentication, and CloudFront/ACM where applicable. Route 53/domain is the expected paid exception when domain-based launch is approved. Before Route 53, testing/demo should use the EC2 public IP or other free AWS-provided endpoint. |
+| Reasoning | The business goal is to keep first-year AWS cost near zero except domain/DNS, while still supporting the public website, backend API, admin CMS, Mini-CRM, image storage and authentication. |
+| Impact | Avoid ALB, NAT Gateway, RDS, multiple always-on EC2 instances, SMS workflows, unnecessary paid notifications, excessive CloudWatch retention and large unoptimized media storage unless explicitly approved after cost review. |
+
+## ADR-031: Booking and Inquiry Notifications Are Optional for Launch
+
+| Field | Value |
+|---|---|
+| Date | Current documentation baseline |
+| Status | Accepted |
+| Context | Booking and inquiry workflows are required for lead generation, but automatic SMS/email notifications can create extra AWS cost. |
+| Decision | Booking and inquiry submissions must be stored and visible in the admin panel. SMS/email notifications are not required for launch and should be disabled by default for the Free-Tier-first deployment. |
+| Reasoning | Admin-panel visibility satisfies the lead-capture requirement without introducing paid notification dependencies. |
+| Impact | Future notification workflows may be added later only after cost review and explicit approval. |

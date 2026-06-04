@@ -28,6 +28,8 @@ The future architecture introduces:
 
 The system must support a transition from static product markup to a shared data source and later to API/database-driven rendering.
 
+All backend, database, authentication, storage and deployment decisions are constrained by the AWS Free-Tier-first project rule: the completed project should fit within AWS Free Tier as much as practical during the first 12 months, with Route 53/domain as the expected paid exception, and then continue as a low-cost AWS deployment after the free-tier window.
+
 ## Technology Stack
 
 | Layer | Technology | Status |
@@ -63,10 +65,48 @@ cctv-project-gallery
 
 ### Backend Hosting
 
-Recommended starting instance:
+Free-Tier-first starting target:
 
 ```text
-t3.micro
+One AWS Free-Tier-eligible EC2 micro instance only
+```
+
+The exact instance family must be confirmed in the selected AWS account and Region before launch. The project should not use multiple always-on EC2 instances for the first-year deployment unless explicitly approved.
+
+
+### AWS Free-Tier-First Deployment Constraint
+
+RSA CMS / Mini-CRM was designed from the beginning as an AWS Free-Tier-first project.
+
+First 12 months target:
+
+- Keep the completed public website, backend, admin CMS, Mini-CRM, database, authentication and image storage within AWS Free Tier as much as practical.
+- Treat Route 53/domain cost as the expected paid exception once the project is ready for domain-based deployment.
+- Before Route 53/domain setup, test and demonstrate the project using the EC2 public IP or other free AWS-provided endpoints.
+- Keep the post-free-tier architecture low-cost and simple.
+
+Required cost guardrails:
+
+- Use one Free-Tier-eligible EC2 micro instance for FastAPI/admin APIs.
+- Use DynamoDB with low provisioned capacity for the first deployment.
+- Store images and uploads in S3, but compress and cap uploaded assets.
+- Use Cognito for admin authentication only; avoid public user signup unless approved.
+- Disable SMS MFA, phone verification and SMS notifications where possible.
+- Booking and inquiry requests only need to be stored and visible in the admin panel; automatic SMS/email notifications are not required for launch.
+- Avoid Application Load Balancer, NAT Gateway, RDS, multiple always-on EC2 instances, global tables, unnecessary paid monitoring and large media storage unless explicitly approved.
+- Configure AWS Budgets/billing alerts before deployment.
+
+Forbidden by default for first-year Free-Tier-first deployment:
+
+```text
+Application Load Balancer
+NAT Gateway
+RDS
+Multiple always-on EC2 instances
+SMS workflows
+Large video storage
+Unnecessary paid notification services
+Excessive CloudWatch log retention
 ```
 
 ## Frontend Architecture
@@ -246,6 +286,8 @@ AWS DynamoDB
 ### DynamoDB Modeling Constraint
 
 The field lists in this document are backend-ready logical models. Before implementation, DynamoDB keys and indexes must be designed around actual access patterns. Do not blindly implement a relational-style schema without reviewing query patterns.
+
+For the Free-Tier-first deployment, DynamoDB should start with provisioned capacity at the lowest practical RCU/WCU settings. Add GSIs only when required by a real admin/public access pattern. Avoid on-demand mode, global tables, streams, point-in-time recovery and unnecessary indexes during the first deployment unless explicitly approved after cost review.
 
 ### Approved Table Set
 
@@ -474,15 +516,17 @@ Image types:
 
 ## Deployment Architecture
 
-Planned deployment flow:
+Planned Free-Tier-first deployment flow:
 
-1. Static frontend hosted behind CloudFront or static hosting.
-2. FastAPI backend deployed to EC2.
-3. Backend connects to DynamoDB.
-4. Admin authentication handled by Cognito.
-5. Images uploaded to S3.
-6. CloudFront provides HTTPS and asset acceleration.
-7. Domain and SSL configured before production.
+1. Static frontend hosted through the simplest free-tier-compatible path for the current stage.
+2. FastAPI backend and admin APIs deployed to one Free-Tier-eligible EC2 micro instance.
+3. Backend connects to DynamoDB using low provisioned capacity and minimal indexes.
+4. Admin authentication handled by Cognito with SMS disabled where possible.
+5. Images uploaded to S3 with compression and upload-size limits.
+6. CloudFront and ACM may be used for CDN/HTTPS where applicable and free-tier-compatible.
+7. Test and demo through EC2 public IP or free AWS-provided endpoint before Route 53/domain setup.
+8. Configure Route 53/domain only when the project is ready for domain-based launch; Route 53/domain is the expected paid exception.
+9. Configure billing alerts before public testing.
 
 ## Design Decisions and Rationale
 
@@ -497,6 +541,8 @@ Planned deployment flow:
 | Brands page uses brand-first browsing | Provides a distinct browsing path from Products |
 | Brand strip two-row threshold is 16+ brands | Matches category strip behavior |
 | Hero logo cards are not transparent | Black logo text becomes unreadable on dark background |
+| AWS Free-Tier-first deployment | Keeps first 12 months within Free Tier as much as practical, with Route 53/domain as the expected paid exception |
+| Booking/inquiry admin-panel-only notifications | Avoids SMS/email notification cost while still capturing leads in the admin panel |
 
 ## Technical Constraints
 
@@ -507,3 +553,6 @@ Planned deployment flow:
 5. DynamoDB keys/indexes must be designed around access patterns.
 6. Mobile and tablet responsive rules require device-specific handling.
 7. Image optimization is required for production performance.
+8. AWS Free-Tier-first cost guardrails must be preserved during backend, admin and deployment implementation.
+9. Route 53/domain is the expected paid exception after IP-based testing/demo.
+10. Notification workflows must be treated as optional and disabled by default for first-year cost control.

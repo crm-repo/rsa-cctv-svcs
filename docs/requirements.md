@@ -443,8 +443,49 @@ Customer details should show:
 | Maintainability | Reusable catalog, modal, filter, and card components are preferred |
 | Scalability | Architecture must support API/database-driven product loading |
 | SEO | Public pages need titles, meta descriptions, Open Graph tags, sitemap, and robots.txt |
+| Cost Control | The completed project must follow the AWS Free-Tier-first rule for the first 12 months where practical |
+| Deployment Cost | Route 53/domain is the expected paid exception; test/demo should use EC2 public IP or free AWS-provided endpoints before Route 53 |
+
+
+## Cost and Deployment Requirements
+
+### AWS Free-Tier-First Rule
+
+The completed RSA CMS / Mini-CRM must be designed and implemented to fit AWS Free Tier as much as practical during the first 12 months.
+
+First-year cost assumption:
+
+- Route 53/domain is the expected paid exception when domain-based launch is approved.
+- Before Route 53/domain setup, the project should be tested and demonstrated using the EC2 public IP or other free AWS-provided endpoint.
+- After the 12-month free-tier window, the system should continue as a low-cost AWS deployment.
+
+### Required Free-Tier Guardrails
+
+- Use one Free-Tier-eligible EC2 micro instance for backend/admin APIs.
+- Use DynamoDB with low provisioned capacity and minimal indexes for launch.
+- Use S3 for compressed product, package, brand, service and gallery images.
+- Use Cognito for admin authentication only unless public user accounts are explicitly approved.
+- Disable Cognito SMS features, SMS MFA and phone verification where possible.
+- Booking and inquiry requests only need to appear in the admin panel; SMS/email notifications are not required for launch.
+- Avoid Application Load Balancer, NAT Gateway, RDS, multiple always-on EC2 instances and unnecessary paid notification services.
+- Configure AWS billing alerts before public testing.
+
+### Notification Rule
+
+Booking, inquiry and contact submissions must be stored for admin review. Automatic SMS or email notification is optional and disabled by default for the Free-Tier-first deployment.
 
 ## Business Rules
+
+
+### AWS Cost-Control Rule
+
+```text
+First 12 months → AWS Free-Tier-first deployment
+Expected paid exception → Route 53/domain only, after IP-based testing/demo
+After Free Tier → low-cost AWS operation
+```
+
+Any backend, database, authentication, storage, notification or deployment decision that may add AWS cost must be reviewed against this rule before implementation.
 
 ### Visibility Rule
 
@@ -569,6 +610,9 @@ Before launch:
 9. SEO metadata is present.
 10. Images are optimized.
 11. Final frontend backup is created.
+12. Free-Tier-first deployment review is completed before backend/admin launch.
+13. Booking/inquiry requests appear in the admin panel without requiring SMS/email notification workflows.
+14. Billing alerts are configured before public testing.
 
 ## Validation Requirements
 
@@ -601,6 +645,7 @@ The logical data model is defined in [architecture.md](./architecture.md). Publi
 Future implementation must include:
 
 - Cognito authentication for admin.
+- Admin-only Cognito configuration for first deployment, with SMS MFA/phone verification disabled where possible.
 - JWT validation on protected routes.
 - Hashed passwords only.
 - Input validation.

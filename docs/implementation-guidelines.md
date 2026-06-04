@@ -16,8 +16,9 @@ Use this document to maintain consistency, avoid regressions, and preserve curre
 6. Preserve database-ready data attributes and naming conventions.
 7. Keep Products, Promotions, and Brands behavior consistent where shared.
 8. Maintain lead-generation focus; do not introduce checkout behavior.
-9. Document superseded decisions clearly.
-10. Test responsive layouts after CSS changes.
+9. Preserve the AWS Free-Tier-first cost rule during backend, admin and deployment work.
+10. Document superseded decisions clearly.
+11. Test responsive layouts after CSS changes.
 
 ## Repository Conventions
 
@@ -266,6 +267,34 @@ for manual admin-controlled ordering.
 
 ## Backend Guidelines
 
+
+### AWS Free-Tier-First Implementation Rules
+
+All backend and deployment work must be reviewed against the original cost rule:
+
+```text
+First 12 months: AWS Free-Tier-first
+Expected paid exception: Route 53/domain after IP-based testing/demo
+After Free Tier: low-cost AWS operation
+```
+
+Implementation guardrails:
+
+- Use one Free-Tier-eligible EC2 micro instance for FastAPI/admin APIs.
+- Do not add Application Load Balancer for the initial deployment.
+- Do not add NAT Gateway.
+- Do not use RDS for the launch architecture.
+- Do not keep multiple always-on EC2 instances running.
+- Do not add SMS workflows or SMS MFA unless explicitly approved.
+- Keep booking and inquiry notifications disabled by default; records must appear in admin panel.
+- Use compressed images and upload limits before storing assets in S3.
+- Keep CloudWatch logging useful but minimal, with short retention.
+- Configure AWS Budgets/billing alerts before public testing.
+
+### IP-Based Demo Before Route 53
+
+Before Route 53/domain setup, test and demo the completed project using the EC2 public IP or free AWS-provided endpoint. Route 53/domain should be added only when domain-based launch is approved.
+
 ### FastAPI
 
 - Organize route modules by domain.
@@ -278,14 +307,22 @@ for manual admin-controlled ordering.
 
 - Confirm access patterns before final table/index design.
 - Do not blindly copy relational schema without access pattern review.
+- Use low provisioned capacity for the Free-Tier-first deployment.
+- Start with minimal indexes and add GSIs only when a real page/API access pattern requires them.
+- Avoid on-demand mode, streams, global tables and point-in-time recovery for launch unless explicitly approved after cost review.
 - Use `show_flag` filtering for public endpoints.
 - Use status fields for workflow state.
+- Store images/files in S3, not DynamoDB.
 
 ### S3
 
 - Store images by content type/domain.
 - Use predictable paths for products, brands, services, packages, and gallery.
-- Serve public assets through CloudFront.
+- Serve public assets through CloudFront where applicable.
+- Compress images before upload.
+- Set reasonable upload-size limits for admin images.
+- Do not store video or large raw media for the first Free-Tier-first deployment.
+- Avoid bucket versioning for launch unless explicitly approved after cost review.
 
 ## Testing Expectations
 
@@ -330,6 +367,8 @@ Before launch:
 - robots.txt
 - Image compression
 - SSL
+- AWS billing alerts
+- Free-Tier-first deployment review
 - Browser QA
 - Mobile QA
 - Remove console logs

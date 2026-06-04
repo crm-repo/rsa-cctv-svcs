@@ -24,7 +24,8 @@ The future platform will support website content management, customer records, b
 4. Generate leads through Request Site Visit, Book Appointment, product inquiry, package inquiry, and contact actions.
 5. Support product discovery through category filters, brand filters, search, sorting, pagination, and quick view modals.
 6. Build the current frontend in a way that can later connect to backend APIs, DynamoDB, S3 image storage, Cognito authentication, and an admin CMS/CRM.
-7. Provide a long-term maintainable foundation for future staff/admin workflows.
+7. Keep the first 12 months of the completed AWS deployment within Free Tier as much as practical, with Route 53/domain as the expected paid exception.
+8. Provide a long-term maintainable foundation for future staff/admin workflows.
 
 ## Project Scope
 
@@ -109,6 +110,27 @@ The current implementation is static frontend.
 | CDN / HTTPS | AWS CloudFront | Planned |
 | Backend Hosting | AWS EC2 | Planned |
 | Admin CMS / CRM | Custom admin interface | Planned |
+
+
+## Cost and Deployment Constraint
+
+RSA CMS / Mini-CRM was designed as an AWS Free-Tier-first project.
+
+First 12 months target:
+
+- Completed public website, backend, admin CMS, Mini-CRM, database, authentication and image storage should fit AWS Free Tier as much as practical.
+- Route 53/domain is the expected paid exception once the project is ready for domain-based deployment.
+- Before Route 53/domain setup, testing and demo should use the EC2 public IP or other free AWS-provided endpoint.
+- After the free-tier window, the architecture should continue as a low-cost AWS deployment.
+
+Default cost guardrails:
+
+- One Free-Tier-eligible EC2 micro instance.
+- DynamoDB with low provisioned capacity.
+- S3 with optimized/compressed images.
+- Cognito admin-only authentication with SMS disabled where possible.
+- Booking and inquiry records visible in admin panel; no required SMS/email notifications for launch.
+- No ALB, NAT Gateway, RDS, multiple always-on EC2 instances or unnecessary paid notification services unless explicitly approved.
 
 ## Key Stakeholders
 

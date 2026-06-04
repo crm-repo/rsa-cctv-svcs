@@ -71,6 +71,9 @@ This document is the authoritative implementation progress tracker. If status he
 | Cognito Auth | Planned | High | Required for admin |
 | S3 Image Storage | Planned | Medium | Required for production/admin uploads |
 | CloudFront / SSL | Planned | High | Required for production |
+| AWS Free-Tier-First Deployment Rule | Established | High | Original cost constraint; Route 53/domain is expected paid exception after IP-based testing/demo |
+| Free-Tier Deployment Review | Planned | High | Required before backend/admin public testing |
+| AWS Billing Alerts | Planned | High | Required before public testing to protect Free-Tier-first goal |
 | SEO Metadata | Planned | High | Required before launch |
 | Sitemap / robots.txt | Planned | High | Required before launch |
 | Image Optimization | Planned | High | Required before launch |
@@ -108,6 +111,8 @@ This document is the authoritative implementation progress tracker. If status he
 - Authentication
 - File/image upload
 - SEO/deployment readiness
+- Free-Tier deployment review
+- AWS billing alerts
 
 ## Deferred Features
 
@@ -131,6 +136,7 @@ This document is the authoritative implementation progress tracker. If status he
 - Database schema must be reviewed for DynamoDB access patterns.
 - Final Brands hero logo card shade is not locked, but Brands page is not active.
 - SEO metadata and deployment assets are not complete.
+- Free-Tier-first deployment settings have not yet been verified in AWS.
 - Product/promotions static markup duplication remains.
 
 ## Current Priorities
@@ -139,4 +145,5 @@ This document is the authoritative implementation progress tracker. If status he
 2. Keep Homepage, Promotions, and Brands closed unless reopened.
 3. Avoid global CSS changes that affect Products/Promotions/Brands unintentionally.
 4. Preserve database-ready patterns.
-5. Before production, implement booking/inquiry flows, SEO, image optimization, and deployment checklist.
+5. Preserve the AWS Free-Tier-first architecture during backend/admin/deployment planning.
+6. Before production, implement booking/inquiry flows, SEO, image optimization, Free-Tier deployment review, billing alerts, and deployment checklist.
