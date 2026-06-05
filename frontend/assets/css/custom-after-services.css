@@ -368,7 +368,6 @@ footer {
   border: 1px solid #e5e7eb;
 }
 
-/* Media Query Scope: Products and Promotions Catalog - Phone Portrait */
 @media (max-width: 767px) and (orientation: portrait) {
   #promoProductsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -482,7 +481,6 @@ footer {
 }
 
 /* MOBILE PORTRAIT ONLY */
-/* Media Query Scope: Homepage Package Preview Slider - Phone Portrait */
 @media (max-width: 799px) and (orientation: portrait) {
 
   #homePackageSlider.package-banner-grid {
@@ -520,7 +518,6 @@ footer {
    Recommended Packages = 1 banner slider
 ========================================== */
 
-/* Media Query Scope: Homepage Recommended Packages Slider - Small Phone Landscape */
 @media (max-height: 430px) and (orientation: landscape) {
 
   #homePackageSlider.package-banner-grid {
@@ -557,7 +554,6 @@ footer {
    Our Services = 1 service slider
 ========================================== */
 
-/* Media Query Scope: Homepage Services Preview Slider - Small Phone Landscape */
 @media (max-height: 430px) and (orientation: landscape) {
 
   #homeServicesSlider.services-preview-grid {
@@ -646,7 +642,6 @@ footer {
   color: #ffffff;
 }
 
-/* Media Query Scope: About/Home Content Cards - Phone Portrait */
 @media (max-width: 767px) and (orientation: portrait) {
   .content-card-grid {
     grid-template-columns: 1fr !important;
@@ -665,7 +660,6 @@ footer {
   }
 }
 /* iPhone landscape */
-/* Media Query Scope: About/Home Content Cards - Phone Landscape */
 @media (max-width: 950px) and (orientation: landscape) {
 
   .content-card-grid {
@@ -708,7 +702,6 @@ footer {
 }
 
 /* iPad Mini / Air / Pro portrait */
-/* Media Query Scope: About/Home Content Cards - Tablet Portrait */
 @media (min-width: 768px) and (max-width: 1366px) and (orientation: portrait) {
 
   .content-card-grid {
@@ -829,7 +822,6 @@ footer {
 }
 
 /* Mobile */
-/* Media Query Scope: Homepage Top Brands - Phone Portrait */
 @media (max-width: 767px) and (orientation: portrait) {
   .home-brands-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -868,7 +860,6 @@ footer {
   background: #b91c1c;
 }
 
-/* Media Query Scope: Homepage Services Slider - Phone Portrait */
 @media (max-width: 799px) and (orientation: portrait) {
 
   #homeServicesSlider.services-preview-grid {
@@ -899,7 +890,6 @@ footer {
    Restore desktop image proportions
 ========================================== */
 
-/* Media Query Scope: Homepage Services Preview - iPad Air / iPad Pro Portrait */
 @media (min-width: 800px) and (max-width: 1366px) and (orientation: portrait) {
 
   #homeServicesSlider.services-preview-grid {
@@ -991,7 +981,6 @@ footer {
 }
 
 /* MOBILE PORTRAIT */
-/* Media Query Scope: Homepage Services Preview Grid - Mobile Portrait */
 @media (max-width: 768px) and (orientation: portrait) {
 
   .services-preview-grid {
@@ -1001,7 +990,6 @@ footer {
 }
 
 /* MOBILE LANDSCAPE + TABLET */
-/* Media Query Scope: Homepage Services Preview Grid - Tablet and Above */
 @media (min-width: 769px) {
 
   .services-preview-grid {
@@ -1014,7 +1002,6 @@ footer {
    TABLET FIXES - landscape
 ========================= */
 
-/* Media Query Scope: Global Header and Homepage Hero - Tablet / Small Desktop */
 @media (min-width: 769px) and (max-width: 1180px) {
   .main-logo {
     width: 400px;
@@ -1077,7 +1064,6 @@ footer {
    HOMEPAGE SECTION GAP FIX
 ========================= */
 
-/* Media Query Scope: Homepage Section Spacing - Tablet / Small Desktop */
 @media (max-width: 1180px) {
 
   .content-card-grid {
@@ -1110,7 +1096,6 @@ footer {
    MOBILE VIEW - FOR HOMEPAGE/HEADER/GENERAL
 ========================= */
 
-/* Media Query Scope: Global Header, Mobile Menu and Homepage Hero - Mobile */
 @media (max-width: 768px) {
   header {
     position: relative;
@@ -1365,7 +1350,6 @@ footer {
    FEATURED PRODUCTS - MOBILE PORTRAIT
 ========================= */
 
-/* Media Query Scope: Homepage Featured Products - Phone Portrait */
 @media (max-width: 767px) and (orientation: portrait) {
   #featuredProductsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -1405,7 +1389,6 @@ footer {
    Applies only to portrait tablets, not landscape or iPad Pro
 ========================= */
 
-/* Media Query Scope: Global Header and Products Hero - iPad Mini / iPad Air Portrait */
 @media (min-width: 768px) and (max-width: 900px) and (orientation: portrait) {
 
   header .max-w-7xl {
@@ -1657,7 +1640,6 @@ footer {
 }
 
 /*Ipad Mini - Portrait for Product Hero*/
-/* Media Query Scope: Products Hero Features - iPad Mini Portrait */
 @media (min-width: 768px) and (max-width: 799px) and (orientation: portrait) {
   .products-hero-features {
     top: -80px !important;
@@ -1670,7 +1652,6 @@ footer {
    MOBILE LANDSCAPE FIX - IPHONE SE
 ========================= */
 
-/* Media Query Scope: Global Header and Products Hero - Mobile Landscape */
 @media (max-width: 950px) and (orientation: landscape) {
 
   .mobile-header-extra {
@@ -1892,7 +1873,6 @@ footer {
    IPAD PRO LANDSCAPE FIX
 ========================= */
 
-/* Media Query Scope: Homepage and Products Hero - iPad Pro Landscape */
 @media (min-width: 1181px) and (max-width: 1366px) and (orientation: landscape) {
 
   .hero-bg {
@@ -2058,7 +2038,6 @@ footer {
    SERVICES PREVIEW - IPAD MINI PORTRAIT FINAL
 ========================= */
 
-/* Media Query Scope: Homepage Services Preview - iPad Mini Portrait */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
 
   .services-preview-grid {
@@ -2173,7 +2152,6 @@ footer {
    MOBILE VIEW - FOR PRODUCTS PAGE / PORTRAIT
 ========================= */
 
-/* Media Query Scope: Products Page - Mobile View */
 @media (max-width: 768px) {
 
   .products-hero-section {
@@ -3113,7 +3091,6 @@ footer {
 }
 
 /*Mobile Modal*/
-/* Media Query Scope: Product Modal - Mobile View */
 @media (max-width: 768px) {
 
   .product-modal-overlay {
@@ -3185,7 +3162,6 @@ footer {
   }
 }
 /*Mobile Modal - Landscape*/
-/* Media Query Scope: Product Modal - Mobile Landscape */
 @media (max-width: 950px) and (orientation: landscape) {
 
   .product-modal-overlay {
@@ -3201,7 +3177,6 @@ footer {
   }
 }
 /* Product Modal - Small Phones Fix*/
-/* Media Query Scope: Product Modal - Small Phones */
 @media (max-width: 380px) {
 
   .product-modal-actions {
@@ -3218,7 +3193,6 @@ footer {
   }
 }
 /* iPad Air Portrait Fix */
-/* Media Query Scope: Product Modal - iPad Air Portrait */
 @media (min-width: 820px) and (max-width: 900px) and (orientation: portrait) {
 
   .product-modal-primary-btn,
@@ -3362,7 +3336,6 @@ footer {
 }
 
 /* Mobile */
-/* Media Query Scope: Promotions Hero - Phone Portrait */
 @media (max-width: 767px) and (orientation: portrait) {
   .promotions-hero-section {
     padding: 28px 0 34px;
@@ -3402,7 +3375,6 @@ footer {
 }
 
 /* Tablet */
-/* Media Query Scope: Service Features Strip - Tablet */
 @media (max-width: 991px) {
   .service-features-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3414,7 +3386,6 @@ footer {
 }
 
 /* Mobile */
-/* Media Query Scope: Service Features Strip - Mobile */
 @media (max-width: 640px) {
   .service-features-strip {
     grid-template-columns: 1fr;
@@ -3430,14 +3401,12 @@ footer {
   }
 }
 
-/* Media Query Scope: Products Catalog Grid - Tablet / Small Desktop */
 @media (max-width: 1180px) {
   .products-catalog-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-/* Media Query Scope: Products Catalog and Brand Strip - Mobile */
 @media (max-width: 767px) {
   .products-catalog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3454,7 +3423,6 @@ footer {
   }
 }
 /* Mobile - iphone se portrait products card */
-/* Media Query Scope: Products Cards - Small Phone Portrait */
 @media (max-width: 380px) and (orientation: portrait) {
 
   /* PRODUCT CARD */
@@ -3548,7 +3516,6 @@ footer {
 
 }
 
-/* Media Query Scope: Products Hero - Small Phone Landscape */
 @media (max-width: 700px) and (orientation: landscape) {
 
   .products-hero-section {
@@ -3582,7 +3549,6 @@ footer {
 
 }
   /* SAMSUNG S8+ FIX */
-/* Media Query Scope: Products Hero - Samsung S8+ Landscape */
 @media (min-width: 701px) and (max-width: 950px) and (orientation: landscape) {
 
   .products-hero-section {
@@ -3612,7 +3578,6 @@ footer {
 
 }
 /**IPAD MINI - LANDSCAPE*/
-/* Media Query Scope: Products Hero - iPad Mini Landscape */
 @media (min-width: 950px) and (max-width: 1200px) and (orientation: landscape) {
 
   .products-hero-section {
@@ -3659,7 +3624,6 @@ footer {
 }
 
 /*IPAD PRO PORTRAIT - PRODUCTS PAGE FIX*/
-/* Media Query Scope: Products Hero - iPad Pro Portrait */
 @media (min-width: 901px) and (max-width: 1100px) and (orientation: portrait) {
 
   .products-hero-section {
@@ -4024,7 +3988,6 @@ footer {
    BRANDS PAGE MOBILE VIEW
 ========================= */
 
-/* Media Query Scope: Brands Page - Mobile View */
 @media (max-width: 768px) {
 
   /* HERO SECTION SPACING ONLY */
@@ -4346,7 +4309,6 @@ footer {
    BRANDS PAGE - MOBILE LANDSCAPE
 ========================= */
 
-/* Media Query Scope: Brands Page - Mobile Landscape */
 @media (max-width: 950px) and (orientation: landscape) {
 
   .brands-hero-section {
@@ -4436,7 +4398,6 @@ footer {
    Show hero logo grid like mobile landscape
 ========================= */
 
-/* Media Query Scope: Brands Page - iPad Mini / Small Tablet Portrait */
 @media (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
 
   .brands-hero-section {
@@ -4520,7 +4481,6 @@ footer {
    Match iPad Mini portrait spacing/formatting
 ========================= */
 
-/* Media Query Scope: Brands Page - iPad Pro / Large Tablet Portrait */
 @media (min-width: 901px) and (max-width: 1366px) and (orientation: portrait) {
 
   .brands-hero-section {
@@ -4616,7 +4576,6 @@ footer {
    Fix hero spacing and title formatting
 ========================= */
 
-/* Media Query Scope: Brands Page - iPad Mini Landscape */
 @media (min-width: 901px) and (max-width: 1180px) and (orientation: landscape) {
 
   .brands-hero-section {
@@ -5412,7 +5371,6 @@ footer {
    Handles widths 1180px and below
 ========================================================= */
 
-/* Media Query Scope: About Page - Large Tablet / Small Desktop */
 @media (max-width: 1180px) {
   .about-page-hero-copy h1 {
     font-size: 44px;
@@ -5482,7 +5440,6 @@ footer {
    Handles iPad Mini / tablet portrait widths 768px–900px
 ========================================================= */
 
-/* Media Query Scope: About Page - Tablet Portrait */
 @media (min-width: 768px) and (max-width: 900px) and (orientation: portrait) {
   .about-page-hero {
     min-height: 430px;
@@ -5565,7 +5522,6 @@ footer {
    Handles phones 767px and below
 ========================================================= */
 
-/* Media Query Scope: About Page - Mobile Portrait */
 @media (max-width: 767px) {
   .about-page-hero {
     min-height: 390px;
@@ -5793,7 +5749,6 @@ footer {
    Handles landscape devices 950px and below
 ========================================================= */
 
-/* Media Query Scope: About Page - Phone / Small Tablet Landscape */
 @media (max-width: 950px) and (orientation: landscape) {
   .about-page-hero {
     min-height: 350px;
@@ -5895,7 +5850,6 @@ footer {
    Handles very narrow phones 420px and below
 ========================================================= */
 
-/* Media Query Scope: About Page - Small Mobile */
 @media (max-width: 420px) {
   .about-red-strip-cta {
     padding-left: 18px;
@@ -6175,7 +6129,6 @@ footer {
       margin: 0 auto;
     }
 
-    /* Media Query Scope: Services Page - Large Tablet / Small Desktop */
     @media (max-width: 1180px) {
       .services-page-hero-copy h1 {
         font-size: 44px;
@@ -6184,7 +6137,6 @@ footer {
       }
     }
 
-    /* Media Query Scope: Services Page - Tablet / Small Desktop Cards and Process */
     @media (max-width: 1024px) {
       .services-page-cards-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -6203,7 +6155,6 @@ footer {
       }
     }
 
-    /* Media Query Scope: Services Page - Tablet Portrait */
     @media (min-width: 768px) and (max-width: 900px) and (orientation: portrait) {
       .services-page-hero,
       .services-page-hero-content {
@@ -6232,7 +6183,6 @@ footer {
       }
     }
 
-    /* Media Query Scope: Services Page - Mobile Portrait */
     @media (max-width: 767px) {
       .services-page-hero {
         min-height: 390px;
@@ -6320,7 +6270,6 @@ footer {
       }
     }
 
-    /* Media Query Scope: Services Page - Phone / Small Tablet Landscape */
     @media (max-width: 950px) and (orientation: landscape) {
       .services-page-hero {
         min-height: 350px;
