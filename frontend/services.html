@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Services | R.S.A. CCTV Installation Services</title>
+  <meta name="description" content="CCTV installation, maintenance, mobile viewing, biometrics lock, video door phone, alarms, hidden camera, cabling and security support services by R.S.A. CCTV Installation Services." />
+
+  <link href="./assets/css/output.css" rel="stylesheet">
+  <link href="./assets/css/custom.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <!-- Services page CSS block only. Header, red strip CTA, final CTA and footer reuse existing About/global styles. -->
+  <style>
+    .services-page main {
+      background: #f3f4f6;
+    }
+
+    /* =========================================================
+       SERVICES HERO SECTION
+       Matches About page hero scale, text weight, and centered image frame
+    ========================================================= */
+
+    .services-page-hero {
+      position: relative;
+      min-height: 430px;
+      background: #000000;
+      overflow: hidden;
+      color: #ffffff;
+      border-bottom: 1px solid #111827;
+    }
+
+    .services-page-hero-bg {
+      position: absolute;
+      inset: 0;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      width: 100%;
+      max-width: 1280px;
+      background-image: url("./assets/images/services/services-hero.jpg");
+      background-repeat: no-repeat;
+      background-position: 88% center;
+      background-size: auto 118%;
+      opacity: 0.8;
+      filter: none;
+      z-index: 1;
+    }
+
+    .services-page-hero-content {
+      position: relative;
+      z-index: 20;
+      min-height: 430px;
+      display: flex;
+      align-items: center;
+    }
+
+    .services-page-hero-copy {
+      max-width: 720px;
+      transform: translateY(-2px);
+    }
+
+    .services-page-hero-copy > p:first-child {
+      color: #ffffff;
+      font-size: 18px;
+      line-height: 1.25;
+      margin-bottom: 14px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .services-page-hero-copy h1 {
+      margin: 0;
+      color: #ffffff;
+      font-size: 48px;
+      line-height: 1.08;
+      font-weight: 900;
+      letter-spacing: -1.2px;
+      text-transform: uppercase;
+      max-width: 720px;
+    }
+
+    .services-page-hero-copy h1 span {
+      color: #dc2626;
+    }
+
+    .services-page-hero-desc {
+      max-width: 680px;
+      margin-top: 22px;
+      margin-bottom: 0;
+      color: #f3f4f6;
+      font-size: 18px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .services-page-hero-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .services-eyebrow,
+    .services-page-section-heading p {
+      color: #dc2626;
+      font-size: 0.875rem;
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .services-page-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #374151;
+    }
+
+    .services-page-breadcrumb a {
+      color: #111827;
+    }
+
+    .services-page-breadcrumb span:last-child {
+      color: #b91c1c;
+    }
+
+    .services-page-section-heading {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 2rem;
+    }
+
+    .services-page-section-heading h2 {
+      margin-top: 0.55rem;
+      color: #111827;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.08;
+      font-weight: 1000;
+      letter-spacing: -0.035em;
+    }
+
+    .services-page-section-heading .services-page-section-copy {
+      color: #4b5563;
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-top: 0.8rem;
+    }
+
+    .services-page-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .services-page-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      padding: 2rem;
+      min-height: 185px;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.35rem;
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+
+    .services-page-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(185,28,28,0.25);
+      box-shadow: 0 18px 34px rgba(15,23,42,0.12);
+    }
+
+    .services-page-card-icon {
+      width: 74px;
+      height: 74px;
+      border-radius: 999px;
+      background: #fee2e2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #111827;
+      flex: 0 0 auto;
+    }
+
+    .services-page-card-icon i {
+      font-size: 2.1rem;
+      color: #111827;
+    }
+
+    .services-page-card h3 {
+      font-size: 1.14rem;
+      font-weight: 1000;
+      color: #111827;
+      margin-bottom: 0.65rem;
+      line-height: 1.25;
+    }
+
+    .services-page-card p {
+      color: #374151;
+      line-height: 1.65;
+      font-size: 0.96rem;
+      margin-bottom: 1rem;
+    }
+
+    .services-page-card a {
+      color: #b91c1c;
+      font-size: 0.86rem;
+      font-weight: 1000;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .services-page-process-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      padding: 1.5rem 1.2rem;
+    }
+
+    .services-page-process-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: stretch;
+    }
+
+    .services-page-process-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 1.15rem 1rem;
+      min-height: 112px;
+    }
+
+    .services-page-process-item:not(:last-child) {
+      border-right: 1px dashed #d1d5db;
+    }
+
+    .services-page-process-item:not(:last-child)::after {
+      content: "061";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      position: absolute;
+      right: -0.55rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #c4c4c4;
+      background: #fff;
+      padding: 0.2rem;
+      z-index: 2;
+      font-size: 0.85rem;
+    }
+
+    .services-page-process-number {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: #dc2626;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 1000;
+      font-size: 1.05rem;
+      box-shadow: 0 0 0 5px #fee2e2;
+    }
+
+    .services-page-process-icon {
+      font-size: 2.1rem;
+      color: #111827;
+      line-height: 1;
+    }
+
+    .services-page-process-item h3 {
+      color: #111827;
+      font-size: 1rem;
+      line-height: 1.18;
+      font-weight: 1000;
+      margin-bottom: 0.3rem;
+    }
+
+    .services-page-process-item p {
+      color: #4b5563;
+      line-height: 1.45;
+      font-size: 0.83rem;
+    }
+
+    .services-page .about-red-strip-cta {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1180px) {
+      .services-page-hero-copy h1 {
+        font-size: 44px;
+        line-height: 1.08;
+        max-width: 650px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .services-page-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .services-page-process-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .services-page-process-item:nth-child(2) {
+        border-right: 0;
+      }
+
+      .services-page-process-item:nth-child(2)::after {
+        display: none;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 900px) and (orientation: portrait) {
+      .services-page-hero,
+      .services-page-hero-content {
+        min-height: 430px;
+      }
+
+      .services-page-hero-bg {
+        background-position: 90% center;
+        background-size: auto 122%;
+        opacity: 0.8;
+      }
+
+      .services-page-hero-copy {
+        max-width: 620px;
+      }
+
+      .services-page-hero-copy h1 {
+        font-size: 42px;
+        line-height: 1.08;
+        max-width: 600px;
+      }
+
+      .services-page-hero-desc {
+        max-width: 540px;
+        font-size: 17px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .services-page-hero {
+        min-height: 390px;
+      }
+
+      .services-page-hero-bg {
+        background-position: 76% center;
+        background-size: auto 118%;
+        opacity: 0.8;
+      }
+
+      .services-page-hero-content {
+        min-height: 390px;
+        padding-top: 42px !important;
+        padding-bottom: 42px !important;
+        align-items: center;
+      }
+
+      .services-page-hero-copy {
+        max-width: 340px;
+      }
+
+      .services-page-hero-copy h1 {
+        font-size: 32px;
+        line-height: 1.08;
+        letter-spacing: -0.8px;
+        max-width: 330px;
+      }
+
+      .services-page-hero-desc {
+        max-width: 330px;
+        font-size: 14px;
+        line-height: 1.7;
+        margin-top: 18px;
+      }
+
+      .services-page-hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        max-width: 310px;
+        margin-top: 22px;
+      }
+
+      .services-page-hero-actions .about-page-primary-btn,
+      .services-page-hero-actions .about-page-secondary-btn {
+        width: 100%;
+        min-height: 46px;
+        padding: 0 18px;
+      }
+
+      .services-page-cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services-page-card {
+        padding: 1.35rem;
+      }
+
+      .services-page-card-icon {
+        width: 60px;
+        height: 60px;
+      }
+
+      .services-page-card-icon i {
+        font-size: 1.65rem;
+      }
+
+      .services-page-process-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .services-page-process-item {
+        grid-template-columns: auto auto 1fr;
+        border-right: 0 !important;
+        border-bottom: 1px dashed #d1d5db;
+      }
+
+      .services-page-process-item:last-child {
+        border-bottom: 0;
+      }
+
+      .services-page-process-item::after {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 950px) and (orientation: landscape) {
+      .services-page-hero {
+        min-height: 350px;
+      }
+
+      .services-page-hero-content {
+        min-height: 350px;
+        padding-top: 36px !important;
+        padding-bottom: 36px !important;
+      }
+
+      .services-page-hero-bg {
+        background-position: 90% center;
+        background-size: auto 128%;
+        opacity: 0.8;
+      }
+
+      .services-page-hero-copy {
+        max-width: 620px;
+      }
+
+      .services-page-hero-copy h1 {
+        font-size: 40px;
+        line-height: 1.08;
+        max-width: 600px;
+      }
+
+      .services-page-hero-desc {
+        max-width: 560px;
+        font-size: 15px;
+        line-height: 1.55;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-900 services-page">
+
+  <div class="bg-red-700 text-white text-center text-xs font-bold py-1">
+    Trusted CCTV Installation & Maintenance Services
+  </div>
+
+  <header class="bg-black text-white relative">
+
+    <button id="mobileMenuButton"
+            class="md:hidden text-white text-3xl absolute right-5 top-5 z-[9999] leading-none">
+      ☰
+    </button>
+
+    <div class="max-w-7xl mx-auto px-4 py-2 flex flex-col md:flex-row justify-between items-center gap-3">
+
+      <a href="index.html" class="block">
+        <img src="./assets/images/rsa-logo.png"
+             alt="R.S.A. CCTV Installation Services"
+             class="main-logo">
+      </a>
+
+      <!-- MOBILE CONTACT + SOCIAL AREA -->
+      <div class="md:hidden w-full mobile-header-extra">
+
+        <div class="mobile-contact-row w-full flex items-center justify-center gap-4 text-white text-sm border-t border-b border-red-950 py-3">
+          <div class="flex items-center gap-4 whitespace-nowrap">
+            <i class="fa-solid fa-phone text-red-600 text-xl"></i>
+            <span>+63 912 345 6789</span>
+          </div>
+
+          <div class="h-5 w-px bg-gray-700"></div>
+
+          <div class="flex items-center gap-4 whitespace-nowrap">
+            <i class="fa-solid fa-envelope text-red-600 text-xl"></i>
+            <span>company@email.com</span>
+          </div>
+        </div>
+
+        <div class="mobile-social-row w-full flex justify-center items-center">
+
+          <a href="#" class="text-red-600">
+            <i class="fa-brands fa-square-facebook header-social-icon"></i>
+          </a>
+
+          <a href="#" class="text-red-600">
+            <i class="fa-brands fa-instagram header-social-icon"></i>
+          </a>
+
+          <a href="#" class="text-red-600">
+            <i class="fa-brands fa-youtube header-social-icon"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- DESKTOP/TABLET CONTACT -->
+      <div class="hidden md:flex items-center gap-8 text-base font-semibold tracking-[0.2px]">
+
+        <div class="flex items-center gap-3 text-white whitespace-nowrap">
+          <i class="fa-solid fa-envelope text-red-600 text-xl"></i>
+          <span>company@email.com</span>
+        </div>
+
+        <div class="h-6 w-px bg-gray-700"></div>
+
+        <div class="flex items-center gap-3 text-white whitespace-nowrap">
+          <i class="fa-solid fa-phone text-red-600 text-xl"></i>
+          <span>+63 912 345 6789</span>
+        </div>
+
+        <div class="h-6 w-px bg-gray-700"></div>
+
+        <div class="flex items-center gap-6 text-red-600 leading-none">
+
+          <a href="#" class="header-social-link hover:text-white transition">
+            <i class="fa-brands fa-square-facebook header-social-icon"></i>
+          </a>
+
+          <a href="#" class="header-social-link hover:text-white transition">
+            <i class="fa-brands fa-instagram header-social-icon"></i>
+          </a>
+
+          <a href="#" class="header-social-link hover:text-white transition">
+            <i class="fa-brands fa-youtube header-social-icon"></i>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <nav class="bg-black md:border-t md:border-red-950">
+      <div class="max-w-7xl mx-auto px-4">
+        <ul class="hidden md:flex items-center justify-between text-sm font-bold uppercase">
+          <li><a href="index.html" class="block py-4 hover:text-red-500">Home</a></li>
+          <li><a href="brands.html" class="block py-4 hover:text-red-500">Brands</a></li>
+          <li><a href="products.html" class="block py-4 hover:text-red-500">Products</a></li>
+          <li><a href="promotions.html" class="block py-4 hover:text-red-500">Promotions</a></li>
+          <li><a href="about.html" class="block py-4 hover:text-red-500">About Us</a></li>
+          <li><a href="services.html" class="block py-4 text-red-500 border-b-4 border-red-600">Services</a></li>
+          <li><a href="contact-us.html" class="block py-4 hover:text-red-500">Contact Us</a></li>
+
+          <li>
+            <a href="booking.html" class="block bg-red-700 px-8 py-4 hover:bg-red-800">
+              Request Site Visit
+            </a>
+          </li>
+
+        </ul>
+        <div id="mobileMenuOverlay" class="hidden fixed inset-0 bg-black/70 z-[9997]"></div>
+        <ul id="mobileMenu" class="hidden fixed top-0 right-0 h-screen w-[80%] max-w-[360px] bg-black z-[9998] flex-col px-8 pt-24 space-y-7 text-xl font-bold uppercase shadow-2xl">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="brands.html">Brands</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="promotions.html">Promotions</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html" class="text-red-500">Services</a></li>
+          <li><a href="contact-us.html">Contact Us</a></li>
+          <li><a href="booking.html" class="text-red-500">Request Site Visit</a></li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+  <!-- SERVICES HERO SECTION -->
+  <section class="services-page-hero bg-black text-white overflow-hidden border-b border-gray-900">
+    <div class="services-page-hero-bg"></div>
+    <div class="relative z-20 max-w-7xl mx-auto px-4 py-14 md:py-16 services-page-hero-content">
+      <div class="services-page-hero-copy">
+        <p>
+          Our Services
+        </p>
+
+        <h1>
+          Professional CCTV,<br>
+          <span>Security Services <br>& Maintenance Support</span>
+        </h1>
+
+        <p class="services-page-hero-desc">
+          From consultation to installation and maintenance, we deliver reliable CCTV and security solutions for homes, offices, shops and commercial properties.
+        </p>
+
+        <div class="services-page-hero-actions">
+          <a href="booking.html" class="about-page-primary-btn">
+            Request Site Visit
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+          <a href="promotions.html" class="about-page-secondary-btn">
+            View CCTV Packages
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="bg-gray-100">
+
+    <!-- BREADCRUMB -->
+    <section class="bg-gray-100 pt-10 pb-0">
+      <div class="max-w-7xl mx-auto px-4">
+        <nav class="services-page-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span>&gt;</span>
+          <span>Services</span>
+        </nav>
+      </div>
+    </section>
+
+    <!-- SERVICES CARDS -->
+    <section class="bg-gray-100 py-8">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="services-page-section-heading">
+          <p>Our Services</p>
+          <h2>What We Offer</h2>
+          <div class="services-page-section-copy">
+            Comprehensive security services for homes, businesses and industries. We use trusted products, professional installation practices and dependable support.
+          </div>
+        </div>
+
+        <div class="services-page-cards-grid">
+          <article class="services-page-card">
+            <div class="services-page-card-icon"><i class="fa-solid fa-video"></i></div>
+            <div>
+              <h3>CCTV Installation</h3>
+              <p>Professional installation of high-quality CCTV systems for homes, offices, shops and commercial properties.</p>
+              <a href="booking.html">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="services-page-card">
+            <div class="services-page-card-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+            <div>
+              <h3>CCTV Maintenance</h3>
+              <p>Regular maintenance, checking and troubleshooting to keep your security system working properly.</p>
+              <a href="booking.html">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="services-page-card">
+            <div class="services-page-card-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <div>
+              <h3>CCTV Mobile Viewing</h3>
+              <p>View your cameras anytime and anywhere through secure mobile viewing setup on your devices.</p>
+              <a href="booking.html">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="services-page-card">
+            <div class="services-page-card-icon"><i class="fa-solid fa-network-wired"></i></div>
+            <div>
+              <h3>Network &amp; Cabling</h3>
+              <p>Structured network cabling and configuration for stable connection between cameras, recorders and routers.</p>
+              <a href="booking.html">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="services-page-card">
+            <div class="services-page-card-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div>
+              <h3>Power Solutions</h3>
+              <p>Reliable power supply and backup recommendations to help your CCTV setup keep running when needed.</p>
+              <a href="booking.html">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="services-page-card">
+            <div class="services-page-card-icon"><i class="fa-solid fa-gear"></i></div>
+            <div>
+              <h3>System Upgrades</h3>
+              <p>Upgrade old cameras, recorders and wiring with newer technology for clearer monitoring and better performance.</p>
+              <a href="booking.html">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="services-page-card">
+            <div class="services-page-card-icon"><i class="fa-solid fa-fingerprint"></i></div>
+            <div>
+              <h3>Digital Biometrics Lock</h3>
+              <p>Fingerprint, PIN and smart access lock solutions for doors, entrances, offices and controlled areas.</p>
+              <a href="booking.html">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="services-page-card">
+            <div class="services-page-card-icon"><i class="fa-solid fa-bell"></i></div>
+            <div>
+              <h3>Video Door Phone and Alarms</h3>
+              <p>Video door phone, intercom and alarm solutions for safer visitor screening and added protection.</p>
+              <a href="booking.html">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="services-page-card">
+            <div class="services-page-card-icon"><i class="fa-solid fa-eye"></i></div>
+            <div>
+              <h3>All Kinds of Hidden Camera</h3>
+              <p>Discreet camera solutions for special monitoring needs, installed and configured with proper planning.</p>
+              <a href="booking.html">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS STRIP -->
+    <section class="bg-gray-100 py-6">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="services-page-section-heading mb-6">
+          <p>Our Process</p>
+          <h2>Simple &amp; Hassle-Free</h2>
+        </div>
+
+        <div class="services-page-process-card">
+          <div class="services-page-process-strip">
+            <article class="services-page-process-item">
+              <span class="services-page-process-number">1</span>
+              <i class="fa-regular fa-calendar-check services-page-process-icon"></i>
+              <div>
+                <h3>Consultation</h3>
+                <p>We listen to your needs and assess your property.</p>
+              </div>
+            </article>
+
+            <article class="services-page-process-item">
+              <span class="services-page-process-number">2</span>
+              <i class="fa-regular fa-clipboard services-page-process-icon"></i>
+              <div>
+                <h3>Site Assessment</h3>
+                <p>Our team conducts a site survey and recommends the best solution.</p>
+              </div>
+            </article>
+
+            <article class="services-page-process-item">
+              <span class="services-page-process-number">3</span>
+              <i class="fa-solid fa-screwdriver-wrench services-page-process-icon"></i>
+              <div>
+                <h3>Installation</h3>
+                <p>Professional installation using quality products and neat cabling.</p>
+              </div>
+            </article>
+
+            <article class="services-page-process-item">
+              <span class="services-page-process-number">4</span>
+              <i class="fa-solid fa-shield-halved services-page-process-icon"></i>
+              <div>
+                <h3>Support &amp; Maintenance</h3>
+                <p>We provide after-sales support and maintenance for your peace of mind.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT PAGE RED STRIP CTA -->
+    <section class="about-red-strip-cta">
+      <div class="about-red-strip-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+
+      <div class="about-red-strip-content">
+        <h2>Need help choosing the right CCTV setup?</h2>
+        <p>
+          We’ll inspect your location and recommend the right camera,
+          recorder and package setup that fits your needs and budget.
+        </p>
+      </div>
+
+      <div class="about-red-strip-actions">
+        <a href="booking.html" class="about-red-strip-btn about-red-strip-btn-light">
+          Request Site Visit
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+        <a href="contact-us.html" class="about-red-strip-btn about-red-strip-btn-outline">
+          Contact Us
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="about-red-strip-contact-icon" aria-hidden="true">
+        <i class="fa-solid fa-phone"></i>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="products-cta-section bg-black text-white py-10 border-t border-red-950 mt-2">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <p class="text-red-600 text-sm font-bold uppercase mb-3">
+          Need CCTV Installation?
+        </p>
+
+        <h2 class="text-3xl md:text-4xl font-black uppercase mb-4">
+          Ready to Secure Your Property?
+        </h2>
+
+        <p class="text-gray-300 max-w-2xl mx-auto text-sm md:text-base leading-7 mb-8">
+          Book a site visit today and let R.S.A. CCTV Installation Services help you choose
+          the right security solution for your home or business.
+        </p>
+
+        <a href="booking.html"
+          class="inline-block bg-red-700 hover:bg-red-800 text-white font-bold px-8 py-3 rounded">
+          Request Site Visit
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+<footer class="bg-black text-white py-6">
+    <div class="max-w-7xl mx-auto px-4 text-center text-sm space-y-2">
+      <p class="font-semibold">
+        R.S.A. CCTV Installation Services
+      </p>
+
+      <p class="text-gray-400">
+        Professional CCTV Installation & Maintenance Services
+      </p>
+
+      <p class="text-gray-500 text-xs">
+        © 2026 R.S.A. CCTV Installation Services. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="./assets/js/main.js"></script>
+</body>
+</html>
