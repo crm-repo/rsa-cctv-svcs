@@ -5881,13 +5881,6 @@ footer {
     font-size: 22px;
   }
 }
-
-   /*<!-- Services page CSS block only. Header, red strip CTA, final CTA and footer reuse existing About/global styles. -->*/
-
-    .services-page main {
-      background: #f3f4f6;
-    }
-
     /* =========================================================
        SERVICES HERO SECTION
        Matches About page hero scale, text weight, and centered image frame
@@ -6116,7 +6109,7 @@ footer {
     }
 
     .services-page-process-item:not(:last-child)::after {
-      content: "061";
+      content: "\f061";
       font-family: "Font Awesome 6 Free";
       font-weight: 900;
       position: absolute;
