@@ -5902,10 +5902,10 @@ footer {
       transform: translateX(-50%) !important;
       width: 100%;
       max-width: 1280px;
-      background-image: url("./assets/images/services/services-hero.jpg");
+      background-image: url("../images/services/services-hero.jpg");
       background-repeat: no-repeat;
-      background-position: 88% center;
-      background-size: auto 118%;
+      background-position: 110% center;
+      background-size: auto 100%;
       opacity: 0.8;
       filter: none;
       z-index: 1;
