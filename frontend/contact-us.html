@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Contact Us | R.S.A. CCTV Installation Services</title>
+
+  <link href="./assets/css/output.css" rel="stylesheet">
+  <link href="./assets/css/custom.css" rel="stylesheet">
+  <link href="./assets/css/contact-us.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+
+<body class="bg-white text-gray-900 contact-page">
+
+  <!-- Reused from about.html header/top area -->
+  <div class="bg-red-700 text-white text-center text-xs font-bold py-1">
+    Trusted CCTV Installation & Maintenance Services
+  </div>
+
+  <header class="bg-black text-white relative">
+
+    <button id="mobileMenuButton"
+            class="md:hidden text-white text-3xl absolute right-5 top-5 z-[9999] leading-none">
+      ☰
+    </button>
+
+    <div class="max-w-7xl mx-auto px-4 py-2 flex flex-col md:flex-row justify-between items-center gap-3">
+
+      <a href="index.html" class="block">
+        <img src="./assets/images/rsa-logo.png"
+             alt="R.S.A. CCTV Installation Services"
+             class="main-logo">
+      </a>
+
+      <!-- MOBILE CONTACT + SOCIAL AREA -->
+      <div class="md:hidden w-full mobile-header-extra">
+
+        <div class="mobile-contact-row w-full flex items-center justify-center gap-4 text-white text-sm border-t border-b border-red-950 py-3">
+          <div class="flex items-center gap-4 whitespace-nowrap">
+            <i class="fa-solid fa-phone text-red-600 text-xl"></i>
+            <span>+63 912 345 6789</span>
+          </div>
+
+          <div class="h-5 w-px bg-gray-700"></div>
+
+          <div class="flex items-center gap-4 whitespace-nowrap">
+            <i class="fa-solid fa-envelope text-red-600 text-xl"></i>
+            <span>company@email.com</span>
+          </div>
+        </div>
+
+        <div class="mobile-social-row w-full flex justify-center items-center">
+          <a href="#" class="text-red-600" aria-label="Facebook">
+            <i class="fa-brands fa-square-facebook header-social-icon"></i>
+          </a>
+
+          <a href="#" class="text-red-600" aria-label="Instagram">
+            <i class="fa-brands fa-instagram header-social-icon"></i>
+          </a>
+
+          <a href="#" class="text-red-600" aria-label="YouTube">
+            <i class="fa-brands fa-youtube header-social-icon"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- DESKTOP/TABLET CONTACT -->
+      <div class="hidden md:flex items-center gap-8 text-base font-semibold tracking-[0.2px]">
+
+        <div class="flex items-center gap-3 text-white whitespace-nowrap">
+          <i class="fa-solid fa-envelope text-red-600 text-xl"></i>
+          <span>company@email.com</span>
+        </div>
+
+        <div class="h-6 w-px bg-gray-700"></div>
+
+        <div class="flex items-center gap-3 text-white whitespace-nowrap">
+          <i class="fa-solid fa-phone text-red-600 text-xl"></i>
+          <span>+63 912 345 6789</span>
+        </div>
+
+        <div class="h-6 w-px bg-gray-700"></div>
+
+        <div class="flex items-center gap-6 text-red-600 leading-none">
+          <a href="#" class="header-social-link hover:text-white transition" aria-label="Facebook">
+            <i class="fa-brands fa-square-facebook header-social-icon"></i>
+          </a>
+
+          <a href="#" class="header-social-link hover:text-white transition" aria-label="Instagram">
+            <i class="fa-brands fa-instagram header-social-icon"></i>
+          </a>
+
+          <a href="#" class="header-social-link hover:text-white transition" aria-label="YouTube">
+            <i class="fa-brands fa-youtube header-social-icon"></i>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <nav class="bg-black md:border-t md:border-red-950">
+      <div class="max-w-7xl mx-auto px-4">
+        <ul class="hidden md:flex items-center justify-between text-sm font-bold uppercase">
+          <li><a href="index.html" class="block py-4 hover:text-red-500">Home</a></li>
+          <li><a href="brands.html" class="block py-4 hover:text-red-500">Brands</a></li>
+          <li><a href="products.html" class="block py-4 hover:text-red-500">Products</a></li>
+          <li><a href="promotions.html" class="block py-4 hover:text-red-500">Promotions</a></li>
+          <li><a href="about.html" class="block py-4 hover:text-red-500">About Us</a></li>
+          <li><a href="services.html" class="block py-4 hover:text-red-500">Services</a></li>
+          <li><a href="contact-us.html" class="block py-4 text-red-500 border-b-4 border-red-600">Contact Us</a></li>
+
+          <li>
+            <a href="booking.html" class="block bg-red-700 px-8 py-4 hover:bg-red-800">
+              Request Site Visit
+            </a>
+          </li>
+        </ul>
+
+        <div id="mobileMenuOverlay" class="hidden fixed inset-0 bg-black/70 z-[9997]"></div>
+        <ul id="mobileMenu" class="hidden fixed top-0 right-0 h-screen w-[80%] max-w-[360px] bg-black z-[9998] flex-col px-8 pt-24 space-y-7 text-xl font-bold uppercase shadow-2xl">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="brands.html">Brands</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="promotions.html">Promotions</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact-us.html" class="text-red-500">Contact Us</a></li>
+          <li><a href="booking.html" class="text-red-500">Request Site Visit</a></li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+  <!-- CONTACT HERO SECTION: breadcrumb intentionally stays out of the hero -->
+  <section class="contact-page-hero bg-black text-white overflow-hidden border-b border-gray-900">
+    <div class="contact-page-hero-bg"></div>
+
+    <div class="relative z-20 max-w-7xl mx-auto px-4 py-14 md:py-16 contact-page-hero-content">
+      <div class="contact-page-hero-copy">
+        <p class="text-lg font-bold uppercase mb-3">
+          Contact Us
+        </p>
+
+        <h1>
+          Contact Us,<br>
+          <span>We’re Ready to Help</span>
+        </h1>
+
+        <p class="contact-page-hero-desc">
+          Get in touch with R.S.A. CCTV Installation Services for inquiries, site visit requests,
+          product recommendations, package questions and after-sales support.
+        </p>
+
+        <div class="contact-page-hero-actions">
+          <a href="booking.html" class="about-page-primary-btn">
+            Request Site Visit
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+          <a href="tel:+639123456789" class="about-page-secondary-btn">
+            Call Us Today
+            <i class="fa-solid fa-phone"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="bg-gray-100">
+
+    <!-- BODY BREADCRUMB + MAIN CONTACT -->
+    <section class="bg-gray-100 py-10">
+      <div class="max-w-7xl mx-auto px-4">
+        <nav class="products-breadcrumb contact-page-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span>&gt;</span>
+          <span>Contact Us</span>
+        </nav>
+
+        <div class="contact-main-grid">
+          <form class="home-soft-card contact-form-card" action="#" method="post">
+            <h2 class="contact-section-title">Send Us a Message</h2>
+            <div class="contact-title-underline"></div>
+
+            <div class="contact-form-grid">
+              <div class="contact-form-field">
+                <label for="fullName">Full Name <span class="contact-required">*</span></label>
+                <input id="fullName" name="full_name" type="text" placeholder="Enter your full name" required>
+              </div>
+
+              <div class="contact-form-field">
+                <label for="contactNumber">Phone Number <span class="contact-required">*</span></label>
+                <input id="contactNumber" name="contact_number" type="tel" placeholder="09XX XXX XXXX" required>
+              </div>
+
+              <div class="contact-form-field">
+                <label for="emailAddress">Email Address</label>
+                <input id="emailAddress" name="email_address" type="email" placeholder="youremail@example.com">
+              </div>
+
+              <div class="contact-form-field">
+                <label for="subject">Subject <span class="contact-required">*</span></label>
+                <input id="subject" name="subject" type="text" placeholder="What is this regarding?" required>
+              </div>
+
+              <div class="contact-form-field contact-form-field-full">
+                <label for="message">Message <span class="contact-required">*</span></label>
+                <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="contact-submit-btn">
+              <i class="fa-solid fa-paper-plane"></i>
+              Send Inquiry
+            </button>
+
+            <p class="contact-privacy-note">
+              <i class="fa-solid fa-lock"></i>
+              Your information is safe with us. We respect your privacy.
+            </p>
+          </form>
+
+          <aside class="home-soft-card contact-info-card" aria-label="Contact details">
+            <h2 class="contact-section-title">Get in Touch</h2>
+            <div class="contact-title-underline"></div>
+
+            <div class="contact-info-list">
+              <div class="contact-info-item">
+                <span class="contact-info-icon"><i class="fa-solid fa-phone"></i></span>
+                <div>
+                  <h3>Primary Contact Number</h3>
+                  <p><strong>(02) 8924 7890</strong><br><strong>0917 123 4567</strong></p>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <span class="contact-info-icon"><i class="fa-solid fa-envelope"></i></span>
+                <div>
+                  <h3>Company Email</h3>
+                  <p><strong>info@rsacctv.com.ph</strong></p>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <span class="contact-info-icon"><i class="fa-solid fa-location-dot"></i></span>
+                <div>
+                  <h3>Company Address</h3>
+                  <p>RSA Building, 123 Security St.,<br>Barangay San Isidro, Marikina City,<br>Metro Manila, Philippines 1800</p>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <span class="contact-info-icon"><i class="fa-solid fa-clock"></i></span>
+                <div>
+                  <h3>Office Hours</h3>
+                  <p>Mon - Sat: 8:00 AM - 6:00 PM<br>Sunday & Holidays: By Appointment</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-fast-response-card">
+              <span class="contact-fast-response-icon"><i class="fa-solid fa-bolt"></i></span>
+              <div>
+                <h3>We respond within 1 business hour!</h3>
+                <p>Our team is ready to assist you with your CCTV and security needs.</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT PERSONS -->
+    <section class="bg-gray-100 py-4">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="about-page-section-heading">
+          <p>Talk to the Right Team</p>
+          <h2>Reach the person who can help with your concern.</h2>
+        </div>
+
+        <div class="contact-person-grid">
+          <article class="home-soft-card contact-person-card">
+            <img src="./assets/images/contact/profile-placeholder.svg" alt="Sales inquiry contact profile placeholder" class="contact-person-avatar">
+            <div class="contact-person-copy">
+              <p>Sales Inquiry</p>
+              <h3>Sales Team</h3>
+              <span>Product & package assistance</span>
+              <div class="contact-person-divider"></div>
+              <a href="tel:+639171112233"><i class="fa-solid fa-phone"></i>0917 111 2233</a>
+              <a href="mailto:sales@rsacctv.com.ph"><i class="fa-solid fa-envelope"></i>sales@rsacctv.com.ph</a>
+            </div>
+          </article>
+
+          <article class="home-soft-card contact-person-card">
+            <img src="./assets/images/contact/profile-placeholder.svg" alt="Site visit booking contact profile placeholder" class="contact-person-avatar">
+            <div class="contact-person-copy">
+              <p>Site Visit Booking</p>
+              <h3>Booking Team</h3>
+              <span>Schedule coordination</span>
+              <div class="contact-person-divider"></div>
+              <a href="tel:+639172223344"><i class="fa-solid fa-phone"></i>0917 222 3344</a>
+              <a href="mailto:booking@rsacctv.com.ph"><i class="fa-solid fa-envelope"></i>booking@rsacctv.com.ph</a>
+            </div>
+          </article>
+
+          <article class="home-soft-card contact-person-card">
+            <img src="./assets/images/contact/profile-placeholder.svg" alt="Customer support contact profile placeholder" class="contact-person-avatar">
+            <div class="contact-person-copy">
+              <p>Customer Support</p>
+              <h3>Support Team</h3>
+              <span>After-sales and service help</span>
+              <div class="contact-person-divider"></div>
+              <a href="tel:+639173334455"><i class="fa-solid fa-phone"></i>0917 333 4455</a>
+              <a href="mailto:support@rsacctv.com.ph"><i class="fa-solid fa-envelope"></i>support@rsacctv.com.ph</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK CONTACT METHODS -->
+    <section class="bg-gray-100 py-4">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="about-page-section-heading">
+          <p>Other Ways to Reach Us</p>
+          <h2>Choose the contact channel that works best for you.</h2>
+        </div>
+
+        <div class="contact-channel-grid">
+          <a href="sms:+639171234567" class="home-soft-card contact-channel-card">
+            <i class="fa-solid fa-message"></i>
+            <h3>SMS</h3>
+            <p>0917 123 4567</p>
+            <span>Send us a message</span>
+          </a>
+
+          <a href="#" class="home-soft-card contact-channel-card">
+            <i class="fa-brands fa-viber"></i>
+            <h3>Viber</h3>
+            <p>0917 123 4567</p>
+            <span>Message us</span>
+          </a>
+
+          <a href="#" class="home-soft-card contact-channel-card">
+            <i class="fa-brands fa-whatsapp"></i>
+            <h3>WhatsApp</h3>
+            <p>0917 123 4567</p>
+            <span>Chat with us</span>
+          </a>
+
+          <a href="#" class="home-soft-card contact-channel-card">
+            <i class="fa-brands fa-square-facebook"></i>
+            <h3>Facebook</h3>
+            <p>/RSACCTV</p>
+            <span>Send a message</span>
+          </a>
+
+          <a href="#" class="home-soft-card contact-channel-card">
+            <i class="fa-brands fa-instagram"></i>
+            <h3>Instagram</h3>
+            <p>@rsacctv.ph</p>
+            <span>Follow us</span>
+          </a>
+
+          <a href="#" class="home-soft-card contact-channel-card">
+            <i class="fa-brands fa-youtube"></i>
+            <h3>YouTube</h3>
+            <p>RSA CCTV PH</p>
+            <span>Watch our videos</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCATION -->
+    <section class="bg-gray-100 py-4">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="contact-location-grid">
+          <div class="home-soft-card contact-map-card" aria-label="Styled map placeholder">
+            <div class="contact-map-grid-lines"></div>
+            <div class="contact-map-road contact-map-road-one"></div>
+            <div class="contact-map-road contact-map-road-two"></div>
+            <div class="contact-map-road contact-map-road-three"></div>
+            <div class="contact-map-water"></div>
+            <div class="contact-map-pin-card">
+              <i class="fa-solid fa-location-dot"></i>
+              <div>
+                <strong>RSA CCTV Installation Services</strong>
+                <span>RSA Building, 123 Security St., Brgy. San Isidro, Marikina City</span>
+              </div>
+            </div>
+            <div class="contact-map-zoom">
+              <span>+</span>
+              <span>−</span>
+            </div>
+          </div>
+
+          <aside class="home-soft-card contact-location-card">
+            <h2 class="contact-section-title">Visit Our Office</h2>
+            <div class="contact-title-underline"></div>
+
+            <div class="contact-location-address">
+              <i class="fa-solid fa-location-dot"></i>
+              <div>
+                <h3>RSA Building</h3>
+                <p>123 Security St., Barangay San Isidro,<br>Marikina City, Metro Manila 1800</p>
+              </div>
+            </div>
+
+            <p class="contact-location-note">
+              We welcome walk-in inquiries during office hours. Please call ahead for site visit bookings.
+            </p>
+
+            <h3 class="contact-coverage-title">Our Coverage Areas</h3>
+            <p class="contact-location-note">
+              Metro Manila • Rizal • Cavite • Laguna • Bulacan • Pampanga • Batangas • Nearby areas
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT CARDS BEFORE CTA -->
+    <section class="bg-gray-100 py-4">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="contact-support-grid">
+          <div class="home-soft-card contact-support-card">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <div>
+              <h3>Need a Site Survey?</h3>
+              <p>Let our team assess your property and recommend the best CCTV placement and coverage.</p>
+            </div>
+          </div>
+
+          <div class="home-soft-card contact-support-card">
+            <i class="fa-solid fa-video"></i>
+            <div>
+              <h3>Need Product Recommendations?</h3>
+              <p>We’ll recommend the right CCTV cameras, recorder, storage and package setup for your needs.</p>
+            </div>
+          </div>
+
+          <div class="home-soft-card contact-support-card">
+            <i class="fa-solid fa-headset"></i>
+            <div>
+              <h3>After-Sales Support</h3>
+              <p>We provide reliable assistance, maintenance guidance and technical support after installation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA - reused from About page -->
+    <section class="products-cta-section bg-black text-white py-10 border-t border-red-950 mt-2">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <p class="text-red-600 text-sm font-bold uppercase mb-3">
+          Need CCTV Installation?
+        </p>
+
+        <h2 class="text-3xl md:text-4xl font-black uppercase mb-4">
+          Ready to Secure Your Property?
+        </h2>
+
+        <p class="text-gray-300 max-w-2xl mx-auto text-sm md:text-base leading-7 mb-8">
+          Book a site visit today and let R.S.A. CCTV Installation Services help you choose
+          the right security solution for your home or business.
+        </p>
+
+        <a href="booking.html"
+          class="inline-block bg-red-700 hover:bg-red-800 text-white font-bold px-8 py-3 rounded">
+          Request Site Visit
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-black text-white py-6">
+    <div class="max-w-7xl mx-auto px-4 text-center text-sm space-y-2">
+      <p class="font-semibold">
+        R.S.A. CCTV Installation Services
+      </p>
+
+      <p class="text-gray-400">
+        Professional CCTV Installation & Maintenance Services
+      </p>
+
+      <p class="text-gray-500 text-xs">
+        © 2026 R.S.A. CCTV Installation Services. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="./assets/js/main.js"></script>
+</body>
+</html>
