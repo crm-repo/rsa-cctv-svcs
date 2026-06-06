@@ -1353,3 +1353,62 @@ document.addEventListener("DOMContentLoaded", function () {
 
   updateButtons();
 });
+
+/* =========================================================
+   Services Page Mobile Swipe Controls
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+  const carousel = document.querySelector(".services-mobile-carousel");
+  const grid = document.querySelector(".services-mobile-swipe-grid");
+  const prevBtn = document.querySelector(".services-carousel-prev");
+  const nextBtn = document.querySelector(".services-carousel-next");
+
+  if (!carousel || !grid || !prevBtn || !nextBtn) return;
+
+  function isMobileView() {
+    return window.matchMedia("(max-width: 767px)").matches;
+  }
+
+  function updateButtons() {
+    if (!isMobileView()) {
+      prevBtn.classList.add("is-hidden");
+      nextBtn.classList.add("is-hidden");
+      return;
+    }
+
+    const maxScrollLeft = grid.scrollWidth - grid.clientWidth;
+    const currentScrollLeft = grid.scrollLeft;
+
+    if (currentScrollLeft <= 10) {
+      prevBtn.classList.add("is-hidden");
+    } else {
+      prevBtn.classList.remove("is-hidden");
+    }
+
+    if (currentScrollLeft >= maxScrollLeft - 10) {
+      nextBtn.classList.add("is-hidden");
+    } else {
+      nextBtn.classList.remove("is-hidden");
+    }
+  }
+
+  nextBtn.addEventListener("click", function () {
+    grid.scrollBy({
+      left: grid.clientWidth,
+      behavior: "smooth"
+    });
+  });
+
+  prevBtn.addEventListener("click", function () {
+    grid.scrollBy({
+      left: -grid.clientWidth,
+      behavior: "smooth"
+    });
+  });
+
+  grid.addEventListener("scroll", updateButtons);
+  window.addEventListener("resize", updateButtons);
+
+  updateButtons();
+});
