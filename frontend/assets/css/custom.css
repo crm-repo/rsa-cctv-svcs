@@ -431,33 +431,195 @@ footer {
   }
 }
 
-/* =========================
-   SERVICES PREVIEW
-========================= */
+/* =========================================================
+   HOMEPAGE SERVICES PREVIEW CARDS
+   Desktop: 4 cards x 2 rows
+   Mobile: 4 cards per swipe page
+========================================================= */
 
-.services-preview-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.home-services-mobile-carousel {
+  position: relative;
 }
 
-.service-preview-card {
+.home-services-preview-grid {
   display: grid;
-  grid-template-rows: 300px auto auto;
-  align-items: start;
-  row-gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
 }
 
-.service-preview-image {
-  width: 90%;
-  height: 300px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.service-preview-title {
-  min-height: 30px;
+.home-service-preview-card {
+  min-height: 132px;
   display: flex;
   align-items: center;
+  gap: 18px;
+
+  padding: 22px 20px;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+
+  color: #111827;
+  text-decoration: none;
+
+  transition: 0.25s ease;
 }
+
+.home-service-preview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+  border-color: rgba(185, 28, 28, 0.24);
+}
+
+.home-service-preview-icon {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+  background: #b91c1c;
+  color: #ffffff;
+}
+
+.home-service-preview-icon i {
+  color: #111827;
+  font-size: 28px;
+  line-height: 1;
+  -webkit-text-stroke: 1.4px #ffffff;
+  paint-order: stroke fill;
+  text-shadow: none;
+}
+
+.home-service-preview-card h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 17px;
+  line-height: 1.25;
+  font-weight: 900;
+}
+
+.home-services-carousel-btn {
+  display: none;
+}
+
+/* Media Query Scope: Homepage Services Preview - Tablet */
+@media (min-width: 768px) and (max-width: 1180px) {
+  .home-services-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Media Query Scope: Homepage Services Preview Swipe - Mobile Portrait */
+@media (max-width: 767px) and (orientation: portrait) {
+  .home-services-mobile-carousel {
+    position: relative;
+    overflow: visible;
+  }
+
+  .home-services-preview-grid {
+    display: grid !important;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(4, minmax(0, auto));
+    grid-auto-columns: 100%;
+    grid-template-columns: none !important;
+
+    gap: 18px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    padding: 2px 0 8px;
+
+    scrollbar-width: none;
+  }
+
+  .home-services-preview-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-service-preview-card {
+    scroll-snap-align: start;
+    min-height: 118px;
+    padding: 20px;
+  }
+
+  .home-service-preview-icon {
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+  }
+
+  .home-service-preview-icon i {
+    color: #111827;
+    font-size: 25px;
+    -webkit-text-stroke: 1.4px #ffffff;
+    paint-order: stroke fill;
+    text-shadow: none;
+  }
+
+  .home-service-preview-card h3 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  .home-services-carousel-btn {
+    position: absolute;
+    top: 50%;
+    z-index: 8;
+
+    width: 42px;
+    height: 64px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(-50%);
+
+    border: 0;
+    border-radius: 999px;
+
+    color: #ffffff;
+    background: rgba(17, 24, 39, 0.32);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+
+  .home-services-carousel-btn i {
+    font-size: 17px;
+  }
+
+  .home-services-carousel-btn:hover {
+    background: rgba(17, 24, 39, 0.48);
+  }
+
+  .home-services-carousel-btn.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .home-services-carousel-prev {
+    left: -8px;
+  }
+
+  .home-services-carousel-next {
+    right: -8px;
+  }
+}
+
+
+
 
 /* =========================
    HOME PACKAGE PREVIEW DOTS
@@ -480,6 +642,329 @@ footer {
 .home-package-dot.active {
   background: #b91c1c;
 }
+
+/* =========================================================
+   HOMEPAGE RECOMMENDED PACKAGES ARROWS
+   Keeps existing dot page indicator
+========================================================= */
+
+.home-package-carousel-wrap {
+  position: relative;
+}
+
+.home-package-arrow {
+  display: none;
+}
+
+/* Media Query Scope: Homepage Recommended Packages Arrows - Phone Portrait */
+@media (max-width: 799px) and (orientation: portrait) {
+  .home-package-carousel-wrap {
+    position: relative;
+    overflow: visible;
+  }
+
+  .home-package-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 8;
+
+    width: 42px;
+    height: 64px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(-50%);
+
+    border: 0;
+    border-radius: 999px;
+
+    color: #ffffff;
+    background: rgba(17, 24, 39, 0.32);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+
+  .home-package-arrow i {
+    font-size: 17px;
+  }
+
+  .home-package-arrow:hover {
+    background: rgba(17, 24, 39, 0.48);
+  }
+
+  .home-package-arrow.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .home-package-arrow-prev {
+    left: -8px;
+  }
+
+  .home-package-arrow-next {
+    right: -8px;
+  }
+}
+
+/* Media Query Scope: Homepage Recommended Packages Arrows - Small Phone Landscape */
+@media (max-height: 430px) and (orientation: landscape) {
+  .home-package-carousel-wrap {
+    position: relative;
+    overflow: visible;
+  }
+
+  .home-package-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 8;
+
+    width: 42px;
+    height: 64px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(-50%);
+
+    border: 0;
+    border-radius: 999px;
+
+    color: #ffffff;
+    background: rgba(17, 24, 39, 0.32);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+
+  .home-package-arrow i {
+    font-size: 17px;
+  }
+
+  .home-package-arrow:hover {
+    background: rgba(17, 24, 39, 0.48);
+  }
+
+  .home-package-arrow.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .home-package-arrow-prev {
+    left: -8px;
+  }
+
+  .home-package-arrow-next {
+    right: -8px;
+  }
+}
+
+/* =========================================================
+   HOMEPAGE FEATURED PRODUCTS ARROWS
+   Keeps existing dots page indicator
+========================================================= */
+
+.home-featured-carousel-wrap {
+  position: relative;
+}
+
+.home-featured-arrow {
+  display: none;
+}
+
+/* Media Query Scope: Homepage Featured Products Arrows - Phone Portrait */
+@media (max-width: 767px) and (orientation: portrait) {
+  .home-featured-carousel-wrap {
+    position: relative;
+    overflow: visible;
+  }
+
+  .home-featured-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 8;
+
+    width: 42px;
+    height: 64px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(-50%);
+
+    border: 0;
+    border-radius: 999px;
+
+    color: #ffffff;
+    background: rgba(17, 24, 39, 0.32);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+
+  .home-featured-arrow i {
+    font-size: 17px;
+  }
+
+  .home-featured-arrow:hover {
+    background: rgba(17, 24, 39, 0.48);
+  }
+
+  .home-featured-arrow.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .home-featured-arrow-prev {
+    left: -8px;
+  }
+
+  .home-featured-arrow-next {
+    right: -8px;
+  }
+}
+
+/* =========================================================
+   HOMEPAGE PRODUCTS ON SALE ARROWS
+   Keeps existing dots page indicator
+========================================================= */
+
+.home-promo-carousel-wrap {
+  position: relative;
+}
+
+.home-promo-arrow {
+  display: none;
+}
+
+/* Media Query Scope: Homepage Products On Sale Arrows - Phone Portrait */
+@media (max-width: 767px) and (orientation: portrait) {
+  .home-promo-carousel-wrap {
+    position: relative;
+    overflow: visible;
+  }
+
+  .home-promo-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 8;
+
+    width: 42px;
+    height: 64px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(-50%);
+
+    border: 0;
+    border-radius: 999px;
+
+    color: #ffffff;
+    background: rgba(17, 24, 39, 0.32);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+
+  .home-promo-arrow i {
+    font-size: 17px;
+  }
+
+  .home-promo-arrow:hover {
+    background: rgba(17, 24, 39, 0.48);
+  }
+
+  .home-promo-arrow.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .home-promo-arrow-prev {
+    left: -8px;
+  }
+
+  .home-promo-arrow-next {
+    right: -8px;
+  }
+}
+
+/* =========================================================
+   HOMEPAGE TOP BRANDS ARROWS
+   Keeps existing dots page indicator
+========================================================= */
+
+.home-brands-carousel-wrap {
+  position: relative;
+}
+
+.home-brands-arrow {
+  display: none;
+}
+
+/* Media Query Scope: Homepage Top Brands Arrows - Phone Portrait */
+@media (max-width: 767px) and (orientation: portrait) {
+  .home-brands-carousel-wrap {
+    position: relative;
+    overflow: visible;
+  }
+
+  .home-brands-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 8;
+
+    width: 42px;
+    height: 64px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(-50%);
+
+    border: 0;
+    border-radius: 999px;
+
+    color: #ffffff;
+    background: rgba(17, 24, 39, 0.32);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+
+  .home-brands-arrow i {
+    font-size: 17px;
+  }
+
+  .home-brands-arrow:hover {
+    background: rgba(17, 24, 39, 0.48);
+  }
+
+  .home-brands-arrow.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .home-brands-arrow-prev {
+    left: -8px;
+  }
+
+  .home-brands-arrow-next {
+    right: -8px;
+  }
+}
+
 
 /* MOBILE PORTRAIT ONLY */
 /* Media Query Scope: Homepage Package Preview Slider - Phone Portrait */
@@ -549,37 +1034,6 @@ footer {
     gap: 14px;
     min-height: 20px;
     margin-top: 20px;
-  }
-
-}
-/* ==========================================
-   SMALL PHONE LANDSCAPE
-   Our Services = 1 service slider
-========================================== */
-
-/* Media Query Scope: Homepage Services Preview Slider - Small Phone Landscape */
-@media (max-height: 430px) and (orientation: landscape) {
-
-  #homeServicesSlider.services-preview-grid {
-    display: flex !important;
-    overflow: hidden !important;
-    gap: 0 !important;
-    width: 100% !important;
-  }
-
-  #homeServicesSlider .service-preview-card {
-    min-width: 100% !important;
-    flex: 0 0 100% !important;
-    transition: transform 0.35s ease !important;
-  }
-
-  .home-services-dots {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    gap: 14px;
-    min-height: 20px;
-    margin-top: 24px;
   }
 
 }
@@ -847,101 +1301,6 @@ footer {
   }
 }
 /* =========================
-   HOME SERVICES MOBILE SLIDER
-========================= */
-
-.home-services-dots {
-  display: none;
-}
-
-.home-services-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 9999px;
-  background: #d1d5db;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.home-services-dot.active {
-  background: #b91c1c;
-}
-
-/* Media Query Scope: Homepage Services Slider - Phone Portrait */
-@media (max-width: 799px) and (orientation: portrait) {
-
-  #homeServicesSlider.services-preview-grid {
-    display: flex !important;
-    overflow: hidden !important;
-    gap: 0 !important;
-    width: 100%;
-  }
-
-  #homeServicesSlider .service-preview-card {
-    min-width: 100%;
-    flex: 0 0 100%;
-    transition: transform 0.35s ease;
-  }
-
-  .home-services-dots {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 14px;
-    min-height: 20px;
-    margin-top: 24px;
-  }
-
-}
-/* ==========================================
-   OUR SERVICES - IPAD AIR / IPAD PRO PORTRAIT
-   Restore desktop image proportions
-========================================== */
-
-/* Media Query Scope: Homepage Services Preview - iPad Air / iPad Pro Portrait */
-@media (min-width: 800px) and (max-width: 1366px) and (orientation: portrait) {
-
-  #homeServicesSlider.services-preview-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 24px !important;
-    overflow: visible !important;
-  }
-
-  #homeServicesSlider .service-preview-card {
-    display: grid !important;
-    grid-template-rows: 240px auto auto !important;
-    row-gap: 14px !important;
-    min-width: 0 !important;
-    flex: initial !important;
-    transform: none !important;
-  }
-
-  #homeServicesSlider .service-preview-image {
-    width: 100% !important;
-    height: 230px !important;
-    object-fit: cover !important;
-    object-position: center center !important;
-    display: block !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    border-radius: 8px !important;
-  }
-
-  #homeServicesSlider .service-preview-card h3,
-  #homeServicesSlider .service-preview-card p {
-    width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .home-services-dots {
-    display: none !important;
-  }
-
-}
-/* =========================
    NO RESULT SEARCH
 ========================= */
 
@@ -988,26 +1347,6 @@ footer {
   line-height: 1.7;
 
   color: #6b7280;
-}
-
-/* MOBILE PORTRAIT */
-/* Media Query Scope: Homepage Services Preview Grid - Mobile Portrait */
-@media (max-width: 768px) and (orientation: portrait) {
-
-  .services-preview-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-}
-
-/* MOBILE LANDSCAPE + TABLET */
-/* Media Query Scope: Homepage Services Preview Grid - Tablet and Above */
-@media (min-width: 769px) {
-
-  .services-preview-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-
 }
 
 /* =========================
@@ -2054,43 +2393,6 @@ footer {
 
 }
   */
-/* =========================
-   SERVICES PREVIEW - IPAD MINI PORTRAIT FINAL
-========================= */
-
-/* Media Query Scope: Homepage Services Preview - iPad Mini Portrait */
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-
-  .services-preview-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 34px !important;
-  }
-
-  .service-preview-card {
-    display: grid !important;
-    grid-template-rows: 500px auto auto !important;
-    row-gap: 18px !important;
-  }
-
-  .service-preview-image {
-    width: 78% !important;
-    height: 500px !important;
-    object-fit: cover !important;
-    object-position: center center !important;
-    display: block !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    border-radius: 8px !important;
-  }
-
-  .service-preview-card h3,
-  .service-preview-card p {
-    width: 78% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-}
 /* =========================
    PRODUCTS HERO
 ========================= */

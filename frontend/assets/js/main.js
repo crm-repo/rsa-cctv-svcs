@@ -29,10 +29,13 @@ if (mobileMenuButton && mobileMenu && mobileMenuOverlay) {
 
 /* =========================
    FEATURED PRODUCTS PAGING
+   Dots + left/right arrows
 ========================= */
 
 const featuredGrid = document.getElementById("featuredProductsGrid");
 const featuredDotsContainer = document.getElementById("featuredProductsDots");
+const featuredPrevBtn = document.querySelector(".home-featured-arrow-prev");
+const featuredNextBtn = document.querySelector(".home-featured-arrow-next");
 
 if (featuredGrid && featuredDotsContainer) {
   const productCards = Array.from(featuredGrid.querySelectorAll(".featured-product-card"));
@@ -47,12 +50,42 @@ if (featuredGrid && featuredDotsContainer) {
       : 5;
   }
 
+  function isFeaturedMobileView() {
+    return window.matchMedia("(max-width: 767px) and (orientation: portrait)").matches;
+  }
+
+  function updateFeaturedArrows(totalPages) {
+    if (!featuredPrevBtn || !featuredNextBtn) return;
+
+    if (!isFeaturedMobileView() || totalPages <= 1) {
+      featuredPrevBtn.classList.add("is-hidden");
+      featuredNextBtn.classList.add("is-hidden");
+      return;
+    }
+
+    if (currentPage <= 0) {
+      featuredPrevBtn.classList.add("is-hidden");
+    } else {
+      featuredPrevBtn.classList.remove("is-hidden");
+    }
+
+    if (currentPage >= totalPages - 1) {
+      featuredNextBtn.classList.add("is-hidden");
+    } else {
+      featuredNextBtn.classList.remove("is-hidden");
+    }
+  }
+
   function renderFeaturedProducts() {
     const perPage = getProductsPerPage();
     const totalPages = Math.ceil(productCards.length / perPage);
 
     if (currentPage >= totalPages) {
       currentPage = totalPages - 1;
+    }
+
+    if (currentPage < 0) {
+      currentPage = 0;
     }
 
     productCards.forEach((card, index) => {
@@ -80,6 +113,29 @@ if (featuredGrid && featuredDotsContainer) {
 
       featuredDotsContainer.appendChild(dot);
     }
+
+    updateFeaturedArrows(totalPages);
+  }
+
+  if (featuredNextBtn) {
+    featuredNextBtn.addEventListener("click", () => {
+      const perPage = getProductsPerPage();
+      const totalPages = Math.ceil(productCards.length / perPage);
+
+      if (currentPage < totalPages - 1) {
+        currentPage++;
+        renderFeaturedProducts();
+      }
+    });
+  }
+
+  if (featuredPrevBtn) {
+    featuredPrevBtn.addEventListener("click", () => {
+      if (currentPage > 0) {
+        currentPage--;
+        renderFeaturedProducts();
+      }
+    });
   }
 
   featuredGrid.addEventListener("touchstart", (event) => {
@@ -96,10 +152,10 @@ if (featuredGrid && featuredDotsContainer) {
     const perPage = getProductsPerPage();
     const totalPages = Math.ceil(productCards.length / perPage);
 
-    if (swipeDistance > 0) {
-      currentPage = (currentPage + 1) % totalPages;
-    } else {
-      currentPage = (currentPage - 1 + totalPages) % totalPages;
+    if (swipeDistance > 0 && currentPage < totalPages - 1) {
+      currentPage++;
+    } else if (swipeDistance < 0 && currentPage > 0) {
+      currentPage--;
     }
 
     renderFeaturedProducts();
@@ -114,6 +170,7 @@ if (featuredGrid && featuredDotsContainer) {
 
     if (currentPerPage !== lastFeaturedPerPage) {
       lastFeaturedPerPage = currentPerPage;
+      currentPage = 0;
       renderFeaturedProducts();
     }
   });
@@ -121,10 +178,13 @@ if (featuredGrid && featuredDotsContainer) {
 
 /* =========================
    PROMO PRODUCTS PAGING
+   Dots + left/right arrows
 ========================= */
 
 const promoGrid = document.getElementById("promoProductsGrid");
 const promoDotsContainer = document.getElementById("promoProductsDots");
+const promoPrevBtn = document.querySelector(".home-promo-arrow-prev");
+const promoNextBtn = document.querySelector(".home-promo-arrow-next");
 
 if (promoGrid && promoDotsContainer) {
   const promoCards = Array.from(promoGrid.querySelectorAll(".promo-product-card"));
@@ -138,12 +198,42 @@ if (promoGrid && promoDotsContainer) {
       : 5;
   }
 
+  function isPromoMobileView() {
+    return window.matchMedia("(max-width: 767px) and (orientation: portrait)").matches;
+  }
+
+  function updatePromoArrows(totalPages) {
+    if (!promoPrevBtn || !promoNextBtn) return;
+
+    if (!isPromoMobileView() || totalPages <= 1) {
+      promoPrevBtn.classList.add("is-hidden");
+      promoNextBtn.classList.add("is-hidden");
+      return;
+    }
+
+    if (currentPromoPage <= 0) {
+      promoPrevBtn.classList.add("is-hidden");
+    } else {
+      promoPrevBtn.classList.remove("is-hidden");
+    }
+
+    if (currentPromoPage >= totalPages - 1) {
+      promoNextBtn.classList.add("is-hidden");
+    } else {
+      promoNextBtn.classList.remove("is-hidden");
+    }
+  }
+
   function renderPromoProducts() {
     const perPage = getPromoProductsPerPage();
     const totalPages = Math.ceil(promoCards.length / perPage);
 
     if (currentPromoPage >= totalPages) {
       currentPromoPage = totalPages - 1;
+    }
+
+    if (currentPromoPage < 0) {
+      currentPromoPage = 0;
     }
 
     promoCards.forEach((card, index) => {
@@ -171,6 +261,29 @@ if (promoGrid && promoDotsContainer) {
 
       promoDotsContainer.appendChild(dot);
     }
+
+    updatePromoArrows(totalPages);
+  }
+
+  if (promoNextBtn) {
+    promoNextBtn.addEventListener("click", () => {
+      const perPage = getPromoProductsPerPage();
+      const totalPages = Math.ceil(promoCards.length / perPage);
+
+      if (currentPromoPage < totalPages - 1) {
+        currentPromoPage++;
+        renderPromoProducts();
+      }
+    });
+  }
+
+  if (promoPrevBtn) {
+    promoPrevBtn.addEventListener("click", () => {
+      if (currentPromoPage > 0) {
+        currentPromoPage--;
+        renderPromoProducts();
+      }
+    });
   }
 
   promoGrid.addEventListener("touchstart", (event) => {
@@ -187,11 +300,10 @@ if (promoGrid && promoDotsContainer) {
     const perPage = getPromoProductsPerPage();
     const totalPages = Math.ceil(promoCards.length / perPage);
 
-    if (swipeDistance > 0) {
-      currentPromoPage = (currentPromoPage + 1) % totalPages;
-    } else {
-      currentPromoPage =
-        (currentPromoPage - 1 + totalPages) % totalPages;
+    if (swipeDistance > 0 && currentPromoPage < totalPages - 1) {
+      currentPromoPage++;
+    } else if (swipeDistance < 0 && currentPromoPage > 0) {
+      currentPromoPage--;
     }
 
     renderPromoProducts();
@@ -206,6 +318,7 @@ if (promoGrid && promoDotsContainer) {
 
     if (currentPerPage !== lastPromoPerPage) {
       lastPromoPerPage = currentPerPage;
+      currentPromoPage = 0;
       renderPromoProducts();
     }
   });
@@ -246,10 +359,13 @@ if (promoHeroGrid) {
 
 /* =========================
    HOME PACKAGE MOBILE SLIDER
+   Dots + left/right arrows
 ========================= */
 
 const homePackageSlider = document.getElementById("homePackageSlider");
 const homePackageDots = document.getElementById("homePackageDots");
+const homePackagePrevBtn = document.querySelector(".home-package-arrow-prev");
+const homePackageNextBtn = document.querySelector(".home-package-arrow-next");
 
 if (homePackageSlider && homePackageDots) {
   const packageSlides = Array.from(
@@ -260,15 +376,37 @@ if (homePackageSlider && homePackageDots) {
   let packageTouchStartX = 0;
   let packageTouchEndX = 0;
 
-  function isMobilePortraitView() {
+  function isMobilePackageView() {
     return window.matchMedia(
       "(max-width: 799px) and (orientation: portrait), (max-height: 430px) and (orientation: landscape)"
     ).matches;
   }
 
+  function updateHomePackageArrows() {
+    if (!homePackagePrevBtn || !homePackageNextBtn) return;
+
+    if (!isMobilePackageView()) {
+      homePackagePrevBtn.classList.add("is-hidden");
+      homePackageNextBtn.classList.add("is-hidden");
+      return;
+    }
+
+    if (currentPackageSlide <= 0) {
+      homePackagePrevBtn.classList.add("is-hidden");
+    } else {
+      homePackagePrevBtn.classList.remove("is-hidden");
+    }
+
+    if (currentPackageSlide >= packageSlides.length - 1) {
+      homePackageNextBtn.classList.add("is-hidden");
+    } else {
+      homePackageNextBtn.classList.remove("is-hidden");
+    }
+  }
+
   function renderHomePackageSlider() {
     packageSlides.forEach((slide) => {
-      slide.style.transform = isMobilePortraitView()
+      slide.style.transform = isMobilePackageView()
         ? `translateX(-${currentPackageSlide * 100}%)`
         : "translateX(0)";
     });
@@ -291,15 +429,39 @@ if (homePackageSlider && homePackageDots) {
 
       homePackageDots.appendChild(dot);
     });
+
+    updateHomePackageArrows();
+  }
+
+  if (homePackageNextBtn) {
+    homePackageNextBtn.addEventListener("click", () => {
+      if (!isMobilePackageView()) return;
+
+      if (currentPackageSlide < packageSlides.length - 1) {
+        currentPackageSlide++;
+        renderHomePackageSlider();
+      }
+    });
+  }
+
+  if (homePackagePrevBtn) {
+    homePackagePrevBtn.addEventListener("click", () => {
+      if (!isMobilePackageView()) return;
+
+      if (currentPackageSlide > 0) {
+        currentPackageSlide--;
+        renderHomePackageSlider();
+      }
+    });
   }
 
   homePackageSlider.addEventListener("touchstart", (event) => {
-    if (!isMobilePortraitView()) return;
+    if (!isMobilePackageView()) return;
     packageTouchStartX = event.touches[0].clientX;
   });
 
   homePackageSlider.addEventListener("touchend", (event) => {
-    if (!isMobilePortraitView()) return;
+    if (!isMobilePackageView()) return;
 
     packageTouchEndX = event.changedTouches[0].clientX;
 
@@ -307,13 +469,10 @@ if (homePackageSlider && homePackageDots) {
 
     if (Math.abs(swipeDistance) < 40) return;
 
-    if (swipeDistance > 0) {
-      currentPackageSlide =
-        (currentPackageSlide + 1) % packageSlides.length;
-    } else {
-      currentPackageSlide =
-        (currentPackageSlide - 1 + packageSlides.length) %
-        packageSlides.length;
+    if (swipeDistance > 0 && currentPackageSlide < packageSlides.length - 1) {
+      currentPackageSlide++;
+    } else if (swipeDistance < 0 && currentPackageSlide > 0) {
+      currentPackageSlide--;
     }
 
     renderHomePackageSlider();
@@ -322,7 +481,7 @@ if (homePackageSlider && homePackageDots) {
   renderHomePackageSlider();
 
   window.addEventListener("resize", () => {
-    if (!isMobilePortraitView()) {
+    if (!isMobilePackageView()) {
       currentPackageSlide = 0;
     }
 
@@ -332,10 +491,13 @@ if (homePackageSlider && homePackageDots) {
 
 /* =========================
    HOME TOP BRANDS PAGING
+   Dots + left/right arrows
 ========================= */
 
 const homeBrandsGrid = document.getElementById("homeBrandsGrid");
 const homeBrandsDots = document.getElementById("homeBrandsDots");
+const homeBrandsPrevBtn = document.querySelector(".home-brands-arrow-prev");
+const homeBrandsNextBtn = document.querySelector(".home-brands-arrow-next");
 
 if (homeBrandsGrid && homeBrandsDots) {
   const brandItems = Array.from(
@@ -352,12 +514,42 @@ if (homeBrandsGrid && homeBrandsDots) {
       : 9;  // desktop: 3 columns x 3 rows
   }
 
+  function isHomeBrandsMobileView() {
+    return window.matchMedia("(max-width: 767px) and (orientation: portrait)").matches;
+  }
+
+  function updateHomeBrandsArrows(totalPages) {
+    if (!homeBrandsPrevBtn || !homeBrandsNextBtn) return;
+
+    if (!isHomeBrandsMobileView() || totalPages <= 1) {
+      homeBrandsPrevBtn.classList.add("is-hidden");
+      homeBrandsNextBtn.classList.add("is-hidden");
+      return;
+    }
+
+    if (currentBrandPage <= 0) {
+      homeBrandsPrevBtn.classList.add("is-hidden");
+    } else {
+      homeBrandsPrevBtn.classList.remove("is-hidden");
+    }
+
+    if (currentBrandPage >= totalPages - 1) {
+      homeBrandsNextBtn.classList.add("is-hidden");
+    } else {
+      homeBrandsNextBtn.classList.remove("is-hidden");
+    }
+  }
+
   function renderHomeBrands() {
     const brandsPerPage = getHomeBrandsPerPage();
     const totalPages = Math.ceil(brandItems.length / brandsPerPage);
 
     if (currentBrandPage >= totalPages) {
       currentBrandPage = totalPages - 1;
+    }
+
+    if (currentBrandPage < 0) {
+      currentBrandPage = 0;
     }
 
     brandItems.forEach((item, index) => {
@@ -385,6 +577,29 @@ if (homeBrandsGrid && homeBrandsDots) {
 
       homeBrandsDots.appendChild(dot);
     }
+
+    updateHomeBrandsArrows(totalPages);
+  }
+
+  if (homeBrandsNextBtn) {
+    homeBrandsNextBtn.addEventListener("click", () => {
+      const brandsPerPage = getHomeBrandsPerPage();
+      const totalPages = Math.ceil(brandItems.length / brandsPerPage);
+
+      if (currentBrandPage < totalPages - 1) {
+        currentBrandPage++;
+        renderHomeBrands();
+      }
+    });
+  }
+
+  if (homeBrandsPrevBtn) {
+    homeBrandsPrevBtn.addEventListener("click", () => {
+      if (currentBrandPage > 0) {
+        currentBrandPage--;
+        renderHomeBrands();
+      }
+    });
   }
 
   homeBrandsGrid.addEventListener("touchstart", (event) => {
@@ -401,11 +616,10 @@ if (homeBrandsGrid && homeBrandsDots) {
     const brandsPerPage = getHomeBrandsPerPage();
     const totalPages = Math.ceil(brandItems.length / brandsPerPage);
 
-    if (swipeDistance > 0) {
-      currentBrandPage = (currentBrandPage + 1) % totalPages;
-    } else {
-      currentBrandPage =
-        (currentBrandPage - 1 + totalPages) % totalPages;
+    if (swipeDistance > 0 && currentBrandPage < totalPages - 1) {
+      currentBrandPage++;
+    } else if (swipeDistance < 0 && currentBrandPage > 0) {
+      currentBrandPage--;
     }
 
     renderHomeBrands();
@@ -416,91 +630,6 @@ if (homeBrandsGrid && homeBrandsDots) {
   window.addEventListener("resize", () => {
     currentBrandPage = 0;
     renderHomeBrands();
-  });
-}
-/* =========================
-   HOME SERVICES MOBILE SLIDER
-========================= */
-
-const homeServicesSlider = document.getElementById("homeServicesSlider");
-const homeServicesDots = document.getElementById("homeServicesDots");
-
-if (homeServicesSlider && homeServicesDots) {
-  const serviceSlides = Array.from(
-    homeServicesSlider.querySelectorAll(".service-preview-card")
-  );
-
-  let currentServiceSlide = 0;
-  let serviceTouchStartX = 0;
-  let serviceTouchEndX = 0;
-
-  function isServicesMobilePortrait() {
-    return window.matchMedia(
-      "(max-width: 799px) and (orientation: portrait), (max-height: 430px) and (orientation: landscape)"
-    ).matches;
-  }
-
-  function renderHomeServicesSlider() {
-    serviceSlides.forEach((slide) => {
-      slide.style.transform = isServicesMobilePortrait()
-        ? `translateX(-${currentServiceSlide * 100}%)`
-        : "translateX(0)";
-    });
-
-    homeServicesDots.innerHTML = "";
-
-    serviceSlides.forEach((_, index) => {
-      const dot = document.createElement("button");
-      dot.type = "button";
-      dot.className = "home-services-dot";
-
-      if (index === currentServiceSlide) {
-        dot.classList.add("active");
-      }
-
-      dot.addEventListener("click", () => {
-        currentServiceSlide = index;
-        renderHomeServicesSlider();
-      });
-
-      homeServicesDots.appendChild(dot);
-    });
-  }
-
-  homeServicesSlider.addEventListener("touchstart", (event) => {
-    if (!isServicesMobilePortrait()) return;
-    serviceTouchStartX = event.touches[0].clientX;
-  });
-
-  homeServicesSlider.addEventListener("touchend", (event) => {
-    if (!isServicesMobilePortrait()) return;
-
-    serviceTouchEndX = event.changedTouches[0].clientX;
-
-    const swipeDistance = serviceTouchStartX - serviceTouchEndX;
-
-    if (Math.abs(swipeDistance) < 40) return;
-
-    if (swipeDistance > 0) {
-      currentServiceSlide =
-        (currentServiceSlide + 1) % serviceSlides.length;
-    } else {
-      currentServiceSlide =
-        (currentServiceSlide - 1 + serviceSlides.length) %
-        serviceSlides.length;
-    }
-
-    renderHomeServicesSlider();
-  });
-
-  renderHomeServicesSlider();
-
-  window.addEventListener("resize", () => {
-    if (!isServicesMobilePortrait()) {
-      currentServiceSlide = 0;
-    }
-
-    renderHomeServicesSlider();
   });
 }
 
@@ -1363,6 +1492,64 @@ document.addEventListener("DOMContentLoaded", function () {
   const grid = document.querySelector(".services-mobile-swipe-grid");
   const prevBtn = document.querySelector(".services-carousel-prev");
   const nextBtn = document.querySelector(".services-carousel-next");
+
+  if (!carousel || !grid || !prevBtn || !nextBtn) return;
+
+  function isMobileView() {
+    return window.matchMedia("(max-width: 767px)").matches;
+  }
+
+  function updateButtons() {
+    if (!isMobileView()) {
+      prevBtn.classList.add("is-hidden");
+      nextBtn.classList.add("is-hidden");
+      return;
+    }
+
+    const maxScrollLeft = grid.scrollWidth - grid.clientWidth;
+    const currentScrollLeft = grid.scrollLeft;
+
+    if (currentScrollLeft <= 10) {
+      prevBtn.classList.add("is-hidden");
+    } else {
+      prevBtn.classList.remove("is-hidden");
+    }
+
+    if (currentScrollLeft >= maxScrollLeft - 10) {
+      nextBtn.classList.add("is-hidden");
+    } else {
+      nextBtn.classList.remove("is-hidden");
+    }
+  }
+
+  nextBtn.addEventListener("click", function () {
+    grid.scrollBy({
+      left: grid.clientWidth,
+      behavior: "smooth"
+    });
+  });
+
+  prevBtn.addEventListener("click", function () {
+    grid.scrollBy({
+      left: -grid.clientWidth,
+      behavior: "smooth"
+    });
+  });
+
+  grid.addEventListener("scroll", updateButtons);
+  window.addEventListener("resize", updateButtons);
+
+  updateButtons();
+});
+/* =========================================================
+   Homepage Services Preview Mobile Swipe Controls
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+  const carousel = document.querySelector(".home-services-mobile-carousel");
+  const grid = document.querySelector(".home-services-preview-grid");
+  const prevBtn = document.querySelector(".home-services-carousel-prev");
+  const nextBtn = document.querySelector(".home-services-carousel-next");
 
   if (!carousel || !grid || !prevBtn || !nextBtn) return;
 
