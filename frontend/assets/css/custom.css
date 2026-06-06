@@ -5398,6 +5398,22 @@ footer {
   transform: translateY(-2px);
 }
 
+.about-why-mobile-carousel {
+  position: relative;
+}
+
+.about-mobile-carousel-btn {
+  display: none;
+}
+
+.about-gallery-mobile-carousel {
+  position: relative;
+}
+
+.about-gallery-carousel-btn {
+  display: none;
+}
+
 /* =========================================================
    FINAL BLACK CTA SPACING ON ABOUT PAGE
    Keeps red strip close to CTA below
@@ -5418,6 +5434,10 @@ footer {
     font-size: 44px;
     line-height: 1.08;
     max-width: 650px;
+  }
+
+  .about-page-hero-bg {
+    opacity: 0.4;
   }
 
   .about-page-highlight-grid,
@@ -5495,7 +5515,7 @@ footer {
   .about-page-hero-bg {
     background-position: 90% center;
     background-size: auto 122%;
-    opacity: 0.8;
+    opacity: 0.4;
   }
 
   .about-page-hero-overlay {
@@ -5575,7 +5595,7 @@ footer {
     background-image: url("../images/about/about-hero.jpg");
     background-position: 90% center;
     background-size: auto 100%;
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   .about-page-hero-overlay {
@@ -5786,6 +5806,159 @@ footer {
   .about-page .products-cta-section {
     margin-top: 0 !important;
   }
+  /* =========================================================
+   ABOUT WHY CHOOSE MOBILE SWIPE CAROUSEL
+   Mobile only: 3 cards per swipe page
+========================================================= */
+
+  .about-why-mobile-carousel {
+    position: relative;
+    overflow: visible;
+  }
+
+  .about-mobile-swipe-grid {
+    display: grid !important;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, minmax(0, auto));
+    grid-auto-columns: 100%;
+    grid-template-columns: none !important;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding: 2px 0 8px;
+  }
+
+  .about-mobile-swipe-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .about-mobile-swipe-grid {
+    scrollbar-width: none;
+  }
+
+  .about-mobile-swipe-grid .about-page-why-item {
+    scroll-snap-align: start;
+    min-height: 108px;
+  }
+
+  .about-mobile-carousel-btn {
+    position: absolute;
+    top: 50%;
+    z-index: 8;
+    width: 42px;
+    height: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: 999px;
+    color: #ffffff;
+    background: rgba(17, 24, 39, 0.32);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+
+  .about-mobile-carousel-btn i {
+    font-size: 18px;
+  }
+
+  .about-mobile-carousel-btn:hover {
+    background: rgba(17, 24, 39, 0.48);
+  }
+
+  .about-mobile-carousel-btn.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .about-mobile-carousel-prev {
+    left: -8px;
+  }
+
+  .about-mobile-carousel-next {
+    right: -8px;
+  }
+
+/* =========================================================
+   ABOUT PROJECT GALLERY MOBILE SWIPE CAROUSEL
+   Mobile only: 3 gallery cards per swipe page
+========================================================= */
+  .about-gallery-mobile-carousel {
+    position: relative;
+    overflow: visible;
+  }
+
+  .about-gallery-swipe-grid {
+    display: grid !important;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, minmax(0, auto));
+    grid-auto-columns: 100%;
+    grid-template-columns: none !important;
+    gap: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding: 2px 0 8px;
+  }
+
+  .about-gallery-swipe-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .about-gallery-swipe-grid {
+    scrollbar-width: none;
+  }
+
+  .about-gallery-swipe-grid .about-page-gallery-item {
+    scroll-snap-align: start;
+  }
+
+  .about-gallery-carousel-btn {
+    position: absolute;
+    top: 50%;
+    z-index: 8;
+    width: 42px;
+    height: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: 999px;
+    color: #ffffff;
+    background: rgba(17, 24, 39, 0.32);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+
+  .about-gallery-carousel-btn i {
+    font-size: 17px;
+  }
+
+  .about-gallery-carousel-btn:hover {
+    background: rgba(17, 24, 39, 0.48);
+  }
+
+  .about-gallery-carousel-btn.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .about-gallery-carousel-prev {
+    left: -8px;
+  }
+
+  .about-gallery-carousel-next {
+    right: -8px;
+  }
 }
 
 /* =========================================================
@@ -5808,7 +5981,7 @@ footer {
   .about-page-hero-bg {
     background-position: 90% center;
     background-size: auto 128%;
-    opacity: 0.8;
+    opacity: 0.4;
   }
 
   .about-page-hero-overlay {
@@ -5916,6 +6089,19 @@ footer {
     width: 52px;
     height: 52px;
     font-size: 22px;
+  }
+}
+/* =========================================================
+   ABOUT US PAGE - IPAD PRO / LARGE TABLET LANDSCAPE
+   Fix hero image black gap on wide landscape screens
+========================================================= */
+
+@media (min-width: 1181px) and (max-width: 1366px) and (orientation: landscape) {
+  .about-page-hero-bg {
+    max-width: none;
+    width: 100%;
+    background-size: cover;
+    background-position: 85% center;
   }
 }
     /* =========================================================
@@ -6184,6 +6370,12 @@ footer {
       }
     }
 
+    .services-page-hero-bg {
+      background-position: 90% center;
+      background-size: auto 100%;
+      opacity: 0.4;
+    }
+
     /* Media Query Scope: Services Page - Tablet / Small Desktop Cards and Process */
     @media (max-width: 1024px) {
       .services-page-cards-grid {
@@ -6335,7 +6527,7 @@ footer {
       .services-page-hero-bg {
         background-position: 90% center;
         background-size: auto 128%;
-        opacity: 0.8;
+        opacity: 0.4;
       }
 
       .services-page-hero-copy {
@@ -6354,3 +6546,16 @@ footer {
         line-height: 1.55;
       }
     }
+    /* =========================================================
+   SERVICES PAGE - IPAD PRO / LARGE TABLET LANDSCAPE
+   Fix hero image black gap on wide landscape screens
+========================================================= */
+
+@media (min-width: 1181px) and (max-width: 1366px) and (orientation: landscape) {
+  .services-page-hero-bg {
+    max-width: none;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+  }
+}

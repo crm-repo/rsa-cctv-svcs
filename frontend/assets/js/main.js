@@ -1237,3 +1237,119 @@ if (brandsStrip) {
     }
   });
 }
+/* =========================================================
+   About Page Why Choose Mobile Swipe Controls
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+  const carousel = document.querySelector(".about-why-mobile-carousel");
+  const grid = document.querySelector(".about-mobile-swipe-grid");
+  const prevBtn = document.querySelector(".about-mobile-carousel-prev");
+  const nextBtn = document.querySelector(".about-mobile-carousel-next");
+
+  if (!carousel || !grid || !prevBtn || !nextBtn) return;
+
+  function isMobileView() {
+    return window.matchMedia("(max-width: 767px)").matches;
+  }
+
+  function updateButtons() {
+    if (!isMobileView()) {
+      prevBtn.classList.add("is-hidden");
+      nextBtn.classList.add("is-hidden");
+      return;
+    }
+
+    const maxScrollLeft = grid.scrollWidth - grid.clientWidth;
+    const currentScrollLeft = grid.scrollLeft;
+
+    if (currentScrollLeft <= 10) {
+      prevBtn.classList.add("is-hidden");
+    } else {
+      prevBtn.classList.remove("is-hidden");
+    }
+
+    if (currentScrollLeft >= maxScrollLeft - 10) {
+      nextBtn.classList.add("is-hidden");
+    } else {
+      nextBtn.classList.remove("is-hidden");
+    }
+  }
+
+  nextBtn.addEventListener("click", function () {
+    grid.scrollBy({
+      left: grid.clientWidth,
+      behavior: "smooth"
+    });
+  });
+
+  prevBtn.addEventListener("click", function () {
+    grid.scrollBy({
+      left: -grid.clientWidth,
+      behavior: "smooth"
+    });
+  });
+
+  grid.addEventListener("scroll", updateButtons);
+  window.addEventListener("resize", updateButtons);
+
+  updateButtons();
+});
+/* =========================================================
+   About Page Project Gallery Mobile Swipe Controls
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+  const carousel = document.querySelector(".about-gallery-mobile-carousel");
+  const grid = document.querySelector(".about-gallery-swipe-grid");
+  const prevBtn = document.querySelector(".about-gallery-carousel-prev");
+  const nextBtn = document.querySelector(".about-gallery-carousel-next");
+
+  if (!carousel || !grid || !prevBtn || !nextBtn) return;
+
+  function isMobileView() {
+    return window.matchMedia("(max-width: 767px)").matches;
+  }
+
+  function updateButtons() {
+    if (!isMobileView()) {
+      prevBtn.classList.add("is-hidden");
+      nextBtn.classList.add("is-hidden");
+      return;
+    }
+
+    const maxScrollLeft = grid.scrollWidth - grid.clientWidth;
+    const currentScrollLeft = grid.scrollLeft;
+
+    if (currentScrollLeft <= 10) {
+      prevBtn.classList.add("is-hidden");
+    } else {
+      prevBtn.classList.remove("is-hidden");
+    }
+
+    if (currentScrollLeft >= maxScrollLeft - 10) {
+      nextBtn.classList.add("is-hidden");
+    } else {
+      nextBtn.classList.remove("is-hidden");
+    }
+  }
+
+  nextBtn.addEventListener("click", function () {
+    grid.scrollBy({
+      left: grid.clientWidth,
+      behavior: "smooth"
+    });
+  });
+
+  prevBtn.addEventListener("click", function () {
+    grid.scrollBy({
+      left: -grid.clientWidth,
+      behavior: "smooth"
+    });
+  });
+
+  grid.addEventListener("scroll", updateButtons);
+  window.addEventListener("resize", updateButtons);
+
+  updateButtons();
+});
