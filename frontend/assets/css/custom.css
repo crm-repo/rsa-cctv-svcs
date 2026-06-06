@@ -618,7 +618,190 @@ footer {
   }
 }
 
+/* =========================================================
+   HOMEPAGE OUR SERVICES - SMALL PHONE LANDSCAPE ARROW FIX
+   Fixes arrows showing as normal top/bottom elements
+========================================================= */
 
+@media (max-width: 950px) and (max-height: 430px) and (orientation: landscape) {
+  .home-services-mobile-carousel {
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  .home-services-carousel-btn {
+    position: absolute !important;
+    top: 50% !important;
+    z-index: 20 !important;
+
+    width: 36px !important;
+    height: 54px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    transform: translateY(-50%) !important;
+
+    border: 0 !important;
+    border-radius: 999px !important;
+
+    color: #ffffff !important;
+    background: rgba(17, 24, 39, 0.32) !important;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10) !important;
+
+    cursor: pointer !important;
+    transition: 0.25s ease !important;
+  }
+
+  .home-services-carousel-btn i {
+    color: #ffffff !important;
+    font-size: 15px !important;
+    line-height: 1 !important;
+  }
+
+  .home-services-carousel-btn:hover {
+    background: rgba(17, 24, 39, 0.48) !important;
+  }
+
+  .home-services-carousel-btn.is-hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .home-services-carousel-prev {
+    left: -8px !important;
+  }
+
+  .home-services-carousel-next {
+    right: -8px !important;
+  }
+}
+
+/* =========================================================
+   HOMEPAGE OUR SERVICES - IPHONE SE LANDSCAPE ONLY
+   Keeps larger landscape phones unaffected
+   iPhone SE landscape viewport is around 667px x 375px
+========================================================= */
+
+@media (max-width: 760px) and (max-height: 430px) and (orientation: landscape)  {
+  .home-services-mobile-carousel {
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  .home-services-preview-grid {
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-template-rows: repeat(2, minmax(0, auto)) !important;
+    grid-auto-columns: calc((100% - 14px) / 2) !important;
+    grid-template-columns: none !important;
+
+    gap: 14px !important;
+
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    padding: 2px 0 8px !important;
+
+    scrollbar-width: none;
+  }
+
+  .home-services-preview-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-service-preview-card {
+    scroll-snap-align: start;
+
+    min-height: 92px !important;
+    padding: 14px 12px !important;
+    gap: 12px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+
+  .home-service-preview-icon {
+    width: 48px !important;
+    height: 48px !important;
+    flex: 0 0 48px !important;
+  }
+
+  .home-service-preview-icon i {
+    color: #111827 !important;
+    font-size: 21px !important;
+    line-height: 1 !important;
+    -webkit-text-stroke: 1.2px #ffffff !important;
+    paint-order: stroke fill;
+    text-shadow: none !important;
+  }
+
+  .home-service-preview-card h3 {
+    margin: 0 !important;
+    color: #111827 !important;
+    font-size: 13px !important;
+    line-height: 1.18 !important;
+    font-weight: 900 !important;
+
+    max-width: 150px !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+
+  .home-services-carousel-btn {
+    position: absolute !important;
+    top: 50% !important;
+    z-index: 20 !important;
+
+    width: 36px !important;
+    height: 54px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    transform: translateY(-50%) !important;
+
+    border: 0 !important;
+    border-radius: 999px !important;
+
+    color: #ffffff !important;
+    background: rgba(17, 24, 39, 0.32) !important;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10) !important;
+
+    cursor: pointer !important;
+    transition: 0.25s ease !important;
+  }
+
+  .home-services-carousel-btn i {
+    color: #ffffff !important;
+    font-size: 15px !important;
+    line-height: 1 !important;
+  }
+
+  .home-services-carousel-btn:hover {
+    background: rgba(17, 24, 39, 0.48) !important;
+  }
+
+  .home-services-carousel-btn.is-hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .home-services-carousel-prev {
+    left: -8px !important;
+  }
+
+  .home-services-carousel-next {
+    right: -8px !important;
+  }
+}
 
 
 /* =========================
@@ -1202,6 +1385,129 @@ footer {
     margin-top: 24px;
   }
 
+}
+
+/* =========================================================
+   HOMEPAGE ABOUT PREVIEW - IPAD MINI LANDSCAPE FIX
+   Keeps Learn More button on one line
+========================================================= */
+
+@media (min-width: 950px) and (max-width: 1200px) and (orientation: landscape) {
+  .why-choose-button-wrapper {
+    display: flex !important;
+    justify-content: flex-end !important;
+    margin-top: 22px !important;
+  }
+
+  .about-learn-more-btn {
+    white-space: nowrap !important;
+    min-width: 132px !important;
+    width: auto !important;
+    min-height: 48px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 22px !important;
+    line-height: 1 !important;
+    text-align: center !important;
+  }
+}
+
+/* =========================================================
+   HOMEPAGE ABOUT + TOP BRANDS - IPAD AIR / IPAD PRO PORTRAIT
+   Forces:
+   [ About Us + Why Choose Us ] [ Top Brands ]
+========================================================= */
+
+@media (min-width: 820px) and (max-width: 1366px) and (orientation: portrait) {
+  .content-card-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 24px !important;
+    align-items: stretch !important;
+
+    width: 100% !important;
+    max-width: 1280px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .content-card-grid > .home-soft-card {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .about-why-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) !important;
+    gap: 24px !important;
+    align-items: start !important;
+  }
+
+  .about-content {
+    margin-top: 0 !important;
+  }
+
+  .why-choose-content {
+    text-align: left !important;
+  }
+
+  .why-choose-content ul {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .why-choose-button-wrapper {
+    display: flex !important;
+    justify-content: flex-end !important;
+    margin-top: 20px !important;
+  }
+
+  .about-learn-more-btn {
+    white-space: nowrap !important;
+    width: auto !important;
+    min-width: 132px !important;
+    min-height: 46px !important;
+
+    margin-left: auto !important;
+    margin-right: 0 !important;
+
+    padding: 0 22px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    line-height: 1 !important;
+    text-align: center !important;
+  }
+
+  .home-brands-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 18px 20px !important;
+
+    height: 220px !important;
+    min-height: 220px !important;
+    align-content: start !important;
+  }
+
+  .home-brand-item {
+    height: 64px !important;
+  }
+
+  .home-brand-logo-box {
+    height: 58px !important;
+  }
+
+  .home-brand-logo-box img {
+    max-width: 170px !important;
+    max-height: 90px !important;
+  }
 }
 
 /* =========================
