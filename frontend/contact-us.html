@@ -8,7 +8,6 @@
 
   <link href="./assets/css/output.css" rel="stylesheet">
   <link href="./assets/css/custom.css" rel="stylesheet">
-  <link href="./assets/css/contact-us.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 
@@ -172,7 +171,6 @@
 
   <main class="bg-gray-100">
 
-    <!-- BODY BREADCRUMB + MAIN CONTACT -->
     <section class="bg-gray-100 py-10">
       <div class="max-w-7xl mx-auto px-4">
         <nav class="products-breadcrumb contact-page-breadcrumb" aria-label="Breadcrumb">
@@ -204,7 +202,16 @@
 
               <div class="contact-form-field">
                 <label for="subject">Subject <span class="contact-required">*</span></label>
-                <input id="subject" name="subject" type="text" placeholder="What is this regarding?" required>
+                <select id="subject" name="subject" required>
+                  <option value="" selected disabled>What is this regarding?</option>
+                  <option value="site_visit">Site Visit Request</option>
+                  <option value="product_inquiry">Product Inquiry</option>
+                  <option value="package_inquiry">Package Inquiry</option>
+                  <option value="installation_service">Installation Service</option>
+                  <option value="maintenance_repair">Maintenance / Repair</option>
+                  <option value="after_sales_support">After-Sales Support</option>
+                  <option value="general_inquiry">General Inquiry</option>
+                </select>
               </div>
 
               <div class="contact-form-field contact-form-field-full">
@@ -232,7 +239,7 @@
               <div class="contact-info-item">
                 <span class="contact-info-icon"><i class="fa-solid fa-phone"></i></span>
                 <div>
-                  <h3>Primary Contact Number</h3>
+                  <h3>Contact Numbers</h3>
                   <p><strong>(02) 8924 7890</strong><br><strong>0917 123 4567</strong></p>
                 </div>
               </div>
@@ -240,7 +247,7 @@
               <div class="contact-info-item">
                 <span class="contact-info-icon"><i class="fa-solid fa-envelope"></i></span>
                 <div>
-                  <h3>Company Email</h3>
+                  <h3>Email</h3>
                   <p><strong>info@rsacctv.com.ph</strong></p>
                 </div>
               </div>
@@ -248,8 +255,16 @@
               <div class="contact-info-item">
                 <span class="contact-info-icon"><i class="fa-solid fa-location-dot"></i></span>
                 <div>
-                  <h3>Company Address</h3>
+                  <h3>Office Address</h3>
                   <p>RSA Building, 123 Security St.,<br>Barangay San Isidro, Marikina City,<br>Metro Manila, Philippines 1800</p>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <span class="contact-info-icon"><i class="fa-solid fa-store"></i></span>
+                <div>
+                  <h3>Showroom</h3>
+                  <p>RSA CCTV Showroom, Ground Floor,<br>Security Center, Marcos Highway,<br>Cainta, Rizal, Philippines 1900</p>
                 </div>
               </div>
 
@@ -263,7 +278,7 @@
             </div>
 
             <div class="contact-fast-response-card">
-              <span class="contact-fast-response-icon"><i class="fa-solid fa-bolt"></i></span>
+              <span class="contact-fast-response-icon"><i class="fa-solid fa-bolt-lightning"></i></span>
               <div>
                 <h3>We respond within 1 business hour!</h3>
                 <p>Our team is ready to assist you with your CCTV and security needs.</p>
@@ -287,7 +302,7 @@
             <img src="./assets/images/contact/profile-placeholder.svg" alt="Sales inquiry contact profile placeholder" class="contact-person-avatar">
             <div class="contact-person-copy">
               <p>Sales Inquiry</p>
-              <h3>Sales Team</h3>
+              <h3>Michael Austria</h3>
               <span>Product & package assistance</span>
               <div class="contact-person-divider"></div>
               <a href="tel:+639171112233"><i class="fa-solid fa-phone"></i>0917 111 2233</a>
@@ -299,7 +314,7 @@
             <img src="./assets/images/contact/profile-placeholder.svg" alt="Site visit booking contact profile placeholder" class="contact-person-avatar">
             <div class="contact-person-copy">
               <p>Site Visit Booking</p>
-              <h3>Booking Team</h3>
+              <h3>Cheryl Alcantara</h3>
               <span>Schedule coordination</span>
               <div class="contact-person-divider"></div>
               <a href="tel:+639172223344"><i class="fa-solid fa-phone"></i>0917 222 3344</a>
@@ -311,7 +326,7 @@
             <img src="./assets/images/contact/profile-placeholder.svg" alt="Customer support contact profile placeholder" class="contact-person-avatar">
             <div class="contact-person-copy">
               <p>Customer Support</p>
-              <h3>Support Team</h3>
+              <h3>Helen Cunanan</h3>
               <span>After-sales and service help</span>
               <div class="contact-person-divider"></div>
               <a href="tel:+639173334455"><i class="fa-solid fa-phone"></i>0917 333 4455</a>
@@ -330,48 +345,58 @@
           <h2>Choose the contact channel that works best for you.</h2>
         </div>
 
-        <div class="contact-channel-grid">
-          <a href="sms:+639171234567" class="home-soft-card contact-channel-card">
-            <i class="fa-solid fa-message"></i>
-            <h3>SMS</h3>
-            <p>0917 123 4567</p>
-            <span>Send us a message</span>
-          </a>
+        <div class="contact-channel-mobile-carousel">
+          <button class="contact-channel-carousel-btn contact-channel-carousel-prev is-hidden" type="button" aria-label="Previous contact channels">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
 
-          <a href="#" class="home-soft-card contact-channel-card">
-            <i class="fa-brands fa-viber"></i>
-            <h3>Viber</h3>
-            <p>0917 123 4567</p>
-            <span>Message us</span>
-          </a>
+          <div class="contact-channel-grid contact-channel-swipe-grid">
+            <a href="sms:+639171234567" class="home-soft-card contact-channel-card">
+              <i class="fa-solid fa-message"></i>
+              <h3>SMS</h3>
+              <p>0917 123 4567</p>
+              <span>Send us a message</span>
+            </a>
 
-          <a href="#" class="home-soft-card contact-channel-card">
-            <i class="fa-brands fa-whatsapp"></i>
-            <h3>WhatsApp</h3>
-            <p>0917 123 4567</p>
-            <span>Chat with us</span>
-          </a>
+            <a href="#" class="home-soft-card contact-channel-card">
+              <i class="fa-brands fa-viber"></i>
+              <h3>Viber</h3>
+              <p>0917 123 4567</p>
+              <span>Message us</span>
+            </a>
 
-          <a href="#" class="home-soft-card contact-channel-card">
-            <i class="fa-brands fa-square-facebook"></i>
-            <h3>Facebook</h3>
-            <p>/RSACCTV</p>
-            <span>Send a message</span>
-          </a>
+            <a href="#" class="home-soft-card contact-channel-card">
+              <i class="fa-brands fa-whatsapp"></i>
+              <h3>WhatsApp</h3>
+              <p>0917 123 4567</p>
+              <span>Chat with us</span>
+            </a>
 
-          <a href="#" class="home-soft-card contact-channel-card">
-            <i class="fa-brands fa-instagram"></i>
-            <h3>Instagram</h3>
-            <p>@rsacctv.ph</p>
-            <span>Follow us</span>
-          </a>
+            <a href="#" class="home-soft-card contact-channel-card">
+              <i class="fa-brands fa-square-facebook"></i>
+              <h3>Facebook</h3>
+              <p>/RSACCTV</p>
+              <span>Send a message</span>
+            </a>
 
-          <a href="#" class="home-soft-card contact-channel-card">
-            <i class="fa-brands fa-youtube"></i>
-            <h3>YouTube</h3>
-            <p>RSA CCTV PH</p>
-            <span>Watch our videos</span>
-          </a>
+            <a href="#" class="home-soft-card contact-channel-card">
+              <i class="fa-brands fa-instagram"></i>
+              <h3>Instagram</h3>
+              <p>@rsacctv.ph</p>
+              <span>Follow us</span>
+            </a>
+
+            <a href="#" class="home-soft-card contact-channel-card">
+              <i class="fa-brands fa-youtube"></i>
+              <h3>YouTube</h3>
+              <p>RSA CCTV PH</p>
+              <span>Watch our videos</span>
+            </a>
+          </div>
+
+          <button class="contact-channel-carousel-btn contact-channel-carousel-next" type="button" aria-label="Next contact channels">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
       </div>
     </section>
@@ -425,33 +450,39 @@
     </section>
 
     <!-- SUPPORT CARDS BEFORE CTA -->
-    <section class="bg-gray-100 py-4">
-      <div class="max-w-7xl mx-auto px-4">
-        <div class="contact-support-grid">
-          <div class="home-soft-card contact-support-card">
+    <section class="contact-service-features-strip-wrap">
+      <div class="contact-service-features-strip">
+
+        <div class="contact-service-feature-item">
+          <div class="feature-card-icon">
             <i class="fa-solid fa-clipboard-check"></i>
-            <div>
-              <h3>Need a Site Survey?</h3>
-              <p>Let our team assess your property and recommend the best CCTV placement and coverage.</p>
-            </div>
           </div>
-
-          <div class="home-soft-card contact-support-card">
-            <i class="fa-solid fa-video"></i>
-            <div>
-              <h3>Need Product Recommendations?</h3>
-              <p>We’ll recommend the right CCTV cameras, recorder, storage and package setup for your needs.</p>
-            </div>
-          </div>
-
-          <div class="home-soft-card contact-support-card">
-            <i class="fa-solid fa-headset"></i>
-            <div>
-              <h3>After-Sales Support</h3>
-              <p>We provide reliable assistance, maintenance guidance and technical support after installation.</p>
-            </div>
+          <div>
+            <h4>Need a Site Survey?</h4>
+            <p>Let our team assess your property and recommend the best CCTV placement and coverage.</p>
           </div>
         </div>
+
+        <div class="contact-service-feature-item">
+          <div class="feature-card-icon">
+            <i class="fa-solid fa-video"></i>
+          </div>
+          <div>
+            <h4>Need Product Recommendations?</h4>
+            <p>We’ll recommend the right CCTV cameras, recorder, storage and package setup for your needs.</p>
+          </div>
+        </div>
+
+        <div class="contact-service-feature-item">
+          <div class="feature-card-icon">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <div>
+            <h4>After-Sales Support</h4>
+            <p>We provide reliable assistance, maintenance guidance and technical support after installation.</p>
+          </div>
+        </div>
+
       </div>
     </section>
 
