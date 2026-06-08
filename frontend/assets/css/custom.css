@@ -10063,6 +10063,11 @@ display: none;
     font-size: 12px !important;
     line-height: 1.4 !important;
   }
+
+  .booking-page main > section > .max-w-7xl {
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+  }
 }
 
 /* =========================================================
@@ -10105,6 +10110,11 @@ display: none;
     font-size: 13px !important;
     line-height: 1.45 !important;
   }
+
+  .booking-page main > section > .max-w-7xl {
+    padding-left: 34px !important;
+    padding-right: 34px !important;
+  }
 }
 
 /* =========================================================
@@ -10146,6 +10156,10 @@ display: none;
   .booking-page .booking-request-card p {
     font-size: 13px !important;
     line-height: 1.45 !important;
+  }
+  .booking-page main > section > .max-w-7xl {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
   }
 }
 
