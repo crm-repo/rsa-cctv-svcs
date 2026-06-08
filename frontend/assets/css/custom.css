@@ -8893,7 +8893,6 @@ display: none;
   margin-bottom: 28px !important;
 }
 
-
 .booking-intro-grid {
   display: block;
   margin-bottom: 26px;
@@ -8903,6 +8902,10 @@ display: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .booking-intro-copy p {
@@ -8915,7 +8918,9 @@ display: none;
 }
 
 .booking-intro-copy h2 {
-  max-width: 760px;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
   color: var(--rsa-text);
   font-size: 34px;
   line-height: 1.08;
@@ -8926,7 +8931,9 @@ display: none;
 
 .booking-intro-copy span {
   display: block;
-  max-width: 760px;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 14px;
   color: var(--rsa-muted);
   font-size: 14px;
@@ -10025,6 +10032,18 @@ display: none;
   .booking-page-hero-desc {
     max-width: 540px;
     font-size: 17px;
+  }
+
+  .booking-page .booking-intro-copy h2 {
+    font-size: 30px;
+    line-height: 1.12;
+    max-width: 720px;
+  }
+
+  .booking-page .booking-intro-copy span {
+    max-width: 720px;
+    font-size: 13px;
+    line-height: 1.6;
   }
 
   /* Booking request cards: iPad Mini portrait 2x2 layout */
