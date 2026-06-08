@@ -8812,10 +8812,10 @@ display: none;
   position: absolute;
   inset: 0;
   left: 50% !important;
-  transform: translateX(-50%) !important;
+  transform: translateX(-51%) !important;
   width: 100%;
   max-width: 1280px;
-  background-image: url("../images/booking/booking-hero.png");
+  background-image: url("../images/booking/booking-hero.jpg");
   background-repeat: no-repeat;
   background-position: right center;
   background-size: cover;
@@ -8988,17 +8988,22 @@ display: none;
   padding: 24px;
 }
 
+.booking-form-card {
+  padding: 30px 28px 28px;
+}
+
 .booking-form-heading {
-  margin-bottom: 22px;
+  margin-bottom: 28px;
+  padding-bottom: 2px;
 }
 
 .booking-form-heading p {
   color: var(--rsa-red);
   font-size: 14px;
   font-weight: 900;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.7px;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .booking-form-heading h2,
@@ -9013,10 +9018,15 @@ display: none;
 
 .booking-form-heading span {
   display: block;
-  max-width: 720px;
+  max-width: 760px;
+  margin-top: 0;
   color: var(--rsa-muted);
   font-size: 14px;
   line-height: 1.65;
+}
+
+.booking-form-heading h2 {
+  margin-bottom: 14px;
 }
 
 .booking-title-underline {
@@ -9041,7 +9051,8 @@ display: none;
   color: var(--rsa-text);
   font-size: 13px;
   font-weight: 800;
-  margin-bottom: 7px;
+  margin-bottom: 9px;
+  line-height: 1.25;
 }
 
 .booking-required {
@@ -9052,18 +9063,20 @@ display: none;
 .booking-form-field textarea,
 .booking-form-field select {
   width: 100%;
+  min-height: 52px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
   background: #ffffff;
   color: var(--rsa-text);
   font-size: 14px;
-  padding: 12px 13px;
+  padding: 14px 15px;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .booking-form-field textarea {
-  min-height: 170px;
+  min-height: 190px;
+  padding-top: 16px;
   resize: vertical;
 }
 
@@ -9084,12 +9097,12 @@ display: none;
 
 .booking-submit-btn {
   width: 100%;
-  min-height: 50px;
+  min-height: 54px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 22px;
+  margin-top: 26px;
   border: 0;
   border-radius: 8px;
   background: var(--rsa-red);
@@ -9110,7 +9123,7 @@ display: none;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin: 14px 0 0;
+  margin: 16px 0 0;
   color: #6b7280;
   font-size: 12px;
   line-height: 1.5;
@@ -9328,237 +9341,6 @@ display: none;
 }
 
 /* =========================================================
-   RESPONSIVE: LARGE TABLET / SMALL DESKTOP
-========================================================= */
-@media (max-width: 1180px) {
-  .booking-page-hero-copy h1 {
-    font-size: 44px;
-    line-height: 1.08;
-    max-width: 650px;
-  }
-
-  .booking-page-hero-bg {
-    opacity: 0.82;
-  }
-
-  .booking-intro-copy h2 {
-    font-size: 30px;
-  }
-
-  .booking-help-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* =========================================================
-   RESPONSIVE: TABLET AND BELOW
-========================================================= */
-@media (max-width: 991px) {
-  .booking-main-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .booking-side-stack {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .booking-info-card {
-    grid-column: 1 / -1;
-  }
-
-  .booking-intro-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .booking-trust-strip {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* =========================================================
-   RESPONSIVE: TABLET PORTRAIT
-========================================================= */
-@media (min-width: 768px) and (max-width: 900px) and (orientation: portrait) {
-  .booking-page-hero,
-  .booking-page-hero-content {
-    min-height: 430px;
-  }
-
-  .booking-page-hero-bg {
-    background-position: 82% center;
-    background-size: cover;
-    opacity: 0.55;
-  }
-
-  .booking-page-hero-copy {
-    max-width: 620px;
-  }
-
-  .booking-page-hero-copy h1 {
-    font-size: 42px;
-    line-height: 1.08;
-    max-width: 600px;
-  }
-
-  .booking-page-hero-desc {
-    max-width: 540px;
-    font-size: 17px;
-  }
-}
-
-/* =========================================================
-   RESPONSIVE: MOBILE PORTRAIT
-========================================================= */
-@media (max-width: 767px) {
-  .booking-page-hero {
-    min-height: 390px;
-  }
-
-  .booking-page-hero-bg {
-    background-position: 74% center;
-    background-size: cover;
-    opacity: 0.48;
-  }
-
-  .booking-page-hero-bg::before {
-    background: linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.72) 48%, rgba(0,0,0,0.20) 100%);
-  }
-
-  .booking-page-hero-content {
-    min-height: 390px;
-    padding-top: 42px !important;
-    padding-bottom: 42px !important;
-    align-items: center;
-  }
-
-  .booking-page-hero-copy {
-    max-width: 340px;
-  }
-
-  .booking-page-hero-copy h1 {
-    font-size: 32px;
-    line-height: 1.08;
-    letter-spacing: -0.8px;
-    max-width: 330px;
-  }
-
-  .booking-page-hero-desc {
-    max-width: 330px;
-    font-size: 14px;
-    line-height: 1.7;
-    margin-top: 18px;
-  }
-
-  .booking-page-hero-actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    max-width: 310px;
-    margin-top: 22px;
-  }
-
-  .booking-page-hero-actions .about-page-primary-btn,
-  .booking-page-hero-actions .about-page-secondary-btn {
-    width: 100%;
-    min-height: 46px;
-    padding: 0 18px;
-  }
-
-  .booking-form-card,
-  .booking-info-card,
-  .booking-contact-card,
-  .booking-reminder-card {
-    padding: 22px;
-  }
-
-  .booking-form-grid,
-  .booking-help-grid,
-  .booking-side-stack {
-    grid-template-columns: 1fr;
-  }
-
-  .booking-intro-copy h2 {
-    font-size: 26px;
-  }
-
-  .booking-alert-card {
-    grid-template-columns: 50px 1fr;
-    min-height: 120px;
-    padding: 22px;
-  }
-
-  .booking-form-heading h2,
-  .booking-section-title {
-    font-size: 24px;
-  }
-
-  .booking-contact-card,
-  .booking-trust-item {
-    grid-template-columns: 58px 1fr;
-    gap: 16px;
-  }
-
-  .booking-help-card {
-    min-height: auto;
-    padding: 22px;
-  }
-
-  .booking-privacy-note {
-    align-items: flex-start;
-    text-align: left;
-  }
-}
-
-/* =========================================================
-   RESPONSIVE: PHONE / SMALL TABLET LANDSCAPE
-========================================================= */
-@media (max-width: 950px) and (orientation: landscape) {
-  .booking-page-hero {
-    min-height: 350px;
-  }
-
-  .booking-page-hero-content {
-    min-height: 350px;
-    padding-top: 36px !important;
-    padding-bottom: 36px !important;
-  }
-
-  .booking-page-hero-bg {
-    background-position: 82% center;
-    background-size: cover;
-    opacity: 0.5;
-  }
-
-  .booking-page-hero-copy {
-    max-width: 620px;
-  }
-
-  .booking-page-hero-copy h1 {
-    font-size: 40px;
-    line-height: 1.08;
-    max-width: 600px;
-  }
-
-  .booking-page-hero-desc {
-    max-width: 560px;
-    font-size: 15px;
-    line-height: 1.55;
-  }
-}
-
-/* =========================================================
-   RESPONSIVE: IPAD PRO / LARGE TABLET LANDSCAPE
-========================================================= */
-@media (min-width: 1181px) and (max-width: 1366px) and (orientation: landscape) {
-  .booking-page-hero-bg {
-    max-width: none;
-    width: 100%;
-    background-size: cover;
-    background-position: center center;
-  }
-}
-
-/* =========================================================
    BOOKING PAGE FINAL SECTION FORMATTING OVERRIDES
    Aligns lower booking support cards with the approved Booking Support format
    and before-CTA cards with the Contact Us before-CTA strip format.
@@ -9720,80 +9502,6 @@ display: none;
   font-size: 40px;
 }
 
-@media (max-width: 1180px) {
-  .booking-support-heading h2 {
-    font-size: 34px !important;
-  }
-
-  .booking-support-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 991px) {
-  .booking-page .booking-alert-card-sidebar {
-    grid-template-columns: 58px 1fr;
-  }
-}
-
-@media (max-width: 767px) {
-  .booking-support-section {
-    padding-top: 22px !important;
-  }
-
-  .booking-support-heading {
-    margin-bottom: 24px !important;
-  }
-
-  .booking-support-heading p {
-    font-size: 14px !important;
-    letter-spacing: 0.5px !important;
-    margin-bottom: 10px !important;
-  }
-
-  .booking-support-heading h2 {
-    font-size: 26px !important;
-    line-height: 1.15 !important;
-  }
-
-  .booking-support-card {
-    min-height: 118px;
-    grid-template-columns: 68px minmax(0, 1fr);
-    gap: 16px;
-    padding: 22px;
-  }
-
-  .booking-support-icon {
-    width: 58px;
-    height: 58px;
-    font-size: 24px;
-  }
-
-  .booking-support-card h3 {
-    font-size: 16px;
-  }
-
-  .booking-support-card p {
-    font-size: 13px;
-    line-height: 1.45;
-  }
-
-  .booking-service-features-strip {
-    grid-template-columns: 1fr;
-  }
-
-  .booking-service-feature-item {
-    border-right: none;
-    border-bottom: 1px solid #f1f5f9;
-  }
-
-  .booking-service-feature-item:last-child {
-    border-bottom: none;
-  }
-}
-
-
-
 /* =========================================================
    BOOKING PAGE FINAL SECTION FORMAT CORRECTION
    Content remains the requested booking-request content.
@@ -9940,89 +9648,6 @@ display: none;
   line-height: 1.45 !important;
   color: #374151 !important;
   margin: 0 !important;
-}
-
-@media (max-width: 1180px) {
-  .booking-request-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-
-@media (max-width: 767px) {
-  .booking-request-section {
-    padding-top: 26px !important;
-    padding-bottom: 22px !important;
-  }
-
-  .booking-request-heading {
-    margin-bottom: 26px !important;
-  }
-
-  .booking-request-heading p {
-    font-size: 14px !important;
-    letter-spacing: 1px !important;
-    margin-bottom: 10px !important;
-  }
-
-  .booking-request-heading h2 {
-    font-size: 28px !important;
-    line-height: 1.12 !important;
-  }
-
-  .booking-request-grid {
-    grid-template-columns: 1fr !important;
-    gap: 16px !important;
-  }
-
-  .booking-request-card {
-    min-height: 118px !important;
-    grid-template-columns: 62px minmax(0, 1fr) !important;
-    gap: 16px !important;
-    padding: 20px !important;
-  }
-
-  .booking-request-icon {
-    width: 58px !important;
-    height: 58px !important;
-    font-size: 23px !important;
-  }
-
-  .booking-request-icon i {
-    font-size: 23px !important;
-  }
-
-  .booking-request-card h3 {
-    font-size: 17px !important;
-    margin-bottom: 6px !important;
-  }
-
-  .booking-request-card p {
-    font-size: 13px !important;
-    line-height: 1.45 !important;
-  }
-
-  .booking-before-cta-strip {
-    grid-template-columns: 1fr !important;
-  }
-
-  .booking-before-cta-item {
-    border-right: none !important;
-    border-bottom: 1px solid #f1f5f9 !important;
-  }
-
-  .booking-before-cta-item:last-child {
-    border-bottom: none !important;
-  }
-}
-
-@media (max-width: 950px) and (orientation: landscape) {
-  .booking-request-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-
-  .booking-request-card {
-    min-height: 126px !important;
-  }
 }
 
 /* =========================================================
@@ -10221,25 +9846,534 @@ display: none;
   margin: 0 !important;
 }
 
-@media (min-width: 1181px) {
-  .booking-page .booking-request-grid {
-    max-width: 1280px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
+/* =========================================================
+   BOOKING REQUEST CARDS - COMPACT 4-CARD ROW UPDATE
+   Keeps the approved icon-left/text-right style, but scales the
+   section down so all 4 request cards fit in one desktop row.
+========================================================= */
+.booking-page .booking-request-section {
+  padding-top: 30px !important;
+  padding-bottom: 28px !important;
 }
 
+.booking-page .booking-request-heading {
+  max-width: 860px !important;
+  margin: 0 auto 30px !important;
+}
+
+.booking-page .booking-request-heading p {
+  color: #b91c1c !important;
+  font-size: 16px !important;
+  line-height: 1.15 !important;
+  font-weight: 900 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  margin: 0 0 14px !important;
+}
+
+.booking-page .booking-request-heading h2 {
+  max-width: 820px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  color: #111827 !important;
+  font-size: 36px !important;
+  line-height: 1.12 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.8px !important;
+}
+
+.booking-page .booking-request-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  max-width: 1280px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.booking-page .booking-request-card {
+  min-height: 148px !important;
+  display: grid !important;
+  grid-template-columns: 68px minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 16px !important;
+  padding: 22px 18px !important;
+  border-radius: 14px !important;
+  text-align: left !important;
+  overflow: hidden !important;
+}
+
+.booking-page .booking-request-icon {
+  width: 64px !important;
+  height: 64px !important;
+  min-width: 64px !important;
+  min-height: 64px !important;
+  flex: 0 0 64px !important;
+  justify-self: center !important;
+  align-self: center !important;
+  border-radius: 999px !important;
+  background: #c5161d !important;
+  color: #111827 !important;
+}
+
+.booking-page .booking-request-icon i {
+  color: #111827 !important;
+  font-size: 27px !important;
+  line-height: 1 !important;
+  -webkit-text-stroke: 1.35px #ffffff !important;
+  paint-order: stroke fill !important;
+  text-shadow: none !important;
+}
+
+.booking-page .booking-request-card h3 {
+  color: #111827 !important;
+  font-size: 17px !important;
+  line-height: 1.22 !important;
+  font-weight: 900 !important;
+  margin: 0 0 7px !important;
+  letter-spacing: 0 !important;
+}
+
+.booking-page .booking-request-card p {
+  color: #374151 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+/* =========================================================
+   RESPONSIVE: LARGE TABLET / SMALL DESKTOP
+========================================================= 
 @media (max-width: 1180px) {
-  .booking-page .booking-request-heading h2 {
-    font-size: 34px !important;
+
+  .booking-support-grid {
+    grid-template-columns: 1fr;
   }
+
+  .booking-request-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
 
   .booking-page .booking-request-grid {
     grid-template-columns: 1fr !important;
   }
+
+
+  .booking-page .booking-request-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+  }
+
+  .booking-page .booking-request-card {
+    min-height: 132px !important;
+    grid-template-columns: 72px minmax(0, 1fr) !important;
+    padding: 22px !important;
+  }
+}*/
+
+/* =========================================================
+   RESPONSIVE: TABLET AND BELOW
+========================================================= 
+@media (max-width: 991px) {
+  .booking-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-side-stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .booking-info-card {
+    grid-column: 1 / -1;
+  }
+
+  .booking-intro-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-trust-strip {
+    grid-template-columns: 1fr;
+  }
+}*/
+
+/* =========================================================
+   RESPONSIVE: TABLET PORTRAIT
+========================================================= */
+@media (min-width: 768px) and (max-width: 900px) and (orientation: portrait) {
+  .booking-page-hero,
+  .booking-page-hero-content {
+    min-height: 430px;
+  }
+
+  .booking-page-hero-bg {
+    background-position: 82% center;
+    background-size: cover;
+    opacity: 0.8;
+  }
+
+  .booking-page-hero-copy {
+    max-width: 620px;
+  }
+
+  .booking-page-hero-copy h1 {
+    font-size: 42px;
+    line-height: 1.08;
+    max-width: 600px;
+  }
+
+  .booking-page-hero-desc {
+    max-width: 540px;
+    font-size: 17px;
+  }
+
+  /* Booking request cards: iPad Mini portrait 2x2 layout */
+  .booking-page .booking-request-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  .booking-page .booking-request-card {
+    min-height: 118px !important;
+    grid-template-columns: 58px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    padding: 18px !important;
+  }
+
+  .booking-page .booking-request-icon {
+    width: 54px !important;
+    height: 54px !important;
+    min-width: 54px !important;
+    min-height: 54px !important;
+    flex-basis: 54px !important;
+  }
+
+  .booking-page .booking-request-icon i {
+    font-size: 22px !important;
+    -webkit-text-stroke: 1.15px #ffffff !important;
+  }
+
+  .booking-page .booking-request-card h3 {
+    font-size: 15px !important;
+    line-height: 1.18 !important;
+    margin-bottom: 5px !important;
+  }
+
+  .booking-page .booking-request-card p {
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+  }
 }
 
+/* =========================================================
+   RESPONSIVE: IPAD PRO PORTRAIT
+   Booking request cards = 2x2 layout
+========================================================= */
+@media (min-width: 901px) and (max-width: 1100px) and (orientation: portrait) {
+  .booking-page .booking-request-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+  }
+
+  .booking-page .booking-request-card {
+    min-height: 126px !important;
+    grid-template-columns: 68px minmax(0, 1fr) !important;
+    gap: 16px !important;
+    padding: 22px !important;
+  }
+
+  .booking-page .booking-request-icon {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px !important;
+    min-height: 58px !important;
+    flex-basis: 58px !important;
+  }
+
+  .booking-page .booking-request-icon i {
+    font-size: 24px !important;
+    -webkit-text-stroke: 1.2px #ffffff !important;
+  }
+
+  .booking-page .booking-request-card h3 {
+    font-size: 17px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 6px !important;
+  }
+
+  .booking-page .booking-request-card p {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE: IPAD MINI LANDSCAPE
+   Booking request cards = 2x2 layout
+========================================================= */
+@media (min-width: 951px) and (max-width: 1100px) and (orientation: landscape) {
+  .booking-page .booking-request-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+  }
+
+  .booking-page .booking-request-card {
+    min-height: 126px !important;
+    grid-template-columns: 68px minmax(0, 1fr) !important;
+    gap: 16px !important;
+    padding: 22px !important;
+  }
+
+  .booking-page .booking-request-icon {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px !important;
+    min-height: 58px !important;
+    flex-basis: 58px !important;
+  }
+
+  .booking-page .booking-request-icon i {
+    font-size: 24px !important;
+    -webkit-text-stroke: 1.2px #ffffff !important;
+  }
+
+  .booking-page .booking-request-card h3 {
+    font-size: 17px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 6px !important;
+  }
+
+  .booking-page .booking-request-card p {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE: MOBILE PORTRAIT
+========================================================= */
 @media (max-width: 767px) {
+  .booking-page-hero {
+    min-height: 390px;
+  }
+
+  .booking-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-page-hero-bg {
+    background-position: 74% center;
+    background-size: cover;
+    opacity: 0.8;
+  }
+
+  .booking-page-hero-bg::before {
+    background: linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.72) 48%, rgba(0,0,0,0.20) 100%);
+  }
+
+  .booking-page-hero-content {
+    min-height: 390px;
+    padding-top: 42px !important;
+    padding-bottom: 42px !important;
+    align-items: center;
+  }
+
+  .booking-page-hero-copy {
+    max-width: 340px;
+  }
+
+  .booking-page-hero-copy h1 {
+    font-size: 32px;
+    line-height: 1.08;
+    letter-spacing: -0.8px;
+    max-width: 330px;
+  }
+
+  .booking-page-hero-desc {
+    max-width: 330px;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-top: 18px;
+  }
+
+  .booking-page-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    max-width: 310px;
+    margin-top: 22px;
+  }
+
+  .booking-page-hero-actions .about-page-primary-btn,
+  .booking-page-hero-actions .about-page-secondary-btn {
+    width: 100%;
+    min-height: 46px;
+    padding: 0 18px;
+  }
+
+  .booking-form-card,
+  .booking-info-card,
+  .booking-contact-card,
+  .booking-reminder-card {
+    padding: 22px;
+  }
+
+  .booking-form-grid,
+  .booking-help-grid,
+  .booking-side-stack {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-intro-copy h2 {
+    font-size: 26px;
+  }
+
+  .booking-alert-card {
+    grid-template-columns: 50px 1fr;
+    min-height: 120px;
+    padding: 22px;
+  }
+
+  .booking-form-heading h2,
+  .booking-section-title {
+    font-size: 24px;
+  }
+
+  .booking-contact-card,
+  .booking-trust-item {
+    grid-template-columns: 58px 1fr;
+    gap: 16px;
+  }
+
+  .booking-help-card {
+    min-height: auto;
+    padding: 22px;
+  }
+
+  .booking-privacy-note {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .booking-support-section {
+    padding-top: 22px !important;
+  }
+
+  .booking-support-heading {
+    margin-bottom: 24px !important;
+  }
+
+  .booking-support-heading p {
+    font-size: 14px !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .booking-support-heading h2 {
+    font-size: 26px !important;
+    line-height: 1.15 !important;
+  }
+
+  .booking-support-card {
+    min-height: 118px;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 16px;
+    padding: 22px;
+  }
+
+  .booking-support-icon {
+    width: 58px;
+    height: 58px;
+    font-size: 24px;
+  }
+
+  .booking-support-card h3 {
+    font-size: 16px;
+  }
+
+  .booking-support-card p {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .booking-service-features-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-service-feature-item {
+    border-right: none;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .booking-service-feature-item:last-child {
+    border-bottom: none;
+  }
+
+  .booking-request-section {
+    padding-top: 26px !important;
+    padding-bottom: 22px !important;
+  }
+
+  .booking-request-heading {
+    margin-bottom: 26px !important;
+  }
+
+  .booking-request-heading p {
+    font-size: 14px !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .booking-request-heading h2 {
+    font-size: 28px !important;
+    line-height: 1.12 !important;
+  }
+
+  .booking-request-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .booking-request-card {
+    min-height: 118px !important;
+    grid-template-columns: 62px minmax(0, 1fr) !important;
+    gap: 16px !important;
+    padding: 20px !important;
+  }
+
+  .booking-request-icon {
+    width: 58px !important;
+    height: 58px !important;
+    font-size: 23px !important;
+  }
+
+  .booking-request-icon i {
+    font-size: 23px !important;
+  }
+
+  .booking-request-card h3 {
+    font-size: 17px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .booking-request-card p {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+  }
+
+  .booking-before-cta-strip {
+    grid-template-columns: 1fr !important;
+  }
+
+  .booking-before-cta-item {
+    border-right: none !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+  }
+
+  .booking-before-cta-item:last-child {
+    border-bottom: none !important;
+  }
+
   .booking-page .booking-request-section {
     padding-top: 24px !important;
     padding-bottom: 22px !important;
@@ -10307,4 +10441,235 @@ display: none;
   .booking-page .booking-before-cta-item:last-child {
     border-bottom: none !important;
   }
+
+  .booking-page .booking-request-section {
+    padding-top: 24px !important;
+    padding-bottom: 22px !important;
+  }
+
+  .booking-page .booking-request-heading {
+    margin-bottom: 24px !important;
+  }
+
+  .booking-page .booking-request-heading p {
+    font-size: 14px !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .booking-page .booking-request-heading h2 {
+    font-size: 28px !important;
+    line-height: 1.12 !important;
+  }
+
+  .booking-page .booking-request-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .booking-page .booking-request-card {
+    min-height: 118px !important;
+    grid-template-columns: 64px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    padding: 20px !important;
+  }
+
+  .booking-page .booking-request-icon {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px !important;
+    min-height: 58px !important;
+    flex-basis: 58px !important;
+  }
+
+  .booking-page .booking-request-icon i {
+    font-size: 24px !important;
+    -webkit-text-stroke: 1.2px #ffffff !important;
+  }
+
+  .booking-page .booking-request-card h3 {
+    font-size: 16px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .booking-page .booking-request-card p {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+  }
+
+  .booking-form-card {
+    padding: 24px 22px;
+  }
+
+  .booking-form-heading {
+    margin-bottom: 24px;
+  }
+
+  .booking-form-heading p {
+    margin-bottom: 10px;
+  }
+
+  .booking-form-heading h2 {
+    margin-bottom: 12px;
+  }
+
+  .booking-form-grid {
+    gap: 20px;
+  }
+
+  .booking-form-field input,
+  .booking-form-field textarea,
+  .booking-form-field select {
+    min-height: 50px;
+    padding: 13px 14px;
+  }
+
+  .booking-form-field textarea {
+    min-height: 170px;
+  }
+
+  .booking-submit-btn {
+    margin-top: 24px;
+  }
 }
+
+/* =========================================================
+   RESPONSIVE: PHONE / SMALL TABLET LANDSCAPE
+========================================================= */
+@media (max-width: 950px) and (orientation: landscape) {
+  .booking-page-hero {
+    min-height: 350px;
+  }
+
+  .booking-page-hero-content {
+    min-height: 350px;
+    padding-top: 36px !important;
+    padding-bottom: 36px !important;
+  }
+
+  .booking-page-hero-bg {
+    background-position: 82% center;
+    background-size: cover;
+    opacity: 0.8;
+  }
+
+  .booking-page-hero-copy {
+    max-width: 620px;
+  }
+
+  .booking-page-hero-copy h1 {
+    font-size: 40px;
+    line-height: 1.08;
+    max-width: 600px;
+  }
+
+  .booking-page-hero-desc {
+    max-width: 560px;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+ /* Mobile landscape layout should behave closer to mobile portrait,
+     not desktop/tablet. This intentionally differs from the commented
+     1180px block, which used 2 request-card columns. */
+
+  .booking-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-side-stack {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-info-card {
+    grid-column: auto;
+  }
+
+  .booking-intro-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-trust-strip {
+    grid-template-columns: 1fr;
+  }
+
+  /* Booking request cards: mobile landscape 2x2 layout */
+  .booking-page .booking-request-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  .booking-page .booking-request-card {
+    min-height: 118px !important;
+    grid-template-columns: 58px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    padding: 18px !important;
+  }
+
+  .booking-page .booking-request-icon {
+    width: 54px !important;
+    height: 54px !important;
+    min-width: 54px !important;
+    min-height: 54px !important;
+    flex-basis: 54px !important;
+  }
+
+  .booking-page .booking-request-icon i {
+    font-size: 22px !important;
+    -webkit-text-stroke: 1.15px #ffffff !important;
+  }
+
+  .booking-page .booking-request-card h3 {
+    font-size: 15px !important;
+    line-height: 1.18 !important;
+    margin-bottom: 5px !important;
+  }
+
+  .booking-page .booking-request-card p {
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+  }
+
+  .booking-before-cta-strip {
+    grid-template-columns: 1fr !important;
+  }
+
+  .booking-before-cta-item {
+    border-right: none !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+  }
+
+  .booking-before-cta-item:last-child {
+    border-bottom: none !important;
+  }
+
+}
+
+/* =========================================================
+   RESPONSIVE: IPAD PRO / LARGE TABLET LANDSCAPE
+========================================================= */
+@media (min-width: 1181px) and (max-width: 1366px) and (orientation: landscape) {
+  .booking-page-hero-bg {
+    max-width: none;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+  }
+}
+
+/*
+@media (max-width: 991px) {
+  .booking-page .booking-alert-card-sidebar {
+    grid-template-columns: 58px 1fr;
+  }
+}*/
+
+
+/*
+@media (min-width: 1181px) {
+  .booking-page .booking-request-grid {
+    max-width: 1280px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}*/
