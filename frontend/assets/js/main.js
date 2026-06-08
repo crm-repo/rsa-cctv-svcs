@@ -649,6 +649,7 @@ const productsEmptyState = document.getElementById("productsEmptyState");
 const productsSortDropdown = document.getElementById("productsSortDropdown");
 const brandFilterItems = document.querySelectorAll(".brand-strip-item");
 const isPromotionsPage = document.body.classList.contains("promotions-page");
+const isBrandsPage = document.body.classList.contains("brands-page");
 
 if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
   const allProductCards = Array.from(
@@ -660,6 +661,7 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
   let currentSearch = "";
   let currentSort = "default";
   let currentBrand = "all";
+  let currentBrandLabel = "";
 
   function getProductsPerPage() {
     const isMobilePortrait = window.matchMedia(
@@ -693,6 +695,11 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
 
   function getFilteredProducts() {
     let filtered = [...allProductCards];
+
+    // Brands page should not show products until a brand is selected.
+    if (isBrandsPage && currentBrand === "all") {
+      return [];
+    }
 
   if (isPromotionsPage) {
 
@@ -819,10 +826,38 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
 
     const totalProducts = filteredProducts.length;
 
+    const brandPromptActive = isBrandsPage && currentBrand === "all";
+
+    document.body.classList.toggle("brands-no-brand", brandPromptActive);
+
+    if (productsSortDropdown) {
+      productsSortDropdown.disabled = brandPromptActive;
+    }
+
     if (productsEmptyState) {
+      const emptyIcon = productsEmptyState.querySelector("i");
+      const emptyTitle = productsEmptyState.querySelector("h3");
+      const emptyText = productsEmptyState.querySelector("p");
+
+      if (brandPromptActive) {
+        if (emptyIcon) emptyIcon.className = "fa-solid fa-tags";
+        if (emptyTitle) emptyTitle.textContent = "Select a brand to view products.";
+        if (emptyText) {
+          emptyText.textContent =
+            "Choose a brand above, then use All Products or the category buttons to narrow the results.";
+        }
+      } else {
+        if (emptyIcon) emptyIcon.className = "fa-solid fa-magnifying-glass";
+        if (emptyTitle) emptyTitle.textContent = "No products found.";
+        if (emptyText) {
+          emptyText.textContent =
+            "Try another keyword or select a different category.";
+        }
+      }
+
       productsEmptyState.classList.toggle(
         "hidden",
-        totalProducts > 0
+        totalProducts > 0 && !brandPromptActive
       );
     }
 
@@ -845,7 +880,9 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     });
 
     if (productsCount) {
-      if (totalProducts > 0) {
+      if (brandPromptActive) {
+        productsCount.textContent = "Select a brand to view products";
+      } else if (totalProducts > 0) {
         productsCount.textContent =
           `Showing ${start + 1}–${Math.min(end, totalProducts)} of ${totalProducts} products`;
       } else {
@@ -922,6 +959,15 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
         return;
       }
 
+      // On Brands page, category buttons should only work after a brand is selected.
+      if (isBrandsPage && currentBrand === "all") {
+        productFilterButtons.forEach((btn) => btn.classList.remove("active"));
+        currentFilter = "all";
+        currentProductsPage = 0;
+        renderProductsPage();
+        return;
+      }
+
       productFilterButtons.forEach((btn) => {
         if (!(isPromotionsPage && btn.dataset.filter === "sale")) {
           btn.classList.remove("active");
@@ -945,8 +991,15 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
       };
 
       if (productsSectionTitle) {
-        productsSectionTitle.textContent =
-          filterTitles[currentFilter] || "Products";
+        if (isBrandsPage && currentBrandLabel) {
+          productsSectionTitle.textContent =
+            currentFilter === "all"
+              ? `${currentBrandLabel} Products`
+              : `${currentBrandLabel} ${filterTitles[currentFilter] || "Products"}`;
+        } else {
+          productsSectionTitle.textContent =
+            filterTitles[currentFilter] || "Products";
+        }
       }
 
       currentProductsPage = 0;
@@ -960,18 +1013,47 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     item.addEventListener("click", () => {
 
       const selectedBrand = item.dataset.brandFilter || "all";
+      const selectedBrandLabel =
+        item.querySelector("img")?.getAttribute("alt") || selectedBrand;
+
       const isAlreadyActive = item.classList.contains("active");
 
       brandFilterItems.forEach((brand) => {
         brand.classList.remove("active");
       });
 
+      productFilterButtons.forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
       if (isAlreadyActive) {
         currentBrand = "all";
+        currentBrandLabel = "";
+        currentFilter = "all";
+
+        if (productsSectionTitle) {
+          productsSectionTitle.textContent = "Products per Brand";
+        }
       } else {
         item.classList.add("active");
+
         currentBrand = selectedBrand;
+        currentBrandLabel = selectedBrandLabel;
+        currentFilter = "all";
+
+        const allProductsButton = Array.from(productFilterButtons).find(
+          (btn) => btn.dataset.filter === "all"
+        );
+
+        if (allProductsButton) {
+          allProductsButton.classList.add("active");
+        }
+
+        if (productsSectionTitle) {
+          productsSectionTitle.textContent = `${currentBrandLabel} Products`;
+        }
       }
+
       currentProductsPage = 0;
       renderProductsPage();
     });
