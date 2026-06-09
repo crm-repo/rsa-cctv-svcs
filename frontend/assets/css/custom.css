@@ -5004,7 +5004,9 @@ footer {
   }
 
   .brands-page .brand-scroll-btn {
-    display: none !important;
+	  display: flex !important;
+	  opacity: 1 !important;
+	  pointer-events: auto !important;
   }
 
   /* Fix duplicated mobile title: TOP BRANDSEXPLORE OUR BRANDS */
