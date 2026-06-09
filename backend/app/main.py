@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.routes import health
 
+from app.routes import health, products
+
 app = FastAPI(
     title=settings.APP_NAME,
     version="0.1.0",
@@ -28,3 +30,4 @@ def root():
 
 
 app.include_router(health.router, prefix=settings.API_PREFIX, tags=["Health"])
+app.include_router(products.router, prefix=settings.API_PREFIX, tags=["Products"])
