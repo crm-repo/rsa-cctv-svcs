@@ -3033,6 +3033,39 @@ footer {
     visibility: visible !important;
     pointer-events: auto !important;
   }
+  
+  /* Mobile only: always show brand strip arrows */
+  .product-brand-scroll-btn {
+    width: 42px !important;
+    height: 64px !important;
+
+    border-radius: 999px !important;
+
+    color: #ffffff !important;
+    background: rgba(17, 24, 39, 0.32) !important;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10) !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .product-brand-scroll-btn:hover {
+    background: rgba(17, 24, 39, 0.48) !important;
+  }
+
+  .product-brand-scroll-left {
+    left: -8px !important;
+  }
+
+  .product-brand-scroll-right {
+    right: -8px !important;
+  }
+
+  .products-brand-strip .brand-strip-row {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* =========================
@@ -3176,6 +3209,62 @@ footer {
   opacity: 1;
   transform: scale(1.05);
 }
+
+/* =========================================================
+   PRODUCTS / PROMOTIONS BRAND STRIP ARROWS
+   Desktop: hover-only
+   Mobile: always visible
+========================================================= */
+
+.product-brand-scroll-wrap {
+  position: relative;
+}
+
+.product-brand-scroll-btn {
+  position: absolute;
+  top: 50%;
+  z-index: 8;
+
+  width: 34px;
+  height: 44px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translateY(-54%);
+
+  border: 0;
+  border-radius: 8px;
+
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.45);
+
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.2s ease, background 0.25s ease;
+}
+
+.product-brand-scroll-left {
+  left: 0;
+}
+
+.product-brand-scroll-right {
+  right: 0;
+}
+
+.product-brand-scroll-wrap:hover .product-brand-scroll-btn {
+  opacity: 1;
+}
+
+.product-brand-scroll-btn:hover {
+  background: rgba(0, 0, 0, 0.58);
+}
+
 .products-brand-strip {
   border: 1px solid #e5e7eb;
   box-shadow: 0 4px 14px rgba(0,0,0,0.04);
