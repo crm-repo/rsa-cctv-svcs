@@ -3038,8 +3038,6 @@ footer {
   .product-brand-scroll-btn {
     width: 42px !important;
     height: 64px !important;
-	
-	transform: translateY(-50%);
 
     border-radius: 999px !important;
 
