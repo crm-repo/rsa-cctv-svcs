@@ -1196,6 +1196,34 @@ if (categoryScrollWrap && categoryScrollStrip && categoryScrollLeft && categoryS
   });
 }
 
+/* =========================================================
+   PRODUCTS / PROMOTIONS BRAND STRIP ARROWS
+========================================================= */
+
+const productBrandScrollWraps = document.querySelectorAll(".product-brand-scroll-wrap");
+
+productBrandScrollWraps.forEach((wrap) => {
+  const brandStrip = wrap.querySelector(".brand-strip-row");
+  const brandScrollLeft = wrap.querySelector(".product-brand-scroll-left");
+  const brandScrollRight = wrap.querySelector(".product-brand-scroll-right");
+
+  if (!brandStrip || !brandScrollLeft || !brandScrollRight) return;
+
+  brandScrollLeft.addEventListener("click", () => {
+    brandStrip.scrollBy({
+      left: -260,
+      behavior: "smooth"
+    });
+  });
+
+  brandScrollRight.addEventListener("click", () => {
+    brandStrip.scrollBy({
+      left: 260,
+      behavior: "smooth"
+    });
+  });
+});
+
 /* =========================
    PRODUCT QUICK VIEW MODAL
 ========================= */
