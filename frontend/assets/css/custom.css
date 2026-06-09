@@ -3928,6 +3928,46 @@ footer {
     visibility: visible !important;
     pointer-events: auto !important;
   }
+
+  /* Mobile only: always show brand strip arrows */
+  .product-brand-scroll-btn {
+	  display: inline-flex !important;
+	  position: absolute !important;
+	  top: calc(50% - 16px) !important;
+	  z-index: 8 !important;
+	  align-items: center !important;
+	  justify-content: center !important;
+	  transform: translateY(-50%) !important;
+
+	  width: 42px !important;
+	  height: 64px !important;
+
+	  border-radius: 999px !important;
+
+	  color: #ffffff !important;
+	  background: rgba(17, 24, 39, 0.32) !important;
+	  box-shadow: 0 6px 14px rgba(0,0,0,0.10) !important;
+
+	  opacity: 1 !important;
+	  visibility: visible !important;
+	  pointer-events: auto !important;
+  }
+ 
+  .product-brand-scroll-wrap {
+	  position: relative;
+  }
+
+  .product-brand-scroll-btn:hover {
+    background: rgba(17, 24, 39, 0.48) !important;
+  }
+
+  .product-brand-scroll-left {
+    left: -8px !important;
+  }
+
+  .product-brand-scroll-right {
+    right: -8px !important;
+  }
 }
 /* iPad Air Portrait Fix */
 /* Media Query Scope: Product Modal - iPad Air Portrait */
