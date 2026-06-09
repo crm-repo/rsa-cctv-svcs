@@ -5,6 +5,9 @@ from typing import Literal, Optional
 from pydantic import BaseModel, Field, field_validator
 
 
+InquiryStatus = Literal["New", "Replied", "Closed"]
+
+
 class InquiryCreate(BaseModel):
     product_id: Optional[str] = Field(default=None, max_length=80)
 
@@ -40,6 +43,11 @@ class InquiryCreate(BaseModel):
         return cleaned_value
 
 
+class InquiryUpdate(BaseModel):
+    assigned_person: Optional[str] = Field(default=None, max_length=160)
+    status: Optional[InquiryStatus] = None
+
+
 class Inquiry(BaseModel):
     inquiry_id: str
     customer_id: Optional[str] = None
@@ -54,6 +62,12 @@ class Inquiry(BaseModel):
     source_page: Optional[str] = None
 
     assigned_person: Optional[str] = None
-    status: Literal["New", "Replied", "Closed"] = "New"
+    status: InquiryStatus = "New"
 
     created_at: datetime
+    updated_at: datetime
+
+
+class InquiryListResponse(BaseModel):
+    items: list[Inquiry]
+    total: int

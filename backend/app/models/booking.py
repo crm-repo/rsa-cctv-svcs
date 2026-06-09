@@ -5,6 +5,9 @@ from typing import Literal, Optional
 from pydantic import BaseModel, Field, field_validator
 
 
+BookingStatus = Literal["New", "Contacted", "Scheduled", "Completed", "Cancelled"]
+
+
 class BookingCreate(BaseModel):
     customer_name: str = Field(min_length=2, max_length=160)
     contact_number: str = Field(min_length=5, max_length=40)
@@ -48,6 +51,13 @@ class BookingCreate(BaseModel):
         return value
 
 
+class BookingUpdate(BaseModel):
+    booking_type: Optional[str] = Field(default=None, max_length=80)
+    assigned_person: Optional[str] = Field(default=None, max_length=160)
+    comments: Optional[str] = Field(default=None, max_length=2000)
+    status: Optional[BookingStatus] = None
+
+
 class Booking(BaseModel):
     booking_id: str
     customer_id: Optional[str] = None
@@ -66,7 +76,12 @@ class Booking(BaseModel):
     assigned_person: Optional[str] = None
     comments: Optional[str] = None
 
-    status: Literal["New", "Contacted", "Scheduled", "Completed", "Cancelled"] = "New"
+    status: BookingStatus = "New"
 
     created_at: datetime
     updated_at: datetime
+
+
+class BookingListResponse(BaseModel):
+    items: list[Booking]
+    total: int
