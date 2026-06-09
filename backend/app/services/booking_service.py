@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
 from app.models.booking import Booking, BookingCreate
+from app.services.customer_service import create_or_get_customer_from_booking
 
 
 # Temporary in-memory storage only.
@@ -14,11 +15,17 @@ def _generate_booking_id() -> str:
 
 
 def create_public_booking(booking_data: BookingCreate) -> Booking:
+    customer = create_or_get_customer_from_booking(
+        customer_name=booking_data.customer_name,
+        contact_number=booking_data.contact_number,
+        email_address=booking_data.email,
+    )
+
     now = datetime.now(timezone.utc)
 
     booking = Booking(
         booking_id=_generate_booking_id(),
-        customer_id=None,  # Future: auto-created or linked customer ID
+        customer_id=customer.customer_id,
         customer_name=booking_data.customer_name.strip(),
         contact_number=booking_data.contact_number.strip(),
         email=booking_data.email,

@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
 from app.models.inquiry import Inquiry, InquiryCreate
+from app.services.customer_service import create_or_get_customer_from_inquiry
 
 
 # Temporary in-memory storage only.
@@ -14,11 +15,17 @@ def _generate_inquiry_id() -> str:
 
 
 def create_public_inquiry(inquiry_data: InquiryCreate) -> Inquiry:
+    customer = create_or_get_customer_from_inquiry(
+        customer_name=inquiry_data.customer_name,
+        contact_number=inquiry_data.contact_number,
+        email_address=inquiry_data.email,
+    )
+
     now = datetime.now(timezone.utc)
 
     inquiry = Inquiry(
         inquiry_id=_generate_inquiry_id(),
-        customer_id=None,  # Future: auto-created or linked customer ID
+        customer_id=customer.customer_id,
         product_id=inquiry_data.product_id.strip() if inquiry_data.product_id else None,
         customer_name=inquiry_data.customer_name.strip(),
         contact_number=inquiry_data.contact_number.strip(),
