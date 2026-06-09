@@ -3038,6 +3038,8 @@ footer {
   .product-brand-scroll-btn {
     width: 42px !important;
     height: 64px !important;
+	
+	transform: translateY(-50%);
 
     border-radius: 999px !important;
 
@@ -3216,53 +3218,8 @@ footer {
    Mobile: always visible
 ========================================================= */
 
-.product-brand-scroll-wrap {
-  position: relative;
-}
-
 .product-brand-scroll-btn {
-  position: absolute;
-  top: 50%;
-  z-index: 8;
-
-  width: 34px;
-  height: 44px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  transform: translateY(-54%);
-
-  border: 0;
-  border-radius: 8px;
-
-  color: #ffffff;
-  background: rgba(0, 0, 0, 0.45);
-
-  font-size: 24px;
-  font-weight: 800;
-  line-height: 1;
-
-  opacity: 0;
-  cursor: pointer;
-  transition: opacity 0.2s ease, background 0.25s ease;
-}
-
-.product-brand-scroll-left {
-  left: 0;
-}
-
-.product-brand-scroll-right {
-  right: 0;
-}
-
-.product-brand-scroll-wrap:hover .product-brand-scroll-btn {
-  opacity: 1;
-}
-
-.product-brand-scroll-btn:hover {
-  background: rgba(0, 0, 0, 0.58);
+  display: none;
 }
 
 .products-brand-strip {
