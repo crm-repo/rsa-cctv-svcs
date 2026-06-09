@@ -1,21 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.config import settings
+from app.routes import health
+
 app = FastAPI(
-    title="RSA CMS API",
+    title=settings.APP_NAME,
     version="0.1.0",
     description="Backend API for RSA CMS / Mini-CRM",
 )
 
-allowed_origins = [
-    "http://localhost:5500",
-    "http://127.0.0.1:5500",
-    "http://localhost:3000",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origins=settings.FRONTEND_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -30,10 +27,4 @@ def root():
     }
 
 
-@app.get("/api/health")
-def health_check():
-    return {
-        "status": "ok",
-        "service": "rsa-cms-api",
-        "phase": "Phase 8 - Backend / Admin CMS / Mini-CRM",
-    }
+app.include_router(health.router, prefix=settings.API_PREFIX, tags=["Health"])
