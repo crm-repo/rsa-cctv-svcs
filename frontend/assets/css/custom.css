@@ -3036,18 +3036,30 @@ footer {
   
   /* Mobile only: always show brand strip arrows */
   .product-brand-scroll-btn {
-    width: 42px !important;
-    height: 64px !important;
+	  display: inline-flex !important;
+	  position: absolute !important;
+	  top: calc(50% - 16px) !important;
+	  z-index: 8 !important;
+	  align-items: center !important;
+	  justify-content: center !important;
+	  transform: translateY(-50%) !important;
 
-    border-radius: 999px !important;
+	  width: 42px !important;
+	  height: 64px !important;
 
-    color: #ffffff !important;
-    background: rgba(17, 24, 39, 0.32) !important;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.10) !important;
+	  border-radius: 999px !important;
 
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
+	  color: #ffffff !important;
+	  background: rgba(17, 24, 39, 0.32) !important;
+	  box-shadow: 0 6px 14px rgba(0,0,0,0.10) !important;
+
+	  opacity: 1 !important;
+	  visibility: visible !important;
+	  pointer-events: auto !important;
+  }
+ 
+  .product-brand-scroll-wrap {
+	  position: relative;
   }
 
   .product-brand-scroll-btn:hover {
