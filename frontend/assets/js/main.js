@@ -1008,56 +1008,83 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
   });
 
   /* BRAND FILTER */
-  brandFilterItems.forEach((item) => {
+	/* BRAND FILTER */
+	brandFilterItems.forEach((item) => {
+	  item.addEventListener("click", () => {
+		const selectedBrand = item.dataset.brandFilter || "all";
+		const selectedBrandLabel =
+		  item.querySelector("img")?.getAttribute("alt") || selectedBrand;
 
-    item.addEventListener("click", () => {
+		const isAlreadyActive = item.classList.contains("active");
 
-      const selectedBrand = item.dataset.brandFilter || "all";
-      const selectedBrandLabel =
-        item.querySelector("img")?.getAttribute("alt") || selectedBrand;
+		brandFilterItems.forEach((brand) => {
+		  brand.classList.remove("active");
+		});
 
-      const isAlreadyActive = item.classList.contains("active");
+		/*
+		  BRANDS PAGE ONLY:
+		  - Selecting a brand resets category to All Products
+		  - Clicking active brand again clears brand and category
+		  - Initial/no-brand state shows no products
+		*/
+		if (isBrandsPage) {
+		  productFilterButtons.forEach((btn) => {
+			btn.classList.remove("active");
+		  });
 
-      brandFilterItems.forEach((brand) => {
-        brand.classList.remove("active");
-      });
+		  if (isAlreadyActive) {
+			currentBrand = "all";
+			currentBrandLabel = "";
+			currentFilter = "all";
 
-      productFilterButtons.forEach((btn) => {
-        btn.classList.remove("active");
-      });
+			if (productsSectionTitle) {
+			  productsSectionTitle.textContent = "Products per Brand";
+			}
+		  } else {
+			item.classList.add("active");
 
-      if (isAlreadyActive) {
-        currentBrand = "all";
-        currentBrandLabel = "";
-        currentFilter = "all";
+			currentBrand = selectedBrand;
+			currentBrandLabel = selectedBrandLabel;
+			currentFilter = "all";
 
-        if (productsSectionTitle) {
-          productsSectionTitle.textContent = "Products per Brand";
-        }
-      } else {
-        item.classList.add("active");
+			const allProductsButton = Array.from(productFilterButtons).find(
+			  (btn) => btn.dataset.filter === "all"
+			);
 
-        currentBrand = selectedBrand;
-        currentBrandLabel = selectedBrandLabel;
-        currentFilter = "all";
+			if (allProductsButton) {
+			  allProductsButton.classList.add("active");
+			}
 
-        const allProductsButton = Array.from(productFilterButtons).find(
-          (btn) => btn.dataset.filter === "all"
-        );
+			if (productsSectionTitle) {
+			  productsSectionTitle.textContent = `${currentBrandLabel} Products`;
+			}
+		  }
 
-        if (allProductsButton) {
-          allProductsButton.classList.add("active");
-        }
+		  currentProductsPage = 0;
+		  renderProductsPage();
+		  return;
+		}
 
-        if (productsSectionTitle) {
-          productsSectionTitle.textContent = `${currentBrandLabel} Products`;
-        }
-      }
+		/*
+		  PRODUCTS + PROMOTIONS:
+		  Preserve previous behavior.
+		  Brand selection should NOT reset category buttons.
+		  Brand selection should NOT reset currentFilter.
+		  This allows:
+		  - Products: CCTV Cameras + Hikvision
+		  - Promotions: Sale + CCTV Cameras + Hikvision
+		*/
+		if (isAlreadyActive) {
+		  currentBrand = "all";
+		} else {
+		  item.classList.add("active");
+		  currentBrand = selectedBrand;
+		}
 
-      currentProductsPage = 0;
-      renderProductsPage();
-    });
-  });
+		currentProductsPage = 0;
+		renderProductsPage();
+	  });
+	});
 
   if (productsSearchInput) {
     productsSearchInput.addEventListener("input", () => {
