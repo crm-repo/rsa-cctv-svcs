@@ -3120,7 +3120,8 @@ footer {
   width: 34px;
   height: 44px;
 
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(17, 24, 39, 0.32);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.10);
   color: #ffffff;
 
   border: none;
@@ -3144,6 +3145,10 @@ footer {
 
 .products-category-scroll-wrap:hover .category-scroll-btn {
   opacity: 1;
+}
+
+.category-scroll-btn:hover {
+  background: rgba(17, 24, 39, 0.48);
 }
 
 .products-category-filter.dragging {
@@ -4678,7 +4683,8 @@ footer {
   height: 42px;
   border-radius: 999px;
 
-  background: rgba(75,85,99,0.75);
+  background: rgba(17, 24, 39, 0.32);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.10);
   color: #ffffff;
   border: none;
 
@@ -4699,7 +4705,7 @@ footer {
 }
 
 .brands-page .brand-scroll-btn:hover {
-  background: rgba(55,65,81,0.90);
+  background: rgba(17, 24, 39, 0.48);
 }
 
 .brands-page .brand-strip-scroll-wrap:hover .brand-scroll-btn {
