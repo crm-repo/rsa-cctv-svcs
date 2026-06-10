@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from app.models.booking import Booking, BookingCreate, BookingListResponse, BookingUpdate
+from app.services.id_service import generate_booking_id
 from app.services.customer_service import create_or_get_customer_from_booking
 
 
@@ -9,10 +10,6 @@ from app.services.customer_service import create_or_get_customer_from_booking
 # Later this will be replaced by DynamoDB.
 MOCK_BOOKINGS: list[Booking] = []
 
-
-def _generate_booking_id() -> str:
-    next_number = len(MOCK_BOOKINGS) + 1
-    return f"BOOK-{next_number:06d}"
 
 
 def create_public_booking(booking_data: BookingCreate) -> Booking:
@@ -25,7 +22,7 @@ def create_public_booking(booking_data: BookingCreate) -> Booking:
     now = datetime.now(timezone.utc)
 
     booking = Booking(
-        booking_id=_generate_booking_id(),
+        booking_id=generate_booking_id(),
         customer_id=customer.customer_id,
         customer_name=booking_data.customer_name.strip(),
         contact_number=booking_data.contact_number.strip(),

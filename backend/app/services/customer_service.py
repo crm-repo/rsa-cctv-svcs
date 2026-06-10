@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from typing import Literal, Optional
 
 from app.models.customer import Customer, CustomerListResponse
+from app.services.id_service import generate_customer_id
 
 
 # Temporary in-memory storage only.
@@ -20,10 +21,6 @@ CustomerSource = Literal[
     "Email",
 ]
 
-
-def _generate_customer_id() -> str:
-    next_number = len(MOCK_CUSTOMERS) + 1
-    return f"CUST-{next_number:06d}"
 
 
 def _normalize_contact_number(contact_number: str) -> str:
@@ -89,7 +86,7 @@ def create_or_get_customer_from_lead(
         return existing_customer
 
     customer = Customer(
-        customer_id=_generate_customer_id(),
+        customer_id=generate_customer_id(),
         customer_name=customer_name.strip(),
         customer_status="Prospect",
         customer_category=None,
