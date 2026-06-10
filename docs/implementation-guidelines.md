@@ -260,10 +260,10 @@ show_flag = Y/N
 Use:
 
 ```text
-display_order
+display_seq
 ```
 
-for manual admin-controlled ordering.
+for new Phase 8 backend/admin manual ordering fields. Older frontend/static references to `display_order` should be migrated when the relevant module is updated.
 
 ## Backend Guidelines
 
@@ -384,3 +384,20 @@ Before launch:
 - Avoid conversational filler.
 - Record superseded decisions clearly.
 - Keep AI-agent instructions explicit and implementation-ready.
+
+
+## Phase 8 Final v5 Implementation Guidelines
+
+The backend/admin implementation should follow [PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md](./PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md).
+
+Key implementation guardrails:
+
+- Update local mock models/services/routes before creating AWS DynamoDB resources.
+- Keep route code separate from storage implementation by introducing repositories before DynamoDB migration.
+- Do not create `rsa_package_banners`; keep `GET /api/package-banners` sourced from `rsa_products`.
+- Do not create split Contact Us tables; use `rsa_contact_us` with `contact_type`.
+- Do not create `old_price`, sale boolean fields, customer email GSI, contact_type GSI, product show_pack GSI, or product sale GSI for launch.
+- Use `display_seq` consistently in new code.
+- Use `show_flag` and `show_pack_flag` according to the approved visibility rules.
+- Use backend/server-side ID generation through `rsa_id_counters`.
+- Keep admin-style routes unprotected only for local testing; add Cognito protection before external/public admin testing.

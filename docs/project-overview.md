@@ -49,9 +49,9 @@ The future admin panel will manage:
 - Products
 - Brands
 - Categories
-- Product types
+- Product types (deferred; `rsa_product_types` not for launch)
 - Promotions
-- Package banners
+- Package product display / package promo placement sourced from `rsa_products`
 - Services
 - About Us content
 - Project gallery
@@ -193,3 +193,19 @@ The project is successful when:
 | [open-issues.md](./open-issues.md) | Risks, blockers, technical debt, unresolved decisions, dependencies |
 | [implementation-guidelines.md](./implementation-guidelines.md) | Development, coding, testing, and AI-agent implementation guidance |
 | [decision-log.md](./decision-log.md) | Significant project decisions and rationale |
+
+
+## Phase 8 Final v5 Backend/Data Plan
+
+The Phase 8 DynamoDB/API access-pattern plan is approved for implementation. The approved plan uses a Free-Tier-first simple multi-table DynamoDB approach with 12 launch tables and 5 launch GSIs.
+
+Main approved backend direction:
+
+- Product catalog and package products are stored in `rsa_products`.
+- Package homepage/promo placement uses `show_pack_flag`.
+- Contact Us content is consolidated into `rsa_contact_us`.
+- Customer matching at launch uses contact number GSI only.
+- Product category and brand filtering are optimized with two product GSIs.
+- CMS content for About Us, Project Gallery, Services, and Contact Us will become API/database-driven while preserving the current public page layouts.
+
+See [PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md](./PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md) for the approved implementation plan.

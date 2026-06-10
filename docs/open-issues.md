@@ -16,7 +16,7 @@ This document tracks risks, unresolved questions, blockers, technical debt, and 
 | SEO metadata missing/incomplete | High | Medium | Open | Required before production |
 | sitemap.xml and robots.txt missing | High | Medium | Open | Required before production |
 | Image optimization pending | Medium | High | Open | Needed for mobile performance |
-| DynamoDB access pattern review pending | Medium | High | Open | Logical models must be adapted to DynamoDB query patterns and Free-Tier-first capacity limits |
+| DynamoDB access pattern review pending | Medium | High | Resolved | Phase 8 Final v5 DynamoDB/API plan approved; implementation still pending |
 | Free-Tier implementation drift | High | High | Open | Backend/deployment must avoid ALB, NAT Gateway, RDS, multiple EC2 instances, SMS and unnecessary paid services |
 | Final Brands hero logo card shade not locked | Low | Low | Open if Brands reopened | Candidate colors exist |
 | Brands active indicator final visual not locked | Low | Low | Open if Brands reopened | Technical override is resolved |
@@ -28,9 +28,9 @@ This document tracks risks, unresolved questions, blockers, technical debt, and 
 | Static product cards duplicated between Products and Promotions | Medium | High | Move product data to shared JSON/API |
 | Page-specific responsive CSS has grown large | Medium | Medium | Refactor after launch only if stable |
 | Shared class names affect multiple pages | Medium | High | Prefer page-scoped CSS overrides |
-| Package banners static | Low | Medium | Add Package Banner admin module |
+| Package banners static | Low | Medium | Superseded by Phase 8 v5: manage package products through `rsa_products` using `category_key = packages` and `show_pack_flag` |
 | Brand list currently static | Medium | Medium | Add Brand admin + API |
-| Product features stored in attributes | Medium | Medium | Normalize to Product Features table later |
+| Product features stored in fixed fields | Medium | Medium | Phase 8 v5 approves `feature_01` through `feature_10` plus reusable `rsa_key_features` suggestions |
 | Cost guardrails not yet enforced in infrastructure | Medium | High | Add deployment checklist and billing alerts before public testing |
 
 ## Risks
@@ -66,7 +66,7 @@ This document tracks risks, unresolved questions, blockers, technical debt, and 
 |---|---|---|---|
 | Final Brands hero logo background shade | Open only if Brands reopened | `#d1d5db`, `#cbd5e1`, `#bfc7d1` | Use darker off-white/light gray, not transparent |
 | Final Brands active brand style | Open only if Brands reopened | Solid outline, stronger border, subtle background | Use simple solid outline |
-| Backend DynamoDB table/index design | Open | Single-table vs multi-table/access-pattern design | Review before backend build with Free-Tier-first capacity limits |
+| Backend DynamoDB table/index design | Resolved | Simple multi-table design approved | Follow Phase 8 Final v5 plan |
 | Inquiry CTA layout | Open | Modal inline form, separate modal, contact redirect | Define before implementation |
 | Booking page form layout | Open | Single-step form or multi-section form | Keep simple form first |
 | Admin frontend approach | Open | Static HTML/Tailwind first, JS-driven, or future framework | Start simple unless requirements expand |
@@ -86,7 +86,7 @@ This document tracks risks, unresolved questions, blockers, technical debt, and 
 2. Should contact persons shown in UI be selectable as assigned sales persons?
 3. Will multiple branches/locations be supported later?
 4. Should products have downloadable specification sheets?
-5. Should package banners link directly to modal or only to Promotions?
+5. Package banner click behavior remains a future UI decision, but data source is approved as `rsa_products` with `show_pack_flag`.
 6. Should product stock be visible to customers long-term?
 7. Should admin support Draft/Published/Archived status in addition to `show_flag`?
 
@@ -106,3 +106,26 @@ This document tracks risks, unresolved questions, blockers, technical debt, and 
 | SSL/domain setup | Production launch |
 | AWS billing alerts | Public testing and Free-Tier-first deployment |
 | Free-Tier deployment review | Backend/admin launch |
+
+
+## Resolved by Phase 8 Final v5
+
+| Item | Resolution |
+|---|---|
+| DynamoDB table prefix | Use `rsa_` |
+| DynamoDB design style | Use simple multi-table design |
+| Launch table count | 12 tables |
+| Launch GSI count | 5 GSIs |
+| Package banner storage | No separate table; source package display from `rsa_products` |
+| Package visibility | `show_flag` for normal public visibility; `show_pack_flag` for package hero/promo placement only |
+| Product ordering field | Use `display_seq` |
+| Product sale fields | No `old_price`; sale is determined by `sale_price` |
+| Product ID generation | Category-based four-letter prefix with `rsa_id_counters` |
+| Product category icons | Add `icon_code` to `rsa_categories` |
+| Product features | Use `feature_01` through `feature_10`, minimum 3, plus `rsa_key_features` |
+| Product name default | Default from `product_brand_name + feature_01 + subcategory`, editable before save |
+| Product description | Manually managed; not auto-generated from product-name defaulting |
+| Contact Us tables | Consolidate into `rsa_contact_us` with `contact_type` |
+| Customer email GSI | Do not create at launch; store normalized email only |
+| Product GSIs | Add category and brand product GSIs at launch |
+| Product types | `rsa_product_types` deferred and not for launch |

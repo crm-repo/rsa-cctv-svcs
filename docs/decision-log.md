@@ -344,3 +344,59 @@ This document records significant project decisions and their rationale. For imp
 | Decision | Booking and inquiry submissions must be stored and visible in the admin panel. SMS/email notifications are not required for launch and should be disabled by default for the Free-Tier-first deployment. |
 | Reasoning | Admin-panel visibility satisfies the lead-capture requirement without introducing paid notification dependencies. |
 | Impact | Future notification workflows may be added later only after cost review and explicit approval. |
+
+
+## ADR-032: Phase 8 Final v5 DynamoDB/API Plan
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 backend planning |
+| Status | Accepted |
+| Context | The backend/admin CMS/CRM moved from mock in-memory API skeletons toward DynamoDB implementation planning. The project requires a Free-Tier-first DynamoDB design that avoids unnecessary tables and indexes while supporting product catalog performance and lead management. |
+| Decision | Approve the Phase 8 Final v5 DynamoDB/API plan using `rsa_` table prefix, 12 launch tables, 5 launch GSIs, simple multi-table design, consolidated Contact Us table, product category/brand GSIs, customer contact-number GSI, booking/inquiry status GSIs, and `rsa_id_counters` for backend-generated sequential IDs. |
+| Reasoning | The plan keeps the simplified launch capacity count at 17 RCU + 17 WCU minimum while optimizing the product table for category and brand filtering. It avoids unnecessary package-banner, contact-split, email, sale, show-pack, and CMS-content GSIs. |
+| Impact | Backend implementation should follow `PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md`. Older assumptions about `rsa_package_banners`, split contact tables, customer email GSI, `old_price`, `display_order`, and product types for launch are superseded. |
+
+## ADR-033: Package Products Reuse Products Table
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 backend planning |
+| Status | Accepted |
+| Context | Package products are already part of the product catalog and do not need duplicate banner records for launch. |
+| Decision | Store packages in `rsa_products` using `category_key = packages`. Keep `GET /api/package-banners` as an API endpoint if useful, but source it from `rsa_products` filtered by `show_flag = Y`, `category_key = packages`, and `show_pack_flag = Y`. |
+| Reasoning | Reduces table count, removes duplicate data, and keeps package management in product admin. |
+| Impact | Do not create `rsa_package_banners` for launch. `show_flag` controls normal catalog/promotions grid visibility. `show_pack_flag` controls homepage/promo hero placement only. |
+
+## ADR-034: Consolidated Contact Us Table
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 backend planning |
+| Status | Accepted |
+| Context | Contact Us content belongs to one RSA company, but the admin UI should remain organized into Company Contact, Contact Person, and Social Media sections. |
+| Decision | Use one table, `rsa_contact_us`, with `contact_type` values `Company Contact`, `Contact Person`, and `Social Media`. Keep the admin UI split into 3 sections. Use fixed/default Company Contact record `CONT-0000001`. |
+| Reasoning | Reduces DynamoDB table count while preserving a clean admin workflow. Contact Us records are small, so a `contact_type` GSI is not needed for launch. |
+| Impact | Do not create `rsa_contact_company`, `rsa_contact_persons`, or `rsa_social_media` for launch. |
+
+## ADR-035: Product Schema and Naming Rules
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 backend planning |
+| Status | Accepted |
+| Context | Product admin entry should be efficient while preserving manual control over product names and descriptions. |
+| Decision | Use `display_seq`, remove `old_price`, determine sale status from `sale_price`, support `feature_01` through `feature_10` with minimum 3 features, use `rsa_key_features`, and default product name from `product_brand_name + feature_01 + subcategory` while keeping it editable. Do not auto-generate description and do not add `auto_name_flag`. |
+| Reasoning | Improves admin data entry and keeps the database schema simple. |
+| Impact | Product model/services/admin forms must be updated to match the approved schema. |
+
+## ADR-036: Product Category Icons and Product GSIs
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 backend planning |
+| Status | Accepted |
+| Context | Product category buttons need Font Awesome icons, and products can become heavier than other CMS tables. |
+| Decision | Add `icon_code` to `rsa_categories`. Add two launch product GSIs: `category_key-display_seq-index` and `product_brand_key-display_seq-index`. |
+| Reasoning | `icon_code` avoids building a full icon picker for launch. Product GSIs optimize the most important catalog browsing paths while keeping the launch capacity plan within Free-Tier-first guardrails. |
+| Impact | Category and product services must expose the approved fields and query paths. |

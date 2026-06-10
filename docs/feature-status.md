@@ -59,15 +59,15 @@ This document is the authoritative implementation progress tracker. If status he
 | Inquiry CTA from Modal | Planned | High | Required for product/package lead capture |
 | Admin Panel | Planned | High | Future CMS/CRM phase |
 | Admin Dashboard | Planned | Medium | Counts, latest bookings, latest inquiries |
-| Product Management Admin | Planned | High | CRUD, show_flag, display_order |
-| Brand Management Admin | Planned | High | CRUD, logo, featured flag, display_order |
+| Product Management Admin | Planned | High | CRUD, show_flag, show_pack_flag, display_seq, v5 product schema |
+| Brand Management Admin | Planned | High | CRUD, logo, featured flag, display_seq |
 | Customer CRM | Planned | High | Auto-created from bookings/inquiries |
 | Booking Management | Planned | High | Status workflow and assignment |
 | Inquiry Management | Planned | High | Status workflow and assignment |
 | User Roles / Permissions | Planned | Medium | Super Admin, Admin, Sales Staff, Marketing Staff |
 | Audit Logs | Planned | Medium | Future admin audit trail |
-| Backend FastAPI | Planned | High | Not yet implemented |
-| DynamoDB Integration | Planned | High | Logical tables planned; access pattern review needed |
+| Backend FastAPI | Established | High | Local FastAPI skeleton working with mock/in-memory public and admin-style lead APIs |
+| DynamoDB Integration | Planned | High | Phase 8 Final v5 access-pattern/table-key plan approved; DynamoDB resources not created yet |
 | Cognito Auth | Planned | High | Required for admin |
 | S3 Image Storage | Planned | Medium | Required for production/admin uploads |
 | CloudFront / SSL | Planned | High | Required for production |
@@ -147,3 +147,28 @@ This document is the authoritative implementation progress tracker. If status he
 4. Preserve database-ready patterns.
 5. Preserve the AWS Free-Tier-first architecture during backend/admin/deployment planning.
 6. Before production, implement booking/inquiry flows, SEO, image optimization, Free-Tier deployment review, billing alerts, and deployment checklist.
+
+
+## Phase 8 Backend / Admin CMS / Mini-CRM Status
+
+| Feature | Status | Priority | Notes |
+|---|---|---:|---|
+| FastAPI Backend Foundation | Complete | High | Local backend skeleton, config, CORS, health endpoint, and Swagger docs working |
+| Public Products API Skeleton | Complete | High | Mock/in-memory product list/detail/filter/sort/pagination endpoint implemented |
+| Public Brands API Skeleton | Complete | High | Mock/in-memory brands endpoint implemented |
+| Package Banners API Skeleton | Superseded | High | Endpoint can remain, but final source should be `rsa_products` using `category_key = packages` and `show_pack_flag = Y` |
+| Public Booking API Skeleton | Complete | High | Public booking submission creates mock booking and links/creates customer |
+| Public Inquiry API Skeleton | Complete | High | Public inquiry submission creates mock inquiry and links/creates customer |
+| Customer Auto-Create/Link Logic | Complete | High | Mock/in-memory customer service links bookings/inquiries by contact number/email in local skeleton; final DynamoDB launch matching uses contact number GSI |
+| Admin-Style Booking Management Skeleton | Complete | High | Local unprotected list/detail/update endpoints working for testing |
+| Admin-Style Inquiry Management Skeleton | Complete | High | Local unprotected list/detail/update endpoints working for testing |
+| Phase 8 DynamoDB/API Access Plan v5 | Approved | High | Final v5 plan approved for implementation |
+| Product Schema v5 Update | Planned | High | Next step: update local product model/service to v5 schema |
+| Categories API | Planned | High | Add `rsa_categories` mock model/service/routes with `icon_code` |
+| Key Features API | Planned | Medium | Add `rsa_key_features` mock model/service/routes |
+| CMS Page APIs | Planned | Medium | Add About, Project Gallery, Services, and Contact Us mock APIs |
+| Consolidated Contact Us API | Planned | Medium | Add `rsa_contact_us` mock model/service/routes using `contact_type` |
+| ID Counter Service | Planned | High | Add local/mock ID generation service before DynamoDB atomic counter implementation |
+| Repository Layer | Planned | High | Add repository abstraction before moving mock storage to DynamoDB |
+| DynamoDB Resource Creation | Planned | High | Do not create AWS tables until local schema/API updates are complete |
+| Cognito Admin Protection | Planned | High | Required before external/public admin testing |

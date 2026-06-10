@@ -30,6 +30,54 @@ The system must support a transition from static product markup to a shared data
 
 All backend, database, authentication, storage and deployment decisions are constrained by the AWS Free-Tier-first project rule: the completed project should fit within AWS Free Tier as much as practical during the first 12 months, with Route 53/domain as the expected paid exception, and then continue as a low-cost AWS deployment after the free-tier window.
 
+
+## Phase 8 Final v5 Backend/Data Plan
+
+The approved Phase 8 DynamoDB/API implementation plan is documented in [PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md](./PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md).
+
+This plan supersedes older backend table assumptions in this document where they conflict.
+
+Approved launch summary:
+
+- Use `rsa_` table prefix.
+- Use simple multi-table DynamoDB design.
+- Launch with 12 DynamoDB tables and 5 GSIs.
+- Store package products in `rsa_products`; do not create `rsa_package_banners`.
+- Use `show_flag` for normal public visibility.
+- Use `show_pack_flag` only for package homepage/promo hero placement.
+- Use `display_seq` instead of `display_order`.
+- Use category-based product IDs with four-letter prefixes.
+- Use `rsa_id_counters` for backend-generated sequential IDs.
+- Store category and brand snapshot fields on products for faster public API responses.
+- Use `sale_price` to determine sale status; do not create `old_price` or sale boolean fields.
+- Use `rsa_categories.icon_code` for Font Awesome category button icons.
+- Use `rsa_key_features` for reusable product feature suggestions.
+- Consolidate Contact Us into `rsa_contact_us` with `contact_type` values: `Company Contact`, `Contact Person`, and `Social Media`.
+- Keep `rsa_product_types` deferred and not for launch.
+
+Approved launch GSIs:
+
+```text
+rsa_products:
+- category_key-display_seq-index
+- product_brand_key-display_seq-index
+
+rsa_customers:
+- contact_number_normalized-index
+
+rsa_bookings:
+- status-created_at-index
+
+rsa_inquiries:
+- status-created_at-index
+```
+
+Simplified launch capacity count:
+
+```text
+12 tables + 5 GSIs = 17 RCU + 17 WCU minimum simplified count
+```
+
 ## Technology Stack
 
 | Layer | Technology | Status |
@@ -149,7 +197,7 @@ Core reusable patterns:
 - Hero sections
 - Feature strips
 - Soft cards
-- Package banners
+- Package/package hero display sourced from `rsa_products`
 - Product catalog cards
 - Product quick view modal
 - Category filter strip
@@ -227,18 +275,16 @@ The backend will handle:
 - Product data
 - Brand data
 - Category data
-- Product type data
+- Product type data (deferred; `rsa_product_types` not for launch)
 - Promotions
-- Package banners
+- Package/package hero display sourced from `rsa_products`
 - Customers
 - Bookings
 - Inquiries
 - Services
 - About Us content
 - Project gallery content
-- Contact company details
-- Contact persons
-- Social media links
+- Consolidated Contact Us records using `rsa_contact_us` and `contact_type`
 - Settings
 - Admin authentication
 - User roles and permissions
@@ -289,30 +335,49 @@ The field lists in this document are backend-ready logical models. Before implem
 
 For the Free-Tier-first deployment, DynamoDB should start with provisioned capacity at the lowest practical RCU/WCU settings. Add GSIs only when required by a real admin/public access pattern. Avoid on-demand mode, global tables, streams, point-in-time recovery and unnecessary indexes during the first deployment unless explicitly approved after cost review.
 
-### Approved Table Set
+### Approved Phase 8 v5 Launch Table Set
 
 | Table | Purpose |
 |---|---|
-| products | Product and package catalog records |
-| brands | Brand records and logos |
-| categories | Product category records |
-| product_types | Product type records |
-| promotions | Promotional records |
-| customers | CRM customer records |
-| bookings | Booking / Request Site Visit records |
-| inquiries | Product/package inquiry records |
-| about | About Us content |
-| projects | Project gallery content |
-| contact_company | Company contact details |
-| contact_persons | Contact persons and sales staff |
-| social_media | Social media links |
-| services | Service content |
-| settings | Site-wide settings |
+| `rsa_products` | Product catalog records, package products, and package hero/homepage source |
+| `rsa_brands` | Brand records, brand keys, and logos |
+| `rsa_categories` | Product categories, category prefixes, and category icon codes |
+| `rsa_key_features` | Reusable product feature suggestions/autocomplete |
+| `rsa_customers` | CRM customer records |
+| `rsa_bookings` | Booking / Request Site Visit records |
+| `rsa_inquiries` | Product/package inquiry records |
+| `rsa_about` | About Us CMS content |
+| `rsa_project_gallery` | Project gallery CMS content |
+| `rsa_services` | Services CMS content |
+| `rsa_contact_us` | Consolidated company contact, contact persons, and social media records |
+| `rsa_id_counters` | Backend-generated sequential ID counters |
 
-Total planned tables:
+Deferred tables:
 
 ```text
-15
+rsa_product_types
+rsa_promotions
+rsa_settings
+rsa_admin_users
+rsa_roles
+rsa_audit_logs
+rsa_customer_contacts
+rsa_customer_notes
+```
+
+Removed from launch design:
+
+```text
+rsa_package_banners
+rsa_contact_company
+rsa_contact_persons
+rsa_social_media
+```
+
+Total launch tables:
+
+```text
+12
 ```
 
 ## Universal Visibility Rule
@@ -344,27 +409,57 @@ Example statuses:
 
 | Field | Purpose |
 |---|---|
-| product_id | Primary identifier |
-| show_flag | Public visibility |
-| display_order | Manual ordering |
-| product_name | Public display name |
+| product_id | Primary identifier; category-based ID such as `CCTV-0000001`, `RECO-0000001`, or `PACK-0000001` |
+| show_flag | Normal public visibility for catalog, promotions grid, search/filter results, and package category listing |
+| show_pack_flag | Additional package-only placement flag for homepage promo/package cards and promotions hero/highlight section |
+| display_seq | Manual ordering; replaces `display_order` |
+| product_name | Public display name; may default from brand + feature_01 + subcategory but remains editable |
 | product_model | Model/SKU |
 | product_slug | Future SEO/detail page slug |
-| category | Main category such as `cctv`, `recorders`, `packages` |
-| subcategory | Human-readable product type |
-| brand_id | Reference to brand |
-| product_brand_name | Brand filter key |
-| description | Long description |
-| features | Product features or pipe-delimited static field |
-| price | Base/current price |
-| old_price | Original price for sale comparison |
-| sale_price | Sale price where applicable |
-| image_path | Product or package image |
-| brand_logo_path | Brand logo path when not joined |
+| category_id | Source reference to `rsa_categories` |
+| category_key | Category filtering snapshot |
+| category_name | Category display snapshot |
+| category_prefix | Product ID generation snapshot |
+| subcategory | Human-readable product type/subcategory |
+| brand_id | Source reference to `rsa_brands` |
+| product_brand_key | Brand filter snapshot |
+| product_brand_name | Brand display snapshot |
+| brand_logo_path | Brand logo display snapshot |
+| description | Manually managed product description |
+| feature_01 ... feature_10 | Product feature bullets; minimum 3 required for admin product creation |
+| price | Normal/original/base price |
+| sale_price | Sale price when on sale; sale status is determined by presence of this value |
+| image_path | Product or package image path/S3 key |
 | stock_quantity | Stock count |
 | low_stock_threshold | Low stock threshold |
 | meta_title | SEO metadata |
 | meta_description | SEO metadata |
+| created_at / updated_at | Audit timestamps |
+| created_by / updated_by | Admin audit fields |
+
+Do not use `old_price`, `sale_flag`, `is_sale`, or `on_sale` database fields.
+
+### Categories
+
+| Field | Purpose |
+|---|---|
+| category_id | Primary identifier |
+| show_flag | Public/admin visibility |
+| display_seq | Manual ordering |
+| category_name | Display name |
+| category_key | Filter/API key |
+| category_prefix | Four-letter product ID prefix |
+| icon_code | Font Awesome icon code for category buttons |
+| description | Optional description |
+| created_at / updated_at | Audit timestamps |
+| created_by / updated_by | Admin audit fields |
+
+### Key Features
+
+| Field | Purpose |
+|---|---|
+| key_feat_id | Primary identifier |
+| key_feat_name | Reusable feature text for product feature autocomplete/dropdown |
 | created_at / updated_at | Audit timestamps |
 | created_by / updated_by | Admin audit fields |
 
@@ -374,7 +469,7 @@ Example statuses:
 |---|---|
 | brand_id | Primary identifier |
 | show_flag | Public visibility |
-| display_order | Manual ordering |
+| display_seq | Manual ordering |
 | brand_name | Display name |
 | brand_key | Filter key |
 | logo_path | Logo asset |
@@ -383,18 +478,31 @@ Example statuses:
 | featured_brand | Flag for homepage/hero/brand previews |
 | created_at / updated_at | Audit timestamps |
 
-### Package Banners
+### Package Products
 
-| Field | Purpose |
-|---|---|
-| package_banner_id | Primary identifier |
-| show_flag | Public visibility |
-| display_order | Manual ordering |
-| product_id | Optional linked package product |
-| banner_image_path | Square package banner image |
-| homepage_visible | Homepage placement flag |
-| promotions_hero_visible | Promotions hero placement flag |
-| created_at / updated_at | Audit timestamps |
+Packages are stored in `rsa_products` using:
+
+```text
+category_key = packages
+```
+
+`GET /api/package-banners` reads from `rsa_products` and filters:
+
+```text
+show_flag = Y
+category_key = packages
+show_pack_flag = Y
+```
+
+Recommended derived mapping:
+
+```text
+package_banner_id = product_id
+product_id = product_id
+banner_image_path = image_path
+display_seq = display_seq
+show_pack_flag = show_pack_flag
+```
 
 ### Customers
 
@@ -448,6 +556,81 @@ Example statuses:
 | status | New, Replied, Closed |
 | created_at | Audit timestamp |
 
+
+### Contact Us
+
+`rsa_contact_us` consolidates Company Contact, Contact Person, and Social Media records in one table.
+
+Shared fields:
+
+| Field | Purpose |
+|---|---|
+| contact_us_id | Primary identifier; may use CONT, CPER, or SOCM prefix |
+| show_flag | Public/admin visibility |
+| contact_type | `Company Contact`, `Contact Person`, or `Social Media` |
+| display_seq | Manual ordering |
+| created_at / updated_at | Audit timestamps |
+| created_by / updated_by | Admin audit fields |
+
+Company Contact fields:
+
+```text
+primary_contact_number
+secondary_contact_number
+company_email
+company_address
+showroom_address
+whatsapp_number
+viber_number
+business_hours
+office_map_embed_url
+office_map_link_url
+showroom_map_embed_url
+showroom_map_link_url
+```
+
+Contact Person fields:
+
+```text
+person_image_path
+person_name
+position_title
+department
+phone_number
+email_address
+```
+
+Social Media fields:
+
+```text
+platform_name
+platform_key
+profile_url
+icon_code
+```
+
+Use fixed/default Company Contact record `CONT-0000001`. No `contact_type` GSI is required for launch.
+
+### Launch GSI Summary
+
+Approved launch GSIs:
+
+```text
+rsa_products:
+- category_key-display_seq-index
+- product_brand_key-display_seq-index
+
+rsa_customers:
+- contact_number_normalized-index
+
+rsa_bookings:
+- status-created_at-index
+
+rsa_inquiries:
+- status-created_at-index
+```
+
+
 ## API Architecture
 
 ### Public API Endpoints
@@ -456,7 +639,18 @@ Example statuses:
 GET  /api/products
 GET  /api/products/{id}
 GET  /api/brands
+GET  /api/categories
+GET  /api/key-features
 GET  /api/package-banners
+GET  /api/pages/about
+GET  /api/pages/contact
+GET  /api/pages/services
+GET  /api/about
+GET  /api/project-gallery
+GET  /api/services
+GET  /api/contact
+GET  /api/contact-persons
+GET  /api/social-media
 POST /api/bookings
 POST /api/inquiries
 ```
@@ -507,7 +701,7 @@ Image types:
 
 - Product images
 - Brand logos
-- Package banners
+- Package/package hero display sourced from `rsa_products`
 - Promotion images
 - Service images
 - Project gallery images

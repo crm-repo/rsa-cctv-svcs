@@ -6,6 +6,69 @@ This document is the authoritative business, functional, and non-functional requ
 
 ## Functional Requirements
 
+## Approved Phase 8 Backend/CMS Requirements
+
+The approved Phase 8 backend/CMS requirements are documented in [PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md](./PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md). These requirements supersede older package-banner/contact-table assumptions where they conflict.
+
+### Product and Package Requirements
+
+- Products and package products must be stored in `rsa_products`.
+- Package products are products where `category_key = packages`.
+- `show_flag` controls normal public visibility in product catalog, promotions grid, search/filter results, and package category listing.
+- `show_pack_flag` controls homepage package cards and promotions package hero/highlight placement only.
+- `show_flag = N` must prevent public display even when `show_pack_flag = Y`.
+- Use `display_seq` for ordering.
+- Product IDs must be category-based using the category prefix, such as `CCTV-0000001`, `RECO-0000001`, and `PACK-0000001`.
+- `old_price` must not be used. `price` is the normal/original/base price. `sale_price` determines sale status.
+- Product name may default from `product_brand_name + feature_01 + subcategory`, but it must remain editable before saving.
+- Product description must remain manually managed and must not be auto-generated from the product name defaulting rule.
+- No `auto_name_flag` field is required.
+
+### Product Category Requirements
+
+- Categories must be stored in `rsa_categories`.
+- Categories must include `category_prefix` for product ID generation.
+- Categories must include `icon_code` to store Font Awesome category button icons.
+- The admin UI can use a normal text input for `icon_code`; a full icon picker is not required for launch.
+
+### Product Feature Requirements
+
+- Product features are stored on products as `feature_01` through `feature_10`.
+- At least 3 features are required when creating a product.
+- Empty/null feature fields must not display publicly.
+- Reusable feature suggestions must be stored in `rsa_key_features`.
+
+### Contact Us Requirements
+
+- Contact Us data must be stored in one consolidated table: `rsa_contact_us`.
+- The admin page may still show 3 separate sections: Company Contact, Contact Person, and Social Media.
+- The table must use `contact_type` with values `Company Contact`, `Contact Person`, and `Social Media`.
+- Company Contact should use fixed/default record `CONT-0000001`.
+- Company Contact fields must include office address and showroom address, plus separate office/showroom map embed/link fields.
+- Social Media records must use `icon_code` for Font Awesome icon code.
+
+### Public Page API Requirements
+
+Grouped page APIs are approved:
+
+```text
+GET /api/pages/about
+GET /api/pages/contact
+GET /api/pages/services
+```
+
+Individual public CMS APIs are also approved for reusable modules:
+
+```text
+GET /api/about
+GET /api/project-gallery
+GET /api/services
+GET /api/contact
+GET /api/contact-persons
+GET /api/social-media
+```
+
+
 ## Public Website Requirements
 
 The public website must provide:
@@ -42,8 +105,8 @@ The homepage must display sections in this order:
 - Must appear above Featured Products.
 - Must show three square package banners for launch.
 - View All must navigate to Promotions.
-- Static for launch.
-- Future admin should manage package banner visibility and ordering.
+- Static visually for the current frontend phase.
+- Future backend source uses `rsa_products` with `category_key = packages`; `show_flag` controls normal catalog/promotions visibility and `show_pack_flag` controls homepage/package hero placement.
 
 ### Featured Products
 
@@ -314,14 +377,16 @@ No separate `is_package` field is required for launch.
 
 Package images use the normal product image field.
 
-Homepage package banners are static for launch.
+Homepage package banners are static visually for the current frontend phase.
 
-Future admin should manage package banners using:
+Future backend/admin should manage package products through `rsa_products` using:
 
-- show_flag
-- display_order
-- homepage_visible
-- promotions_hero_visible
+- `show_flag` for normal product catalog / promotions grid visibility
+- `show_pack_flag` for homepage package cards and package hero/highlight placement
+- `display_seq` for ordering
+- `category_key = packages` for package records
+
+Do not create a separate package banners table for launch.
 
 ### Package Banner Standard
 
@@ -499,7 +564,7 @@ Applies to:
 - Products
 - Brands
 - Services
-- Package banners
+- Package product display / package promo placement
 - Public content
 
 `show_flag` is different from workflow `status`.
@@ -621,13 +686,12 @@ Before launch:
 | Field | Validation |
 |---|---|
 | show_flag | Required; Y or N |
-| display_order | Optional integer |
+| display_seq | Optional integer for manual ordering |
 | product_name | Required; 3–255 characters |
 | product_model | Optional; max 100 characters |
 | category | Required; approved category only |
 | product_brand_name / brand_key | Lowercase slug style; no spaces |
 | price | Required numeric value >= 0 |
-| old_price | Optional numeric value; should exceed sale/current price |
 | sale_price | Optional numeric value |
 | image_path | Required for products and packages |
 | stock_quantity | Required integer >= 0 |
