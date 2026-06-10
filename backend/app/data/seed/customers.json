@@ -1,0 +1,28 @@
+[
+  {
+    "customer_id": "CUST-0000001",
+    "customer_name": "Juan Dela Cruz",
+    "customer_status": "Prospect",
+    "customer_category": "Residential",
+    "email_address": "juan.delacruz@example.com",
+    "contact_number": "+63 919 123 4567",
+    "customer_from": "Booking Request",
+    "sales_person": null,
+    "repeat_customer": "N",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z"
+  },
+  {
+    "customer_id": "CUST-0000002",
+    "customer_name": "ABC Mini Mart",
+    "customer_status": "Prospect",
+    "customer_category": "Commercial",
+    "email_address": "owner@abcminimart.example.com",
+    "contact_number": "0919 765 4321",
+    "customer_from": "Inquiries",
+    "sales_person": null,
+    "repeat_customer": "N",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z"
+  }
+]

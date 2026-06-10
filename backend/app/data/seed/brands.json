@@ -1,0 +1,54 @@
+[
+  {
+    "brand_id": "BRND-0000001",
+    "show_flag": "Y",
+    "display_seq": 10,
+    "brand_name": "Hikvision",
+    "brand_key": "hikvision",
+    "brand_logo_path": "assets/images/brands/hikvision-logo.png",
+    "description": "Video surveillance cameras, DVR/NVR recorders, and security solutions.",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "brand_id": "BRND-0000002",
+    "show_flag": "Y",
+    "display_seq": 20,
+    "brand_name": "Dahua",
+    "brand_key": "dahua",
+    "brand_logo_path": "assets/images/brands/dahua-logo.png",
+    "description": "CCTV cameras, recorders, and security equipment for residential and commercial use.",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "brand_id": "BRND-0000003",
+    "show_flag": "Y",
+    "display_seq": 30,
+    "brand_name": "HiLook",
+    "brand_key": "hilook",
+    "brand_logo_path": "assets/images/brands/hilook-logo.png",
+    "description": "Practical and affordable CCTV solutions for homes and small businesses.",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "brand_id": "BRND-0000004",
+    "show_flag": "Y",
+    "display_seq": 40,
+    "brand_name": "TP-Link",
+    "brand_key": "tp-link",
+    "brand_logo_path": "assets/images/brands/tp-link-logo.png",
+    "description": "Networking and surveillance accessories for connected CCTV installations.",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  }
+]

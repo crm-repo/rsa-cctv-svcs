@@ -1,0 +1,82 @@
+[
+  {
+    "key_feat_id": "KFEA-0000001",
+    "key_feat_name": "2MP Full HD Resolution",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "key_feat_id": "KFEA-0000002",
+    "key_feat_name": "Night Vision Support",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "key_feat_id": "KFEA-0000003",
+    "key_feat_name": "Weather Resistant Housing",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "key_feat_id": "KFEA-0000004",
+    "key_feat_name": "Mobile App Viewing",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "key_feat_id": "KFEA-0000005",
+    "key_feat_name": "Motion Detection",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "key_feat_id": "KFEA-0000006",
+    "key_feat_name": "Wide Angle Coverage",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "key_feat_id": "KFEA-0000007",
+    "key_feat_name": "H.265 Video Compression",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "key_feat_id": "KFEA-0000008",
+    "key_feat_name": "Remote Playback",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "key_feat_id": "KFEA-0000009",
+    "key_feat_name": "Indoor/Outdoor Installation",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "key_feat_id": "KFEA-0000010",
+    "key_feat_name": "Professional Installation Included",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  }
+]

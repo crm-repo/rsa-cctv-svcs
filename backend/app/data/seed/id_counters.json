@@ -1,0 +1,98 @@
+[
+  {
+    "id_prefix": "CCTV",
+    "last_number": 2,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "RECO",
+    "last_number": 1,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "ACCS",
+    "last_number": 1,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "PACK",
+    "last_number": 2,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "BRND",
+    "last_number": 4,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "CATG",
+    "last_number": 4,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "KFEA",
+    "last_number": 10,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "ABOU",
+    "last_number": 1,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "PROJ",
+    "last_number": 3,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "SERV",
+    "last_number": 3,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "CONT",
+    "last_number": 1,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "CPER",
+    "last_number": 1,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "SOCM",
+    "last_number": 2,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "CUST",
+    "last_number": 2,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "BOOK",
+    "last_number": 1,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  },
+  {
+    "id_prefix": "INQR",
+    "last_number": 1,
+    "updated_at": "2026-06-10T00:00:00Z",
+    "updated_by": "seed"
+  }
+]

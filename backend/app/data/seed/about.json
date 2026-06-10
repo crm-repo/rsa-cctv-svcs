@@ -1,0 +1,30 @@
+[
+  {
+    "about_id": "ABOU-0000001",
+    "show_flag": "Y",
+    "hero_title": "Trusted CCTV Installation Services",
+    "hero_subtitle": "RSA provides practical CCTV solutions for homes, stores, offices, and small businesses.",
+    "hero_image_path": "assets/images/about/about-hero.jpg",
+    "company_story_title": "About RSA CCTV Installation Services",
+    "company_story_body": "RSA CCTV Installation Services helps customers plan, install, and maintain security camera systems with practical recommendations and dependable support.",
+    "company_story_image_path": "assets/images/about/company-story.jpg",
+    "mission_title": "Our Mission",
+    "mission_body": "To provide reliable and affordable CCTV installation services that help customers protect their property and monitor what matters.",
+    "vision_title": "Our Vision",
+    "vision_body": "To become a trusted local CCTV service provider known for honest advice, quality installation, and responsive customer care.",
+    "why_choose_title": "Why Choose RSA",
+    "why_choose_body": "We focus on practical solutions, clear communication, and professional installation.",
+    "why_choose_bullet_01": "Site-specific CCTV recommendations",
+    "why_choose_bullet_02": "Professional installation and cable management",
+    "why_choose_bullet_03": "Support for mobile viewing setup",
+    "why_choose_bullet_04": "Residential and commercial experience",
+    "why_choose_bullet_05": "Flexible package options",
+    "why_choose_bullet_06": "After-installation support",
+    "meta_title": "About RSA CCTV Installation Services",
+    "meta_description": "Learn about RSA CCTV installation services, mission, and service approach.",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  }
+]

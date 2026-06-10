@@ -1,0 +1,58 @@
+[
+  {
+    "category_id": "CATG-0000001",
+    "show_flag": "Y",
+    "display_seq": 10,
+    "category_name": "CCTV Cameras",
+    "category_key": "cctv",
+    "category_prefix": "CCTV",
+    "icon_code": "camera",
+    "description": "IP, analog, dome, bullet, and indoor/outdoor CCTV cameras.",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "category_id": "CATG-0000002",
+    "show_flag": "Y",
+    "display_seq": 20,
+    "category_name": "Recorders",
+    "category_key": "recorders",
+    "category_prefix": "RECO",
+    "icon_code": "server",
+    "description": "DVR and NVR recording devices for CCTV systems.",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "category_id": "CATG-0000003",
+    "show_flag": "Y",
+    "display_seq": 30,
+    "category_name": "Accessories",
+    "category_key": "accessories",
+    "category_prefix": "ACCS",
+    "icon_code": "plug",
+    "description": "Power supplies, cables, connectors, storage, and CCTV accessories.",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  },
+  {
+    "category_id": "CATG-0000004",
+    "show_flag": "Y",
+    "display_seq": 40,
+    "category_name": "Packages",
+    "category_key": "packages",
+    "category_prefix": "PACK",
+    "icon_code": "box",
+    "description": "Bundled CCTV installation packages for homes and businesses.",
+    "created_at": "2026-06-10T00:00:00Z",
+    "updated_at": "2026-06-10T00:00:00Z",
+    "created_by": "seed",
+    "updated_by": "seed"
+  }
+]
