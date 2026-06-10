@@ -2,14 +2,16 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from app.models.booking import Booking, BookingCreate, BookingListResponse, BookingUpdate
-from app.services.id_service import generate_booking_id
+from app.repositories.booking_repository import BookingRepository
 from app.services.customer_service import create_or_get_customer_from_booking
+from app.services.id_service import generate_booking_id
+from app.utils.normalization import clean_optional_text
 
 
-# Temporary in-memory storage only.
-# Later this will be replaced by DynamoDB.
-MOCK_BOOKINGS: list[Booking] = []
-
+# Temporary in-memory repository only.
+# Later this will be replaced by DynamoDB using the same service-level behavior.
+booking_repository = BookingRepository()
+MOCK_BOOKINGS = booking_repository.items
 
 
 def create_public_booking(booking_data: BookingCreate) -> Booking:
@@ -26,12 +28,12 @@ def create_public_booking(booking_data: BookingCreate) -> Booking:
         customer_id=customer.customer_id,
         customer_name=booking_data.customer_name.strip(),
         contact_number=booking_data.contact_number.strip(),
-        email=booking_data.email,
-        address=booking_data.address.strip() if booking_data.address else None,
+        email=clean_optional_text(booking_data.email),
+        address=clean_optional_text(booking_data.address),
         preferred_date=booking_data.preferred_date,
-        preferred_time=booking_data.preferred_time.strip() if booking_data.preferred_time else None,
-        service_interest=booking_data.service_interest.strip() if booking_data.service_interest else None,
-        notes=booking_data.notes.strip() if booking_data.notes else None,
+        preferred_time=clean_optional_text(booking_data.preferred_time),
+        service_interest=clean_optional_text(booking_data.service_interest),
+        notes=clean_optional_text(booking_data.notes),
         booking_type="Site Visit Request",
         assigned_person=None,
         comments=None,
@@ -40,7 +42,7 @@ def create_public_booking(booking_data: BookingCreate) -> Booking:
         updated_at=now,
     )
 
-    MOCK_BOOKINGS.append(booking)
+    booking_repository.add(booking)
 
     return booking
 
@@ -50,48 +52,21 @@ def list_mock_bookings(
     assigned_person: Optional[str] = None,
     search: Optional[str] = None,
 ) -> BookingListResponse:
-    bookings = MOCK_BOOKINGS.copy()
-
-    if status:
-        status_key = status.lower().strip()
-        bookings = [booking for booking in bookings if booking.status.lower() == status_key]
-
-    if assigned_person:
-        assigned_person_key = assigned_person.lower().strip()
-        bookings = [
-            booking
-            for booking in bookings
-            if (booking.assigned_person or "").lower() == assigned_person_key
-        ]
-
-    if search:
-        search_key = search.lower().strip()
-        bookings = [
-            booking
-            for booking in bookings
-            if search_key in booking.booking_id.lower()
-            or search_key in booking.customer_name.lower()
-            or search_key in booking.contact_number.lower()
-            or search_key in (booking.email or "").lower()
-            or search_key in (booking.service_interest or "").lower()
-            or search_key in (booking.address or "").lower()
-        ]
-
-    bookings.sort(key=lambda booking: booking.created_at, reverse=True)
+    bookings = booking_repository.list_filtered(
+        status=status,
+        assigned_person=assigned_person,
+        search=search,
+    )
 
     return BookingListResponse(items=bookings, total=len(bookings))
 
 
 def get_mock_booking_by_id(booking_id: str) -> Optional[Booking]:
-    for booking in MOCK_BOOKINGS:
-        if booking.booking_id == booking_id:
-            return booking
-
-    return None
+    return booking_repository.get_by_id(booking_id)
 
 
 def update_mock_booking(booking_id: str, update_data: BookingUpdate) -> Optional[Booking]:
-    booking = get_mock_booking_by_id(booking_id)
+    booking = booking_repository.get_by_id(booking_id)
 
     if booking is None:
         return None
@@ -100,12 +75,10 @@ def update_mock_booking(booking_id: str, update_data: BookingUpdate) -> Optional
         booking.booking_type = update_data.booking_type.strip()
 
     if update_data.assigned_person is not None:
-        cleaned_assigned_person = update_data.assigned_person.strip()
-        booking.assigned_person = cleaned_assigned_person or None
+        booking.assigned_person = clean_optional_text(update_data.assigned_person)
 
     if update_data.comments is not None:
-        cleaned_comments = update_data.comments.strip()
-        booking.comments = cleaned_comments or None
+        booking.comments = clean_optional_text(update_data.comments)
 
     if update_data.status is not None:
         booking.status = update_data.status

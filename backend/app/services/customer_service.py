@@ -2,12 +2,15 @@ from datetime import datetime, timezone
 from typing import Literal, Optional
 
 from app.models.customer import Customer, CustomerListResponse
+from app.repositories.customer_repository import CustomerRepository
 from app.services.id_service import generate_customer_id
+from app.utils.normalization import clean_optional_text, normalize_contact_number, normalize_email
 
 
-# Temporary in-memory storage only.
-# Later this will be replaced by DynamoDB.
-MOCK_CUSTOMERS: list[Customer] = []
+# Temporary in-memory repository only.
+# Later this will be replaced by DynamoDB using the same service-level behavior.
+customer_repository = CustomerRepository()
+MOCK_CUSTOMERS = customer_repository.items
 
 
 CustomerSource = Literal[
@@ -22,46 +25,21 @@ CustomerSource = Literal[
 ]
 
 
-
 def _normalize_contact_number(contact_number: str) -> str:
-    return (
-        contact_number.strip()
-        .replace(" ", "")
-        .replace("-", "")
-        .replace("(", "")
-        .replace(")", "")
-    )
+    return normalize_contact_number(contact_number)
 
 
 def _normalize_email(email_address: Optional[str]) -> Optional[str]:
-    if email_address is None or email_address.strip() == "":
-        return None
-
-    return email_address.strip().lower()
+    return normalize_email(email_address)
 
 
 def _find_existing_customer(
     contact_number: str,
     email_address: Optional[str] = None,
 ) -> Optional[Customer]:
-    normalized_contact = _normalize_contact_number(contact_number)
-    normalized_email = _normalize_email(email_address)
-
-    for customer in MOCK_CUSTOMERS:
-        customer_contact = _normalize_contact_number(customer.contact_number)
-        customer_email = _normalize_email(customer.email_address)
-
-        contact_matches = customer_contact == normalized_contact
-        email_matches = (
-            normalized_email is not None
-            and customer_email is not None
-            and customer_email == normalized_email
-        )
-
-        if contact_matches or email_matches:
-            return customer
-
-    return None
+    # Phase 8 v5 launch matching uses contact number only.
+    # Email is stored/normalized for future use but does not drive matching at launch.
+    return customer_repository.find_by_contact_number_normalized(contact_number)
 
 
 def create_or_get_customer_from_lead(
@@ -76,11 +54,12 @@ def create_or_get_customer_from_lead(
     )
 
     now = datetime.now(timezone.utc)
+    cleaned_email = clean_optional_text(email_address)
 
     if existing_customer is not None:
         # Keep the original source and status, but fill missing email if the new lead provided one.
-        if existing_customer.email_address is None and email_address:
-            existing_customer.email_address = email_address.strip()
+        if existing_customer.email_address is None and cleaned_email:
+            existing_customer.email_address = cleaned_email
 
         existing_customer.updated_at = now
         return existing_customer
@@ -90,7 +69,7 @@ def create_or_get_customer_from_lead(
         customer_name=customer_name.strip(),
         customer_status="Prospect",
         customer_category=None,
-        email_address=email_address.strip() if email_address else None,
+        email_address=cleaned_email,
         contact_number=contact_number.strip(),
         customer_from=customer_from,
         sales_person=None,
@@ -99,7 +78,7 @@ def create_or_get_customer_from_lead(
         updated_at=now,
     )
 
-    MOCK_CUSTOMERS.append(customer)
+    customer_repository.add(customer)
 
     return customer
 
@@ -135,34 +114,11 @@ def list_mock_customers(
     customer_from: Optional[str] = None,
     search: Optional[str] = None,
 ) -> CustomerListResponse:
-    customers = MOCK_CUSTOMERS.copy()
-
-    if customer_status:
-        customers = [
-            customer
-            for customer in customers
-            if customer.customer_status.lower() == customer_status.lower().strip()
-        ]
-
-    if customer_from:
-        customers = [
-            customer
-            for customer in customers
-            if customer.customer_from.lower() == customer_from.lower().strip()
-        ]
-
-    if search:
-        search_key = search.lower().strip()
-
-        customers = [
-            customer
-            for customer in customers
-            if search_key in customer.customer_name.lower()
-            or search_key in customer.contact_number.lower()
-            or search_key in (customer.email_address or "").lower()
-        ]
-
-    customers.sort(key=lambda customer: customer.created_at, reverse=True)
+    customers = customer_repository.list_filtered(
+        customer_status=customer_status,
+        customer_from=customer_from,
+        search=search,
+    )
 
     return CustomerListResponse(
         items=customers,
@@ -171,8 +127,4 @@ def list_mock_customers(
 
 
 def get_mock_customer_by_id(customer_id: str) -> Optional[Customer]:
-    for customer in MOCK_CUSTOMERS:
-        if customer.customer_id == customer_id:
-            return customer
-
-    return None
+    return customer_repository.get_by_id(customer_id)

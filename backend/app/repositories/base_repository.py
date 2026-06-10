@@ -44,3 +44,6 @@ class InMemoryRepository(Generic[T]):
             return False
         self.items.remove(item)
         return True
+
+    def count(self) -> int:
+        return len(self.items)
