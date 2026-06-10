@@ -28,8 +28,8 @@ except Exception:
 from app.database import (  # noqa: E402
     get_aws_region,
     get_aws_sts_client,
-    get_data_backend,
     get_dynamodb_client,
+    get_repository_mode,
     get_repository_mode_summary,
     list_table_definitions,
 )
@@ -87,7 +87,7 @@ def main() -> int:
     print("RSA CMS / Mini-CRM DynamoDB Connection Check")
     print(f"Region: {region}")
     print(f"Mode: {'EXECUTE READ-ONLY' if args.execute else 'DRY RUN'}")
-    print(f"Repository mode env: {get_data_backend()}")
+    print(f"Repository mode env: {get_repository_mode()}")
     print("")
 
     if not args.execute:

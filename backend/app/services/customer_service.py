@@ -2,15 +2,14 @@ from datetime import datetime, timezone
 from typing import Literal, Optional
 
 from app.models.customer import Customer, CustomerListResponse
-from app.repositories.customer_repository import CustomerRepository
+from app.repositories.repository_factory import create_customer_repository
 from app.services.id_service import generate_customer_id
 from app.utils.normalization import clean_optional_text, normalize_contact_number, normalize_email
 
 
-# Temporary in-memory repository only.
-# Later this will be replaced by DynamoDB using the same service-level behavior.
-customer_repository = CustomerRepository()
-MOCK_CUSTOMERS = customer_repository.items
+# Repository is selected by RSA_REPOSITORY_MODE. Default is mock.
+customer_repository = create_customer_repository()
+MOCK_CUSTOMERS = getattr(customer_repository, "items", [])
 
 
 CustomerSource = Literal[
@@ -62,6 +61,7 @@ def create_or_get_customer_from_lead(
             existing_customer.email_address = cleaned_email
 
         existing_customer.updated_at = now
+        customer_repository.save(existing_customer)
         return existing_customer
 
     customer = Customer(

@@ -2,16 +2,15 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from app.models.booking import Booking, BookingCreate, BookingListResponse, BookingUpdate
-from app.repositories.booking_repository import BookingRepository
+from app.repositories.repository_factory import create_booking_repository
 from app.services.customer_service import create_or_get_customer_from_booking
 from app.services.id_service import generate_booking_id
 from app.utils.normalization import clean_optional_text
 
 
-# Temporary in-memory repository only.
-# Later this will be replaced by DynamoDB using the same service-level behavior.
-booking_repository = BookingRepository()
-MOCK_BOOKINGS = booking_repository.items
+# Repository is selected by RSA_REPOSITORY_MODE. Default is mock.
+booking_repository = create_booking_repository()
+MOCK_BOOKINGS = getattr(booking_repository, "items", [])
 
 
 def create_public_booking(booking_data: BookingCreate) -> Booking:
@@ -84,5 +83,6 @@ def update_mock_booking(booking_id: str, update_data: BookingUpdate) -> Optional
         booking.status = update_data.status
 
     booking.updated_at = datetime.now(timezone.utc)
+    booking_repository.save(booking)
 
     return booking

@@ -2,16 +2,15 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from app.models.inquiry import Inquiry, InquiryCreate, InquiryListResponse, InquiryUpdate
-from app.repositories.inquiry_repository import InquiryRepository
+from app.repositories.repository_factory import create_inquiry_repository
 from app.services.customer_service import create_or_get_customer_from_inquiry
 from app.services.id_service import generate_inquiry_id
 from app.utils.normalization import clean_optional_text
 
 
-# Temporary in-memory repository only.
-# Later this will be replaced by DynamoDB using the same service-level behavior.
-inquiry_repository = InquiryRepository()
-MOCK_INQUIRIES = inquiry_repository.items
+# Repository is selected by RSA_REPOSITORY_MODE. Default is mock.
+inquiry_repository = create_inquiry_repository()
+MOCK_INQUIRIES = getattr(inquiry_repository, "items", [])
 
 
 def create_public_inquiry(inquiry_data: InquiryCreate) -> Inquiry:
@@ -77,5 +76,6 @@ def update_mock_inquiry(inquiry_id: str, update_data: InquiryUpdate) -> Optional
         inquiry.status = update_data.status
 
     inquiry.updated_at = datetime.now(timezone.utc)
+    inquiry_repository.save(inquiry)
 
     return inquiry

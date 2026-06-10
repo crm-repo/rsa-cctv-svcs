@@ -1,7 +1,6 @@
-# Batch 7 — DynamoDB Connection Testing and Repository Switch Preparation
+# Batch 7/8 — DynamoDB Connection Testing and Repository Mode Preparation
 
-This batch prepares safe DynamoDB connection checks and a generic repository helper.
-It does **not** switch the public APIs to DynamoDB yet.
+Batch 7 prepared safe DynamoDB connection checks and a generic repository helper. Batch 8 adds the environment-based repository mode switch for CRM repositories. The safe default remains mock mode.
 
 ## Current default behavior
 
@@ -24,13 +23,13 @@ mock
 Later, when the DynamoDB-backed repositories are fully wired, the mode can be changed with:
 
 ```powershell
-$env:RSA_DATA_BACKEND="dynamodb"
+$env:RSA_REPOSITORY_MODE="dynamodb"
 ```
 
 For now, keep it unset or set to mock:
 
 ```powershell
-$env:RSA_DATA_BACKEND="mock"
+$env:RSA_REPOSITORY_MODE="mock"
 ```
 
 ## Dry-run connection preview
@@ -95,5 +94,5 @@ The smoke test writes one temporary item, reads it, then deletes it.
 
 - No AWS resources are created by this batch.
 - No public API behavior is changed.
-- DynamoDB repository helpers are prepared but not used by default.
-- Use `mock` repository mode until the DynamoDB tables are created, seeded, and verified.
+- DynamoDB CRM repositories are prepared but not used by default.
+- Use `mock` repository mode until the DynamoDB tables are created, seeded, and verified. `RSA_DATA_BACKEND` and `DATA_BACKEND` remain supported aliases, but `RSA_REPOSITORY_MODE` is preferred going forward.

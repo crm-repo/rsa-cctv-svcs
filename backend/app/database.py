@@ -1,14 +1,15 @@
 """Database helpers for RSA CMS / Mini-CRM.
 
-Batch 7 keeps the application on mock/in-memory repositories by default, while
-adding safe DynamoDB connection helpers for later AWS testing.
+Batch 8 keeps the application on mock/in-memory repositories by default, while
+adding an explicit repository mode switch for later DynamoDB testing.
 
 Important:
 - Importing this file does not create AWS resources.
 - Local API testing does not require AWS credentials.
 - DynamoDB table creation still happens only from scripts with explicit flags.
 - Repository mode defaults to ``mock`` until you intentionally set
-  RSA_DATA_BACKEND=dynamodb or DATA_BACKEND=dynamodb.
+  RSA_REPOSITORY_MODE=dynamodb after tables, seed data, and AWS credentials
+  are ready. RSA_DATA_BACKEND/DATA_BACKEND remain backward-compatible aliases.
 """
 
 from __future__ import annotations
@@ -21,8 +22,12 @@ from typing import Any, Optional
 DEFAULT_AWS_REGION = os.getenv("AWS_REGION", "ap-southeast-1")
 DEFAULT_READ_CAPACITY_UNITS = int(os.getenv("DYNAMODB_DEFAULT_RCU", "1"))
 DEFAULT_WRITE_CAPACITY_UNITS = int(os.getenv("DYNAMODB_DEFAULT_WCU", "1"))
-DEFAULT_DATA_BACKEND = "mock"
-VALID_DATA_BACKENDS = {"mock", "dynamodb"}
+DEFAULT_REPOSITORY_MODE = "mock"
+VALID_REPOSITORY_MODES = {"mock", "dynamodb"}
+
+# Backward-compatible names retained from Batch 7.
+DEFAULT_DATA_BACKEND = DEFAULT_REPOSITORY_MODE
+VALID_DATA_BACKENDS = VALID_REPOSITORY_MODES
 
 
 @dataclass(frozen=True)
@@ -165,36 +170,74 @@ def get_default_write_capacity_units() -> int:
     return int(os.getenv("DYNAMODB_DEFAULT_WCU", str(DEFAULT_WRITE_CAPACITY_UNITS)))
 
 
-def get_data_backend() -> str:
-    """Return current data backend mode.
+def _read_repository_mode_from_env() -> tuple[str, str]:
+    """Return repository mode and the environment variable that supplied it.
+
+    RSA_REPOSITORY_MODE is the Phase 8 Batch 8 preferred name. The older
+    RSA_DATA_BACKEND and DATA_BACKEND aliases remain supported so previous
+    local scripts do not break.
+    """
+
+    for env_name in ("RSA_REPOSITORY_MODE", "RSA_DATA_BACKEND", "DATA_BACKEND"):
+        raw_value = os.getenv(env_name)
+        if raw_value is not None and raw_value.strip() != "":
+            return raw_value.strip().lower(), env_name
+
+    return DEFAULT_REPOSITORY_MODE, "default"
+
+
+def get_repository_mode() -> str:
+    """Return current repository mode.
 
     Accepted values are:
     - mock: default local/in-memory behavior
-    - dynamodb: future AWS-backed repository behavior
+    - dynamodb: AWS DynamoDB-backed repository behavior
 
-    ``RSA_DATA_BACKEND`` is preferred, but ``DATA_BACKEND`` is accepted as a
-    short alias for local testing.
+    Keep this as ``mock`` until DynamoDB tables are created, seed data is
+    loaded, and read/write smoke tests pass.
     """
 
-    backend = os.getenv("RSA_DATA_BACKEND", os.getenv("DATA_BACKEND", DEFAULT_DATA_BACKEND)).strip().lower()
-    if backend not in VALID_DATA_BACKENDS:
-        valid = ", ".join(sorted(VALID_DATA_BACKENDS))
-        raise ValueError(f"Invalid data backend '{backend}'. Valid values: {valid}")
-    return backend
+    repository_mode, _source = _read_repository_mode_from_env()
+    if repository_mode not in VALID_REPOSITORY_MODES:
+        valid = ", ".join(sorted(VALID_REPOSITORY_MODES))
+        raise ValueError(f"Invalid repository mode '{repository_mode}'. Valid values: {valid}")
+    return repository_mode
+
+
+def get_repository_mode_source() -> str:
+    _repository_mode, source = _read_repository_mode_from_env()
+    return source
+
+
+def get_data_backend() -> str:
+    """Backward-compatible alias for Batch 7 scripts."""
+
+    return get_repository_mode()
+
+
+def is_dynamodb_repository_mode_enabled() -> bool:
+    return get_repository_mode() == "dynamodb"
 
 
 def is_dynamodb_backend_enabled() -> bool:
-    return get_data_backend() == "dynamodb"
+    """Backward-compatible alias for Batch 7 scripts."""
+
+    return is_dynamodb_repository_mode_enabled()
 
 
 def get_repository_mode_summary() -> dict[str, Any]:
+    repository_mode = get_repository_mode()
     return {
-        "data_backend": get_data_backend(),
+        "repository_mode": repository_mode,
+        "repository_mode_source": get_repository_mode_source(),
+        "data_backend": repository_mode,
+        "is_dynamodb_repository_mode_enabled": is_dynamodb_repository_mode_enabled(),
         "is_dynamodb_backend_enabled": is_dynamodb_backend_enabled(),
         "aws_region": get_aws_region(),
         "table_prefix": "rsa_",
         "table_count": len(DYNAMODB_TABLE_NAME_MAP),
         "table_names": DYNAMODB_TABLE_NAME_MAP.copy(),
+        "safety_note": "mock is the safe default; use dynamodb only after AWS tables and seed data are ready.",
     }
 
 

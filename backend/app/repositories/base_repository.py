@@ -29,6 +29,22 @@ class InMemoryRepository(Generic[T]):
         return None
 
     def add(self, item: T) -> T:
+        return self.save(item)
+
+    def save(self, item: T) -> T:
+        """Insert or replace an item by primary key.
+
+        DynamoDB put_item has upsert behavior. Keeping the same method here lets
+        services work the same way in mock and DynamoDB repository modes.
+        """
+
+        item_id = getattr(item, self.id_field)
+
+        for index, existing_item in enumerate(self.items):
+            if getattr(existing_item, self.id_field) == item_id:
+                self.items[index] = item
+                return item
+
         self.items.append(item)
         return item
 
