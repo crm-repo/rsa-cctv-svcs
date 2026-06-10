@@ -5,9 +5,11 @@ from app.config import settings
 from app.routes import (
     bookings,
     brands,
+    categories,
     customers,
     health,
     inquiries,
+    key_features,
     package_banners,
     products,
 )
@@ -38,6 +40,8 @@ def root():
 app.include_router(health.router, prefix=settings.API_PREFIX, tags=["Health"])
 app.include_router(products.router, prefix=settings.API_PREFIX, tags=["Products"])
 app.include_router(brands.router, prefix=settings.API_PREFIX, tags=["Brands"])
+app.include_router(categories.router, prefix=settings.API_PREFIX, tags=["Categories"])
+app.include_router(key_features.router, prefix=settings.API_PREFIX, tags=["Key Features"])
 app.include_router(package_banners.router, prefix=settings.API_PREFIX, tags=["Package Banners"])
 app.include_router(bookings.router, prefix=settings.API_PREFIX, tags=["Bookings"])
 app.include_router(inquiries.router, prefix=settings.API_PREFIX, tags=["Inquiries"])

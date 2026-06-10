@@ -1,137 +1,279 @@
-import math
+from datetime import datetime, timezone
+from math import ceil
 from typing import Optional
 
 from app.models.product import Product, ProductListResponse
 
 
-# Temporary mock data only.
-# Later this will be replaced by DynamoDB.
 MOCK_PRODUCTS: list[Product] = [
     Product(
-        product_id="PROD-001",
+        product_id="CCTV-0000001",
         show_flag="Y",
-        display_order=1,
-        product_name="Dahua 2MP Full HD Bullet Camera",
-        product_model="DH-HAC-B1A21P",
-        product_slug="dahua-2mp-full-hd-bullet-camera",
-        category="cctv",
-        subcategory="2MP Bullet Camera",
-        brand_id="BRAND-001",
-        product_brand_name="dahua",
-        description="Reliable 2MP CCTV bullet camera for residential and small business use.",
-        features=["2MP Full HD", "Night Vision", "Weather Resistant", "Indoor/Outdoor"],
-        price=2450.00,
-        old_price=None,
-        sale_price=None,
-        image_path="/assets/images/products/dahua-2mp-bullet.jpg",
-        brand_logo_path="/assets/images/brands/dahua.png",
-        stock_quantity=25,
-        low_stock_threshold=10,
-    ),
-    Product(
-        product_id="PROD-002",
-        show_flag="Y",
-        display_order=2,
-        product_name="Hikvision 4MP Dome Camera",
-        product_model="DS-2CE76D0T",
-        product_slug="hikvision-4mp-dome-camera",
-        category="cctv",
-        subcategory="4MP Dome Camera",
-        brand_id="BRAND-002",
-        product_brand_name="hikvision",
-        description="Compact dome camera suitable for indoor security installations.",
-        features=["4MP Resolution", "IR Night Vision", "Wide Angle", "Ceiling Mount"],
-        price=3200.00,
-        old_price=3600.00,
-        sale_price=2950.00,
-        image_path="/assets/images/products/hikvision-4mp-dome.jpg",
+        show_pack_flag="N",
+        display_seq=1,
+        product_name="Hikvision 6 MP AcuSense Fixed Bullet Camera",
+        product_model="DS-2CD2063G2-IU",
+        product_slug="hikvision-6mp-acusense-fixed-bullet-camera",
+        category_id="CATG-0000001",
+        category_key="cctv",
+        category_name="CCTV Cameras",
+        category_prefix="CCTV",
+        subcategory="Fixed Bullet Camera",
+        brand_id="BRND-0000002",
+        product_brand_key="hikvision",
+        product_brand_name="Hikvision",
         brand_logo_path="/assets/images/brands/hikvision.png",
-        stock_quantity=8,
-        low_stock_threshold=10,
+        description="Manually managed product description placeholder for the Hikvision bullet camera.",
+        feature_01="6 MP AcuSense",
+        feature_02="Smart IR Night Vision",
+        feature_03="Weatherproof Outdoor Housing",
+        feature_04="Built-in Microphone",
+        price=185.00,
+        sale_price=165.00,
+        image_path="/assets/images/products/hikvision-6mp-bullet.png",
+        stock_quantity=18,
+        low_stock_threshold=5,
+        meta_title="Hikvision 6 MP AcuSense Fixed Bullet Camera",
+        meta_description="Hikvision 6 MP AcuSense fixed bullet CCTV camera.",
+        created_at=datetime(2026, 6, 1, tzinfo=timezone.utc),
+        updated_at=datetime(2026, 6, 1, tzinfo=timezone.utc),
+        created_by="system",
+        updated_by="system",
     ),
     Product(
-        product_id="PROD-003",
+        product_id="CCTV-0000002",
         show_flag="Y",
-        display_order=3,
-        product_name="Dahua 4 Channel CCTV Package",
-        product_model="RSA-PKG-4CH-DAHUA",
-        product_slug="dahua-4-channel-cctv-package",
-        category="packages",
-        subcategory="4 Channel CCTV Package",
-        brand_id="BRAND-001",
-        product_brand_name="dahua",
-        description="Recommended CCTV package for homes and small shops.",
-        features=["4 Cameras", "Recorder Included", "Mobile View", "Basic Installation Included"],
-        price=18500.00,
-        old_price=21000.00,
-        sale_price=17500.00,
-        image_path="/assets/images/packages/dahua-4ch-package.jpg",
+        show_pack_flag="N",
+        display_seq=2,
+        product_name="Dahua 5 MP Starlight Eyeball Camera",
+        product_model="IPC-HDW3549H-AS-PV",
+        product_slug="dahua-5mp-starlight-eyeball-camera",
+        category_id="CATG-0000001",
+        category_key="cctv",
+        category_name="CCTV Cameras",
+        category_prefix="CCTV",
+        subcategory="Eyeball Camera",
+        brand_id="BRND-0000001",
+        product_brand_key="dahua",
+        product_brand_name="Dahua",
         brand_logo_path="/assets/images/brands/dahua.png",
+        description="Manually managed product description placeholder for the Dahua eyeball camera.",
+        feature_01="5 MP Full Color",
+        feature_02="Smart IR Night Vision",
+        feature_03="Motion Detection Alerts",
+        feature_04="Built-in Active Deterrence",
+        price=145.00,
+        sale_price=None,
+        image_path="/assets/images/products/dahua-5mp-eyeball.png",
+        stock_quantity=8,
+        low_stock_threshold=5,
+        meta_title="Dahua 5 MP Starlight Eyeball Camera",
+        meta_description="Dahua 5 MP Starlight eyeball CCTV camera.",
+        created_at=datetime(2026, 6, 2, tzinfo=timezone.utc),
+        updated_at=datetime(2026, 6, 2, tzinfo=timezone.utc),
+        created_by="system",
+        updated_by="system",
+    ),
+    Product(
+        product_id="RECO-0000001",
+        show_flag="Y",
+        show_pack_flag="N",
+        display_seq=3,
+        product_name="Dahua 8 Channel WizSense NVR",
+        product_model="NVR2108HS-I2",
+        product_slug="dahua-8-channel-wizsense-nvr",
+        category_id="CATG-0000002",
+        category_key="recorders",
+        category_name="Recorders",
+        category_prefix="RECO",
+        subcategory="Network Video Recorder",
+        brand_id="BRND-0000001",
+        product_brand_key="dahua",
+        product_brand_name="Dahua",
+        brand_logo_path="/assets/images/brands/dahua.png",
+        description="Manually managed product description placeholder for the Dahua NVR.",
+        feature_01="8 Channel Recording",
+        feature_02="4K Ultra HD Recording",
+        feature_03="Remote Mobile Viewing",
+        feature_04="Smart Motion Detection",
+        price=220.00,
+        sale_price=199.00,
+        image_path="/assets/images/products/dahua-8ch-nvr.png",
+        stock_quantity=4,
+        low_stock_threshold=5,
+        meta_title="Dahua 8 Channel WizSense NVR",
+        meta_description="Dahua 8 channel WizSense network video recorder.",
+        created_at=datetime(2026, 6, 3, tzinfo=timezone.utc),
+        updated_at=datetime(2026, 6, 3, tzinfo=timezone.utc),
+        created_by="system",
+        updated_by="system",
+    ),
+    Product(
+        product_id="RECO-0000002",
+        show_flag="Y",
+        show_pack_flag="N",
+        display_seq=4,
+        product_name="Hikvision 16 Channel PoE NVR",
+        product_model="DS-7616NI-K2/16P",
+        product_slug="hikvision-16-channel-poe-nvr",
+        category_id="CATG-0000002",
+        category_key="recorders",
+        category_name="Recorders",
+        category_prefix="RECO",
+        subcategory="PoE Network Video Recorder",
+        brand_id="BRND-0000002",
+        product_brand_key="hikvision",
+        product_brand_name="Hikvision",
+        brand_logo_path="/assets/images/brands/hikvision.png",
+        description="Manually managed product description placeholder for the Hikvision NVR.",
+        feature_01="16 Channel PoE",
+        feature_02="4K Ultra HD Recording",
+        feature_03="Remote Mobile Viewing",
+        feature_04="Plug and Play Setup",
+        price=390.00,
+        sale_price=None,
+        image_path="/assets/images/products/hikvision-16ch-poe-nvr.png",
+        stock_quantity=6,
+        low_stock_threshold=5,
+        meta_title="Hikvision 16 Channel PoE NVR",
+        meta_description="Hikvision 16 channel PoE network video recorder.",
+        created_at=datetime(2026, 6, 4, tzinfo=timezone.utc),
+        updated_at=datetime(2026, 6, 4, tzinfo=timezone.utc),
+        created_by="system",
+        updated_by="system",
+    ),
+    Product(
+        product_id="PACK-0000001",
+        show_flag="Y",
+        show_pack_flag="Y",
+        display_seq=5,
+        product_name="Dahua 4 Camera CCTV Package",
+        product_model="RSA-PACK-DAHUA-4CH",
+        product_slug="dahua-4-camera-cctv-package",
+        category_id="CATG-0000003",
+        category_key="packages",
+        category_name="Packages/Kits",
+        category_prefix="PACK",
+        subcategory="4 Camera Package",
+        brand_id="BRND-0000001",
+        product_brand_key="dahua",
+        product_brand_name="Dahua",
+        brand_logo_path="/assets/images/brands/dahua.png",
+        description="Manually managed package description placeholder.",
+        feature_01="4 Camera Bundle",
+        feature_02="Installation Included",
+        feature_03="Remote Mobile Viewing",
+        feature_04="Warranty Included",
+        price=850.00,
+        sale_price=799.00,
+        image_path="/assets/images/packages/dahua-4-camera-package.png",
+        stock_quantity=10,
+        low_stock_threshold=3,
+        meta_title="Dahua 4 Camera CCTV Package",
+        meta_description="Dahua 4 camera CCTV package with installation.",
+        created_at=datetime(2026, 6, 5, tzinfo=timezone.utc),
+        updated_at=datetime(2026, 6, 5, tzinfo=timezone.utc),
+        created_by="system",
+        updated_by="system",
+    ),
+    Product(
+        product_id="PACK-0000002",
+        show_flag="Y",
+        show_pack_flag="Y",
+        display_seq=6,
+        product_name="Hikvision 8 Camera CCTV Package",
+        product_model="RSA-PACK-HIK-8CH",
+        product_slug="hikvision-8-camera-cctv-package",
+        category_id="CATG-0000003",
+        category_key="packages",
+        category_name="Packages/Kits",
+        category_prefix="PACK",
+        subcategory="8 Camera Package",
+        brand_id="BRND-0000002",
+        product_brand_key="hikvision",
+        product_brand_name="Hikvision",
+        brand_logo_path="/assets/images/brands/hikvision.png",
+        description="Manually managed package description placeholder.",
+        feature_01="8 Camera Bundle",
+        feature_02="Installation Included",
+        feature_03="Smart IR Night Vision",
+        feature_04="Warranty Included",
+        price=1450.00,
+        sale_price=1299.00,
+        image_path="/assets/images/packages/hikvision-8-camera-package.png",
+        stock_quantity=7,
+        low_stock_threshold=3,
+        meta_title="Hikvision 8 Camera CCTV Package",
+        meta_description="Hikvision 8 camera CCTV package with installation.",
+        created_at=datetime(2026, 6, 6, tzinfo=timezone.utc),
+        updated_at=datetime(2026, 6, 6, tzinfo=timezone.utc),
+        created_by="system",
+        updated_by="system",
+    ),
+    Product(
+        product_id="PACK-0000003",
+        show_flag="Y",
+        show_pack_flag="N",
+        display_seq=7,
+        product_name="Uniview 6 Camera CCTV Package",
+        product_model="RSA-PACK-UNV-6CH",
+        product_slug="uniview-6-camera-cctv-package",
+        category_id="CATG-0000003",
+        category_key="packages",
+        category_name="Packages/Kits",
+        category_prefix="PACK",
+        subcategory="6 Camera Package",
+        brand_id="BRND-0000004",
+        product_brand_key="uniview",
+        product_brand_name="Uniview",
+        brand_logo_path="/assets/images/brands/uniview.png",
+        description="Manually managed package description placeholder.",
+        feature_01="6 Camera Bundle",
+        feature_02="Installation Included",
+        feature_03="Remote Mobile Viewing",
+        feature_04="Warranty Included",
+        price=1180.00,
+        sale_price=1099.00,
+        image_path="/assets/images/packages/uniview-6-camera-package.png",
         stock_quantity=5,
         low_stock_threshold=3,
+        meta_title="Uniview 6 Camera CCTV Package",
+        meta_description="Uniview 6 camera CCTV package with installation.",
+        created_at=datetime(2026, 6, 7, tzinfo=timezone.utc),
+        updated_at=datetime(2026, 6, 7, tzinfo=timezone.utc),
+        created_by="system",
+        updated_by="system",
     ),
     Product(
-        product_id="PROD-004",
-        show_flag="Y",
-        display_order=4,
-        product_name="Hikvision 8 Channel NVR",
-        product_model="DS-7608NI",
-        product_slug="hikvision-8-channel-nvr",
-        category="recorders",
-        subcategory="Network Video Recorder",
-        brand_id="BRAND-002",
-        product_brand_name="hikvision",
-        description="8 channel NVR for IP CCTV camera systems.",
-        features=["8 Channel", "IP Camera Support", "Remote Viewing", "HDMI Output"],
-        price=7800.00,
-        old_price=None,
-        sale_price=None,
-        image_path="/assets/images/products/hikvision-8ch-nvr.jpg",
-        brand_logo_path="/assets/images/brands/hikvision.png",
-        stock_quantity=12,
-        low_stock_threshold=5,
-    ),
-    Product(
-        product_id="PROD-005",
-        show_flag="Y",
-        display_order=5,
-        product_name="D-Link Network Switch",
-        product_model="DGS-1008A",
-        product_slug="dlink-network-switch",
-        category="networking",
-        subcategory="Network Switch",
-        brand_id="BRAND-003",
-        product_brand_name="d-link",
-        description="Network switch for CCTV and office network installations.",
-        features=["8 Ports", "Gigabit Speed", "Plug and Play", "Compact Design"],
-        price=1800.00,
-        old_price=None,
-        sale_price=None,
-        image_path="/assets/images/products/dlink-switch.jpg",
-        brand_logo_path="/assets/images/brands/dlink.png",
-        stock_quantity=30,
-        low_stock_threshold=10,
-    ),
-    Product(
-        product_id="PROD-006",
+        product_id="CCTV-0000003",
         show_flag="N",
-        display_order=6,
-        product_name="Hidden Test Product",
-        product_model="HIDDEN-001",
-        product_slug="hidden-test-product",
-        category="accessories",
-        subcategory="Hidden Item",
-        brand_id="BRAND-999",
-        product_brand_name="test",
-        description="This product should not appear in public API results.",
-        features=["Hidden product"],
-        price=999.00,
-        old_price=None,
+        show_pack_flag="N",
+        display_seq=99,
+        product_name="Hidden Test CCTV Camera",
+        product_model="HIDDEN-CAM-001",
+        product_slug="hidden-test-cctv-camera",
+        category_id="CATG-0000001",
+        category_key="cctv",
+        category_name="CCTV Cameras",
+        category_prefix="CCTV",
+        subcategory="Hidden Test Camera",
+        brand_id="BRND-0000001",
+        product_brand_key="dahua",
+        product_brand_name="Dahua",
+        brand_logo_path="/assets/images/brands/dahua.png",
+        description="Hidden product used to verify show_flag filtering.",
+        feature_01="Hidden Feature 1",
+        feature_02="Hidden Feature 2",
+        feature_03="Hidden Feature 3",
+        price=99.00,
         sale_price=None,
-        image_path="/assets/images/products/hidden.jpg",
-        brand_logo_path=None,
+        image_path="/assets/images/products/hidden-test-camera.png",
         stock_quantity=1,
         low_stock_threshold=1,
+        created_at=datetime(2026, 6, 8, tzinfo=timezone.utc),
+        updated_at=datetime(2026, 6, 8, tzinfo=timezone.utc),
+        created_by="system",
+        updated_by="system",
     ),
 ]
 
@@ -142,6 +284,30 @@ def _is_on_sale(product: Product) -> bool:
 
 def _effective_price(product: Product) -> float:
     return product.sale_price if product.sale_price is not None else product.price
+
+
+def _feature_values(product: Product) -> list[str]:
+    return [
+        feature
+        for feature in [
+            product.feature_01,
+            product.feature_02,
+            product.feature_03,
+            product.feature_04,
+            product.feature_05,
+            product.feature_06,
+            product.feature_07,
+            product.feature_08,
+            product.feature_09,
+            product.feature_10,
+        ]
+        if feature
+    ]
+
+
+def _is_all_category(category: str) -> bool:
+    normalized = category.strip().lower()
+    return normalized in {"all", "all-products", "all products"}
 
 
 def list_public_products(
@@ -155,69 +321,62 @@ def list_public_products(
 ) -> ProductListResponse:
     products = [product for product in MOCK_PRODUCTS if product.show_flag == "Y"]
 
-    if category and category.lower() not in ["all", "all-products", "all_products"]:
-        category_key = category.lower().strip()
+    if category and not _is_all_category(category):
+        category_value = category.strip().lower()
         products = [
             product
             for product in products
-            if product.category.lower() == category_key
+            if product.category_key.lower() == category_value
         ]
 
     if brand:
-        brand_key = brand.lower().strip()
+        brand_value = brand.strip().lower()
         products = [
             product
             for product in products
-            if (product.product_brand_name or "").lower() == brand_key
+            if product.product_brand_key
+            and product.product_brand_key.lower() == brand_value
         ]
 
-    if sale is not None:
-        if sale:
-            products = [product for product in products if _is_on_sale(product)]
-        else:
-            products = [product for product in products if not _is_on_sale(product)]
+    if sale is True:
+        products = [product for product in products if _is_on_sale(product)]
+    elif sale is False:
+        products = [product for product in products if not _is_on_sale(product)]
 
     if search:
-        search_key = search.lower().strip()
-
-        def matches_search(product: Product) -> bool:
-            searchable_values = [
-                product.product_name,
-                product.product_model or "",
-                product.category,
-                product.subcategory or "",
-                " ".join(product.features),
-            ]
-
-            return any(search_key in value.lower() for value in searchable_values)
-
-        products = [product for product in products if matches_search(product)]
+        search_value = search.strip().lower()
+        products = [
+            product
+            for product in products
+            if search_value in product.product_name.lower()
+            or (product.product_model and search_value in product.product_model.lower())
+            or search_value in product.category_key.lower()
+            or search_value in product.category_name.lower()
+            or (product.subcategory and search_value in product.subcategory.lower())
+            or (product.product_brand_key and search_value in product.product_brand_key.lower())
+            or (product.product_brand_name and search_value in product.product_brand_name.lower())
+            or any(search_value in feature.lower() for feature in _feature_values(product))
+        ]
 
     if sort == "price_low":
         products.sort(key=_effective_price)
     elif sort == "price_high":
         products.sort(key=_effective_price, reverse=True)
     elif sort == "newly_added":
-        products.sort(key=lambda product: product.display_order, reverse=True)
+        products.sort(key=lambda product: product.created_at, reverse=True)
     elif sort == "on_sale":
-        products.sort(
-            key=lambda product: (
-                0 if _is_on_sale(product) else 1,
-                product.display_order,
-            )
-        )
+        products.sort(key=lambda product: (not _is_on_sale(product), product.display_seq))
     else:
-        products.sort(key=lambda product: product.display_order)
+        products.sort(key=lambda product: product.display_seq)
 
     total = len(products)
-    total_pages = max(math.ceil(total / per_page), 1)
-
+    total_pages = ceil(total / per_page) if total else 1
     start_index = (page - 1) * per_page
     end_index = start_index + per_page
-    paginated_items = products[start_index:end_index]
+    paginated_products = products[start_index:end_index]
 
     return ProductListResponse(
-        items=paginated_items,
+        items=paginated_products,
         total=total,
         page=page,
         per_page=per_page,
@@ -229,5 +388,16 @@ def get_public_product_by_id(product_id: str) -> Optional[Product]:
     for product in MOCK_PRODUCTS:
         if product.product_id == product_id and product.show_flag == "Y":
             return product
-
     return None
+
+
+def list_public_package_products_for_banner() -> list[Product]:
+    package_products = [
+        product
+        for product in MOCK_PRODUCTS
+        if product.show_flag == "Y"
+        and product.category_key == "packages"
+        and product.show_pack_flag == "Y"
+    ]
+    package_products.sort(key=lambda product: product.display_seq)
+    return package_products

@@ -15,7 +15,7 @@ router = APIRouter()
 def get_package_banners(
     placement: Optional[Literal["homepage", "promotions"]] = Query(
         default=None,
-        description="Optional placement filter: homepage or promotions.",
+        description="Accepted for backward compatibility. Phase 8 v5 uses show_pack_flag for both homepage and promotions placement.",
     ),
 ):
     return list_public_package_banners(placement=placement)
@@ -23,9 +23,9 @@ def get_package_banners(
 
 @router.get("/package-banners/{package_banner_id}", response_model=PackageBanner)
 def get_package_banner(package_banner_id: str):
-    banner = get_public_package_banner_by_id(package_banner_id)
+    package_banner = get_public_package_banner_by_id(package_banner_id)
 
-    if banner is None:
+    if package_banner is None:
         raise HTTPException(status_code=404, detail="Package banner not found")
 
-    return banner
+    return package_banner
