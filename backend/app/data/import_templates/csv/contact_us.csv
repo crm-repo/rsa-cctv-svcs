@@ -1,0 +1,3 @@
+﻿contact_us_id,contact_type,show_flag,display_seq,label,name,position,phone_number,email_address,address,url,icon_code,photo_filename,photo_path,notes
+,Contact Person,Y,10,Sales Contact,Juan Dela Cruz,Sales Representative,+63 919 123 4567,sales@example.com,,,,juan-dela-cruz.jpg,,photo fields are for Contact Person only
+,,,,,,,,,,,,,,

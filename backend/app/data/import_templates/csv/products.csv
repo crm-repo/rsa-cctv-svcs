@@ -1,0 +1,3 @@
+﻿product_id,show_flag,show_pack_flag,display_seq,category_key,category_name,subcategory,product_brand_key,product_brand_name,product_name,product_model,product_slug,description,feature_01,feature_02,feature_03,feature_04,feature_05,feature_06,feature_07,feature_08,feature_09,feature_10,price,sale_price,stock_quantity,low_stock_threshold,image_filename,image_path,meta_title,meta_description
+,Y,N,10,cctv,CCTV Cameras,Dome Camera,hikvision,Hikvision,,DS-2CE56D0T,hikvision-2mp-dome-camera,Indoor dome camera for homes and offices.,2MP Resolution,Night Vision,Indoor Dome Design,,,,,,,,2850,,10,3,hikvision-2mp-dome.jpg,,Hikvision 2MP Dome Camera,2MP dome CCTV camera.
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

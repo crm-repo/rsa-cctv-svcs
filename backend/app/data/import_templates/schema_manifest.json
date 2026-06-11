@@ -1,0 +1,218 @@
+{
+  "project": "RSA CMS / Mini-CRM",
+  "batch": "Phase 8 Batch 25",
+  "purpose": "Launch data collection templates for company-provided data",
+  "warning": "Templates are for data collection/validation. Do not ask company users to edit JSON.",
+  "tables": {
+    "categories": {
+      "file": "categories.csv",
+      "sheet": "Categories",
+      "required": [
+        "category_name",
+        "category_key",
+        "category_prefix",
+        "show_flag",
+        "display_seq"
+      ],
+      "headers": [
+        "category_id",
+        "category_name",
+        "category_key",
+        "category_prefix",
+        "icon_code",
+        "description",
+        "show_flag",
+        "display_seq"
+      ],
+      "notes": "Create one row per product category. category_prefix is used for future product IDs."
+    },
+    "brands": {
+      "file": "brands.csv",
+      "sheet": "Brands",
+      "required": [
+        "product_brand_name",
+        "product_brand_key",
+        "show_flag",
+        "display_seq"
+      ],
+      "headers": [
+        "brand_id",
+        "product_brand_name",
+        "product_brand_key",
+        "brand_logo_filename",
+        "brand_logo_path",
+        "description",
+        "show_flag",
+        "display_seq"
+      ],
+      "notes": "brand_logo_filename is what the company provides. brand_logo_path/key is resolved later by the import/upload process."
+    },
+    "key_features": {
+      "file": "key_features.csv",
+      "sheet": "Key Features",
+      "required": [
+        "feature_name",
+        "feature_key",
+        "show_flag",
+        "display_seq"
+      ],
+      "headers": [
+        "key_feat_id",
+        "feature_name",
+        "feature_key",
+        "category_key",
+        "show_flag",
+        "display_seq"
+      ],
+      "notes": "Reusable feature suggestions for Product feature_01 to feature_10 fields."
+    },
+    "products": {
+      "file": "products.csv",
+      "sheet": "Products",
+      "required": [
+        "category_key",
+        "subcategory",
+        "product_brand_key",
+        "feature_01",
+        "feature_02",
+        "feature_03",
+        "price",
+        "show_flag",
+        "display_seq"
+      ],
+      "headers": [
+        "product_id",
+        "show_flag",
+        "show_pack_flag",
+        "display_seq",
+        "category_key",
+        "category_name",
+        "subcategory",
+        "product_brand_key",
+        "product_brand_name",
+        "product_name",
+        "product_model",
+        "product_slug",
+        "description",
+        "feature_01",
+        "feature_02",
+        "feature_03",
+        "feature_04",
+        "feature_05",
+        "feature_06",
+        "feature_07",
+        "feature_08",
+        "feature_09",
+        "feature_10",
+        "price",
+        "sale_price",
+        "stock_quantity",
+        "low_stock_threshold",
+        "image_filename",
+        "image_path",
+        "meta_title",
+        "meta_description"
+      ],
+      "notes": "product_name can be blank. Backend/admin can default it from Brand + feature_01 + subcategory. feature_01 to feature_03 are required."
+    },
+    "services": {
+      "file": "services.csv",
+      "sheet": "Services",
+      "required": [
+        "service_name",
+        "service_slug",
+        "show_flag",
+        "display_seq"
+      ],
+      "headers": [
+        "service_id",
+        "show_flag",
+        "display_seq",
+        "service_name",
+        "service_slug",
+        "short_description",
+        "description",
+        "icon_code",
+        "image_filename",
+        "image_path",
+        "meta_title",
+        "meta_description"
+      ],
+      "notes": "One row per public service offering."
+    },
+    "about": {
+      "file": "about.csv",
+      "sheet": "About",
+      "required": [
+        "section_key",
+        "title",
+        "show_flag",
+        "display_seq"
+      ],
+      "headers": [
+        "about_id",
+        "show_flag",
+        "display_seq",
+        "section_key",
+        "title",
+        "subtitle",
+        "body",
+        "mission",
+        "vision",
+        "image_filename",
+        "image_path"
+      ],
+      "notes": "Use sections to organize About page content."
+    },
+    "project_gallery": {
+      "file": "project_gallery.csv",
+      "sheet": "Project Gallery",
+      "required": [
+        "project_title",
+        "show_flag",
+        "display_seq"
+      ],
+      "headers": [
+        "project_id",
+        "show_flag",
+        "display_seq",
+        "project_title",
+        "project_slug",
+        "project_location",
+        "project_type",
+        "description",
+        "image_filename",
+        "image_path",
+        "completed_date"
+      ],
+      "notes": "Use YYYY-MM-DD for completed_date."
+    },
+    "contact_us": {
+      "file": "contact_us.csv",
+      "sheet": "Contact Us",
+      "required": [
+        "contact_type",
+        "show_flag",
+        "display_seq"
+      ],
+      "headers": [
+        "contact_us_id",
+        "contact_type",
+        "show_flag",
+        "display_seq",
+        "label",
+        "name",
+        "position",
+        "phone_number",
+        "email_address",
+        "address",
+        "url",
+        "icon_code",
+        "photo_filename",
+        "photo_path",
+        "notes"
+      ],
+      "notes": "contact_type must be Company Contact, Contact Person, or Social Media. Photo fields apply only to Contact Person rows."
+    }
+  }
+}
