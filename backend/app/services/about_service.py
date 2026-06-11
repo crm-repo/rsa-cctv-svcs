@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from app.models.about import About
+from app.repositories.repository_factory import create_about_repository
 
 now = datetime.now(timezone.utc)
 
@@ -37,8 +38,9 @@ MOCK_ABOUT_RECORDS: list[About] = [
 ]
 
 
+def _get_about_repository():
+    return create_about_repository(initial_items=MOCK_ABOUT_RECORDS)
+
+
 def get_public_about() -> Optional[About]:
-    for about in MOCK_ABOUT_RECORDS:
-        if about.show_flag == "Y":
-            return about
-    return None
+    return _get_about_repository().get_visible_about()

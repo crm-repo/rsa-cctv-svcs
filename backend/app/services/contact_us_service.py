@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from app.models.contact_us import ContactPageResponse, ContactUsRecord
+from app.repositories.repository_factory import create_contact_us_repository
 
 now = datetime.now(timezone.utc)
 
@@ -149,34 +150,25 @@ MOCK_CONTACT_US_RECORDS: list[ContactUsRecord] = [
 ]
 
 
+def _get_contact_us_repository():
+    return create_contact_us_repository(initial_items=MOCK_CONTACT_US_RECORDS)
+
+
 def list_public_contact_records() -> list[ContactUsRecord]:
-    visible_records = [record for record in MOCK_CONTACT_US_RECORDS if record.show_flag == "Y"]
-    return sorted(visible_records, key=lambda record: (record.contact_type, record.display_seq))
+    records = _get_contact_us_repository().list_visible()
+    return sorted(records, key=lambda record: (record.contact_type, record.display_seq))
 
 
 def get_public_company_contact() -> Optional[ContactUsRecord]:
-    for record in MOCK_CONTACT_US_RECORDS:
-        if record.show_flag == "Y" and record.contact_type == "Company Contact":
-            return record
-    return None
+    return _get_contact_us_repository().get_visible_company_contact()
 
 
 def list_public_contact_persons() -> list[ContactUsRecord]:
-    contact_persons = [
-        record
-        for record in MOCK_CONTACT_US_RECORDS
-        if record.show_flag == "Y" and record.contact_type == "Contact Person"
-    ]
-    return sorted(contact_persons, key=lambda record: record.display_seq)
+    return _get_contact_us_repository().list_visible_by_type("Contact Person")
 
 
 def list_public_social_media() -> list[ContactUsRecord]:
-    social_media = [
-        record
-        for record in MOCK_CONTACT_US_RECORDS
-        if record.show_flag == "Y" and record.contact_type == "Social Media"
-    ]
-    return sorted(social_media, key=lambda record: record.display_seq)
+    return _get_contact_us_repository().list_visible_by_type("Social Media")
 
 
 def get_public_contact_page() -> ContactPageResponse:

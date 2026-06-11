@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, Field
@@ -6,15 +7,17 @@ from pydantic import BaseModel, Field
 class Brand(BaseModel):
     brand_id: str
     show_flag: str = Field(pattern="^(Y|N)$")
-    display_order: int = 0
-
+    display_seq: int = 0
     brand_name: str
     brand_key: str
-    logo_path: str
-
+    brand_logo_path: Optional[str] = None
     description: Optional[str] = None
-    website_url: Optional[str] = None
-    featured_brand: str = Field(default="N", pattern="^(Y|N)$")
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+    created_by: Optional[str] = None
+    updated_by: Optional[str] = None
 
 
 class BrandListResponse(BaseModel):

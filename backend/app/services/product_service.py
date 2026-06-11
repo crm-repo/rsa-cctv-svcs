@@ -3,6 +3,7 @@ from math import ceil
 from typing import Optional
 
 from app.models.product import Product, ProductListResponse
+from app.repositories.repository_factory import create_product_repository
 
 
 MOCK_PRODUCTS: list[Product] = [
@@ -310,6 +311,10 @@ def _is_all_category(category: str) -> bool:
     return normalized in {"all", "all-products", "all products"}
 
 
+def _get_product_repository():
+    return create_product_repository(initial_items=MOCK_PRODUCTS)
+
+
 def list_public_products(
     category: Optional[str] = None,
     brand: Optional[str] = None,
@@ -319,7 +324,7 @@ def list_public_products(
     page: int = 1,
     per_page: int = 12,
 ) -> ProductListResponse:
-    products = [product for product in MOCK_PRODUCTS if product.show_flag == "Y"]
+    products = _get_product_repository().list_visible()
 
     if category and not _is_all_category(category):
         category_value = category.strip().lower()
@@ -385,18 +390,14 @@ def list_public_products(
 
 
 def get_public_product_by_id(product_id: str) -> Optional[Product]:
-    for product in MOCK_PRODUCTS:
-        if product.product_id == product_id and product.show_flag == "Y":
-            return product
-    return None
+    return _get_product_repository().get_visible_by_id(product_id)
 
 
 def list_public_package_products_for_banner() -> list[Product]:
     package_products = [
         product
-        for product in MOCK_PRODUCTS
-        if product.show_flag == "Y"
-        and product.category_key == "packages"
+        for product in _get_product_repository().list_visible()
+        if product.category_key == "packages"
         and product.show_pack_flag == "Y"
     ]
     package_products.sort(key=lambda product: product.display_seq)

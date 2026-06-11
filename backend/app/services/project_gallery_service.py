@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
 from app.models.project_gallery import ProjectGalleryItem
+from app.repositories.repository_factory import create_project_gallery_repository
 
 now = datetime.now(timezone.utc)
 
@@ -60,6 +61,9 @@ MOCK_PROJECT_GALLERY: list[ProjectGalleryItem] = [
 ]
 
 
+def _get_project_gallery_repository():
+    return create_project_gallery_repository(initial_items=MOCK_PROJECT_GALLERY)
+
+
 def list_public_project_gallery() -> list[ProjectGalleryItem]:
-    visible_items = [item for item in MOCK_PROJECT_GALLERY if item.show_flag == "Y"]
-    return sorted(visible_items, key=lambda item: item.display_seq)
+    return _get_project_gallery_repository().list_visible_sorted()

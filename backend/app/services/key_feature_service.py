@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from app.models.key_feature import KeyFeature, KeyFeatureListResponse
+from app.repositories.repository_factory import create_key_feature_repository
 
 
 MOCK_KEY_FEATURES: list[KeyFeature] = [
@@ -72,8 +73,16 @@ MOCK_KEY_FEATURES: list[KeyFeature] = [
 ]
 
 
+def _get_key_feature_repository():
+    return create_key_feature_repository(initial_items=MOCK_KEY_FEATURES)
+
+
 def list_key_features(search: Optional[str] = None) -> KeyFeatureListResponse:
-    features = list(MOCK_KEY_FEATURES)
+    repository = _get_key_feature_repository()
+    if search:
+        features = repository.search_by_name(search)
+    else:
+        features = repository.list_all()
 
     if search:
         search_value = search.strip().lower()
@@ -89,7 +98,4 @@ def list_key_features(search: Optional[str] = None) -> KeyFeatureListResponse:
 
 
 def get_key_feature_by_id(key_feat_id: str) -> Optional[KeyFeature]:
-    for feature in MOCK_KEY_FEATURES:
-        if feature.key_feat_id == key_feat_id:
-            return feature
-    return None
+    return _get_key_feature_repository().get_by_id(key_feat_id)

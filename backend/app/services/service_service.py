@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from app.models.service import Service
+from app.repositories.repository_factory import create_service_repository
 
 now = datetime.now(timezone.utc)
 
@@ -85,14 +86,13 @@ MOCK_SERVICES: list[Service] = [
 ]
 
 
+def _get_service_repository():
+    return create_service_repository(initial_items=MOCK_SERVICES)
+
+
 def list_public_services() -> list[Service]:
-    visible_services = [service for service in MOCK_SERVICES if service.show_flag == "Y"]
-    return sorted(visible_services, key=lambda service: service.display_seq)
+    return _get_service_repository().list_visible_sorted()
 
 
 def get_public_service_by_slug(service_slug: str) -> Optional[Service]:
-    normalized_slug = service_slug.strip().lower()
-    for service in MOCK_SERVICES:
-        if service.show_flag == "Y" and service.service_slug.lower() == normalized_slug:
-            return service
-    return None
+    return _get_service_repository().get_visible_by_slug(service_slug)

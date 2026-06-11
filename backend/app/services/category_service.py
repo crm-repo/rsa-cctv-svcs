@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from app.models.category import Category, CategoryListResponse
+from app.repositories.repository_factory import create_category_repository
 
 
 MOCK_CATEGORIES: list[Category] = [
@@ -120,8 +121,12 @@ MOCK_CATEGORIES: list[Category] = [
 ]
 
 
+def _get_category_repository():
+    return create_category_repository(initial_items=MOCK_CATEGORIES)
+
+
 def list_public_categories(search: Optional[str] = None) -> CategoryListResponse:
-    categories = [category for category in MOCK_CATEGORIES if category.show_flag == "Y"]
+    categories = _get_category_repository().list_visible()
 
     if search:
         search_value = search.strip().lower()
@@ -138,15 +143,8 @@ def list_public_categories(search: Optional[str] = None) -> CategoryListResponse
 
 
 def get_public_category_by_id(category_id: str) -> Optional[Category]:
-    for category in MOCK_CATEGORIES:
-        if category.category_id == category_id and category.show_flag == "Y":
-            return category
-    return None
+    return _get_category_repository().get_visible_by_id(category_id)
 
 
 def get_public_category_by_key(category_key: str) -> Optional[Category]:
-    requested_key = category_key.strip().lower()
-    for category in MOCK_CATEGORIES:
-        if category.category_key.lower() == requested_key and category.show_flag == "Y":
-            return category
-    return None
+    return _get_category_repository().get_visible_by_key(category_key)
