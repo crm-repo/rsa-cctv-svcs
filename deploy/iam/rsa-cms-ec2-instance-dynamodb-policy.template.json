@@ -1,0 +1,45 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "RsaCmsDynamoDbAppTables",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_products",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_products/index/*",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_brands",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_categories",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_key_features",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_customers",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_customers/index/*",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_bookings",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_bookings/index/*",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_inquiries",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_inquiries/index/*",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_about",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_project_gallery",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_services",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_contact_us",
+        "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/rsa_id_counters"
+      ]
+    },
+    {
+      "Sid": "RsaCmsDynamoDbListTablesForHealthChecks",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:ListTables"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
