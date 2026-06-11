@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RSA CMS Admin Dashboard</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="stylesheet" href="./assets/css/admin.css" />
+</head>
+<body>
+  <div class="admin-app" data-admin-app>
+    <aside class="admin-sidebar" aria-label="Admin navigation">
+      <a class="brand-lockup" href="./index.html" aria-label="RSA CMS Admin Dashboard">
+        <span class="brand-logo-wrap">
+          <img src="./assets/images/rsa-logo.png" alt="RSA CCTV Installation Services" onerror="this.style.display='none'" />
+          <span class="brand-logo-fallback" aria-hidden="true">RSA</span>
+        </span>
+        <span class="brand-copy">
+          <strong>RSA CMS</strong>
+          <small>Mini-CRM Admin</small>
+        </span>
+      </a>
+
+      <nav class="admin-nav">
+        <a class="nav-item is-active" href="./index.html" data-section="dashboard">
+          <span class="nav-icon">▦</span>
+          <span>Dashboard</span>
+        </a>
+
+        <p class="nav-heading">Products</p>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">□</span><span>All Products</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">◇</span><span>Categories</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">◈</span><span>Brands</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">✦</span><span>Key Features</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">%</span><span>Promotions</span></a>
+
+        <p class="nav-heading">CRM</p>
+        <a class="nav-item" href="./customers.html"><span class="nav-icon">☷</span><span>Customers</span></a>
+        <a class="nav-item" href="./bookings.html"><span class="nav-icon">◷</span><span>Bookings</span></a>
+        <a class="nav-item" href="./inquiries.html"><span class="nav-icon">?</span><span>Inquiries</span></a>
+
+        <p class="nav-heading">Contents</p>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">i</span><span>About Us</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">▧</span><span>Project Gallery</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">⚙</span><span>Services</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">☎</span><span>Contact Us</span></a>
+
+        <p class="nav-heading">System</p>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">⚙</span><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-note">
+        <strong>Local admin preview</strong>
+        <span>Unprotected until Cognito batch.</span>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-label="Toggle navigation">☰</button>
+        <div>
+          <p class="eyebrow">RSA CCTV Installation Services</p>
+          <h1>Admin Dashboard</h1>
+        </div>
+        <div class="topbar-actions">
+          <label class="search-box">
+            <span>Search</span>
+            <input type="search" placeholder="Search dashboard..." data-admin-search />
+          </label>
+          <button class="icon-button" type="button" aria-label="Notifications">🔔<span data-new-lead-count>0</span></button>
+          <div class="admin-avatar" title="Admin User">
+            <span>AD</span>
+            <div>
+              <strong>Admin User</strong>
+              <small>Local Admin</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="status-banner" data-status-banner>
+        <strong>Loading admin dashboard…</strong>
+        <span>Fetching current API data from the backend.</span>
+      </section>
+
+      <section class="metric-grid" aria-label="Dashboard summary cards">
+        <article class="metric-card">
+          <span class="metric-icon">□</span>
+          <p>Total Products</p>
+          <strong data-metric="products">—</strong>
+          <small>Visible catalog records</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon">◈</span>
+          <p>Active Brands</p>
+          <strong data-metric="brands">—</strong>
+          <small>Brand records</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon">◷</span>
+          <p>Bookings</p>
+          <strong data-metric="bookings">—</strong>
+          <small>Site visit requests</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon">?</span>
+          <p>Inquiries</p>
+          <strong data-metric="inquiries">—</strong>
+          <small>Customer messages</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon">☷</span>
+          <p>Customers</p>
+          <strong data-metric="customers">—</strong>
+          <small>CRM contacts</small>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel panel-large">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">CRM</p>
+              <h2>Recent Bookings</h2>
+            </div>
+            <span class="panel-tag">Read-only preview</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Customer</th>
+                  <th>Contact Number</th>
+                  <th>Preferred Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody data-bookings-table>
+                <tr><td colspan="5" class="empty-cell">Loading bookings…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Leads</p>
+              <h2>Latest Inquiries</h2>
+            </div>
+          </div>
+          <div class="lead-list" data-inquiries-list>
+            <p class="empty-state">Loading inquiries…</p>
+          </div>
+        </article>
+
+        <article class="panel quick-actions-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Shortcuts</p>
+              <h2>Quick Actions</h2>
+            </div>
+          </div>
+          <div class="quick-actions">
+            <button type="button" disabled>Add Product</button>
+            <button type="button" disabled>Add Category</button>
+            <button type="button" disabled>Add Brand</button>
+            <button type="button" disabled>Add Service</button>
+            <button type="button" disabled>Add Contact Person</button>
+          </div>
+          <p class="helper-text">Buttons are intentionally disabled in Batch 17. CRUD starts in later admin batches.</p>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Catalog</p>
+              <h2>Sale / Low Stock Snapshot</h2>
+            </div>
+          </div>
+          <div class="product-list" data-products-list>
+            <p class="empty-state">Loading products…</p>
+          </div>
+        </article>
+
+        <article class="panel panel-large">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">CMS</p>
+              <h2>Content Management</h2>
+            </div>
+          </div>
+          <div class="content-card-grid">
+            <div class="content-card"><span>i</span><strong>About Us</strong><small>Company story and page copy</small></div>
+            <div class="content-card"><span>▧</span><strong>Project Gallery</strong><small>Completed project showcase</small></div>
+            <div class="content-card"><span>⚙</span><strong>Services</strong><small>Service descriptions</small></div>
+            <div class="content-card"><span>☎</span><strong>Contact Us</strong><small>Company contacts and social links</small></div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">CRM Snapshot</p>
+              <h2>Lead Summary</h2>
+            </div>
+          </div>
+          <div class="snapshot-grid">
+            <div><strong data-snapshot="newBookings">—</strong><span>New bookings</span></div>
+            <div><strong data-snapshot="newInquiries">—</strong><span>New inquiries</span></div>
+            <div><strong data-snapshot="repliedInquiries">—</strong><span>Replied inquiries</span></div>
+          </div>
+        </article>
+      </section>
+
+      <footer class="admin-footer">
+        <span>© 2026 RSA CCTV Installation Services</span>
+        <span>Phase 8 Batch 18 Admin CRM Shell</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="./assets/js/admin-api.js"></script>
+  <script src="./assets/js/admin-dashboard.js"></script>
+</body>
+</html>

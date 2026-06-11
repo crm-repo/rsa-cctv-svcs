@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers | RSA CMS Admin</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="stylesheet" href="./assets/css/admin.css" />
+</head>
+<body>
+  <div class="admin-app" data-admin-app data-admin-page="customers">
+
+    <aside class="admin-sidebar" aria-label="Admin navigation">
+      <a class="brand-lockup" href="./index.html" aria-label="RSA CMS Admin Dashboard">
+        <span class="brand-logo-wrap">
+          <img src="./assets/images/rsa-logo.png" alt="RSA CCTV Installation Services" onerror="this.style.display='none'" />
+          <span class="brand-logo-fallback" aria-hidden="true">RSA</span>
+        </span>
+        <span class="brand-copy">
+          <strong>RSA CMS</strong>
+          <small>Mini-CRM Admin</small>
+        </span>
+      </a>
+
+      <nav class="admin-nav">
+        <a class="nav-item " href="./index.html"><span class="nav-icon">▦</span><span>Dashboard</span></a>
+
+        <p class="nav-heading">Products</p>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">□</span><span>All Products</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">◇</span><span>Categories</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">◈</span><span>Brands</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">✦</span><span>Key Features</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">%</span><span>Promotions</span></a>
+
+        <p class="nav-heading">CRM</p>
+        <a class="nav-item is-active" href="./customers.html"><span class="nav-icon">☷</span><span>Customers</span></a>
+        <a class="nav-item " href="./bookings.html"><span class="nav-icon">◷</span><span>Bookings</span></a>
+        <a class="nav-item " href="./inquiries.html"><span class="nav-icon">?</span><span>Inquiries</span></a>
+
+        <p class="nav-heading">Contents</p>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">i</span><span>About Us</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">▧</span><span>Project Gallery</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">⚙</span><span>Services</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">☎</span><span>Contact Us</span></a>
+
+        <p class="nav-heading">System</p>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">⚙</span><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-note">
+        <strong>Local admin preview</strong>
+        <span>Unprotected until Cognito batch.</span>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-label="Toggle navigation">☰</button>
+        <div>
+          <p class="eyebrow">CRM / Lead Management</p>
+          <h1>Customers</h1>
+        </div>
+        <div class="topbar-actions">
+          <label class="search-box">
+            <span>Search</span>
+            <input type="search" placeholder="Search customers..." data-admin-search />
+          </label>
+          <button class="icon-button" type="button" aria-label="Notifications">🔔<span data-new-lead-count>0</span></button>
+          <div class="admin-avatar" title="Admin User">
+            <span>AD</span>
+            <div>
+              <strong>Admin User</strong>
+              <small>Local Admin</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="status-banner" data-status-banner>
+        <strong>Loading customers…</strong>
+        <span>View auto-created customers linked from bookings and inquiries.</span>
+      </section>
+
+      <section class="admin-page-heading">
+        <div class="page-icon">☷</div>
+        <div>
+          <p class="eyebrow">CRM contacts</p>
+          <h2>Customers</h2>
+          <p>View auto-created customers linked from bookings and inquiries.</p>
+        </div>
+      </section>
+
+      <section class="lead-toolbar panel">
+        <div class="lead-toolbar-group">
+          <label><span>Status</span><select data-status-filter><option value="">All statuses</option></select></label>
+          <label><span>Search</span><input type="search" placeholder="Name, phone, ID, subject..." data-lead-search /></label>
+        </div>
+        <div class="lead-toolbar-actions">
+          <button class="admin-button secondary" type="button" data-clear-filters>Clear Filters</button>
+          <button class="admin-button" type="button" data-refresh-list>Refresh</button>
+        </div>
+      </section>
+
+      <section class="panel lead-table-panel">
+        <div class="panel-header">
+          <div><p class="eyebrow">API-backed list</p><h2 data-list-title>Customers</h2></div>
+          <span class="panel-tag" data-record-count>Loading…</span>
+        </div>
+        <div class="table-wrap lead-table-wrap">
+          <table class="admin-data-table" data-lead-table>
+            <thead data-table-head></thead>
+            <tbody data-table-body><tr><td class="empty-cell">Loading records…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <aside class="detail-drawer" data-detail-drawer aria-hidden="true">
+        <div class="drawer-backdrop" data-close-drawer></div>
+        <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Record detail">
+          <div class="drawer-header">
+            <div><p class="eyebrow" data-drawer-kicker>Record Detail</p><h2 data-drawer-title>Select a record</h2></div>
+            <button class="icon-button drawer-close" type="button" data-close-drawer aria-label="Close detail drawer">×</button>
+          </div>
+          <div class="drawer-body" data-drawer-body></div>
+          <form class="drawer-update-form" data-update-form hidden>
+            <h3>Update lead status</h3>
+            <label><span>Status</span><select name="status" data-update-status></select></label>
+            <label><span>Assigned person</span><input name="assigned_person" type="text" placeholder="Admin / Sales person" /></label>
+            <label><span>Comments</span><textarea name="comments" rows="4" placeholder="Internal comments only"></textarea></label>
+            <div class="drawer-actions">
+              <button class="admin-button" type="submit">Save Update</button>
+              <button class="admin-button secondary" type="button" data-close-drawer>Cancel</button>
+            </div>
+          </form>
+        </div>
+      </aside>
+
+      <footer class="admin-footer">
+        <span>© 2026 RSA CCTV Installation Services</span><span>Phase 8 Batch 18 Lead Management</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="./assets/js/admin-api.js"></script>
+  <script src="./assets/js/admin-leads.js"></script>
+</body>
+</html>
