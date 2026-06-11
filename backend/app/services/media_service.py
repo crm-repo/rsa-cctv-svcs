@@ -16,6 +16,7 @@ ALLOWED_MEDIA_TYPES = {
     "services": "uploads/services",
     "about": "uploads/about",
     "contact": "uploads/contact",
+    "contact-persons": "uploads/contact-persons",
     "general": "uploads/general",
 }
 

@@ -9,7 +9,8 @@
     'service_image_path',
     'project_image_path',
     'logo_path',
-    'icon_path'
+    'icon_path',
+    'person_image_path'
   ]);
 
   function basename(value) {
@@ -26,6 +27,7 @@
     if (path.includes('project-gallery')) return 'project-gallery';
     if (path.includes('services')) return 'services';
     if (path.includes('about') || name.includes('hero') || name.includes('company_story')) return 'about';
+    if (name === 'person_image_path' || name.includes('person_image')) return 'contact-persons';
     if (path.includes('contact')) return 'contact';
     if (path.includes('products') || name === 'image_path') return 'products';
     return 'general';
@@ -44,6 +46,7 @@
       services: 'uploads/services',
       about: 'uploads/about',
       contact: 'uploads/contact',
+      'contact-persons': 'uploads/contact-persons',
       general: 'uploads/general'
     }[mediaType] || 'uploads/general';
     return `${folder}/${safeName}`;

@@ -49,7 +49,7 @@
       singular: 'Contact Record',
       kicker: 'Contact Content',
       columns: [['contact_us_id', 'ID'], ['contact_type', 'Type'], ['display_seq', 'Display Seq'], ['show_flag', 'Visible'], ['company_email', 'Company Email'], ['person_name', 'Person'], ['platform_name', 'Platform']],
-      detailFields: ['contact_us_id', 'show_flag', 'contact_type', 'display_seq', 'primary_contact_number', 'secondary_contact_number', 'company_email', 'company_address', 'showroom_address', 'whatsapp_number', 'viber_number', 'business_hours', 'person_name', 'position_title', 'department', 'phone_number', 'email_address', 'platform_name', 'platform_key', 'profile_url', 'icon_code', 'created_at', 'updated_at']
+      detailFields: ['contact_us_id', 'show_flag', 'contact_type', 'display_seq', 'primary_contact_number', 'secondary_contact_number', 'company_email', 'company_address', 'showroom_address', 'whatsapp_number', 'viber_number', 'business_hours', 'person_image_path', 'person_name', 'position_title', 'department', 'phone_number', 'email_address', 'platform_name', 'platform_key', 'profile_url', 'icon_code', 'created_at', 'updated_at']
     }
   };
 
@@ -210,6 +210,7 @@
         ${input('whatsapp_number', 'WhatsApp Number', record.whatsapp_number || '')}
         ${input('viber_number', 'Viber Number', record.viber_number || '')}
         ${input('business_hours', 'Business Hours', record.business_hours || '')}
+        ${input('person_image_path', 'Contact Person Photo', record.person_image_path || '')}
         ${input('person_name', 'Person Name', record.person_name || '')}
         ${input('position_title', 'Position Title', record.position_title || '')}
         ${input('department', 'Department', record.department || '')}
