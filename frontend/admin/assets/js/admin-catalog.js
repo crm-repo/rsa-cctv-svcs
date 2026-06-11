@@ -4,7 +4,7 @@
   const api = window.RSAAdminApi;
   const app = document.querySelector('[data-admin-app]');
   const page = app ? app.getAttribute('data-admin-page') : '';
-  const state = { records: [], filtered: [], categories: [], brands: [] };
+  const state = { records: [], filtered: [], categories: [], brands: [], keyFeatures: [] };
 
   const configs = {
     products: {
@@ -127,6 +127,73 @@
     return items.map(item => `<option value="${esc(item[valueField] || '')}" ${String(item[valueField] || '') === String(current || '') ? 'selected' : ''}>${esc(item[labelField] || item[valueField] || '')}</option>`).join('');
   }
 
+  function keyFeatureOptions() {
+    return state.keyFeatures
+      .map(item => item.key_feat_name || item.feature_name || item.name || '')
+      .filter(Boolean)
+      .map(name => `<option value="${esc(name)}"></option>`)
+      .join('');
+  }
+
+  function getBrandNameFromKey(brandKey) {
+    const brand = state.brands.find(item => String(item.brand_key || '') === String(brandKey || ''));
+    return brand ? (brand.brand_name || brand.brand_key || '') : '';
+  }
+
+  function buildSuggestedProductName(form) {
+    if (!form) return '';
+    const brandKey = form.querySelector('[name="product_brand_key"]')?.value || '';
+    const brandName = getBrandNameFromKey(brandKey);
+    const featureOne = form.querySelector('[name="feature_01"]')?.value || '';
+    const subcategory = form.querySelector('[name="subcategory"]')?.value || '';
+    return [brandName, featureOne, subcategory].map(value => String(value || '').trim()).filter(Boolean).join(' ');
+  }
+
+  function updateProductNamePreview(form) {
+    const preview = form.querySelector('[data-product-name-preview]');
+    const productName = form.querySelector('[name="product_name"]');
+    if (!preview || !productName) return;
+
+    const suggested = buildSuggestedProductName(form);
+    const previousSuggestion = productName.dataset.lastSuggestion || '';
+
+    preview.textContent = suggested || 'Select a brand, enter Feature 01, and enter subcategory to preview the default product name.';
+
+    if (!productName.dataset.manualEdit || productName.value.trim() === '' || productName.value.trim() === previousSuggestion) {
+      if (suggested) {
+        productName.value = suggested;
+        productName.dataset.lastSuggestion = suggested;
+        productName.dataset.manualEdit = '';
+      }
+    }
+  }
+
+  function enhanceProductForm(form) {
+    if (!form || page !== 'products') return;
+
+    const productName = form.querySelector('[name="product_name"]');
+    const brandSelect = form.querySelector('[name="product_brand_key"]');
+    const featureOne = form.querySelector('[name="feature_01"]');
+    const subcategory = form.querySelector('[name="subcategory"]');
+
+    if (productName && !productName.dataset.boundNamePreview) {
+      productName.dataset.boundNamePreview = 'true';
+      productName.addEventListener('input', () => {
+        const suggested = buildSuggestedProductName(form);
+        productName.dataset.manualEdit = productName.value.trim() && productName.value.trim() !== suggested ? 'true' : '';
+      });
+    }
+
+    [brandSelect, featureOne, subcategory].forEach(inputEl => {
+      if (!inputEl || inputEl.dataset.boundNamePreview) return;
+      inputEl.dataset.boundNamePreview = 'true';
+      inputEl.addEventListener('input', () => updateProductNamePreview(form));
+      inputEl.addEventListener('change', () => updateProductNamePreview(form));
+    });
+
+    updateProductNamePreview(form);
+  }
+
   function input(name, labelText, value = '', type = 'text', attrs = '') {
     return `<label><span>${esc(labelText)}</span><input name="${esc(name)}" type="${esc(type)}" value="${esc(value ?? '')}" ${attrs} /></label>`;
   }
@@ -139,13 +206,13 @@
     const isCreate = !record.product_id;
     const features = Array.from({ length: 10 }, (_, index) => {
       const n = String(index + 1).padStart(2, '0');
-      return input(`feature_${n}`, `Feature ${n}`, record[`feature_${n}`] || '');
+      return input(`feature_${n}`, `Feature ${n}`, record[`feature_${n}`] || '', 'text', 'list="key-feature-suggestions"');
     }).join('');
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
       <h3>${isCreate ? 'Add Product' : 'Edit Product'}</h3>
       <p class="form-note">Batch 20 enables safe create/update. Delete is still disabled. Image Browse prepares a future upload key; S3 upload comes later.</p>
       <div class="catalog-form-grid">
-        ${input('product_name', 'Product Name', record.product_name || '')}
+        <label class="span-2 product-name-preview-field"><span>Product Name</span><input name="product_name" type="text" value="${esc(record.product_name || '')}" /><small>Default suggestion: <strong data-product-name-preview>Brand + Feature 01 + Subcategory</strong></small></label>
         ${input('product_id', 'Product ID', record.product_id || 'Auto-generated on save', 'text', 'readonly')}
         <label><span>Category</span><select name="category_key" required><option value="">Select category</option>${optionList(state.categories, 'category_key', 'category_name', record.category_key)}</select></label>
         <label><span>Brand</span><select name="product_brand_key"><option value="">No brand / generic</option>${optionList(state.brands, 'brand_key', 'brand_name', record.product_brand_key)}</select></label>
@@ -162,6 +229,8 @@
         <label class="span-2"><span>Description</span><textarea name="description" rows="4">${esc(record.description || '')}</textarea></label>
       </div>
       <h3>Product Features</h3><div class="feature-grid">${features}</div>
+      <datalist id="key-feature-suggestions">${keyFeatureOptions()}</datalist>
+      <p class="form-note compact-note">Feature fields support reusable key-feature suggestions. You can still type a custom value.</p>
       <div class="drawer-actions"><button class="admin-button" type="submit">${isCreate ? 'Create Product' : 'Save Product'}</button><button class="admin-button secondary" type="button" data-close-drawer>Close</button></div>`;
   }
 
@@ -201,6 +270,7 @@
     form.hidden = false;
     form.dataset.recordId = record[config.idField] || '';
     form.innerHTML = page === 'products' ? productForm(record) : simpleForm(record);
+    enhanceProductForm(form);
     drawer.classList.add('is-open');
     drawer.setAttribute('aria-hidden', 'false');
   }
@@ -264,12 +334,14 @@
   }
 
   async function preloadLookups() {
-    const [categories, brands] = await Promise.all([
+    const [categories, brands, keyFeatures] = await Promise.all([
       api.request('/admin/categories').catch(() => api.request('/categories').catch(() => ({ items: [] }))),
-      api.request('/admin/brands').catch(() => api.request('/brands').catch(() => ({ items: [] })))
+      api.request('/admin/brands').catch(() => api.request('/brands').catch(() => ({ items: [] }))),
+      api.request('/admin/key-features').catch(() => api.request('/key-features').catch(() => ({ items: [] })))
     ]);
     state.categories = api.getItems(categories);
     state.brands = api.getItems(brands);
+    state.keyFeatures = api.getItems(keyFeatures);
     populateFilters();
   }
 
