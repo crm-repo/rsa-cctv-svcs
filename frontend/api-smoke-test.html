@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RSA CMS API Smoke Test</title>
+  <style>
+    :root {
+      --rsa-red: #b91c1c;
+      --rsa-dark: #111827;
+      --rsa-border: #e5e7eb;
+      --rsa-muted: #6b7280;
+      --rsa-bg: #f9fafb;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--rsa-bg);
+      color: var(--rsa-dark);
+    }
+
+    .page {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+
+    .hero {
+      background: #ffffff;
+      border: 1px solid var(--rsa-border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      color: var(--rsa-red);
+    }
+
+    .muted {
+      color: var(--rsa-muted);
+      line-height: 1.5;
+    }
+
+    .toolbar,
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .toolbar {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      margin-top: 18px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid var(--rsa-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      background: #fff;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      background: var(--rsa-red);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #111827;
+    }
+
+    button.ghost {
+      background: #fff;
+      color: var(--rsa-dark);
+      border: 1px solid var(--rsa-border);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--rsa-border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .status {
+      display: inline-flex;
+      margin-top: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: #374151;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .status.success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status.error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status.loading {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    pre {
+      max-height: 320px;
+      overflow: auto;
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .cards,
+      .two-col,
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <h1>RSA CMS Public API Smoke Test</h1>
+      <p class="muted">
+        Use this temporary page to confirm the static frontend can fetch from the local FastAPI backend.
+        Start the backend first, then serve the frontend folder through a local HTTP server.
+      </p>
+      <div class="toolbar">
+        <div>
+          <label for="apiBaseUrl">API Base URL</label>
+          <input id="apiBaseUrl" value="http://127.0.0.1:8000/api">
+        </div>
+        <button type="button" id="saveApiBaseUrl">Save API URL</button>
+      </div>
+    </section>
+
+    <section class="cards">
+      <article class="card">
+        <h2>Health</h2>
+        <p class="muted">Checks <code>/api/health</code>.</p>
+        <button type="button" data-test="health">Run Health Check</button>
+        <div class="status" id="status-health">Not run</div>
+      </article>
+
+      <article class="card">
+        <h2>Catalog</h2>
+        <p class="muted">Checks products, brands, categories, key features, and package banners.</p>
+        <button type="button" data-test="catalog">Run Catalog Checks</button>
+        <div class="status" id="status-catalog">Not run</div>
+      </article>
+
+      <article class="card">
+        <h2>CMS Pages</h2>
+        <p class="muted">Checks About, Contact, Services, and gallery public APIs.</p>
+        <button type="button" data-test="cms">Run CMS Checks</button>
+        <div class="status" id="status-cms">Not run</div>
+      </article>
+
+      <article class="card">
+        <h2>Create Booking</h2>
+        <p class="muted">Creates a local mock booking using a Philippines mobile number.</p>
+        <button type="button" data-test="booking">Create Test Booking</button>
+        <div class="status" id="status-booking">Not run</div>
+      </article>
+
+      <article class="card">
+        <h2>Create Inquiry</h2>
+        <p class="muted">Creates a local mock inquiry using a Philippines mobile number.</p>
+        <button type="button" data-test="inquiry">Create Test Inquiry</button>
+        <div class="status" id="status-inquiry">Not run</div>
+      </article>
+
+      <article class="card">
+        <h2>Run All</h2>
+        <p class="muted">Runs all non-destructive read checks, then creates one booking and one inquiry.</p>
+        <button type="button" class="secondary" data-test="all">Run All Checks</button>
+        <div class="status" id="status-all">Not run</div>
+      </article>
+
+      <article class="card full">
+        <h2>Response Output</h2>
+        <pre id="output">Ready.</pre>
+      </article>
+    </section>
+  </main>
+
+  <script src="assets/js/rsa-api-config.js"></script>
+  <script src="assets/js/rsa-api-client.js"></script>
+  <script>
+    const output = document.getElementById("output");
+    const apiBaseUrlInput = document.getElementById("apiBaseUrl");
+
+    const savedApiBaseUrl = localStorage.getItem("rsaApiBaseUrl");
+    if (savedApiBaseUrl) {
+      apiBaseUrlInput.value = savedApiBaseUrl;
+      window.RSA_API_CONFIG.apiBaseUrl = savedApiBaseUrl.replace(/\/+$/, "");
+      window.RsaApiClient.config.apiBaseUrl = window.RSA_API_CONFIG.apiBaseUrl;
+    }
+
+    function setStatus(name, message, type) {
+      const element = document.getElementById(`status-${name}`);
+      element.textContent = message;
+      element.className = `status ${type || ""}`;
+    }
+
+    function writeOutput(label, payload) {
+      output.textContent = `${label}\n\n${JSON.stringify(payload, null, 2)}`;
+    }
+
+    async function runHealth() {
+      setStatus("health", "Running...", "loading");
+      const payload = await RsaApiClient.health();
+      setStatus("health", "Passed", "success");
+      writeOutput("Health check response", payload);
+      return payload;
+    }
+
+    async function runCatalog() {
+      setStatus("catalog", "Running...", "loading");
+      const [products, saleProducts, packageBanners, brands, categories, keyFeatures] = await Promise.all([
+        RsaApiClient.products({ page: 1, per_page: 6 }),
+        RsaApiClient.products({ sale: true, page: 1, per_page: 6 }),
+        RsaApiClient.packageBanners(),
+        RsaApiClient.brands(),
+        RsaApiClient.categories(),
+        RsaApiClient.keyFeatures(),
+      ]);
+      const payload = { products, saleProducts, packageBanners, brands, categories, keyFeatures };
+      setStatus("catalog", "Passed", "success");
+      writeOutput("Catalog API responses", payload);
+      return payload;
+    }
+
+    async function runCms() {
+      setStatus("cms", "Running...", "loading");
+      const [aboutPage, contactPage, servicesPage, about, gallery, services, contact] = await Promise.all([
+        RsaApiClient.pageAbout(),
+        RsaApiClient.pageContact(),
+        RsaApiClient.pageServices(),
+        RsaApiClient.about(),
+        RsaApiClient.projectGallery(),
+        RsaApiClient.services(),
+        RsaApiClient.contact(),
+      ]);
+      const payload = { aboutPage, contactPage, servicesPage, about, gallery, services, contact };
+      setStatus("cms", "Passed", "success");
+      writeOutput("CMS API responses", payload);
+      return payload;
+    }
+
+    async function runBooking() {
+      setStatus("booking", "Running...", "loading");
+      const payload = await RsaApiClient.createBooking({
+        customer_name: "Batch 9 Frontend Booking Test",
+        contact_number: "+63 919 123 4567",
+        email: "batch9.booking@example.com",
+        address: "Batch 9 Frontend Test Address",
+        preferred_date: "2026-12-30",
+        preferred_time: "Morning",
+        service_interest: "CCTV Installation",
+        notes: "Created from frontend API smoke test page"
+      });
+      setStatus("booking", "Passed", "success");
+      writeOutput("Booking create response", payload);
+      return payload;
+    }
+
+    async function runInquiry() {
+      setStatus("inquiry", "Running...", "loading");
+      const payload = await RsaApiClient.createInquiry({
+        customer_name: "Batch 9 Frontend Inquiry Test",
+        contact_number: "0919 123 4567",
+        email: "batch9.inquiry@example.com",
+        product_id: "CCTV-0000001",
+        subject: "Batch 9 Frontend Product Inquiry",
+        message: "Created from frontend API smoke test page",
+        source_page: "api-smoke-test.html"
+      });
+      setStatus("inquiry", "Passed", "success");
+      writeOutput("Inquiry create response", payload);
+      return payload;
+    }
+
+    async function safeRun(name, fn) {
+      try {
+        return await fn();
+      } catch (error) {
+        setStatus(name, error.message || "Failed", "error");
+        writeOutput(`${name} failed`, {
+          message: error.message,
+          status: error.status,
+          url: error.url,
+          payload: error.payload,
+        });
+        throw error;
+      }
+    }
+
+    document.getElementById("saveApiBaseUrl").addEventListener("click", () => {
+      const value = apiBaseUrlInput.value.trim().replace(/\/+$/, "");
+      localStorage.setItem("rsaApiBaseUrl", value);
+      window.RSA_API_CONFIG.apiBaseUrl = value;
+      window.RsaApiClient.config.apiBaseUrl = value;
+      writeOutput("Saved API base URL", { apiBaseUrl: value });
+    });
+
+    document.querySelectorAll("[data-test]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const test = button.dataset.test;
+        if (test === "health") await safeRun("health", runHealth);
+        if (test === "catalog") await safeRun("catalog", runCatalog);
+        if (test === "cms") await safeRun("cms", runCms);
+        if (test === "booking") await safeRun("booking", runBooking);
+        if (test === "inquiry") await safeRun("inquiry", runInquiry);
+        if (test === "all") {
+          setStatus("all", "Running...", "loading");
+          try {
+            await runHealth();
+            await runCatalog();
+            await runCms();
+            await runBooking();
+            await runInquiry();
+            setStatus("all", "Passed", "success");
+          } catch (error) {
+            setStatus("all", error.message || "Failed", "error");
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RSA API Connected Public Pages Preview</title>
+  <link rel="stylesheet" href="assets/css/rsa-api-public.css">
+  <style>
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f3f4f6; color: #111827; }
+    .preview-hero { padding: 36px 20px; background: #111827; color: white; }
+    .preview-hero__inner { max-width: 1180px; margin: 0 auto; }
+    .preview-hero h1 { margin: 0; font-size: clamp(30px, 4vw, 48px); }
+    .preview-hero p { max-width: 760px; color: #d1d5db; line-height: 1.6; }
+    .preview-toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .preview-toolbar button { border: 0; border-radius: 999px; padding: 10px 14px; background: #b91c1c; color: white; font-weight: 800; cursor: pointer; }
+    .preview-toolbar button.secondary { background: #374151; }
+  </style>
+</head>
+<body>
+  <header class="preview-hero">
+    <div class="preview-hero__inner">
+      <h1>RSA Public API Integration Preview</h1>
+      <p>This page verifies that public website content can be loaded from the FastAPI backend before replacing static page sections. Start the backend on port 8000 and serve the frontend on port 5500.</p>
+      <div class="preview-toolbar">
+        <button type="button" data-run="products">Load Products</button>
+        <button type="button" data-run="promotions">Load Promotions</button>
+        <button type="button" data-run="brands">Load Brands</button>
+        <button type="button" data-run="about">Load About</button>
+        <button type="button" data-run="services">Load Services</button>
+        <button type="button" data-run="contact">Load Contact</button>
+        <button class="secondary" type="button" data-run="all">Load All</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="rsa-api-section">
+      <div class="rsa-api-section__header">
+        <div>
+          <p class="rsa-api-section__eyebrow">Products</p>
+          <h2 class="rsa-api-section__title">Product catalog from /api/products</h2>
+          <p class="rsa-api-section__subtitle">Uses the Phase 8 v5 product schema.</p>
+        </div>
+        <div class="rsa-api-status" data-rsa-products-status>Ready</div>
+      </div>
+      <div class="rsa-api-grid" data-rsa-products-container data-rsa-per-page="6"></div>
+    </section>
+
+    <section class="rsa-api-section">
+      <div class="rsa-api-section__header">
+        <div>
+          <p class="rsa-api-section__eyebrow">Promotions</p>
+          <h2 class="rsa-api-section__title">Sale products from /api/products?sale=true</h2>
+          <p class="rsa-api-section__subtitle">Confirms sale is derived from sale_price.</p>
+        </div>
+        <div class="rsa-api-status" data-rsa-promotions-status>Ready</div>
+      </div>
+      <div class="rsa-api-grid" data-rsa-promotions-container data-rsa-sale="true" data-rsa-per-page="6"></div>
+    </section>
+
+    <section class="rsa-api-section">
+      <div class="rsa-api-section__header">
+        <div>
+          <p class="rsa-api-section__eyebrow">Brands</p>
+          <h2 class="rsa-api-section__title">Brands from /api/brands</h2>
+        </div>
+        <div class="rsa-api-status" data-rsa-brands-status>Ready</div>
+      </div>
+      <div class="rsa-api-grid" data-rsa-brands-container></div>
+    </section>
+
+    <section class="rsa-api-section">
+      <div class="rsa-api-section__header">
+        <div>
+          <p class="rsa-api-section__eyebrow">CMS</p>
+          <h2 class="rsa-api-section__title">About Us from /api/pages/about</h2>
+        </div>
+        <div class="rsa-api-status" data-rsa-about-status>Ready</div>
+      </div>
+      <div class="rsa-api-grid" data-rsa-about-container></div>
+    </section>
+
+    <section class="rsa-api-section">
+      <div class="rsa-api-section__header">
+        <div>
+          <p class="rsa-api-section__eyebrow">CMS</p>
+          <h2 class="rsa-api-section__title">Services from /api/pages/services</h2>
+        </div>
+        <div class="rsa-api-status" data-rsa-services-status>Ready</div>
+      </div>
+      <div class="rsa-api-grid" data-rsa-services-container></div>
+    </section>
+
+    <section class="rsa-api-section">
+      <div class="rsa-api-section__header">
+        <div>
+          <p class="rsa-api-section__eyebrow">CMS</p>
+          <h2 class="rsa-api-section__title">Contact Us from /api/pages/contact</h2>
+        </div>
+        <div class="rsa-api-status" data-rsa-contact-status>Ready</div>
+      </div>
+      <div data-rsa-contact-container></div>
+    </section>
+  </main>
+
+  <script src="assets/js/rsa-api-config.js"></script>
+  <script src="assets/js/rsa-api-client.js"></script>
+  <script src="assets/js/rsa-public-renderers.js"></script>
+  <script>
+    function runProducts() {
+      window.RsaPublicRenderers.hydrateProductGrid({
+        container: document.querySelector('[data-rsa-products-container]'),
+        status: document.querySelector('[data-rsa-products-status]'),
+        params: { per_page: 6 }
+      });
+    }
+    function runPromotions() {
+      window.RsaPublicRenderers.hydrateProductGrid({
+        container: document.querySelector('[data-rsa-promotions-container]'),
+        status: document.querySelector('[data-rsa-promotions-status]'),
+        params: { sale: true, per_page: 6 }
+      });
+    }
+    function runBrands() {
+      window.RsaPublicRenderers.hydrateBrands(
+        document.querySelector('[data-rsa-brands-container]'),
+        document.querySelector('[data-rsa-brands-status]')
+      );
+    }
+    function runAbout() {
+      window.RsaPublicRenderers.hydrateAbout(
+        document.querySelector('[data-rsa-about-container]'),
+        document.querySelector('[data-rsa-about-status]')
+      );
+    }
+    function runServices() {
+      window.RsaPublicRenderers.hydrateServices(
+        document.querySelector('[data-rsa-services-container]'),
+        document.querySelector('[data-rsa-services-status]')
+      );
+    }
+    function runContact() {
+      window.RsaPublicRenderers.hydrateContact(
+        document.querySelector('[data-rsa-contact-container]'),
+        document.querySelector('[data-rsa-contact-status]')
+      );
+    }
+    document.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-run]');
+      if (!button) return;
+      const action = button.dataset.run;
+      if (action === 'products') runProducts();
+      if (action === 'promotions') runPromotions();
+      if (action === 'brands') runBrands();
+      if (action === 'about') runAbout();
+      if (action === 'services') runServices();
+      if (action === 'contact') runContact();
+      if (action === 'all') {
+        runProducts(); runPromotions(); runBrands(); runAbout(); runServices(); runContact();
+      }
+    });
+  </script>
+</body>
+</html>
