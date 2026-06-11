@@ -107,6 +107,41 @@ def _json_safe(value: Any) -> Any:
     return value
 
 
+def _remove_null_values(value: Any) -> Any:
+    """Recursively remove None values before writing to DynamoDB.
+
+    DynamoDB does not allow NULL values for table/index key attributes.
+    Omitting optional null attributes also keeps GSIs sparse. For example,
+    a product without product_brand_key should simply not be projected into
+    product_brand_key-display_seq-index.
+    """
+
+    if isinstance(value, dict):
+        cleaned: dict[str, Any] = {}
+        for key, inner_value in value.items():
+            if inner_value is None:
+                continue
+            cleaned_value = _remove_null_values(inner_value)
+            # Drop empty nested dictionaries/lists created only from null values.
+            if cleaned_value == {} or cleaned_value == []:
+                continue
+            cleaned[key] = cleaned_value
+        return cleaned
+
+    if isinstance(value, list):
+        cleaned_list = []
+        for item in value:
+            if item is None:
+                continue
+            cleaned_item = _remove_null_values(item)
+            if cleaned_item == {} or cleaned_item == []:
+                continue
+            cleaned_list.append(cleaned_item)
+        return cleaned_list
+
+    return value
+
+
 def _primary_key_field(logical_table: str) -> str:
     definition = get_table_definition(logical_table)
     return definition["hash_key"][0]
@@ -260,7 +295,7 @@ def _put_seed_items(
                     skipped += 1
                     continue
 
-            table.put_item(Item=item)
+            table.put_item(Item=_remove_null_values(item))
             written += 1
 
         results[logical_table] = {
