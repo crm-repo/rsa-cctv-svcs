@@ -1,0 +1,26 @@
+Recommended booking.html attributes:
+
+<form data-rsa-booking-form>
+  <input name="customer_name" required>
+  <input name="contact_number" placeholder="+63 919 123 4567" required>
+  <input name="email" type="email">
+  <input name="address">
+  <input name="preferred_date" type="date">
+  <select name="preferred_time">...</select>
+  <input name="service_interest">
+  <textarea name="notes"></textarea>
+  <button type="submit">Submit Booking</button>
+  <div class="rsa-api-form-status" data-rsa-form-status role="status" aria-live="polite"></div>
+</form>
+
+Required API fields:
+- customer_name
+- contact_number
+
+Optional fields:
+- email
+- address
+- preferred_date
+- preferred_time
+- service_interest
+- notes

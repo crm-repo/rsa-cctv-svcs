@@ -1,0 +1,9 @@
+<!-- Phase 8 Batch 11 public form API integration scripts -->
+<link rel="stylesheet" href="assets/css/rsa-api-public.css">
+<script src="assets/js/rsa-api-config.js"></script>
+<script src="assets/js/rsa-api-client.js"></script>
+<script src="assets/js/rsa-public-forms.js"></script>
+
+<!-- If the page also uses Batch 10 public API rendering, keep these after the form script: -->
+<script src="assets/js/rsa-public-renderers.js"></script>
+<script src="assets/js/rsa-public-page-loader.js"></script>

@@ -1,6 +1,6 @@
 /*
  * RSA CMS / Mini-CRM public frontend render helpers
- * Phase 8 Batch 10
+ * Phase 8 Batch 11
  *
  * These helpers are dependency-free and scoped to RSA API integration classes.
  * Existing static pages remain safe unless a page explicitly adds data-rsa-* hooks
@@ -388,6 +388,11 @@
   }
 
   function bindLeadForms() {
+    if (global.RsaLeadForms && typeof global.RsaLeadForms.bindAllLeadForms === "function") {
+      global.RsaLeadForms.bindAllLeadForms();
+      return;
+    }
+
     if (!api) {
       return;
     }

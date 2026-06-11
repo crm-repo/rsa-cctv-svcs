@@ -297,3 +297,86 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Phase 8 Batch 11 public lead form status helpers */
+.rsa-api-form-status {
+  display: block;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.rsa-api-form-status:empty {
+  display: none;
+}
+
+.rsa-api-form-status[data-status="info"] {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.rsa-api-form-status[data-status="loading"] {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.rsa-api-form-status[data-status="success"] {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.rsa-api-form-status[data-status="error"] {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+form[data-rsa-submitting="true"] button[type="submit"],
+form[data-rsa-submitting="true"] input[type="submit"] {
+  cursor: wait;
+  opacity: 0.75;
+}
+
+.rsa-api-form-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 22px;
+}
+
+.rsa-api-form-demo-card {
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.rsa-api-form-demo-card label {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.rsa-api-form-demo-card input,
+.rsa-api-form-demo-card select,
+.rsa-api-form-demo-card textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  color: #111827;
+  font: inherit;
+}
+
+.rsa-api-form-demo-card textarea {
+  min-height: 110px;
+  resize: vertical;
+}

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RSA CMS Batch 11 Form API Smoke Test</title>
+  <link rel="stylesheet" href="assets/css/rsa-api-public.css">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #f8fafc;
+      color: #111827;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .page-wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0;
+    }
+    .hero {
+      margin-bottom: 24px;
+      padding: 24px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #111827, #450a0a);
+      color: #ffffff;
+    }
+    .hero p { color: #fecaca; }
+    .api-url-box {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.12);
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+  </style>
+</head>
+<body>
+  <main class="page-wrap">
+    <section class="hero">
+      <p class="rsa-api-section__eyebrow">Phase 8 Batch 11</p>
+      <h1>Booking and Inquiry Form API Smoke Test</h1>
+      <p>Use this page to verify POST /api/bookings and POST /api/inquiries from the public frontend.</p>
+      <div class="api-url-box">API Base URL: <span id="apiBaseUrl">Loading...</span></div>
+    </section>
+
+    <section class="rsa-api-section">
+      <div class="rsa-api-section__header">
+        <div>
+          <p class="rsa-api-section__eyebrow">Lead forms</p>
+          <h2 class="rsa-api-section__title">Public form submissions</h2>
+          <p class="rsa-api-section__subtitle">These forms use Philippines mobile-number examples and submit directly to the local FastAPI backend.</p>
+        </div>
+      </div>
+
+      <div class="rsa-api-form-demo-grid">
+        <form class="rsa-api-form-demo-card" data-rsa-booking-form>
+          <h3>Booking Request</h3>
+          <label>
+            Customer name
+            <input name="customer_name" value="Batch 11 Booking Test" autocomplete="name" required>
+          </label>
+          <label>
+            Contact number
+            <input name="contact_number" value="+63 919 123 4567" autocomplete="tel" required>
+          </label>
+          <label>
+            Email
+            <input name="email" type="email" value="batch11.booking@example.com" autocomplete="email">
+          </label>
+          <label>
+            Site address
+            <input name="address" value="Batch 11 Test Address, Philippines">
+          </label>
+          <label>
+            Preferred date
+            <input name="preferred_date" type="date" id="bookingDate">
+          </label>
+          <label>
+            Preferred time
+            <select name="preferred_time">
+              <option>Morning</option>
+              <option>Afternoon</option>
+              <option>Evening</option>
+            </select>
+          </label>
+          <label>
+            Service interest
+            <input name="service_interest" value="CCTV Installation">
+          </label>
+          <label>
+            Notes
+            <textarea name="notes">Testing Batch 11 public booking form API integration.</textarea>
+          </label>
+          <button class="rsa-api-button" type="submit">Submit Booking</button>
+          <div class="rsa-api-form-status" data-rsa-form-status role="status" aria-live="polite"></div>
+        </form>
+
+        <form class="rsa-api-form-demo-card" data-rsa-inquiry-form data-rsa-source-page="Contact Us">
+          <h3>Contact / Inquiry Request</h3>
+          <label>
+            Customer name
+            <input name="customer_name" value="Batch 11 Inquiry Test" autocomplete="name" required>
+          </label>
+          <label>
+            Contact number
+            <input name="contact_number" value="0919 123 4567" autocomplete="tel" required>
+          </label>
+          <label>
+            Email
+            <input name="email" type="email" value="batch11.inquiry@example.com" autocomplete="email">
+          </label>
+          <label>
+            Product ID, optional
+            <input name="product_id" value="CCTV-0000001">
+          </label>
+          <label>
+            Subject
+            <input name="subject" value="Batch 11 Product Inquiry">
+          </label>
+          <label>
+            Message
+            <textarea name="message">Testing Batch 11 public inquiry form API integration.</textarea>
+          </label>
+          <input type="hidden" name="source_page" value="Contact Us">
+          <button class="rsa-api-button" type="submit">Submit Inquiry</button>
+          <div class="rsa-api-form-status" data-rsa-form-status role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/rsa-api-config.js"></script>
+  <script src="assets/js/rsa-api-client.js"></script>
+  <script src="assets/js/rsa-public-forms.js"></script>
+  <script>
+    document.getElementById('apiBaseUrl').textContent = window.RSA_API_CONFIG.apiBaseUrl;
+    const dateInput = document.getElementById('bookingDate');
+    if (dateInput) {
+      const date = new Date();
+      date.setDate(date.getDate() + 7);
+      dateInput.value = date.toISOString().slice(0, 10);
+    }
+  </script>
+</body>
+</html>

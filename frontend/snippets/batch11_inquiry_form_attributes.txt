@@ -1,0 +1,24 @@
+Recommended contact-us.html inquiry form attributes:
+
+<form data-rsa-inquiry-form data-rsa-source-page="Contact Us">
+  <input name="customer_name" required>
+  <input name="contact_number" placeholder="0919 123 4567" required>
+  <input name="email" type="email">
+  <input name="subject">
+  <textarea name="message"></textarea>
+  <input type="hidden" name="source_page" value="Contact Us">
+  <input type="hidden" name="product_id">
+  <button type="submit">Submit Inquiry</button>
+  <div class="rsa-api-form-status" data-rsa-form-status role="status" aria-live="polite"></div>
+</form>
+
+Required API fields:
+- customer_name
+- contact_number
+
+Optional fields:
+- email
+- subject
+- message
+- source_page
+- product_id
