@@ -90,7 +90,11 @@
       keyFeatures: '/key-features',
       pagesAbout: '/pages/about',
       pagesServices: '/pages/services',
-      pagesContact: '/pages/contact'
+      pagesContact: '/pages/contact',
+      adminAbout: '/admin/about',
+      adminProjectGallery: '/admin/project-gallery',
+      adminServices: '/admin/services',
+      adminContactUs: '/admin/contact-us'
     }
   };
 }());

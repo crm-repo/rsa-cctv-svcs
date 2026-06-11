@@ -44,3 +44,86 @@ def _get_about_repository():
 
 def get_public_about() -> Optional[About]:
     return _get_about_repository().get_visible_about()
+
+
+# --- Batch 21 admin CMS CRUD helpers ---
+from typing import Any
+
+from app.models.about import AboutListResponse
+from app.services.id_service import generate_about_id
+
+
+def _now_utc() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def _clean_text(value: Any) -> str | None:
+    if value is None:
+        return None
+    text_value = str(value).strip()
+    return text_value or None
+
+
+def _request_update_data(request: Any) -> dict[str, Any]:
+    return request.model_dump(exclude_unset=True)
+
+
+def list_admin_about() -> AboutListResponse:
+    items = _get_about_repository().list_all()
+    items.sort(key=lambda item: item.about_id)
+    return AboutListResponse(items=items, total=len(items))
+
+
+def get_admin_about_by_id(about_id: str) -> Optional[About]:
+    return _get_about_repository().get_by_id(about_id)
+
+
+def create_admin_about(request) -> About:
+    repository = _get_about_repository()
+    data = request.model_dump()
+    now = _now_utc()
+    about = About(
+        about_id=generate_about_id(),
+        show_flag=data.get("show_flag") or "Y",
+        hero_title=_clean_text(data.get("hero_title")) or "About RSA CCTV",
+        hero_subtitle=_clean_text(data.get("hero_subtitle")),
+        hero_image_path=_clean_text(data.get("hero_image_path")),
+        company_story_title=_clean_text(data.get("company_story_title")),
+        company_story_body=_clean_text(data.get("company_story_body")),
+        company_story_image_path=_clean_text(data.get("company_story_image_path")),
+        mission_title=_clean_text(data.get("mission_title")),
+        mission_body=_clean_text(data.get("mission_body")),
+        vision_title=_clean_text(data.get("vision_title")),
+        vision_body=_clean_text(data.get("vision_body")),
+        why_choose_title=_clean_text(data.get("why_choose_title")),
+        why_choose_body=_clean_text(data.get("why_choose_body")),
+        why_choose_bullet_01=_clean_text(data.get("why_choose_bullet_01")),
+        why_choose_bullet_02=_clean_text(data.get("why_choose_bullet_02")),
+        why_choose_bullet_03=_clean_text(data.get("why_choose_bullet_03")),
+        why_choose_bullet_04=_clean_text(data.get("why_choose_bullet_04")),
+        why_choose_bullet_05=_clean_text(data.get("why_choose_bullet_05")),
+        why_choose_bullet_06=_clean_text(data.get("why_choose_bullet_06")),
+        meta_title=_clean_text(data.get("meta_title")),
+        meta_description=_clean_text(data.get("meta_description")),
+        created_at=now,
+        updated_at=now,
+        created_by=_clean_text(data.get("updated_by")) or "admin",
+        updated_by=_clean_text(data.get("updated_by")) or "admin",
+    )
+    return repository.save_about(about)
+
+
+def update_admin_about(about_id: str, request) -> Optional[About]:
+    repository = _get_about_repository()
+    existing = repository.get_by_id(about_id)
+    if existing is None:
+        return None
+    data = existing.model_dump(mode="python")
+    update_data = _request_update_data(request)
+    for key, value in update_data.items():
+        if key != "updated_by":
+            data[key] = value
+    data["updated_at"] = _now_utc()
+    data["updated_by"] = _clean_text(update_data.get("updated_by")) or "admin"
+    about = About.model_validate(data)
+    return repository.save_about(about)

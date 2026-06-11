@@ -19,6 +19,9 @@ class AboutRepository(InMemoryRepository[About]):
                 return about
         return None
 
+    def save_about(self, about: About) -> About:
+        return self.save(about)
+
 
 class DynamoDBAboutRepository:
     repository_mode = "dynamodb"
@@ -31,9 +34,19 @@ class DynamoDBAboutRepository:
     def _to_model(item: dict) -> About:
         return About.model_validate(item)
 
+    def list_all(self) -> list[About]:
+        return [self._to_model(item) for item in self._repository.list_all()]
+
+    def get_by_id(self, about_id: str) -> Optional[About]:
+        item = self._repository.get_by_id(about_id)
+        return self._to_model(item) if item is not None else None
+
     def get_visible_about(self) -> Optional[About]:
-        for item in self._repository.list_all():
-            about = self._to_model(item)
+        for about in self.list_all():
             if about.show_flag == "Y":
                 return about
         return None
+
+    def save_about(self, about: About) -> About:
+        self._repository.put_item(about)
+        return about

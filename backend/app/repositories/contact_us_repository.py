@@ -28,6 +28,9 @@ class ContactUsRepository(InMemoryRepository[ContactUsRecord]):
         records = self.list_visible_by_type("Company Contact")
         return records[0] if records else None
 
+    def save_contact_record(self, record: ContactUsRecord) -> ContactUsRecord:
+        return self.save(record)
+
 
 class DynamoDBContactUsRepository:
     repository_mode = "dynamodb"
@@ -40,23 +43,26 @@ class DynamoDBContactUsRepository:
     def _to_model(item: dict) -> ContactUsRecord:
         return ContactUsRecord.model_validate(item)
 
+    def list_all(self) -> list[ContactUsRecord]:
+        return [self._to_model(item) for item in self._repository.list_all()]
+
+    def get_by_id(self, contact_us_id: str) -> Optional[ContactUsRecord]:
+        item = self._repository.get_by_id(contact_us_id)
+        return self._to_model(item) if item is not None else None
+
     def list_visible(self) -> list[ContactUsRecord]:
-        return [
-            self._to_model(item)
-            for item in self._repository.list_all()
-            if item.get("show_flag") == "Y"
-        ]
+        return [record for record in self.list_all() if record.show_flag == "Y"]
 
     def list_visible_by_type(self, contact_type: str) -> list[ContactUsRecord]:
         contact_type_key = contact_type.strip().lower()
-        records = [
-            record
-            for record in self.list_visible()
-            if record.contact_type.lower() == contact_type_key
-        ]
+        records = [record for record in self.list_visible() if record.contact_type.lower() == contact_type_key]
         records.sort(key=lambda record: record.display_seq)
         return records
 
     def get_visible_company_contact(self) -> Optional[ContactUsRecord]:
         records = self.list_visible_by_type("Company Contact")
         return records[0] if records else None
+
+    def save_contact_record(self, record: ContactUsRecord) -> ContactUsRecord:
+        self._repository.put_item(record)
+        return record

@@ -18,6 +18,9 @@ class ProjectGalleryRepository(InMemoryRepository[ProjectGalleryItem]):
         items.sort(key=lambda item: item.display_seq)
         return items
 
+    def save_project(self, project: ProjectGalleryItem) -> ProjectGalleryItem:
+        return self.save(project)
+
 
 class DynamoDBProjectGalleryRepository:
     repository_mode = "dynamodb"
@@ -30,8 +33,18 @@ class DynamoDBProjectGalleryRepository:
     def _to_model(item: dict) -> ProjectGalleryItem:
         return ProjectGalleryItem.model_validate(item)
 
+    def list_all(self) -> list[ProjectGalleryItem]:
+        return [self._to_model(item) for item in self._repository.list_all()]
+
+    def get_by_id(self, project_id: str) -> Optional[ProjectGalleryItem]:
+        item = self._repository.get_by_id(project_id)
+        return self._to_model(item) if item is not None else None
+
     def list_visible_sorted(self) -> list[ProjectGalleryItem]:
-        items = [self._to_model(item) for item in self._repository.list_all()]
-        items = [item for item in items if item.show_flag == "Y"]
+        items = [item for item in self.list_all() if item.show_flag == "Y"]
         items.sort(key=lambda item: item.display_seq)
         return items
+
+    def save_project(self, project: ProjectGalleryItem) -> ProjectGalleryItem:
+        self._repository.put_item(project)
+        return project

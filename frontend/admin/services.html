@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services | RSA CMS Admin</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="stylesheet" href="./assets/css/admin.css" />
+</head>
+<body>
+  <div class="admin-app" data-admin-app data-admin-page="services">
+
+    <aside class="admin-sidebar" aria-label="Admin navigation">
+      <a class="brand-lockup" href="./index.html" aria-label="RSA CMS Admin Dashboard">
+        <span class="brand-logo-wrap"><img src="./assets/images/rsa-logo.png" alt="RSA CCTV Installation Services" onerror="this.style.display='none'" /><span class="brand-logo-fallback" aria-hidden="true">RSA</span></span>
+        <span class="brand-copy"><strong>RSA CMS</strong><small>Mini-CRM Admin</small></span>
+      </a>
+      <nav class="admin-nav">
+        <a class="nav-item " href="./index.html"><span class="nav-icon">▦</span><span>Dashboard</span></a>
+        <p class="nav-heading">Products</p>
+        <a class="nav-item" href="./products.html"><span class="nav-icon">□</span><span>All Products</span></a>
+        <a class="nav-item" href="./categories.html"><span class="nav-icon">◇</span><span>Categories</span></a>
+        <a class="nav-item" href="./brands.html"><span class="nav-icon">◈</span><span>Brands</span></a>
+        <a class="nav-item" href="./key-features.html"><span class="nav-icon">✦</span><span>Key Features</span></a>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">%</span><span>Promotions</span></a>
+        <p class="nav-heading">CRM</p>
+        <a class="nav-item" href="./customers.html"><span class="nav-icon">☷</span><span>Customers</span></a>
+        <a class="nav-item" href="./bookings.html"><span class="nav-icon">◷</span><span>Bookings</span></a>
+        <a class="nav-item" href="./inquiries.html"><span class="nav-icon">?</span><span>Inquiries</span></a>
+        <p class="nav-heading">Contents</p>
+        <a class="nav-item " href="./about.html"><span class="nav-icon">i</span><span>About Us</span></a>
+        <a class="nav-item " href="./project-gallery.html"><span class="nav-icon">▧</span><span>Project Gallery</span></a>
+        <a class="nav-item is-active" href="./services.html"><span class="nav-icon">⚙</span><span>Services</span></a>
+        <a class="nav-item " href="./contact-us.html"><span class="nav-icon">☎</span><span>Contact Us</span></a>
+        <p class="nav-heading">System</p>
+        <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">⚙</span><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-note"><strong>Local admin preview</strong><span>Unprotected until Cognito batch.</span></div>
+    </aside>
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-label="Toggle navigation">☰</button>
+        <div><p class="eyebrow">CMS Management</p><h1>Services</h1></div>
+        <div class="topbar-actions"><label class="search-box"><span>Search</span><input type="search" placeholder="Search CMS content..." data-admin-search /></label><button class="icon-button" type="button" aria-label="Notifications">🔔<span data-new-lead-count>0</span></button><div class="admin-avatar" title="Admin User"><span>AD</span><div><strong>Admin User</strong><small>Local Admin</small></div></div></div>
+      </header>
+      <section class="status-banner" data-status-banner><strong>Loading services…</strong><span>Manage service cards, descriptions, and call-to-action content.</span></section>
+      <section class="admin-page-heading"><div class="page-icon">⚙</div><div><p class="eyebrow">CMS content</p><h2>Services</h2><p>Manage service cards, descriptions, and call-to-action content.</p></div></section>
+      <section class="catalog-toolbar panel"><div class="catalog-toolbar-group"><label><span>Visibility</span><select data-flag-filter><option value="">All</option><option value="Y">Visible</option><option value="N">Hidden</option></select></label><label><span>Search</span><input type="search" placeholder="Search records..." data-cms-search /></label></div><div class="lead-toolbar-actions"><button class="admin-button secondary" type="button" data-clear-filters>Clear Filters</button><button class="admin-button secondary" type="button" data-refresh-list>Refresh</button><button class="admin-button" type="button" data-open-create>Add Service</button></div></section>
+      <section class="panel lead-table-panel catalog-table-panel"><div class="panel-header"><div><p class="eyebrow">API-backed CMS</p><h2 data-list-title>Services</h2></div><span class="panel-tag" data-record-count>Loading…</span></div><div class="table-wrap lead-table-wrap"><table class="admin-data-table"><thead data-table-head></thead><tbody data-table-body><tr><td class="empty-cell">Loading records…</td></tr></tbody></table></div></section>
+      <aside class="detail-drawer" data-detail-drawer aria-hidden="true"><div class="drawer-backdrop" data-close-drawer></div><div class="drawer-panel catalog-drawer-panel" role="dialog" aria-modal="true" aria-label="CMS detail"><div class="drawer-header"><div><p class="eyebrow" data-drawer-kicker>CMS Detail</p><h2 data-drawer-title>Select a record</h2></div><button class="icon-button drawer-close" type="button" data-close-drawer aria-label="Close detail drawer">×</button></div><div class="drawer-body" data-drawer-body></div><form class="catalog-form" data-cms-form hidden></form></div></aside>
+      <footer class="admin-footer"><span>© 2026 RSA CCTV Installation Services</span><span>Phase 8 Batch 21 CMS Management</span></footer>
+    </main>
+  </div>
+  <script src="./assets/js/admin-api.js"></script><script src="./assets/js/admin-cms.js"></script>
+</body>
+</html>

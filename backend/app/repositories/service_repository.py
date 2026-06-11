@@ -25,6 +25,9 @@ class ServiceRepository(InMemoryRepository[Service]):
                 return service
         return None
 
+    def save_service(self, service: Service) -> Service:
+        return self.save(service)
+
 
 class DynamoDBServiceRepository:
     repository_mode = "dynamodb"
@@ -37,9 +40,15 @@ class DynamoDBServiceRepository:
     def _to_model(item: dict) -> Service:
         return Service.model_validate(item)
 
+    def list_all(self) -> list[Service]:
+        return [self._to_model(item) for item in self._repository.list_all()]
+
+    def get_by_id(self, service_id: str) -> Optional[Service]:
+        item = self._repository.get_by_id(service_id)
+        return self._to_model(item) if item is not None else None
+
     def list_visible_sorted(self) -> list[Service]:
-        services = [self._to_model(item) for item in self._repository.list_all()]
-        services = [service for service in services if service.show_flag == "Y"]
+        services = [service for service in self.list_all() if service.show_flag == "Y"]
         services.sort(key=lambda service: service.display_seq)
         return services
 
@@ -49,3 +58,7 @@ class DynamoDBServiceRepository:
             if service.service_slug.lower() == slug:
                 return service
         return None
+
+    def save_service(self, service: Service) -> Service:
+        self._repository.put_item(service)
+        return service

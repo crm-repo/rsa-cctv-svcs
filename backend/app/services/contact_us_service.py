@@ -177,3 +177,82 @@ def get_public_contact_page() -> ContactPageResponse:
         contact_persons=list_public_contact_persons(),
         social_media=list_public_social_media(),
     )
+
+
+# --- Batch 21 admin CMS CRUD helpers ---
+from typing import Any
+
+from app.models.contact_us import ContactUsRecordListResponse
+from app.services.id_service import generate_contact_company_id, generate_contact_person_id, generate_social_media_id
+
+
+def _now_utc() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def _clean_text(value: Any) -> str | None:
+    if value is None:
+        return None
+    text_value = str(value).strip()
+    return text_value or None
+
+
+def _contact_id_for_type(contact_type: str) -> str:
+    if contact_type == "Company Contact":
+        return generate_contact_company_id()
+    if contact_type == "Contact Person":
+        return generate_contact_person_id()
+    if contact_type == "Social Media":
+        return generate_social_media_id()
+    raise ValueError("Invalid contact_type.")
+
+
+def list_admin_contact_records(search: Optional[str] = None, contact_type: Optional[str] = None) -> ContactUsRecordListResponse:
+    records = _get_contact_us_repository().list_all()
+    if contact_type:
+        key = contact_type.strip().lower()
+        records = [record for record in records if record.contact_type.lower() == key]
+    if search:
+        query = search.strip().lower()
+        records = [record for record in records if query in " ".join(str(value or "") for value in record.model_dump().values()).lower()]
+    records.sort(key=lambda record: (record.contact_type, record.display_seq, record.contact_us_id))
+    return ContactUsRecordListResponse(items=records, total=len(records))
+
+
+def get_admin_contact_record_by_id(contact_us_id: str) -> Optional[ContactUsRecord]:
+    return _get_contact_us_repository().get_by_id(contact_us_id)
+
+
+def create_admin_contact_record(request) -> ContactUsRecord:
+    repository = _get_contact_us_repository()
+    data = request.model_dump()
+    contact_type = data.get("contact_type")
+    if not contact_type:
+        raise ValueError("contact_type is required.")
+    now = _now_utc()
+    record_data = {key: _clean_text(value) if isinstance(value, str) else value for key, value in data.items() if key != "updated_by"}
+    record = ContactUsRecord(
+        **record_data,
+        contact_us_id=_contact_id_for_type(contact_type),
+        created_at=now,
+        updated_at=now,
+        created_by=_clean_text(data.get("updated_by")) or "admin",
+        updated_by=_clean_text(data.get("updated_by")) or "admin",
+    )
+    return repository.save_contact_record(record)
+
+
+def update_admin_contact_record(contact_us_id: str, request) -> Optional[ContactUsRecord]:
+    repository = _get_contact_us_repository()
+    existing = repository.get_by_id(contact_us_id)
+    if existing is None:
+        return None
+    data = existing.model_dump(mode="python")
+    update_data = request.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        if key != "updated_by":
+            data[key] = _clean_text(value) if isinstance(value, str) else value
+    data["updated_at"] = _now_utc()
+    data["updated_by"] = _clean_text(update_data.get("updated_by")) or "admin"
+    record = ContactUsRecord.model_validate(data)
+    return repository.save_contact_record(record)
