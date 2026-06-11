@@ -1,0 +1,18 @@
+# RSA CMS / Mini-CRM FastAPI systemd service template
+# This is a template for the future EC2 deployment batch.
+# Do not install until the deployment batch.
+
+[Unit]
+Description=RSA CMS FastAPI backend
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/opt/rsa-cms/backend
+EnvironmentFile=/opt/rsa-cms/.env
+ExecStart=/opt/rsa-cms/venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
