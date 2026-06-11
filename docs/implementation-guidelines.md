@@ -401,3 +401,51 @@ Key implementation guardrails:
 - Use `show_flag` and `show_pack_flag` according to the approved visibility rules.
 - Use backend/server-side ID generation through `rsa_id_counters`.
 - Keep admin-style routes unprotected only for local testing; add Cognito protection before external/public admin testing.
+
+
+## Phase 8 Current Implementation Guardrails
+
+Added in Batch 29 after full public/admin regression.
+
+### Repository Mode
+
+- Keep `RSA_REPOSITORY_MODE=mock` as the safe default for normal local development.
+- Use `RSA_REPOSITORY_MODE=dynamodb` only when intentionally testing AWS-backed data.
+- After DynamoDB tests in PowerShell, clear the environment variable with:
+
+```powershell
+Remove-Item Env:RSA_REPOSITORY_MODE
+```
+
+### Admin Auth
+
+- Keep local admin auth disabled by default until the deployment/security step.
+- Do not expose admin pages publicly without Cognito JWT enforcement.
+- Avoid Cognito SMS/MFA/phone verification unless explicitly approved after cost review.
+
+### Admin Media
+
+- Admin image/photo/logo fields should use Browse/Choose File UI.
+- Do not ask admins to type project-folder paths manually.
+- Store/display resolved media paths or object keys.
+- Real S3 binary upload/storage is a later enablement step.
+- Contact Person records may use the Contact Person photo/profile image field.
+- Company Contact and Social Media records should not add extra photo upload fields unless reopened.
+
+### Launch Data Import
+
+- Company-facing launch data should use Excel/CSV templates.
+- JSON seed data remains developer/test seed data.
+- Import scripts must remain dry-run-first.
+- DynamoDB writes must require explicit `--execute`.
+- Import scripts should validate data before writing and should skip existing records by default unless an overwrite behavior is explicitly approved.
+
+### Regression Testing
+
+Before moving from Phase 8 into deployment/security work:
+
+1. Run the full public/admin API regression in mock mode.
+2. Run the full public/admin API regression in DynamoDB mode.
+3. Complete the manual public/admin checklist.
+4. Confirm mock mode is restored as the safe default.
+5. Confirm no delete/destructive admin action is introduced unintentionally.

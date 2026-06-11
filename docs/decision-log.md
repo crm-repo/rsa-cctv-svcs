@@ -400,3 +400,70 @@ This document records significant project decisions and their rationale. For imp
 | Decision | Add `icon_code` to `rsa_categories`. Add two launch product GSIs: `category_key-display_seq-index` and `product_brand_key-display_seq-index`. |
 | Reasoning | `icon_code` avoids building a full icon picker for launch. Product GSIs optimize the most important catalog browsing paths while keeping the launch capacity plan within Free-Tier-first guardrails. |
 | Impact | Category and product services must expose the approved fields and query paths. |
+
+
+## ADR-037: Keep Mock Repository Mode as the Safe Local Default
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 29 |
+| Status | Accepted |
+| Context | The project now supports both mock and DynamoDB repository modes. Developers need a safe default that avoids accidental AWS writes/costs during normal local work. |
+| Decision | Keep mock mode as the default. Use DynamoDB mode only when explicitly setting `RSA_REPOSITORY_MODE=dynamodb` for AWS-backed tests/imports. |
+| Reasoning | Preserves Free-Tier-first safety and prevents accidental cloud writes during local development. |
+| Impact | Test instructions must clearly identify when DynamoDB mode is being used and should remind developers to clear the environment variable afterward. |
+
+## ADR-038: Use Excel/CSV as the Business-Facing Launch Data Format
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 29 |
+| Status | Accepted |
+| Context | JSON seed data is developer-friendly but not the best format for company-provided launch content. |
+| Decision | Use Excel/CSV templates for business-facing launch data collection and keep JSON seed data for development/testing. |
+| Reasoning | Excel/CSV is easier for the company to fill in and review. JSON remains useful for repeatable developer fixtures. |
+| Impact | Import tooling must validate Excel/CSV data and write to DynamoDB only after explicit confirmation. |
+
+## ADR-039: Keep Launch Data Import Dry-Run-First
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 29 |
+| Status | Accepted |
+| Context | Launch import can affect DynamoDB records and ID counters. |
+| Decision | Import scripts must default to dry run and require explicit `--execute` for writes. |
+| Reasoning | Prevents accidental data changes and supports safe review before import. |
+| Impact | Documentation and scripts must show dry-run commands before execute commands. |
+
+## ADR-040: Admin Media Fields Use Choose File Preparation Before Real S3 Upload
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 29 |
+| Status | Accepted |
+| Context | Admin users should not type folder paths manually, but real S3 binary upload/storage is not enabled yet. |
+| Decision | Use Browse/Choose File controls to prepare/display resolved media paths or keys. Enable real S3 binary upload/storage in a later deployment/storage step. |
+| Reasoning | Improves admin usability now while keeping storage implementation Free-Tier-first and controlled. |
+| Impact | Product, brand, CMS image, and Contact Person photo fields should use the shared media prep workflow. |
+
+## ADR-041: Contact Person Photo Field Scope
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 29 |
+| Status | Accepted |
+| Context | Contact Us admin records are consolidated into `rsa_contact_us`, but only Contact Person records need a profile/photo image field. |
+| Decision | Add photo/profile image preparation only for Contact Person records. Do not add photo upload fields for Company Contact or Social Media in this phase. |
+| Reasoning | Matches the actual content need and avoids unnecessary fields in other Contact Us sections. |
+| Impact | Contact Person records may store/display a resolved photo path/key. Company Contact and Social Media remain text/link/contact records. |
+
+## ADR-042: Phase 8 Local Backend/Admin Baseline Is Complete Before Deployment/Security Work
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 29 |
+| Status | Accepted |
+| Context | Public APIs, admin pages, CRUD actions, DynamoDB mode, data templates/import, media prep, auth prep, UI polish, and full regression are now complete for the local/current phase. |
+| Decision | Treat Phase 8 local backend/admin implementation as complete for the current phase after Batch 28 regression and Batch 29 documentation update. |
+| Reasoning | The next meaningful work area is deployment/security/pre-launch readiness rather than more local feature expansion. |
+| Impact | New work should move toward billing alerts, EC2/IP-based deployment, Cognito enforcement, S3 enablement, SEO, and launch readiness unless the user explicitly reopens a completed feature. |

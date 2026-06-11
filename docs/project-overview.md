@@ -159,29 +159,35 @@ The project is successful when:
 
 ## Latest Authoritative Project Status
 
-`feature-status.md` is the authoritative implementation tracker. The summary below reflects the latest known state.
+`feature-status.md` is the authoritative implementation tracker. The summary below reflects the latest known state after Phase 8 Batch 28 regression and Batch 29 documentation/status update.
 
 | Area | Latest Status | Notes |
 |---|---|---|
-| Homepage | Complete for current phase | Do not reopen unless specifically requested |
-| Products Page | Established static catalog foundation | Master reusable catalog implementation |
-| Promotions Page | Complete for current phase | Sale remains a hard filter; All Products resets category while keeping Sale active |
-| Brands Page | Complete for current phase | Brand strip and hero polish are considered done unless reopened |
-| About Us Page | Current active work area | Next public page to implement/polish |
-| Services Page | Planned / partial | Public page still requires final implementation status confirmation |
-| Contact Us Page | Planned | Public page and contact workflow still needed |
-| Booking Page | Planned | Required for Request Site Visit workflow |
-| Backend / Admin / CRM | Planned | Not yet implemented |
+| Public Website | Complete for current phase | Homepage, Products, Promotions, Brands, About Us, Services, Contact Us, and Booking are complete unless reopened |
+| Public API Integration | Complete | Public pages and public booking/inquiry forms are connected to backend APIs |
+| Backend / FastAPI | Complete for Phase 8 | Local FastAPI backend, public/admin routes, repository layer, mock mode, and DynamoDB mode are implemented |
+| DynamoDB | Complete for Phase 8 | 12 approved `rsa_` tables were created in AWS `ap-southeast-1` and regression-tested |
+| Admin Dashboard | Complete for Phase 8 | Admin dashboard shell and navigation are implemented |
+| Admin Lead Management | Complete for Phase 8 | Bookings, inquiries, and customers can be listed/viewed/updated |
+| Admin Catalog Management | Complete for Phase 8 | Products, categories, brands, and key features support create/update workflows |
+| Admin CMS Management | Complete for Phase 8 | About, project gallery, services, and contact-us records support create/update workflows |
+| Admin UI Polish | Complete for Phase 8 | Product-name preview, key-feature suggestions, media-field presentation, and drawer/toolbar polish completed |
+| Admin Auth | Prepared | Cognito/admin-auth preparation exists; real protection remains disabled locally until deployment/security phase |
+| Media Upload | Prepared | Choose File/media-key prep exists; real S3 binary upload/storage remains a later enablement step |
+| Launch Data Templates / Import | Complete for Phase 8 | Excel/CSV templates and safe dry-run-first import loader are implemented |
+| Regression Testing | Complete for Phase 8 | Full public/admin regression checklist and script passed in current testing |
 | SEO / Deployment | Planned | Required before production launch |
 
 ## Current Authoritative Updates
 
-1. **Promotions All Products behavior has changed.** Older documentation stated that All Products redirects to Products. The latest rule is that All Products clears category filtering while keeping Sale active.
-2. **Homepage, Promotions, and Brands are complete for the current phase.** They should not be reopened unless explicitly requested.
-3. **About Us is the current active work area.**
-4. **Brands hero logo cards should not be fully transparent.** Black logo text becomes unreadable on the dark hero background.
-5. **Brands page active brand styling must override Products page pseudo-element styling.**
-6. **Feature status, architecture, and requirements authorities are separated.** Use `feature-status.md` for status, `architecture.md` for technical design, and `requirements.md` for business requirements.
+1. **Phase 8 backend/admin implementation is complete for the current local/regression phase.** Older statements that backend/admin are only planned are superseded by `feature-status.md`.
+2. **Mock repository mode remains the safe default.** DynamoDB mode is used intentionally for AWS-backed regression/import testing.
+3. **The approved Phase 8 Final v5 DynamoDB/API plan remains the technical baseline.** The launch table set is 12 DynamoDB tables with 5 approved GSIs.
+4. **Admin auth is prepared but not externally enabled.** Cognito protection must be completed before public/external admin testing.
+5. **Admin media fields use Browse/Choose File preparation.** Real S3 binary upload/storage remains a later deployment/storage task.
+6. **Launch data should be collected through Excel/CSV templates, not manual JSON editing.** JSON seed data remains useful for developer testing.
+7. **Completed public pages should not be reopened unless explicitly requested.**
+8. **AWS Free-Tier-first remains mandatory.** Avoid ALB, NAT Gateway, RDS, multiple always-on EC2 instances, SMS/MFA costs, and unnecessary paid features.
 
 ## Documentation Map
 
@@ -209,3 +215,29 @@ Main approved backend direction:
 - CMS content for About Us, Project Gallery, Services, and Contact Us will become API/database-driven while preserving the current public page layouts.
 
 See [PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md](./PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md) for the approved implementation plan.
+
+
+## Phase 8 Current Implemented Baseline
+
+As of Batch 29, Phase 8 has completed the local backend/admin/CMS/Mini-CRM implementation and regression baseline.
+
+Implemented baseline:
+
+- FastAPI backend with public and admin route modules.
+- Mock repository mode as the safe default.
+- DynamoDB repository mode for AWS-backed testing.
+- Approved `rsa_` DynamoDB tables created and verified ACTIVE in `ap-southeast-1`.
+- Public website pages connected to backend APIs.
+- Public booking and inquiry form submission connected to backend APIs.
+- Admin dashboard, lead management, catalog management, CMS management, auth prep, and media prep.
+- Excel/CSV launch templates and safe import loader.
+- Full public/admin regression script and manual checklist.
+
+Still outside this completed baseline:
+
+- Production deployment.
+- Real Cognito enforcement.
+- Real S3 binary upload/storage.
+- CloudFront/SSL/domain.
+- SEO/sitemap/robots/image optimization.
+- Billing-alert and Free-Tier deployment readiness verification.

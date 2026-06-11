@@ -2,75 +2,57 @@
 
 ## Update Purpose
 
-This package updates the primary Markdown project source files to record the approved Phase 8 Final v5 DynamoDB/API implementation plan.
+This package updates the primary Markdown project source files after completion of Phase 8 local backend/admin/CMS/Mini-CRM implementation, admin polish, launch data tooling, and full public/admin regression.
+
+Update batch: Phase 8 Batch 29  
+Date: 2026-06-11
 
 ## Main Updates Added
 
-- Added `PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md` as the clean approved implementation plan.
-- Updated architecture source with the v5 approved table set, GSI set, product/package rules, Contact Us consolidation, and API mapping summary.
-- Updated requirements source with approved backend/CMS requirements for products, packages, categories, key features, Contact Us, and page APIs.
-- Updated decision log with new ADRs for Phase 8 v5, package products, Contact Us consolidation, product schema/naming, and category/product GSI decisions.
-- Updated feature status to show current local backend skeleton progress and next Phase 8 implementation tasks.
-- Updated open issues to mark DynamoDB access-pattern review as resolved and record v5-resolved items.
-- Updated implementation guidelines with Phase 8 v5 coding guardrails.
-- Updated project overview with the approved backend/data direction.
+- Updated `PRIMARY_feature-status.md` as the authoritative implementation tracker through Batch 29.
+- Updated `PRIMARY_project-overview.md` with the current Phase 8 implemented baseline.
+- Updated `PRIMARY_implementation-guidelines.md` with current repository-mode, admin-auth, media, import, and regression guardrails.
+- Updated `PRIMARY_decision-log.md` with new ADRs for mock-mode safety, Excel/CSV launch data, dry-run-first import, media prep, Contact Person photo scope, and Phase 8 completion baseline.
+- Updated `PRIMARY_open-issues.md` to mark completed backend/admin/DynamoDB/public-form items as resolved and keep only current deployment/security/pre-launch gaps open.
+- Updated `PRIMARY_architecture.md` with a current implemented architecture baseline.
 
-## Approved Phase 8 v5 Summary
+## Phase 8 Current Status Summary
 
 ```text
-Launch tables: 12
-Launch GSIs: 5
-Simplified minimum count: 17 RCU + 17 WCU
-Table prefix: rsa_
-Design style: simple multi-table DynamoDB
+Public frontend pages: Complete for current phase
+Public API integration: Complete
+Public booking/inquiry forms: Complete
+Backend FastAPI: Complete for Phase 8
+Repository layer: Complete
+DynamoDB tables: Created and verified ACTIVE
+DynamoDB mode regression: Passed
+Admin dashboard: Complete
+Admin lead management: Complete
+Admin catalog management: Complete
+Admin CMS management: Complete
+Admin auth/Cognito prep: Complete
+Admin media prep: Complete
+Contact Person photo prep: Complete
+Excel/CSV launch templates: Complete
+Launch data import loader: Complete
+Full public/admin regression: Passed
 ```
 
-Approved launch tables:
+## Still Open After Batch 29
 
 ```text
-rsa_products
-rsa_brands
-rsa_categories
-rsa_key_features
-rsa_customers
-rsa_bookings
-rsa_inquiries
-rsa_about
-rsa_project_gallery
-rsa_services
-rsa_contact_us
-rsa_id_counters
+AWS billing alerts
+Free-Tier deployment review
+EC2 public-IP deployment
+Real Cognito admin enforcement
+Real S3 binary upload/storage
+SEO metadata
+sitemap.xml / robots.txt
+Image optimization
+CloudFront / SSL / domain after IP-based testing
+Final company production content import
 ```
 
-Approved launch GSIs:
+## Cost-Control Reminder
 
-```text
-rsa_products:
-- category_key-display_seq-index
-- product_brand_key-display_seq-index
-
-rsa_customers:
-- contact_number_normalized-index
-
-rsa_bookings:
-- status-created_at-index
-
-rsa_inquiries:
-- status-created_at-index
-```
-
-## Markdown Files Updated
-
-- PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md
-- PRIMARY_architecture.md
-- PRIMARY_requirements.md
-- PRIMARY_decision-log.md
-- PRIMARY_feature-status.md
-- PRIMARY_open-issues.md
-- PRIMARY_implementation-guidelines.md
-- PRIMARY_project-overview.md
-- UPDATE_SUMMARY.md
-
-## Notes
-
-The PDF handbook was not regenerated in this package. Regenerate the PDF from the Markdown source files later if a refreshed reference PDF is needed.
+AWS Free-Tier-first remains mandatory. Continue avoiding ALB, NAT Gateway, RDS, multiple always-on EC2 instances, SMS/MFA costs, and unnecessary paid services unless explicitly approved after cost review.

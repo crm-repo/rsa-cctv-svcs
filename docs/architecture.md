@@ -31,6 +31,31 @@ The system must support a transition from static product markup to a shared data
 All backend, database, authentication, storage and deployment decisions are constrained by the AWS Free-Tier-first project rule: the completed project should fit within AWS Free Tier as much as practical during the first 12 months, with Route 53/domain as the expected paid exception, and then continue as a low-cost AWS deployment after the free-tier window.
 
 
+
+
+## Current Phase 8 Implemented Architecture Baseline
+
+As of Batch 29, the current local/regression architecture includes:
+
+- Static public frontend pages served locally or through static hosting.
+- JavaScript API clients/renderers connecting public pages to backend APIs.
+- Python FastAPI backend with public and admin route modules.
+- Repository abstraction supporting mock mode and DynamoDB mode.
+- Mock repository mode as the safe default.
+- DynamoDB repository mode for AWS-backed regression/import testing.
+- AWS DynamoDB tables created in `ap-southeast-1` following the approved Phase 8 Final v5 plan.
+- Admin dashboard, lead management, catalog management, CMS management, auth prep, and media prep.
+- Excel/CSV launch templates and safe dry-run-first import tooling.
+
+Still planned for production/external use:
+
+- EC2 public-IP backend/admin deployment.
+- Real Cognito JWT enforcement for admin routes.
+- Real S3 binary upload/storage.
+- CloudFront/SSL/domain.
+- Billing alerts and Free-Tier deployment review.
+- SEO, sitemap, robots, image optimization, and launch hardening.
+
 ## Phase 8 Final v5 Backend/Data Plan
 
 The approved Phase 8 DynamoDB/API implementation plan is documented in [PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md](./PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md).
