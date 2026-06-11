@@ -1,0 +1,8 @@
+Add these tags to admin pages with image fields:
+
+<link rel="stylesheet" href="./assets/css/admin-media.css" />
+
+<script src="./assets/js/admin-api.js"></script>
+<script src="./assets/js/admin-media.js"></script>
+
+admin-media.js should load after admin-api.js and before/after page-specific scripts. It observes dynamically-created forms and converts image/path fields into Browse/Choose File controls.

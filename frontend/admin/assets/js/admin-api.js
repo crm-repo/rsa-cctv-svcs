@@ -105,7 +105,9 @@
       adminAbout: '/admin/about',
       adminProjectGallery: '/admin/project-gallery',
       adminServices: '/admin/services',
-      adminContactUs: '/admin/contact-us'
+      adminContactUs: '/admin/contact-us',
+      adminMediaConfig: '/admin/media/config',
+      adminMediaPrepareUpload: '/admin/media/prepare-upload'
     }
   };
 }());

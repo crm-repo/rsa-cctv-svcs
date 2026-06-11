@@ -130,7 +130,7 @@
     const isCreate = !record.about_id;
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
       <h3>${isCreate ? 'Add About Record' : 'Edit About Record'}</h3>
-      <p class="form-note">Batch 21 enables CMS create/update. Delete and image upload remain disabled.</p>
+      <p class="form-note">Batch 21 enables CMS create/update. Delete is still disabled. Image Browse prepares a future upload key; S3 upload comes later.</p>
       <div class="catalog-form-grid">
         ${input('about_id', 'About ID', record.about_id || 'Auto-generated on save', 'text', 'readonly')}
         ${select('show_flag', 'Public Visibility', record.show_flag || 'Y', [{ value: 'Y', label: 'Y - Visible' }, { value: 'N', label: 'N - Hidden' }])}

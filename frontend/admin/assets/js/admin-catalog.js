@@ -143,7 +143,7 @@
     }).join('');
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
       <h3>${isCreate ? 'Add Product' : 'Edit Product'}</h3>
-      <p class="form-note">Batch 20 enables safe create/update. Delete and image upload are still disabled.</p>
+      <p class="form-note">Batch 20 enables safe create/update. Delete is still disabled. Image Browse prepares a future upload key; S3 upload comes later.</p>
       <div class="catalog-form-grid">
         ${input('product_name', 'Product Name', record.product_name || '')}
         ${input('product_id', 'Product ID', record.product_id || 'Auto-generated on save', 'text', 'readonly')}

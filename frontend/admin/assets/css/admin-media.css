@@ -1,0 +1,38 @@
+.admin-media-picker {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto auto;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.admin-media-picker .admin-media-filename {
+  min-width: 0;
+  background: #f9fafb;
+  cursor: default;
+}
+
+.admin-media-button,
+.admin-media-clear {
+  white-space: nowrap;
+}
+
+.admin-media-note {
+  grid-column: 1 / -1;
+  display: block;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.admin-button.ghost {
+  background: #ffffff;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+}
+
+@media (max-width: 720px) {
+  .admin-media-picker {
+    grid-template-columns: 1fr;
+  }
+}
