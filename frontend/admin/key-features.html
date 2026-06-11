@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Products | RSA CMS Admin</title>
+  <title>Key Features | RSA CMS Admin</title>
   <meta name="robots" content="noindex,nofollow" />
   <link rel="stylesheet" href="./assets/css/admin.css" />
 </head>
 <body>
-  <div class="admin-app" data-admin-app data-admin-page="products">
+  <div class="admin-app" data-admin-app data-admin-page="key-features">
 
     <aside class="admin-sidebar" aria-label="Admin navigation">
       <a class="brand-lockup" href="./index.html" aria-label="RSA CMS Admin Dashboard">
@@ -23,10 +23,10 @@
         <a class="nav-item " href="./index.html"><span class="nav-icon">▦</span><span>Dashboard</span></a>
 
         <p class="nav-heading">Products</p>
-        <a class="nav-item is-active" href="./products.html"><span class="nav-icon">□</span><span>All Products</span></a>
+        <a class="nav-item " href="./products.html"><span class="nav-icon">□</span><span>All Products</span></a>
         <a class="nav-item " href="./categories.html"><span class="nav-icon">◇</span><span>Categories</span></a>
         <a class="nav-item " href="./brands.html"><span class="nav-icon">◈</span><span>Brands</span></a>
-        <a class="nav-item " href="./key-features.html"><span class="nav-icon">✦</span><span>Key Features</span></a>
+        <a class="nav-item is-active" href="./key-features.html"><span class="nav-icon">✦</span><span>Key Features</span></a>
         <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon">%</span><span>Promotions</span></a>
 
         <p class="nav-heading">CRM</p>
@@ -50,24 +50,24 @@
     <main class="admin-main">
       <header class="admin-topbar">
         <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-label="Toggle navigation">☰</button>
-        <div><p class="eyebrow">Catalog Management</p><h1>Products</h1></div>
+        <div><p class="eyebrow">Catalog Management</p><h1>Key Features</h1></div>
         <div class="topbar-actions">
-          <label class="search-box"><span>Search</span><input type="search" placeholder="Search product name, ID, brand, category..." data-admin-search /></label>
+          <label class="search-box"><span>Search</span><input type="search" placeholder="Search feature name or ID..." data-admin-search /></label>
           <button class="icon-button" type="button" aria-label="Notifications">🔔<span data-new-lead-count>0</span></button>
           <div class="admin-avatar" title="Admin User"><span>AD</span><div><strong>Admin User</strong><small>Local Admin</small></div></div>
         </div>
       </header>
 
-      <section class="status-banner" data-status-banner><strong>Loading products…</strong><span>Review product catalog records, sale prices, package placement, and public visibility flags.</span></section>
-      <section class="admin-page-heading"><div class="page-icon">□</div><div><p class="eyebrow">Products and package catalog</p><h2>Products</h2><p>Review product catalog records, sale prices, package placement, and public visibility flags.</p></div></section>
+      <section class="status-banner" data-status-banner><strong>Loading key features…</strong><span>Review reusable key feature suggestions for product form entry.</span></section>
+      <section class="admin-page-heading"><div class="page-icon">✦</div><div><p class="eyebrow">Reusable product features</p><h2>Key Features</h2><p>Review reusable key feature suggestions for product form entry.</p></div></section>
 
       <section class="catalog-toolbar panel">
-        <div class="catalog-toolbar-group"><label><span>Category</span><select data-category-filter><option value="">All categories</option></select></label><label><span>Brand</span><select data-brand-filter><option value="">All brands</option></select></label><label><span>Visibility</span><select data-flag-filter><option value="">All</option><option value="Y">Visible</option><option value="N">Hidden</option></select></label><label><span>Search</span><input type="search" placeholder="Search product name, ID, brand, category..." data-catalog-search /></label></div>
-        <div class="lead-toolbar-actions"><button class="admin-button secondary" type="button" data-clear-filters>Clear Filters</button><button class="admin-button secondary" type="button" data-refresh-list>Refresh</button><button class="admin-button" type="button" data-open-create>Add Product</button></div>
+        <div class="catalog-toolbar-group"><label><span>Type</span><select data-feature-filter><option value="">All features</option></select></label><label><span>Search</span><input type="search" placeholder="Search feature name or ID..." data-catalog-search /></label></div>
+        <div class="lead-toolbar-actions"><button class="admin-button secondary" type="button" data-clear-filters>Clear Filters</button><button class="admin-button secondary" type="button" data-refresh-list>Refresh</button><button class="admin-button" type="button" data-open-create>Add Key Feature</button></div>
       </section>
 
       <section class="panel lead-table-panel catalog-table-panel">
-        <div class="panel-header"><div><p class="eyebrow">API-backed catalog</p><h2 data-list-title>Products</h2></div><span class="panel-tag" data-record-count>Loading…</span></div>
+        <div class="panel-header"><div><p class="eyebrow">API-backed catalog</p><h2 data-list-title>Key Features</h2></div><span class="panel-tag" data-record-count>Loading…</span></div>
         <div class="table-wrap lead-table-wrap"><table class="admin-data-table" data-catalog-table><thead data-table-head></thead><tbody data-table-body><tr><td class="empty-cell">Loading records…</td></tr></tbody></table></div>
       </section>
 

@@ -78,6 +78,8 @@
       bookings: '/bookings',
       inquiries: '/inquiries',
       customers: '/customers',
+      categories: '/categories',
+      keyFeatures: '/key-features',
       pagesAbout: '/pages/about',
       pagesServices: '/pages/services',
       pagesContact: '/pages/contact'
