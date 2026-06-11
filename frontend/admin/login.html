@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login | RSA CMS</title>
+  <link rel="stylesheet" href="./assets/css/admin.css" />
+  <link rel="stylesheet" href="./assets/css/admin-auth.css" />
+</head>
+<body class="admin-login-page">
+  <main class="admin-login-card">
+    <div class="admin-login-brand">
+      <img src="./assets/images/rsa-logo.png" alt="RSA CCTV Installation Services" />
+      <div>
+        <h1>RSA Admin</h1>
+        <p>Phase 8 authentication preparation</p>
+      </div>
+    </div>
+
+    <p class="admin-login-note">
+      Cognito is not enabled yet. In default local mode, admin pages remain available for development.
+      When <strong>RSA_ADMIN_AUTH_MODE=mock</strong>, use the local mock token configured in the backend.
+    </p>
+
+    <form data-admin-login-form>
+      <label>
+        Mock token
+        <input type="password" name="token" placeholder="local-dev-admin-token" autocomplete="current-password" />
+      </label>
+      <button type="submit">Continue</button>
+    </form>
+
+    <p class="admin-login-status" data-admin-login-status>Checking admin auth configuration…</p>
+  </main>
+
+  <script src="./assets/js/admin-auth.js"></script>
+  <script>
+    (function () {
+      const form = document.querySelector('[data-admin-login-form]');
+      const status = document.querySelector('[data-admin-login-status]');
+
+      async function init() {
+        const config = await window.RSAAdminAuth.loadConfig();
+        if (!config.enabled || config.mode === 'disabled') {
+          status.textContent = 'Local preview mode: auth is disabled. Redirecting to dashboard…';
+          window.setTimeout(() => {
+            window.location.href = './';
+          }, 700);
+          return;
+        }
+
+        if (config.mode === 'cognito') {
+          status.textContent = config.is_cognito_configured
+            ? 'Cognito configuration detected. JWT login flow will be completed in a later batch.'
+            : 'Cognito mode is selected, but user pool/app client settings are missing.';
+          return;
+        }
+
+        status.textContent = 'Mock mode enabled. Enter the local mock token to continue.';
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const token = new FormData(form).get('token');
+
+        try {
+          await window.RSAAdminAuth.mockLogin(token);
+          const params = new URLSearchParams(window.location.search);
+          const next = params.get('next');
+          status.textContent = 'Mock login saved. Redirecting…';
+          window.location.href = next || './';
+        } catch (error) {
+          status.textContent = `Login failed: ${error.message}`;
+        }
+      });
+
+      init().catch((error) => {
+        status.textContent = `Unable to load auth config: ${error.message}`;
+      });
+    }());
+  </script>
+</body>
+</html>

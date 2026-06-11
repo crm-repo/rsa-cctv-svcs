@@ -22,12 +22,22 @@
     return normalizeBaseUrl(`${window.location.origin}/api`);
   }
 
+  function getAuthHeaders() {
+    if (window.RSAAdminAuth && typeof window.RSAAdminAuth.getAuthHeader === 'function') {
+      return window.RSAAdminAuth.getAuthHeader();
+    }
+
+    const token = window.localStorage.getItem('rsa_admin_access_token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
+
   async function request(path, options = {}) {
     const base = getApiBaseUrl();
     const url = `${base}${path.startsWith('/') ? path : `/${path}`}`;
     const response = await fetch(url, {
       headers: {
         Accept: 'application/json',
+        ...getAuthHeaders(),
         ...(options.body ? { 'Content-Type': 'application/json' } : {}),
         ...(options.headers || {})
       },
@@ -80,6 +90,7 @@
     putJson,
     getItems,
     getCount,
+    getAuthHeaders,
     endpoints: {
       products: '/products',
       brands: '/brands',

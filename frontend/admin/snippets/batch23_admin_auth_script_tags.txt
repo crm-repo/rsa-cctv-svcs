@@ -1,0 +1,8 @@
+Add these tags to admin HTML pages before admin-api.js when creating new admin pages:
+
+<link rel="stylesheet" href="./assets/css/admin-auth.css" />
+
+<script src="./assets/js/admin-auth.js"></script>
+<script src="./assets/js/admin-api.js"></script>
+
+Existing Batch 23 package includes admin-api.js token support. The auth script is safe in default disabled/local mode.
