@@ -22,3 +22,26 @@ class Category(BaseModel):
 class CategoryListResponse(BaseModel):
     items: list[Category]
     total: int
+
+
+
+class CategoryAdminCreateRequest(BaseModel):
+    show_flag: str = Field(default="Y", pattern="^(Y|N)$")
+    display_seq: int = 0
+    category_name: str
+    category_key: Optional[str] = None
+    category_prefix: str = Field(min_length=4, max_length=4)
+    icon_code: Optional[str] = None
+    description: Optional[str] = None
+    updated_by: Optional[str] = "admin"
+
+
+class CategoryAdminUpdateRequest(BaseModel):
+    show_flag: Optional[str] = Field(default=None, pattern="^(Y|N)$")
+    display_seq: Optional[int] = None
+    category_name: Optional[str] = None
+    category_key: Optional[str] = None
+    category_prefix: Optional[str] = Field(default=None, min_length=4, max_length=4)
+    icon_code: Optional[str] = None
+    description: Optional[str] = None
+    updated_by: Optional[str] = "admin"

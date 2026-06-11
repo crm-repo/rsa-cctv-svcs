@@ -99,3 +99,79 @@ def list_key_features(search: Optional[str] = None) -> KeyFeatureListResponse:
 
 def get_key_feature_by_id(key_feat_id: str) -> Optional[KeyFeature]:
     return _get_key_feature_repository().get_by_id(key_feat_id)
+
+
+
+# --- Batch 20 admin CRUD helpers ---
+import re
+from typing import Any
+
+from app.services.id_service import (
+    generate_brand_id,
+    generate_category_id,
+    generate_key_feature_id,
+    generate_product_id_for_category,
+)
+
+
+def _now_utc() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def _slugify(value: str) -> str:
+    text = value.strip().lower()
+    text = re.sub(r"[^a-z0-9]+", "-", text)
+    return text.strip("-") or "item"
+
+
+def _clean_text(value: Any) -> str | None:
+    if value is None:
+        return None
+    text_value = str(value).strip()
+    return text_value or None
+
+
+def _request_update_data(request: Any) -> dict[str, Any]:
+    return request.model_dump(exclude_unset=True)
+
+
+
+def _next_unique_key_feature_id(repository) -> str:
+    for _ in range(100):
+        candidate = generate_key_feature_id()
+        if repository.get_by_id(candidate) is None:
+            return candidate
+    raise ValueError("Unable to generate a unique key feature ID.")
+
+
+def create_admin_key_feature(request) -> KeyFeature:
+    repository = _get_key_feature_repository()
+    data = request.model_dump()
+    name = _clean_text(data.get("key_feat_name"))
+    if not name:
+        raise ValueError("Key feature name is required.")
+    now = _now_utc()
+    feature = KeyFeature(
+        key_feat_id=_next_unique_key_feature_id(repository),
+        key_feat_name=name,
+        created_at=now,
+        updated_at=now,
+        created_by=_clean_text(data.get("updated_by")) or "admin",
+        updated_by=_clean_text(data.get("updated_by")) or "admin",
+    )
+    return repository.save_key_feature(feature)
+
+
+def update_admin_key_feature(key_feat_id: str, request) -> Optional[KeyFeature]:
+    repository = _get_key_feature_repository()
+    existing = repository.get_by_id(key_feat_id)
+    if existing is None:
+        return None
+    data = existing.model_dump(mode="python")
+    update_data = _request_update_data(request)
+    if "key_feat_name" in update_data:
+        data["key_feat_name"] = _clean_text(update_data.get("key_feat_name")) or data["key_feat_name"]
+    data["updated_at"] = _now_utc()
+    data["updated_by"] = _clean_text(update_data.get("updated_by")) or "admin"
+    feature = KeyFeature.model_validate(data)
+    return repository.save_key_feature(feature)

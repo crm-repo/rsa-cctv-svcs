@@ -29,6 +29,16 @@ class CategoryRepository(InMemoryRepository[Category]):
                 return category
         return None
 
+    def get_by_key(self, category_key: str) -> Optional[Category]:
+        key = category_key.strip().lower()
+        for category in self.list_all():
+            if category.category_key.lower() == key:
+                return category
+        return None
+
+    def save_category(self, category: Category) -> Category:
+        return self.save(category)
+
 
 class DynamoDBCategoryRepository:
     repository_mode = "dynamodb"
@@ -44,21 +54,33 @@ class DynamoDBCategoryRepository:
     def list_all(self) -> list[Category]:
         return [self._to_model(item) for item in self._repository.list_all()]
 
+    def get_by_id(self, category_id: str) -> Optional[Category]:
+        item = self._repository.get_by_id(category_id)
+        return self._to_model(item) if item is not None else None
+
+    def save_category(self, category: Category) -> Category:
+        self._repository.put_item(category)
+        return category
+
     def list_visible(self) -> list[Category]:
         return [category for category in self.list_all() if category.show_flag == "Y"]
 
     def get_visible_by_id(self, category_id: str) -> Optional[Category]:
-        item = self._repository.get_by_id(category_id)
-        if item is None:
-            return None
-        category = self._to_model(item)
-        if category.show_flag != "Y":
+        category = self.get_by_id(category_id)
+        if category is None or category.show_flag != "Y":
             return None
         return category
 
     def get_visible_by_key(self, category_key: str) -> Optional[Category]:
         key = category_key.strip().lower()
         for category in self.list_visible():
+            if category.category_key.lower() == key:
+                return category
+        return None
+
+    def get_by_key(self, category_key: str) -> Optional[Category]:
+        key = category_key.strip().lower()
+        for category in self.list_all():
             if category.category_key.lower() == key:
                 return category
         return None

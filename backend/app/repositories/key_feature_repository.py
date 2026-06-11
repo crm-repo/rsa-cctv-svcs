@@ -17,6 +17,9 @@ class KeyFeatureRepository(InMemoryRepository[KeyFeature]):
         search_key = search.strip().lower()
         return self.list_where(lambda feature: search_key in feature.key_feat_name.lower())
 
+    def save_key_feature(self, key_feature: KeyFeature) -> KeyFeature:
+        return self.save(key_feature)
+
 
 class DynamoDBKeyFeatureRepository:
     repository_mode = "dynamodb"
@@ -43,3 +46,12 @@ class DynamoDBKeyFeatureRepository:
             for feature in self.list_all()
             if search_key in feature.key_feat_name.lower()
         ]
+
+
+# Patch DynamoDB repository write helper if not provided above.
+if not hasattr(DynamoDBKeyFeatureRepository, "save_key_feature"):
+    def _dynamodb_save_key_feature(self, key_feature: KeyFeature) -> KeyFeature:
+        self._repository.put_item(key_feature)
+        return key_feature
+
+    DynamoDBKeyFeatureRepository.save_key_feature = _dynamodb_save_key_feature  # type: ignore[attr-defined]

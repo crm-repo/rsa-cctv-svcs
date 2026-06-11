@@ -29,6 +29,16 @@ class BrandRepository(InMemoryRepository[Brand]):
                 return brand
         return None
 
+    def get_by_key(self, brand_key: str) -> Optional[Brand]:
+        normalized_key = brand_key.strip().lower()
+        for brand in self.list_all():
+            if brand.brand_key.lower() == normalized_key:
+                return brand
+        return None
+
+    def save_brand(self, brand: Brand) -> Brand:
+        return self.save(brand)
+
 
 class DynamoDBBrandRepository:
     repository_mode = "dynamodb"
@@ -44,21 +54,33 @@ class DynamoDBBrandRepository:
     def list_all(self) -> list[Brand]:
         return [self._to_model(item) for item in self._repository.list_all()]
 
+    def get_by_id(self, brand_id: str) -> Optional[Brand]:
+        item = self._repository.get_by_id(brand_id)
+        return self._to_model(item) if item is not None else None
+
+    def save_brand(self, brand: Brand) -> Brand:
+        self._repository.put_item(brand)
+        return brand
+
     def list_visible(self) -> list[Brand]:
         return [brand for brand in self.list_all() if brand.show_flag == "Y"]
 
     def get_visible_by_id(self, brand_id: str) -> Optional[Brand]:
-        item = self._repository.get_by_id(brand_id)
-        if item is None:
-            return None
-        brand = self._to_model(item)
-        if brand.show_flag != "Y":
+        brand = self.get_by_id(brand_id)
+        if brand is None or brand.show_flag != "Y":
             return None
         return brand
 
     def get_visible_by_key(self, brand_key: str) -> Optional[Brand]:
         normalized_key = brand_key.strip().lower()
         for brand in self.list_visible():
+            if brand.brand_key.lower() == normalized_key:
+                return brand
+        return None
+
+    def get_by_key(self, brand_key: str) -> Optional[Brand]:
+        normalized_key = brand_key.strip().lower()
+        for brand in self.list_all():
             if brand.brand_key.lower() == normalized_key:
                 return brand
         return None

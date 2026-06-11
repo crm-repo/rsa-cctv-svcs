@@ -23,3 +23,28 @@ class Brand(BaseModel):
 class BrandListResponse(BaseModel):
     items: list[Brand]
     total: int
+
+
+
+class BrandAdminCreateRequest(BaseModel):
+    show_flag: str = Field(default="Y", pattern="^(Y|N)$")
+    display_seq: int = 0
+    brand_name: str
+    brand_key: Optional[str] = None
+    brand_logo_path: Optional[str] = None
+    description: Optional[str] = None
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    updated_by: Optional[str] = "admin"
+
+
+class BrandAdminUpdateRequest(BaseModel):
+    show_flag: Optional[str] = Field(default=None, pattern="^(Y|N)$")
+    display_seq: Optional[int] = None
+    brand_name: Optional[str] = None
+    brand_key: Optional[str] = None
+    brand_logo_path: Optional[str] = None
+    description: Optional[str] = None
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    updated_by: Optional[str] = "admin"

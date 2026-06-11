@@ -16,3 +16,14 @@ class KeyFeature(BaseModel):
 class KeyFeatureListResponse(BaseModel):
     items: list[KeyFeature]
     total: int
+
+
+
+class KeyFeatureAdminCreateRequest(BaseModel):
+    key_feat_name: str
+    updated_by: Optional[str] = "admin"
+
+
+class KeyFeatureAdminUpdateRequest(BaseModel):
+    key_feat_name: Optional[str] = None
+    updated_by: Optional[str] = "admin"

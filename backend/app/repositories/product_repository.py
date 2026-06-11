@@ -22,6 +22,9 @@ class ProductRepository(InMemoryRepository[Product]):
             return None
         return product
 
+    def save_product(self, product: Product) -> Product:
+        return self.save(product)
+
 
 class DynamoDBProductRepository:
     repository_mode = "dynamodb"
@@ -36,6 +39,14 @@ class DynamoDBProductRepository:
 
     def list_all(self) -> list[Product]:
         return [self._to_model(item) for item in self._repository.list_all()]
+
+    def get_by_id(self, product_id: str) -> Optional[Product]:
+        item = self._repository.get_by_id(product_id)
+        return self._to_model(item) if item is not None else None
+
+    def save_product(self, product: Product) -> Product:
+        self._repository.put_item(product)
+        return product
 
     def list_visible(self) -> list[Product]:
         return [product for product in self.list_all() if product.show_flag == "Y"]

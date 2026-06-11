@@ -402,3 +402,242 @@ def list_public_package_products_for_banner() -> list[Product]:
     ]
     package_products.sort(key=lambda product: product.display_seq)
     return package_products
+
+
+
+# --- Batch 20 admin CRUD helpers ---
+import re
+from typing import Any
+
+from app.services.id_service import (
+    generate_brand_id,
+    generate_category_id,
+    generate_key_feature_id,
+    generate_product_id_for_category,
+)
+
+
+def _now_utc() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def _slugify(value: str) -> str:
+    text = value.strip().lower()
+    text = re.sub(r"[^a-z0-9]+", "-", text)
+    return text.strip("-") or "item"
+
+
+def _clean_text(value: Any) -> str | None:
+    if value is None:
+        return None
+    text_value = str(value).strip()
+    return text_value or None
+
+
+def _request_update_data(request: Any) -> dict[str, Any]:
+    return request.model_dump(exclude_unset=True)
+
+
+
+def _list_all_products_sorted() -> list[Product]:
+    products = _get_product_repository().list_all()
+    products.sort(key=lambda product: (product.display_seq, product.product_name.lower()))
+    return products
+
+
+def list_admin_products(
+    category: Optional[str] = None,
+    brand: Optional[str] = None,
+    sale: Optional[bool] = None,
+    search: Optional[str] = None,
+    page: int = 1,
+    per_page: int = 200,
+) -> ProductListResponse:
+    products = _list_all_products_sorted()
+
+    if category and not _is_all_category(category):
+        category_value = category.strip().lower()
+        products = [product for product in products if product.category_key.lower() == category_value]
+
+    if brand:
+        brand_value = brand.strip().lower()
+        products = [
+            product
+            for product in products
+            if product.product_brand_key and product.product_brand_key.lower() == brand_value
+        ]
+
+    if sale is True:
+        products = [product for product in products if _is_on_sale(product)]
+    elif sale is False:
+        products = [product for product in products if not _is_on_sale(product)]
+
+    if search:
+        search_value = search.strip().lower()
+        products = [
+            product
+            for product in products
+            if search_value in product.product_id.lower()
+            or search_value in product.product_name.lower()
+            or (product.product_model and search_value in product.product_model.lower())
+            or search_value in product.category_key.lower()
+            or search_value in product.category_name.lower()
+            or (product.product_brand_key and search_value in product.product_brand_key.lower())
+            or (product.product_brand_name and search_value in product.product_brand_name.lower())
+        ]
+
+    total = len(products)
+    total_pages = ceil(total / per_page) if total else 1
+    start_index = (page - 1) * per_page
+    return ProductListResponse(
+        items=products[start_index : start_index + per_page],
+        total=total,
+        page=page,
+        per_page=per_page,
+        total_pages=total_pages,
+    )
+
+
+def get_admin_product_by_id(product_id: str) -> Optional[Product]:
+    return _get_product_repository().get_by_id(product_id)
+
+
+def _resolve_admin_category(category_id: str | None = None, category_key: str | None = None):
+    from app.services.category_service import get_admin_category_by_id, get_admin_category_by_key
+
+    if category_id:
+        category = get_admin_category_by_id(category_id)
+        if category:
+            return category
+    if category_key:
+        category = get_admin_category_by_key(category_key)
+        if category:
+            return category
+    raise ValueError("A valid category_id or category_key is required.")
+
+
+def _resolve_admin_brand(brand_id: str | None = None, brand_key: str | None = None):
+    from app.services.brand_service import get_admin_brand_by_id, get_admin_brand_by_key
+
+    if brand_id:
+        return get_admin_brand_by_id(brand_id)
+    if brand_key:
+        return get_admin_brand_by_key(brand_key)
+    return None
+
+
+def _validated_features(data: dict[str, Any]) -> dict[str, str | None]:
+    features: dict[str, str | None] = {}
+    non_empty = 0
+    for index in range(1, 11):
+        key = f"feature_{index:02d}"
+        value = _clean_text(data.get(key))
+        features[key] = value
+        if value:
+            non_empty += 1
+    if non_empty < 3:
+        raise ValueError("At least 3 product features are required.")
+    return features
+
+
+def _build_product_name(data: dict[str, Any], brand_name: str | None, category_name: str, subcategory: str | None) -> str:
+    explicit_name = _clean_text(data.get("product_name"))
+    if explicit_name:
+        return explicit_name
+    parts = [brand_name, _clean_text(data.get("feature_01")), subcategory or category_name]
+    generated = " ".join(part for part in parts if part)
+    if not generated:
+        raise ValueError("Product name is required.")
+    return generated
+
+
+def _next_unique_product_id(repository, category_prefix: str) -> str:
+    for _ in range(100):
+        candidate = generate_product_id_for_category(category_prefix)
+        if repository.get_by_id(candidate) is None:
+            return candidate
+    raise ValueError("Unable to generate a unique product ID.")
+
+
+def create_admin_product(request) -> Product:
+    repository = _get_product_repository()
+    data = request.model_dump()
+    category = _resolve_admin_category(data.get("category_id"), data.get("category_key"))
+    brand = _resolve_admin_brand(data.get("brand_id"), data.get("product_brand_key"))
+    features = _validated_features(data)
+    now = _now_utc()
+    subcategory = _clean_text(data.get("subcategory"))
+    product_name = _build_product_name(data, brand.brand_name if brand else None, category.category_name, subcategory)
+
+    product = Product(
+        product_id=_next_unique_product_id(repository, category.category_prefix),
+        show_flag=data.get("show_flag") or "Y",
+        show_pack_flag=data.get("show_pack_flag") or "N",
+        display_seq=int(data.get("display_seq") or 0),
+        product_name=product_name,
+        product_model=_clean_text(data.get("product_model")),
+        product_slug=_clean_text(data.get("product_slug")) or _slugify(product_name),
+        category_id=category.category_id,
+        category_key=category.category_key,
+        category_name=category.category_name,
+        category_prefix=category.category_prefix,
+        subcategory=subcategory,
+        brand_id=brand.brand_id if brand else None,
+        product_brand_key=brand.brand_key if brand else None,
+        product_brand_name=brand.brand_name if brand else None,
+        brand_logo_path=brand.brand_logo_path if brand else None,
+        description=_clean_text(data.get("description")),
+        **features,
+        price=float(data.get("price") or 0),
+        sale_price=data.get("sale_price"),
+        image_path=_clean_text(data.get("image_path")) or "assets/images/products/product-placeholder.png",
+        stock_quantity=int(data.get("stock_quantity") or 0),
+        low_stock_threshold=int(data.get("low_stock_threshold") or 10),
+        meta_title=_clean_text(data.get("meta_title")) or product_name,
+        meta_description=_clean_text(data.get("meta_description")),
+        created_at=now,
+        updated_at=now,
+        created_by=_clean_text(data.get("updated_by")) or "admin",
+        updated_by=_clean_text(data.get("updated_by")) or "admin",
+    )
+    return repository.save_product(product)
+
+
+def update_admin_product(product_id: str, request) -> Optional[Product]:
+    repository = _get_product_repository()
+    existing = repository.get_by_id(product_id)
+    if existing is None:
+        return None
+
+    data = existing.model_dump(mode="python")
+    update_data = _request_update_data(request)
+    for key, value in update_data.items():
+        if key == "updated_by":
+            continue
+        data[key] = value
+
+    if "category_id" in update_data or "category_key" in update_data:
+        category = _resolve_admin_category(data.get("category_id"), data.get("category_key"))
+        data.update(
+            category_id=category.category_id,
+            category_key=category.category_key,
+            category_name=category.category_name,
+            category_prefix=category.category_prefix,
+        )
+
+    if "brand_id" in update_data or "product_brand_key" in update_data:
+        brand = _resolve_admin_brand(data.get("brand_id"), data.get("product_brand_key"))
+        data.update(
+            brand_id=brand.brand_id if brand else None,
+            product_brand_key=brand.brand_key if brand else None,
+            product_brand_name=brand.brand_name if brand else None,
+            brand_logo_path=brand.brand_logo_path if brand else None,
+        )
+
+    data.update(_validated_features(data))
+    data["product_slug"] = _clean_text(data.get("product_slug")) or _slugify(data["product_name"])
+    data["updated_at"] = _now_utc()
+    data["updated_by"] = _clean_text(update_data.get("updated_by")) or "admin"
+
+    product = Product.model_validate(data)
+    return repository.save_product(product)

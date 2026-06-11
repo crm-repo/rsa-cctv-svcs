@@ -59,6 +59,13 @@
     return getItems(payload).length;
   }
 
+  async function postJson(path, payload) {
+    return request(path, {
+      method: 'POST',
+      body: JSON.stringify(payload || {})
+    });
+  }
+
   async function putJson(path, payload) {
     return request(path, {
       method: 'PUT',
@@ -69,6 +76,7 @@
   window.RSAAdminApi = {
     getApiBaseUrl,
     request,
+    postJson,
     putJson,
     getItems,
     getCount,
