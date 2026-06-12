@@ -634,7 +634,8 @@ if (homeBrandsGrid && homeBrandsDots) {
 }
 
 /* =========================
-   PRODUCTS PAGE PAGINATION + FILTER + SEARCH
+   PRODUCTS / PROMOTIONS / BRANDS DYNAMIC API CATALOG
+   Renders public catalog pages from backend APIs instead of static HTML cards.
 ========================= */
 
 const productsGrid = document.querySelector(".products-catalog-grid");
@@ -647,21 +648,317 @@ const productsSectionTitle = document.getElementById("productsSectionTitle");
 const productsSearchInput = document.getElementById("productsSearchInput");
 const productsEmptyState = document.getElementById("productsEmptyState");
 const productsSortDropdown = document.getElementById("productsSortDropdown");
-const brandFilterItems = document.querySelectorAll(".brand-strip-item");
 const isPromotionsPage = document.body.classList.contains("promotions-page");
 const isBrandsPage = document.body.classList.contains("brands-page");
 
 if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
-  const allProductCards = Array.from(
-    productsGrid.querySelectorAll(".catalog-product-card")
-  );
-
+  let allProductCards = [];
+  let publicProducts = [];
+  let publicBrands = [];
   let currentProductsPage = 0;
   let currentFilter = "all";
   let currentSearch = "";
   let currentSort = "default";
   let currentBrand = "all";
   let currentBrandLabel = "";
+
+  const filterTitles = {
+    all: "All Products",
+    sale: "Sale Products",
+    cctv: "CCTV Cameras",
+    recorders: "Recorders",
+    networking: "Networking",
+    accessories: "Accessories",
+    power: "Power Supply",
+    storage: "Storage",
+    packages: "Packages/Kits"
+  };
+
+  function getPublicApiBaseUrl() {
+    if (window.RSA_API_BASE_URL) return String(window.RSA_API_BASE_URL).replace(/\/$/, "");
+    if (window.RSA_API_CONFIG && window.RSA_API_CONFIG.baseUrl) {
+      return String(window.RSA_API_CONFIG.baseUrl).replace(/\/$/, "");
+    }
+    if (window.location.protocol === "file:") return "http://127.0.0.1:8000";
+    return "";
+  }
+
+  function apiUrl(path) {
+    const baseUrl = getPublicApiBaseUrl();
+    return `${baseUrl}${path}`;
+  }
+
+  async function fetchJson(path) {
+    const response = await fetch(apiUrl(path), {
+      headers: { "Accept": "application/json" },
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`${path} returned HTTP ${response.status}`);
+    }
+
+    return response.json();
+  }
+
+  function extractItems(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (!payload || typeof payload !== "object") return [];
+
+    const candidates = [
+      payload.items,
+      payload.data,
+      payload.products,
+      payload.brands,
+      payload.categories,
+      payload.results,
+      payload.records,
+      payload.rows
+    ];
+
+    for (const candidate of candidates) {
+      if (Array.isArray(candidate)) return candidate;
+    }
+
+    if (payload.body) return extractItems(payload.body);
+    return [];
+  }
+
+  function slugify(value) {
+    return String(value || "")
+      .toLowerCase()
+      .trim()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function normalizeAssetPath(pathValue, fallback) {
+    const value = String(pathValue || "").trim();
+    if (!value) return fallback;
+    if (/^(https?:)?\/\//i.test(value) || value.startsWith("data:") || value.startsWith("/")) return value;
+    if (value.startsWith("./")) return value;
+    if (value.startsWith("assets/") || value.startsWith("uploads/")) return `./${value}`;
+    if (value.includes("/")) return `./${value.replace(/^\/+/, "")}`;
+    return fallback;
+  }
+
+  function firstNonEmpty(...values) {
+    for (const value of values) {
+      if (value !== undefined && value !== null && String(value).trim() !== "") return value;
+    }
+    return "";
+  }
+
+  function numericValue(value) {
+    if (value === undefined || value === null || value === "") return null;
+    if (typeof value === "number") return Number.isFinite(value) ? value : null;
+    const cleaned = String(value).replace(/[^0-9.-]/g, "");
+    if (!cleaned) return null;
+    const parsed = Number(cleaned);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  function formatPrice(value, fallback = "Get Quotation") {
+    if (value === undefined || value === null || String(value).trim() === "") return fallback;
+    const asString = String(value).trim();
+    if (asString.toLowerCase().includes("quotation") || asString.includes("₱")) return asString;
+    const parsed = numericValue(value);
+    if (parsed === null) return asString;
+    return `₱${parsed.toLocaleString("en-PH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  }
+
+  function collectFeatures(product) {
+    const features = [];
+
+    const arrayFeatures = firstNonEmpty(product.features, product.key_features, product.product_features);
+    if (Array.isArray(arrayFeatures)) {
+      arrayFeatures.forEach((feature) => {
+        if (feature !== undefined && feature !== null && String(feature).trim()) features.push(String(feature).trim());
+      });
+    } else if (typeof arrayFeatures === "string" && arrayFeatures.trim()) {
+      arrayFeatures.split(/[|\n]/).forEach((feature) => {
+        if (feature.trim()) features.push(feature.trim());
+      });
+    }
+
+    for (let index = 1; index <= 10; index += 1) {
+      const paddedKey = `feature_${String(index).padStart(2, "0")}`;
+      const looseKey = `feature_${index}`;
+      const feature = firstNonEmpty(product[paddedKey], product[looseKey]);
+      if (feature && !features.includes(String(feature).trim())) features.push(String(feature).trim());
+    }
+
+    return features;
+  }
+
+  function normalizeProduct(product) {
+    const brandName = firstNonEmpty(
+      product.product_brand_name,
+      product.brand_name,
+      product.product_brand,
+      product.brand,
+      product.product_brand_key,
+      product.brand_key
+    );
+
+    const categoryKey = firstNonEmpty(
+      product.category_key,
+      product.product_category_key,
+      product.category,
+      slugify(product.category_name)
+    );
+
+    const rawPrice = firstNonEmpty(product.price, product.product_price, product.base_price, product.regular_price);
+    const rawSalePrice = firstNonEmpty(product.sale_price, product.promo_price, product.discount_price);
+    const hasSalePrice = rawSalePrice !== "" && rawSalePrice !== null && rawSalePrice !== undefined;
+
+    const displayPrice = hasSalePrice ? rawSalePrice : rawPrice;
+    const features = collectFeatures(product);
+
+    return {
+      id: firstNonEmpty(product.product_id, product.id, product.pk, product.sk),
+      name: firstNonEmpty(product.product_name, product.name, product.title, "Unnamed Product"),
+      model: firstNonEmpty(product.product_model, product.model, product.model_number, product.sku, product.product_id),
+      categoryKey: slugify(categoryKey),
+      categoryName: firstNonEmpty(product.subcategory, product.sub_category, product.product_category, product.category_name, categoryKey),
+      brandKey: slugify(firstNonEmpty(product.product_brand_key, product.brand_key, brandName)),
+      brandName: firstNonEmpty(brandName, "Brand"),
+      imagePath: normalizeAssetPath(
+        firstNonEmpty(product.product_image_path, product.image_path, product.image_url, product.product_image, product.photo_path),
+        "./assets/images/rsa-logo.png"
+      ),
+      brandLogoPath: normalizeAssetPath(
+        firstNonEmpty(product.brand_logo_path, product.product_brand_logo_path, product.logo_path, product.brand_image_path),
+        "./assets/images/rsa-logo.png"
+      ),
+      stock: numericValue(firstNonEmpty(product.stock_quantity, product.stock, product.quantity, product.inventory_quantity)) ?? 999,
+      lowQuantity: numericValue(firstNonEmpty(product.low_quantity, product.low_stock_quantity, product.low_stock_threshold)) ?? 10,
+      price: formatPrice(displayPrice),
+      regularPrice: formatPrice(rawPrice, ""),
+      salePrice: hasSalePrice ? formatPrice(rawSalePrice) : "",
+      oldPrice: hasSalePrice ? formatPrice(rawPrice, "") : "",
+      features
+    };
+  }
+
+  function normalizeBrand(brand) {
+    const name = firstNonEmpty(brand.brand_name, brand.product_brand_name, brand.name, brand.title, brand.brand_key, brand.product_brand_key);
+    const key = slugify(firstNonEmpty(brand.brand_key, brand.product_brand_key, name));
+    const logo = normalizeAssetPath(
+      firstNonEmpty(brand.brand_logo_path, brand.logo_path, brand.image_path, brand.brand_image_path, brand.image_url),
+      "./assets/images/rsa-logo.png"
+    );
+
+    return { key, name: firstNonEmpty(name, key), logo };
+  }
+
+  function renderProductCard(product) {
+    const normalized = normalizeProduct(product);
+    const hasSale = Boolean(normalized.salePrice && normalized.oldPrice);
+    const stockClass = normalized.stock === 0 ? "sold-out" : normalized.stock <= normalized.lowQuantity ? "low-stock" : "in-stock";
+    const stockLabel = normalized.stock === 0 ? "Sold Out" : normalized.stock <= normalized.lowQuantity ? "Low Stock" : "In Stock";
+    const featureText = normalized.features.join("|");
+
+    const card = document.createElement("div");
+    card.className = "catalog-product-card";
+    card.dataset.productId = normalized.id;
+    card.dataset.category = normalized.categoryKey;
+    card.dataset.productBrandName = normalized.brandKey;
+    card.dataset.productName = normalized.name;
+    card.dataset.productModel = normalized.model;
+    card.dataset.productCategory = normalized.categoryName;
+    card.dataset.productPrice = normalized.price;
+    card.dataset.productImage = normalized.imagePath;
+    card.dataset.productBrand = normalized.brandLogoPath;
+    card.dataset.productStock = String(normalized.stock);
+    card.dataset.productLowQuantity = String(normalized.lowQuantity);
+    card.dataset.productFeatures = featureText;
+
+    if (hasSale) {
+      card.dataset.productOldPrice = normalized.oldPrice;
+    }
+
+    card.innerHTML = `
+      ${hasSale ? '<span class="catalog-sale-badge">SALE</span>' : ''}
+      <div class="catalog-product-image"><img src="${escapeHtml(normalized.imagePath)}" alt="${escapeHtml(normalized.name)}"></div>
+      <span class="catalog-stock-badge ${stockClass}">${stockLabel}</span>
+      <img class="catalog-brand-logo" src="${escapeHtml(normalized.brandLogoPath)}" alt="${escapeHtml(normalized.brandName)}">
+      <p class="catalog-product-model">${escapeHtml(normalized.model)}</p>
+      <h3 class="catalog-product-name">${escapeHtml(normalized.name)}</h3>
+      <p class="catalog-product-subcategory">${escapeHtml(normalized.categoryName)}</p>
+      ${hasSale
+        ? `<div class="catalog-price-row"><span class="catalog-old-price">${escapeHtml(normalized.oldPrice)}</span><span class="catalog-sale-price">${escapeHtml(normalized.salePrice)}</span></div>`
+        : `<p class="catalog-product-price">${escapeHtml(normalized.price)}</p>`}
+    `;
+
+    return card;
+  }
+
+  function renderBrandStrips() {
+    if (!publicBrands.length) return;
+
+    const rows = document.querySelectorAll(".product-brand-scroll-wrap .brand-strip-row, #brandsPageStrip");
+
+    rows.forEach((row) => {
+      row.innerHTML = "";
+
+      publicBrands.forEach((brand) => {
+        const item = document.createElement("div");
+        item.className = "brand-strip-item";
+        item.dataset.brandFilter = brand.key;
+        item.innerHTML = `<img src="${escapeHtml(brand.logo)}" alt="${escapeHtml(brand.name)}">`;
+        row.appendChild(item);
+      });
+    });
+
+    const heroGrid = document.querySelector(".brands-hero-grid");
+    if (isBrandsPage && heroGrid) {
+      heroGrid.innerHTML = "";
+      publicBrands.slice(0, 12).forEach((brand) => {
+        const item = document.createElement("div");
+        item.innerHTML = `<img src="${escapeHtml(brand.logo)}" alt="${escapeHtml(brand.name)}">`;
+        heroGrid.appendChild(item);
+      });
+    }
+  }
+
+  async function renderPromotionHeroBanners() {
+    if (!isPromotionsPage) return;
+
+    const heroGrid = document.querySelector(".promotions-hero-grid");
+    if (!heroGrid) return;
+
+    try {
+      const payload = await fetchJson("/api/package-banners?per_page=12&page_size=12&limit=12");
+      const banners = extractItems(payload);
+      if (!banners.length) return;
+
+      heroGrid.innerHTML = "";
+      banners.slice(0, 3).forEach((banner, index) => {
+        const imagePath = normalizeAssetPath(
+          firstNonEmpty(banner.image_path, banner.product_image_path, banner.banner_image_path, banner.image_url, banner.product_image),
+          "./assets/images/rsa-logo.png"
+        );
+        const title = firstNonEmpty(banner.product_name, banner.title, banner.name, `Promo Package ${index + 1}`);
+        const item = document.createElement("div");
+        item.className = "promotions-hero-banner";
+        item.innerHTML = `<img src="${escapeHtml(imagePath)}" alt="${escapeHtml(title)}">`;
+        heroGrid.appendChild(item);
+      });
+    } catch (error) {
+      console.warn("Package banner API unavailable; keeping existing promotion banners.", error);
+    }
+  }
 
   function getProductsPerPage() {
     const isMobilePortrait = window.matchMedia(
@@ -693,139 +990,74 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     return 12;
   }
 
+  function cardHasSale(card) {
+    return Boolean(card.dataset.productOldPrice || card.querySelector(".catalog-sale-price"));
+  }
+
   function getFilteredProducts() {
     let filtered = [...allProductCards];
 
-    // Brands page should not show products until a brand is selected.
     if (isBrandsPage && currentBrand === "all") {
       return [];
     }
 
-  if (isPromotionsPage) {
-
-    // Packages button
-    if (currentFilter === "packages") {
-
-      filtered = filtered.filter((card) =>
-        card.dataset.category === "packages"
-      );
-
-    } else {
-
-      // Default promotions = sale items only
-      filtered = filtered.filter((card) =>
-        card.querySelector(".catalog-sale-price")
-      );
-
-      // Additional category filters
-      if (currentFilter !== "all" && currentFilter !== "sale") {
-        filtered = filtered.filter((card) =>
-          card.dataset.category === currentFilter
-        );
+    if (isPromotionsPage) {
+      if (currentFilter === "packages") {
+        filtered = filtered.filter((card) => card.dataset.category === "packages");
+      } else {
+        filtered = filtered.filter(cardHasSale);
+        if (currentFilter !== "all" && currentFilter !== "sale") {
+          filtered = filtered.filter((card) => card.dataset.category === currentFilter);
+        }
       }
-
-    }
-
-  } else {
-    if (currentFilter === "sale") {
-      filtered = filtered.filter((card) =>
-        card.querySelector(".catalog-sale-price")
-      );
+    } else if (currentFilter === "sale") {
+      filtered = filtered.filter(cardHasSale);
     } else if (currentFilter !== "all") {
-      filtered = filtered.filter((card) =>
-        card.dataset.category === currentFilter
-      );
+      filtered = filtered.filter((card) => card.dataset.category === currentFilter);
     }
-  }
 
-    /* BRAND FILTER */
     if (currentBrand !== "all") {
-      filtered = filtered.filter((card) =>
-        card.dataset.productBrandName === currentBrand
-      );
+      filtered = filtered.filter((card) => card.dataset.productBrandName === currentBrand);
     }
 
     if (currentSearch.trim() !== "") {
       const searchText = currentSearch.toLowerCase().trim();
 
       filtered = filtered.filter((card) => {
-        const name = card.dataset.productName || "";
-        const model = card.dataset.productModel || "";
-        const category = card.dataset.category || "";
-        const subcategory = card.dataset.productCategory || "";
-        const features = card.dataset.productFeatures || "";
-
         const searchableText = `
-          ${name}
-          ${model}
-          ${category}
-          ${subcategory}
-          ${features}
+          ${card.dataset.productName || ""}
+          ${card.dataset.productModel || ""}
+          ${card.dataset.category || ""}
+          ${card.dataset.productCategory || ""}
+          ${card.dataset.productFeatures || ""}
         `.toLowerCase();
 
         return searchableText.includes(searchText);
       });
     }
-  /* SORTING */
 
-  if (currentSort === "price-low") {
+    if (currentSort === "price-low") {
+      filtered.sort((a, b) => parsePublicPrice(a.dataset.productPrice) - parsePublicPrice(b.dataset.productPrice));
+    } else if (currentSort === "price-high") {
+      filtered.sort((a, b) => parsePublicPrice(b.dataset.productPrice) - parsePublicPrice(a.dataset.productPrice));
+    } else if (currentSort === "newest") {
+      filtered.reverse();
+    } else if (currentSort === "sale") {
+      filtered = filtered.filter(cardHasSale);
+    }
 
-    filtered.sort((a, b) => {
-
-      const aPrice = parsePrice(
-        a.dataset.productPrice || "0"
-      );
-
-      const bPrice = parsePrice(
-        b.dataset.productPrice || "0"
-      );
-
-      return aPrice - bPrice;
-
-    });
-
-  }
-
-  else if (currentSort === "price-high") {
-
-    filtered.sort((a, b) => {
-
-      const aPrice = parsePrice(
-        a.dataset.productPrice || "0"
-      );
-
-      const bPrice = parsePrice(
-        b.dataset.productPrice || "0"
-      );
-
-      return bPrice - aPrice;
-
-    });
-
-  }
-
-  else if (currentSort === "newest") {
-
-    filtered.reverse();
-
-  }
-
-  else if (currentSort === "sale") {
-
-    filtered = filtered.filter((card) =>
-      card.querySelector(".catalog-sale-price")
-    );
-
-  }
     return filtered;
+  }
+
+  function parsePublicPrice(priceText) {
+    const parsed = numericValue(priceText);
+    return parsed === null ? Number.MAX_SAFE_INTEGER : parsed;
   }
 
   function renderProductsPage() {
     const productsPerPage = getProductsPerPage();
     const filteredProducts = getFilteredProducts();
-
     const totalProducts = filteredProducts.length;
-
     const brandPromptActive = isBrandsPage && currentBrand === "all";
 
     document.body.classList.toggle("brands-no-brand", brandPromptActive);
@@ -843,29 +1075,21 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
         if (emptyIcon) emptyIcon.className = "fa-solid fa-tags";
         if (emptyTitle) emptyTitle.textContent = "Select a brand to view products.";
         if (emptyText) {
-          emptyText.textContent =
-            "Choose a brand above, then use All Products or the category buttons to narrow the results.";
+          emptyText.textContent = "Choose a brand above, then use All Products or the category buttons to narrow the results.";
         }
       } else {
         if (emptyIcon) emptyIcon.className = "fa-solid fa-magnifying-glass";
         if (emptyTitle) emptyTitle.textContent = "No products found.";
-        if (emptyText) {
-          emptyText.textContent =
-            "Try another keyword or select a different category.";
-        }
+        if (emptyText) emptyText.textContent = "Try another keyword or select a different category.";
       }
 
-      productsEmptyState.classList.toggle(
-        "hidden",
-        totalProducts > 0 && !brandPromptActive
-      );
+      productsEmptyState.classList.toggle("hidden", totalProducts > 0 && !brandPromptActive);
     }
 
     const totalPages = Math.ceil(totalProducts / productsPerPage);
 
-    if (currentProductsPage >= totalPages) {
-      currentProductsPage = 0;
-    }
+    if (currentProductsPage >= totalPages) currentProductsPage = 0;
+    if (currentProductsPage < 0) currentProductsPage = 0;
 
     const start = currentProductsPage * productsPerPage;
     const end = start + productsPerPage;
@@ -873,6 +1097,8 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     allProductCards.forEach((card) => {
       card.style.display = "none";
     });
+
+    productsGrid.innerHTML = "";
 
     filteredProducts.slice(start, end).forEach((card) => {
       card.style.display = "flex";
@@ -883,8 +1109,7 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
       if (brandPromptActive) {
         productsCount.textContent = "Select a brand to view products";
       } else if (totalProducts > 0) {
-        productsCount.textContent =
-          `Showing ${start + 1}–${Math.min(end, totalProducts)} of ${totalProducts} products`;
+        productsCount.textContent = `Showing ${start + 1}–${Math.min(end, totalProducts)} of ${totalProducts} products`;
       } else {
         productsCount.textContent = "Showing 0 products";
       }
@@ -892,19 +1117,16 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
 
     productsPageNumbers.innerHTML = "";
 
-    for (let i = 0; i < totalPages; i++) {
+    for (let index = 0; index < totalPages; index += 1) {
       const pageBtn = document.createElement("button");
-
       pageBtn.type = "button";
       pageBtn.className = "product-page-btn";
-      pageBtn.textContent = i + 1;
+      pageBtn.textContent = index + 1;
 
-      if (i === currentProductsPage) {
-        pageBtn.classList.add("active");
-      }
+      if (index === currentProductsPage) pageBtn.classList.add("active");
 
       pageBtn.addEventListener("click", () => {
-        currentProductsPage = i;
+        currentProductsPage = index;
         renderProductsPage();
         scrollToProductsTop();
       });
@@ -914,7 +1136,6 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
 
     productsPrevBtn.disabled = currentProductsPage === 0;
     productsNextBtn.disabled = currentProductsPage >= totalPages - 1;
-
     productsPrevBtn.style.display = totalPages <= 1 ? "none" : "flex";
     productsNextBtn.style.display = totalPages <= 1 ? "none" : "flex";
   }
@@ -923,16 +1144,118 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     const productsToolbar = document.querySelector(".products-toolbar");
 
     if (productsToolbar) {
-      productsToolbar.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+      productsToolbar.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
 
+  function setSectionTitle() {
+    if (!productsSectionTitle) return;
+
+    if (isBrandsPage && currentBrandLabel) {
+      productsSectionTitle.textContent =
+        currentFilter === "all"
+          ? `${currentBrandLabel} Products`
+          : `${currentBrandLabel} ${filterTitles[currentFilter] || "Products"}`;
+      return;
+    }
+
+    if (isBrandsPage && currentBrand === "all") {
+      productsSectionTitle.textContent = "Products per Brand";
+      return;
+    }
+
+    if (isPromotionsPage && (currentFilter === "all" || currentFilter === "sale")) {
+      productsSectionTitle.textContent = "Sale Items";
+      return;
+    }
+
+    productsSectionTitle.textContent = filterTitles[currentFilter] || "Products";
+  }
+
+  function openProductModal(card) {
+    const productModalOverlay = document.getElementById("productModalOverlay");
+    const modalProductImage = document.getElementById("modalProductImage");
+    const modalBrandLogo = document.getElementById("modalBrandLogo");
+    const modalProductModel = document.getElementById("modalProductModel");
+    const modalProductName = document.getElementById("modalProductName");
+    const modalProductCategory = document.getElementById("modalProductCategory");
+    const modalStockBadge = document.getElementById("modalStockBadge");
+    const modalProductPrice = document.getElementById("modalProductPrice");
+    const modalKeyFeatures = document.getElementById("modalKeyFeatures");
+    const modalSaleBadge = document.getElementById("modalSaleBadge");
+
+    if (!productModalOverlay || !modalProductImage || !modalBrandLogo || !modalProductModel || !modalProductName || !modalProductCategory || !modalStockBadge || !modalProductPrice || !modalKeyFeatures) return;
+
+    modalProductImage.src = card.dataset.productImage || "";
+    modalBrandLogo.src = card.dataset.productBrand || "";
+    modalProductModel.textContent = card.dataset.productModel || "";
+    modalProductName.textContent = card.dataset.productName || "";
+    modalProductCategory.textContent = card.dataset.productCategory || "";
+
+    const currentPrice = card.dataset.productPrice || "";
+    const oldPrice = card.dataset.productOldPrice || "";
+
+    if (oldPrice) {
+      if (modalSaleBadge) modalSaleBadge.classList.remove("hidden");
+      const currentPriceNumber = parsePublicPrice(currentPrice);
+      const oldPriceNumber = parsePublicPrice(oldPrice);
+      const discountPercent = oldPriceNumber && currentPriceNumber !== Number.MAX_SAFE_INTEGER
+        ? Math.max(0, Math.round(((oldPriceNumber - currentPriceNumber) / oldPriceNumber) * 100))
+        : 0;
+
+      modalProductPrice.innerHTML = `
+        <span class="modal-old-price">${escapeHtml(oldPrice)}</span>
+        <span class="modal-sale-price">${escapeHtml(currentPrice)}</span>
+        ${discountPercent ? `<span class="modal-discount-badge">${discountPercent}% OFF</span>` : ""}
+      `;
+    } else {
+      if (modalSaleBadge) modalSaleBadge.classList.add("hidden");
+      modalProductPrice.innerHTML = `<span class="modal-regular-price">${escapeHtml(currentPrice)}</span>`;
+    }
+
+    const stock = Number(card.dataset.productStock || 0);
+    const lowQuantity = Number(card.dataset.productLowQuantity || 10);
+
+    modalStockBadge.className = "product-modal-stock";
+
+    if (stock === 0) {
+      modalStockBadge.textContent = "Sold Out";
+      modalStockBadge.classList.add("sold-out");
+    } else if (stock <= lowQuantity) {
+      modalStockBadge.textContent = "Low Stock";
+      modalStockBadge.classList.add("low-stock");
+    } else {
+      modalStockBadge.textContent = "In Stock";
+      modalStockBadge.classList.add("in-stock");
+    }
+
+    modalKeyFeatures.innerHTML = "";
+    const features = card.dataset.productFeatures ? card.dataset.productFeatures.split("|") : [];
+
+    features.forEach((feature) => {
+      if (!feature.trim()) return;
+      const li = document.createElement("li");
+      li.innerHTML = `<i class="fa-solid fa-circle-check"></i><span>${escapeHtml(feature.trim())}</span>`;
+      modalKeyFeatures.appendChild(li);
+    });
+
+    productModalOverlay.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+
+  productsGrid.addEventListener("click", (event) => {
+    const clickableArea = event.target.closest(".catalog-product-image, .catalog-product-model, .catalog-product-name");
+    if (!clickableArea) return;
+
+    const card = event.target.closest(".catalog-product-card");
+    if (!card) return;
+
+    openProductModal(card);
+  });
+
   productsPrevBtn.addEventListener("click", () => {
     if (currentProductsPage > 0) {
-      currentProductsPage--;
+      currentProductsPage -= 1;
       renderProductsPage();
       scrollToProductsTop();
     }
@@ -940,13 +1263,10 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
 
   productsNextBtn.addEventListener("click", () => {
     const productsPerPage = getProductsPerPage();
-
-    const totalPages = Math.ceil(
-      getFilteredProducts().length / productsPerPage
-    );
+    const totalPages = Math.ceil(getFilteredProducts().length / productsPerPage);
 
     if (currentProductsPage < totalPages - 1) {
-      currentProductsPage++;
+      currentProductsPage += 1;
       renderProductsPage();
       scrollToProductsTop();
     }
@@ -954,137 +1274,74 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
 
   productFilterButtons.forEach((button) => {
     button.addEventListener("click", () => {
+      if (isPromotionsPage && button.dataset.filter === "sale") return;
 
-      if (isPromotionsPage && button.dataset.filter === "sale") {
-        return;
-      }
-
-      // On Brands page, category buttons should only work after a brand is selected.
       if (isBrandsPage && currentBrand === "all") {
         productFilterButtons.forEach((btn) => btn.classList.remove("active"));
         currentFilter = "all";
         currentProductsPage = 0;
+        setSectionTitle();
         renderProductsPage();
         return;
       }
 
       productFilterButtons.forEach((btn) => {
-        if (!(isPromotionsPage && btn.dataset.filter === "sale")) {
-          btn.classList.remove("active");
-        }
+        if (!(isPromotionsPage && btn.dataset.filter === "sale")) btn.classList.remove("active");
       });
 
       button.classList.add("active");
-
       currentFilter = button.getAttribute("data-filter") || "all";
+      currentProductsPage = 0;
+      setSectionTitle();
+      renderProductsPage();
+    });
+  });
 
-      const filterTitles = {
-        all: "All Products",
-        sale: "Sale Products",
-        cctv: "CCTV Cameras",
-        recorders: "Recorders",
-        networking: "Networking",
-        accessories: "Accessories",
-        power: "Power Supply",
-        storage: "Storage",
-        packages: "Packages/Kits"
-      };
+  document.querySelectorAll(".brand-strip-row").forEach((row) => {
+    row.addEventListener("click", (event) => {
+      const item = event.target.closest(".brand-strip-item");
+      if (!item) return;
 
-      if (productsSectionTitle) {
-        if (isBrandsPage && currentBrandLabel) {
-          productsSectionTitle.textContent =
-            currentFilter === "all"
-              ? `${currentBrandLabel} Products`
-              : `${currentBrandLabel} ${filterTitles[currentFilter] || "Products"}`;
+      const selectedBrand = item.dataset.brandFilter || "all";
+      const selectedBrandLabel = item.querySelector("img")?.getAttribute("alt") || selectedBrand;
+      const isAlreadyActive = item.classList.contains("active");
+
+      document.querySelectorAll(".brand-strip-item").forEach((brand) => brand.classList.remove("active"));
+
+      if (isBrandsPage) {
+        productFilterButtons.forEach((btn) => btn.classList.remove("active"));
+
+        if (isAlreadyActive) {
+          currentBrand = "all";
+          currentBrandLabel = "";
+          currentFilter = "all";
         } else {
-          productsSectionTitle.textContent =
-            filterTitles[currentFilter] || "Products";
+          item.classList.add("active");
+          currentBrand = selectedBrand;
+          currentBrandLabel = selectedBrandLabel;
+          currentFilter = "all";
+
+          const allProductsButton = Array.from(productFilterButtons).find((btn) => btn.dataset.filter === "all");
+          if (allProductsButton) allProductsButton.classList.add("active");
         }
+
+        currentProductsPage = 0;
+        setSectionTitle();
+        renderProductsPage();
+        return;
+      }
+
+      if (isAlreadyActive) {
+        currentBrand = "all";
+      } else {
+        item.classList.add("active");
+        currentBrand = selectedBrand;
       }
 
       currentProductsPage = 0;
       renderProductsPage();
     });
   });
-
-  /* BRAND FILTER */
-	/* BRAND FILTER */
-	brandFilterItems.forEach((item) => {
-	  item.addEventListener("click", () => {
-		const selectedBrand = item.dataset.brandFilter || "all";
-		const selectedBrandLabel =
-		  item.querySelector("img")?.getAttribute("alt") || selectedBrand;
-
-		const isAlreadyActive = item.classList.contains("active");
-
-		brandFilterItems.forEach((brand) => {
-		  brand.classList.remove("active");
-		});
-
-		/*
-		  BRANDS PAGE ONLY:
-		  - Selecting a brand resets category to All Products
-		  - Clicking active brand again clears brand and category
-		  - Initial/no-brand state shows no products
-		*/
-		if (isBrandsPage) {
-		  productFilterButtons.forEach((btn) => {
-			btn.classList.remove("active");
-		  });
-
-		  if (isAlreadyActive) {
-			currentBrand = "all";
-			currentBrandLabel = "";
-			currentFilter = "all";
-
-			if (productsSectionTitle) {
-			  productsSectionTitle.textContent = "Products per Brand";
-			}
-		  } else {
-			item.classList.add("active");
-
-			currentBrand = selectedBrand;
-			currentBrandLabel = selectedBrandLabel;
-			currentFilter = "all";
-
-			const allProductsButton = Array.from(productFilterButtons).find(
-			  (btn) => btn.dataset.filter === "all"
-			);
-
-			if (allProductsButton) {
-			  allProductsButton.classList.add("active");
-			}
-
-			if (productsSectionTitle) {
-			  productsSectionTitle.textContent = `${currentBrandLabel} Products`;
-			}
-		  }
-
-		  currentProductsPage = 0;
-		  renderProductsPage();
-		  return;
-		}
-
-		/*
-		  PRODUCTS + PROMOTIONS:
-		  Preserve previous behavior.
-		  Brand selection should NOT reset category buttons.
-		  Brand selection should NOT reset currentFilter.
-		  This allows:
-		  - Products: CCTV Cameras + Hikvision
-		  - Promotions: Sale + CCTV Cameras + Hikvision
-		*/
-		if (isAlreadyActive) {
-		  currentBrand = "all";
-		} else {
-		  item.classList.add("active");
-		  currentBrand = selectedBrand;
-		}
-
-		currentProductsPage = 0;
-		renderProductsPage();
-	  });
-	});
 
   if (productsSearchInput) {
     productsSearchInput.addEventListener("input", () => {
@@ -1095,15 +1352,10 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
   }
 
   if (productsSortDropdown) {
-
-  productsSortDropdown.addEventListener("change", () => {
-
-    currentSort = productsSortDropdown.value;
-
-    currentProductsPage = 0;
-
-    renderProductsPage();
-
+    productsSortDropdown.addEventListener("change", () => {
+      currentSort = productsSortDropdown.value;
+      currentProductsPage = 0;
+      renderProductsPage();
     });
   }
 
@@ -1111,15 +1363,50 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
 
   window.addEventListener("resize", () => {
     const currentPerPage = getProductsPerPage();
-
     if (currentPerPage !== lastProductsPerPage) {
       lastProductsPerPage = currentPerPage;
       renderProductsPage();
     }
   });
 
-  renderProductsPage();
+  async function loadDynamicCatalogData() {
+    productsGrid.innerHTML = `<div class="products-loading-state text-center text-gray-500 py-8">Loading products...</div>`;
+    if (productsCount) productsCount.textContent = "Loading products...";
+
+    try {
+      const [productsPayload, brandsPayload] = await Promise.all([
+        fetchJson("/api/products?per_page=500&page_size=500&limit=500"),
+        fetchJson("/api/brands?per_page=500&page_size=500&limit=500")
+      ]);
+
+      publicProducts = extractItems(productsPayload);
+      publicBrands = extractItems(brandsPayload).map(normalizeBrand).filter((brand) => brand.key);
+
+      renderBrandStrips();
+      await renderPromotionHeroBanners();
+
+      allProductCards = publicProducts.map(renderProductCard);
+      productsGrid.innerHTML = "";
+
+      if (isPromotionsPage) currentFilter = "all";
+      setSectionTitle();
+      renderProductsPage();
+    } catch (error) {
+      console.error("Unable to load public catalog data from API.", error);
+      productsGrid.innerHTML = `
+        <div class="products-empty-state">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <h3>Unable to load products.</h3>
+          <p>Please refresh the page or try again later.</p>
+        </div>
+      `;
+      if (productsCount) productsCount.textContent = "Unable to load products";
+    }
+  }
+
+  loadDynamicCatalogData();
 }
+
 
 /* =========================
    DRAG SCROLL - CATEGORY STRIP
