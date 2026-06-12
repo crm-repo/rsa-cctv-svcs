@@ -1,489 +1,406 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Booking / Request Site Visit | R.S.A. CCTV Installation Services</title>
-
-  <link href="./assets/css/output.css" rel="stylesheet">
-  <link href="./assets/css/custom.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-</head>
-
-<body class="bg-white text-gray-900 booking-page">
-
-  <!-- Reused from contact-us.html header/top area -->
-  <div class="bg-red-700 text-white text-center text-xs font-bold py-1">
-    Trusted CCTV Installation & Maintenance Services
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Booking / Request Site Visit | R.S.A. CCTV Installation Services</title>
+<link href="./assets/css/output.css" rel="stylesheet"/>
+<link href="./assets/css/custom.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</link></head>
+<body class="bg-white text-gray-900 booking-page"><!-- RSA_DYNAMIC_CMS_LEAD_PATCH_BATCH50 -->
+<!-- Reused from contact-us.html header/top area -->
+<div class="bg-red-700 text-white text-center text-xs font-bold py-1">
+    Trusted CCTV Installation &amp; Maintenance Services
   </div>
-
-  <header class="bg-black text-white relative">
-
-    <button id="mobileMenuButton"
-            class="md:hidden text-white text-3xl absolute right-5 top-5 z-[9999] leading-none">
+<header class="bg-black text-white relative">
+<button class="md:hidden text-white text-3xl absolute right-5 top-5 z-[9999] leading-none" id="mobileMenuButton">
       ☰
     </button>
-
-    <div class="max-w-7xl mx-auto px-4 py-2 flex flex-col md:flex-row justify-between items-center gap-3">
-
-      <a href="index.html" class="block">
-        <img src="./assets/images/rsa-logo.png"
-             alt="R.S.A. CCTV Installation Services"
-             class="main-logo">
-      </a>
-
-      <!-- MOBILE CONTACT + SOCIAL AREA -->
-      <div class="md:hidden w-full mobile-header-extra">
-
-        <div class="mobile-contact-row w-full flex items-center justify-center gap-4 text-white text-sm border-t border-b border-red-950 py-3">
-          <div class="flex items-center gap-4 whitespace-nowrap">
-            <i class="fa-solid fa-phone text-red-600 text-xl"></i>
-            <span>+63 912 345 6789</span>
-          </div>
-
-          <div class="h-5 w-px bg-gray-700"></div>
-
-          <div class="flex items-center gap-4 whitespace-nowrap">
-            <i class="fa-solid fa-envelope text-red-600 text-xl"></i>
-            <span>company@email.com</span>
-          </div>
-        </div>
-
-        <div class="mobile-social-row w-full flex justify-center items-center">
-          <a href="#" class="text-red-600" aria-label="Facebook">
-            <i class="fa-brands fa-square-facebook header-social-icon"></i>
-          </a>
-
-          <a href="#" class="text-red-600" aria-label="Instagram">
-            <i class="fa-brands fa-instagram header-social-icon"></i>
-          </a>
-
-          <a href="#" class="text-red-600" aria-label="YouTube">
-            <i class="fa-brands fa-youtube header-social-icon"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- DESKTOP/TABLET CONTACT -->
-      <div class="hidden md:flex items-center gap-8 text-base font-semibold tracking-[0.2px]">
-
-        <div class="flex items-center gap-3 text-white whitespace-nowrap">
-          <i class="fa-solid fa-envelope text-red-600 text-xl"></i>
-          <span>company@email.com</span>
-        </div>
-
-        <div class="h-6 w-px bg-gray-700"></div>
-
-        <div class="flex items-center gap-3 text-white whitespace-nowrap">
-          <i class="fa-solid fa-phone text-red-600 text-xl"></i>
-          <span>+63 912 345 6789</span>
-        </div>
-
-        <div class="h-6 w-px bg-gray-700"></div>
-
-        <div class="flex items-center gap-6 text-red-600 leading-none">
-          <a href="#" class="header-social-link hover:text-white transition" aria-label="Facebook">
-            <i class="fa-brands fa-square-facebook header-social-icon"></i>
-          </a>
-
-          <a href="#" class="header-social-link hover:text-white transition" aria-label="Instagram">
-            <i class="fa-brands fa-instagram header-social-icon"></i>
-          </a>
-
-          <a href="#" class="header-social-link hover:text-white transition" aria-label="YouTube">
-            <i class="fa-brands fa-youtube header-social-icon"></i>
-          </a>
-        </div>
-
-      </div>
-
-    </div>
-
-    <nav class="bg-black md:border-t md:border-red-950">
-      <div class="max-w-7xl mx-auto px-4">
-        <ul class="hidden md:flex items-center justify-between text-sm font-bold uppercase">
-          <li><a href="index.html" class="block py-4 hover:text-red-500">Home</a></li>
-          <li><a href="brands.html" class="block py-4 hover:text-red-500">Brands</a></li>
-          <li><a href="products.html" class="block py-4 hover:text-red-500">Products</a></li>
-          <li><a href="promotions.html" class="block py-4 hover:text-red-500">Promotions</a></li>
-          <li><a href="about.html" class="block py-4 hover:text-red-500">About Us</a></li>
-          <li><a href="services.html" class="block py-4 hover:text-red-500">Services</a></li>
-          <li><a href="contact-us.html" class="block py-4 hover:text-red-500">Contact Us</a></li>
-
-          <li>
-            <a href="booking.html" class="block bg-red-700 px-8 py-4 hover:bg-red-800" aria-current="page">
+<div class="max-w-7xl mx-auto px-4 py-2 flex flex-col md:flex-row justify-between items-center gap-3">
+<a class="block" href="index.html">
+<img alt="R.S.A. CCTV Installation Services" class="main-logo" src="./assets/images/rsa-logo.png"/>
+</a>
+<!-- MOBILE CONTACT + SOCIAL AREA -->
+<div class="md:hidden w-full mobile-header-extra">
+<div class="mobile-contact-row w-full flex items-center justify-center gap-4 text-white text-sm border-t border-b border-red-950 py-3">
+<div class="flex items-center gap-4 whitespace-nowrap">
+<i class="fa-solid fa-phone text-red-600 text-xl"></i>
+<span>+63 912 345 6789</span>
+</div>
+<div class="h-5 w-px bg-gray-700"></div>
+<div class="flex items-center gap-4 whitespace-nowrap">
+<i class="fa-solid fa-envelope text-red-600 text-xl"></i>
+<span>company@email.com</span>
+</div>
+</div>
+<div class="mobile-social-row w-full flex justify-center items-center">
+<a aria-label="Facebook" class="text-red-600" href="#">
+<i class="fa-brands fa-square-facebook header-social-icon"></i>
+</a>
+<a aria-label="Instagram" class="text-red-600" href="#">
+<i class="fa-brands fa-instagram header-social-icon"></i>
+</a>
+<a aria-label="YouTube" class="text-red-600" href="#">
+<i class="fa-brands fa-youtube header-social-icon"></i>
+</a>
+</div>
+</div>
+<!-- DESKTOP/TABLET CONTACT -->
+<div class="hidden md:flex items-center gap-8 text-base font-semibold tracking-[0.2px]">
+<div class="flex items-center gap-3 text-white whitespace-nowrap">
+<i class="fa-solid fa-envelope text-red-600 text-xl"></i>
+<span>company@email.com</span>
+</div>
+<div class="h-6 w-px bg-gray-700"></div>
+<div class="flex items-center gap-3 text-white whitespace-nowrap">
+<i class="fa-solid fa-phone text-red-600 text-xl"></i>
+<span>+63 912 345 6789</span>
+</div>
+<div class="h-6 w-px bg-gray-700"></div>
+<div class="flex items-center gap-6 text-red-600 leading-none">
+<a aria-label="Facebook" class="header-social-link hover:text-white transition" href="#">
+<i class="fa-brands fa-square-facebook header-social-icon"></i>
+</a>
+<a aria-label="Instagram" class="header-social-link hover:text-white transition" href="#">
+<i class="fa-brands fa-instagram header-social-icon"></i>
+</a>
+<a aria-label="YouTube" class="header-social-link hover:text-white transition" href="#">
+<i class="fa-brands fa-youtube header-social-icon"></i>
+</a>
+</div>
+</div>
+</div>
+<nav class="bg-black md:border-t md:border-red-950">
+<div class="max-w-7xl mx-auto px-4">
+<ul class="hidden md:flex items-center justify-between text-sm font-bold uppercase">
+<li><a class="block py-4 hover:text-red-500" href="index.html">Home</a></li>
+<li><a class="block py-4 hover:text-red-500" href="brands.html">Brands</a></li>
+<li><a class="block py-4 hover:text-red-500" href="products.html">Products</a></li>
+<li><a class="block py-4 hover:text-red-500" href="promotions.html">Promotions</a></li>
+<li><a class="block py-4 hover:text-red-500" href="about.html">About Us</a></li>
+<li><a class="block py-4 hover:text-red-500" href="services.html">Services</a></li>
+<li><a class="block py-4 hover:text-red-500" href="contact-us.html">Contact Us</a></li>
+<li>
+<a aria-current="page" class="block bg-red-700 px-8 py-4 hover:bg-red-800" href="booking.html">
               Request Site Visit
             </a>
-          </li>
-        </ul>
-
-        <div id="mobileMenuOverlay" class="hidden fixed inset-0 bg-black/70 z-[9997]"></div>
-        <ul id="mobileMenu" class="hidden fixed top-0 right-0 h-screen w-[80%] max-w-[360px] bg-black z-[9998] flex-col px-8 pt-24 space-y-7 text-xl font-bold uppercase shadow-2xl">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="brands.html">Brands</a></li>
-          <li><a href="products.html">Products</a></li>
-          <li><a href="promotions.html">Promotions</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="contact-us.html">Contact Us</a></li>
-          <li><a href="booking.html" class="text-red-500">Request Site Visit</a></li>
-        </ul>
-      </div>
-    </nav>
-
-  </header>
-
-
-  <!-- BOOKING HERO SECTION: breadcrumb intentionally stays out of the hero -->
-  <section class="booking-page-hero bg-black text-white overflow-hidden border-b border-gray-900">
-    <div class="booking-page-hero-bg"></div>
-
-    <div class="relative z-20 max-w-7xl mx-auto px-4 py-14 md:py-16 booking-page-hero-content">
-      <div class="booking-page-hero-copy">
-        <p class="text-lg font-bold uppercase mb-3">
+</li>
+</ul>
+<div class="hidden fixed inset-0 bg-black/70 z-[9997]" id="mobileMenuOverlay"></div>
+<ul class="hidden fixed top-0 right-0 h-screen w-[80%] max-w-[360px] bg-black z-[9998] flex-col px-8 pt-24 space-y-7 text-xl font-bold uppercase shadow-2xl" id="mobileMenu">
+<li><a href="index.html">Home</a></li>
+<li><a href="brands.html">Brands</a></li>
+<li><a href="products.html">Products</a></li>
+<li><a href="promotions.html">Promotions</a></li>
+<li><a href="about.html">About Us</a></li>
+<li><a href="services.html">Services</a></li>
+<li><a href="contact-us.html">Contact Us</a></li>
+<li><a class="text-red-500" href="booking.html">Request Site Visit</a></li>
+</ul>
+</div>
+</nav>
+</header>
+<!-- BOOKING HERO SECTION: breadcrumb intentionally stays out of the hero -->
+<section class="booking-page-hero bg-black text-white overflow-hidden border-b border-gray-900">
+<div class="booking-page-hero-bg"></div>
+<div class="relative z-20 max-w-7xl mx-auto px-4 py-14 md:py-16 booking-page-hero-content">
+<div class="booking-page-hero-copy">
+<p class="text-lg font-bold uppercase mb-3">
           Request Site Visit
         </p>
-
-        <h1>
-          Book a CCTV<br>
-          <span>Site Visit Today</span>
-        </h1>
-
-        <p class="booking-page-hero-desc">
+<h1>
+          Book a CCTV<br/>
+<span>Site Visit Today</span>
+</h1>
+<p class="booking-page-hero-desc">
           Schedule a consultation with R.S.A. CCTV Installation Services. Tell us your property type,
           preferred date and security needs so our team can prepare the right recommendation.
         </p>
-
-        <div class="booking-page-hero-actions">
-          <a href="#bookingForm" class="about-page-primary-btn">
+<div class="booking-page-hero-actions">
+<a class="about-page-primary-btn" href="#bookingForm">
             Start Booking
             <i class="fa-solid fa-arrow-right"></i>
-          </a>
-
-          <a href="tel:+639123456789" class="about-page-secondary-btn">
+</a>
+<a class="about-page-secondary-btn" href="tel:+639123456789">
             Call Us
             <i class="fa-solid fa-phone"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <main class="bg-gray-100">
-
-    <section class="bg-gray-100 py-10">
-      <div class="max-w-7xl mx-auto px-4">
-        <nav class="products-breadcrumb booking-page-breadcrumb" aria-label="Breadcrumb">
-          <a href="index.html">Home</a>
-          <span>&gt;</span>
-          <span>Request Site Visit</span>
-        </nav>
-
-        <div class="booking-intro-grid">
-          <div class="booking-intro-copy">
-
-            <h2>Tell us what kind of CCTV help you need.</h2>
-            <span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<main class="bg-gray-100">
+<section class="bg-gray-100 py-10">
+<div class="max-w-7xl mx-auto px-4">
+<nav aria-label="Breadcrumb" class="products-breadcrumb booking-page-breadcrumb">
+<a href="index.html">Home</a>
+<span>&gt;</span>
+<span>Request Site Visit</span>
+</nav>
+<div class="booking-intro-grid">
+<div class="booking-intro-copy">
+<h2>Tell us what kind of CCTV help you need.</h2>
+<span>
               Use this page for new installation, maintenance, troubleshooting, warranty support,
               or package recommendation requests. Your request will be reviewed by the R.S.A. team
               and assigned for follow-up.
             </span>
-          </div>
-        </div>
-
-        <div class="booking-main-grid">
-          <form id="bookingForm" class="home-soft-card booking-form-card" action="#" method="post">
-            <input type="hidden" name="source" value="website_booking_page">
-            <input type="hidden" name="status" value="new">
-
-            <div class="booking-form-heading">
-              <p>Book Your Appointment</p>
-              <h2>Request a Site Visit</h2>
-              <span>Fill out the form below and our team will contact you to confirm your schedule.</span>
-            </div>
-
-            <div class="booking-form-grid">
-              <div class="booking-form-field booking-form-field-full">
-                <label for="bookingType">Booking Type <span class="booking-required">*</span></label>
-                <select id="bookingType" name="booking_type" required>
-                  <option value="" selected disabled>Select booking type</option>
-                  <option value="site_visit_request">Site Visit Request</option>
-                  <option value="installation">CCTV Installation</option>
-                  <option value="repair">Repair / Troubleshooting</option>
-                  <option value="maintenance">Maintenance / Checkup</option>
-                  <option value="warranty_repair">Warranty Repair</option>
-                  <option value="package_recommendation">Package Recommendation</option>
-                  <option value="others">Others</option>
-                </select>
-              </div>
-
-              <div class="booking-form-field">
-                <label for="customerName">Your Name <span class="booking-required">*</span></label>
-                <input id="customerName" name="customer_name" type="text" placeholder="Enter your full name" required>
-              </div>
-
-              <div class="booking-form-field">
-                <label for="emailAddress">Your Email Address <span class="booking-required">*</span></label>
-                <input id="emailAddress" name="email_address" type="email" placeholder="yourname@example.com" required>
-              </div>
-
-              <div class="booking-form-field">
-                <label for="contactNumber">Your Contact # <span class="booking-required">*</span></label>
-                <input id="contactNumber" name="contact_number" type="tel" placeholder="09XX XXX XXXX" required>
-              </div>
-
-              <div class="booking-form-field">
-                <label for="preferredDate">Preferred Date <span class="booking-required">*</span></label>
-                <input id="preferredDate" name="preferred_date" type="date" required>
-              </div>
-
-              <div class="booking-form-field">
-                <label for="preferredTime">Preferred Time</label>
-                <select id="preferredTime" name="preferred_time">
-                  <option value="" selected>Select preferred time</option>
-                  <option value="morning">Morning</option>
-                  <option value="afternoon">Afternoon</option>
-                  <option value="evening">Evening</option>
-                  <option value="flexible">Flexible</option>
-                </select>
-              </div>
-
-              <div class="booking-form-field">
-                <label for="propertyType">Property Type</label>
-                <select id="propertyType" name="property_type">
-                  <option value="" selected>Select property type</option>
-                  <option value="residential">Residential</option>
-                  <option value="commercial">Commercial</option>
-                  <option value="office">Office</option>
-                  <option value="warehouse">Warehouse</option>
-                  <option value="store">Store / Retail</option>
-                  <option value="others">Others</option>
-                </select>
-              </div>
-
-              <div class="booking-form-field booking-form-field-full">
-                <label for="locationAddress">Location / Address</label>
-                <input id="locationAddress" name="location_address" type="text" placeholder="Where do you need the CCTV service?">
-              </div>
-
-              <div class="booking-form-field booking-form-field-full">
-                <label for="message">Your Message <span class="booking-required">*</span></label>
-                <textarea id="message" name="message" placeholder="Tell us about the CCTV service, camera quantity, issue, package interest, or preferred setup..." required></textarea>
-              </div>
-            </div>
-
-            <button type="submit" class="booking-submit-btn">
-              <i class="fa-solid fa-calendar-check"></i>
+</div>
+</div>
+<div class="booking-main-grid">
+<form action="#" class="home-soft-card booking-form-card" data-rsa-booking-form="" data-rsa-source-page="booking" id="bookingForm" method="post">
+<input name="source" type="hidden" value="website_booking_page"/>
+<input name="status" type="hidden" value="new"/>
+<div class="booking-form-heading">
+<p>Book Your Appointment</p>
+<h2>Request a Site Visit</h2>
+<span>Fill out the form below and our team will contact you to confirm your schedule.</span>
+</div>
+<div class="booking-form-grid">
+<div class="booking-form-field booking-form-field-full">
+<label for="bookingType">Booking Type <span class="booking-required">*</span></label>
+<select id="bookingType" name="booking_type" required="">
+<option disabled="" selected="" value="">Select booking type</option>
+<option value="site_visit_request">Site Visit Request</option>
+<option value="installation">CCTV Installation</option>
+<option value="repair">Repair / Troubleshooting</option>
+<option value="maintenance">Maintenance / Checkup</option>
+<option value="warranty_repair">Warranty Repair</option>
+<option value="package_recommendation">Package Recommendation</option>
+<option value="others">Others</option>
+</select>
+</div>
+<div class="booking-form-field">
+<label for="customerName">Your Name <span class="booking-required">*</span></label>
+<input id="customerName" name="customer_name" placeholder="Enter your full name" required="" type="text"/>
+</div>
+<div class="booking-form-field">
+<label for="emailAddress">Your Email Address <span class="booking-required">*</span></label>
+<input id="emailAddress" name="email_address" placeholder="yourname@example.com" required="" type="email"/>
+</div>
+<div class="booking-form-field">
+<label for="contactNumber">Your Contact # <span class="booking-required">*</span></label>
+<input id="contactNumber" name="contact_number" placeholder="09XX XXX XXXX" required="" type="tel"/>
+</div>
+<div class="booking-form-field">
+<label for="preferredDate">Preferred Date <span class="booking-required">*</span></label>
+<input id="preferredDate" name="preferred_date" required="" type="date"/>
+</div>
+<div class="booking-form-field">
+<label for="preferredTime">Preferred Time</label>
+<select id="preferredTime" name="preferred_time">
+<option selected="" value="">Select preferred time</option>
+<option value="morning">Morning</option>
+<option value="afternoon">Afternoon</option>
+<option value="evening">Evening</option>
+<option value="flexible">Flexible</option>
+</select>
+</div>
+<div class="booking-form-field">
+<label for="propertyType">Property Type</label>
+<select id="propertyType" name="property_type">
+<option selected="" value="">Select property type</option>
+<option value="residential">Residential</option>
+<option value="commercial">Commercial</option>
+<option value="office">Office</option>
+<option value="warehouse">Warehouse</option>
+<option value="store">Store / Retail</option>
+<option value="others">Others</option>
+</select>
+</div>
+<div class="booking-form-field booking-form-field-full">
+<label for="locationAddress">Location / Address</label>
+<input id="locationAddress" name="location_address" placeholder="Where do you need the CCTV service?" type="text"/>
+</div>
+<div class="booking-form-field booking-form-field-full">
+<label for="message">Your Message <span class="booking-required">*</span></label>
+<textarea id="message" name="message" placeholder="Tell us about the CCTV service, camera quantity, issue, package interest, or preferred setup..." required=""></textarea>
+</div>
+</div>
+<button class="booking-submit-btn" type="submit">
+<i class="fa-solid fa-calendar-check"></i>
               Submit Booking Request
             </button>
-
-            <p class="booking-privacy-note">
-              <i class="fa-solid fa-lock"></i>
+<p class="booking-privacy-note">
+<i class="fa-solid fa-lock"></i>
               Your booking details will be used only to coordinate your site visit or consultation.
             </p>
-          </form>
-
-          <aside class="booking-side-stack" aria-label="Booking assistance information">
-            <div class="home-soft-card booking-info-card">
-              <h2 class="booking-section-title">What Happens Next?</h2>
-              <div class="booking-title-underline"></div>
-
-              <div class="booking-step-list">
-                <div class="booking-step-item">
-                  <span>1</span>
-                  <div>
-                    <h3>Submit Request</h3>
-                    <p>Send your preferred schedule and CCTV requirements through the form.</p>
-                  </div>
-                </div>
-
-                <div class="booking-step-item">
-                  <span>2</span>
-                  <div>
-                    <h3>Schedule Confirmation</h3>
-                    <p>Our staff will contact you to confirm the date, time and location.</p>
-                  </div>
-                </div>
-
-                <div class="booking-step-item">
-                  <span>3</span>
-                  <div>
-                    <h3>Site Assessment</h3>
-                    <p>We review camera placement, coverage, recorder, storage and cabling needs.</p>
-                  </div>
-                </div>
-
-                <div class="booking-step-item">
-                  <span>4</span>
-                  <div>
-                    <h3>Recommendation</h3>
-                    <p>You receive a practical recommendation for your property and budget.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="home-soft-card booking-contact-card">
-              <div class="booking-contact-icon">
-                <i class="fa-solid fa-headset"></i>
-              </div>
-              <div>
-                <h3>Need help before booking?</h3>
-                <p>Call us and our team will guide you on the right CCTV service or package.</p>
-                <div class="booking-contact-links">
-                  <a href="tel:+639123456789">
-                    <i class="fa-solid fa-phone"></i>
+<div aria-live="polite" class="rsa-api-form-status" data-rsa-form-status="" role="status"></div></form>
+<aside aria-label="Booking assistance information" class="booking-side-stack">
+<div class="home-soft-card booking-info-card">
+<h2 class="booking-section-title">What Happens Next?</h2>
+<div class="booking-title-underline"></div>
+<div class="booking-step-list">
+<div class="booking-step-item">
+<span>1</span>
+<div>
+<h3>Submit Request</h3>
+<p>Send your preferred schedule and CCTV requirements through the form.</p>
+</div>
+</div>
+<div class="booking-step-item">
+<span>2</span>
+<div>
+<h3>Schedule Confirmation</h3>
+<p>Our staff will contact you to confirm the date, time and location.</p>
+</div>
+</div>
+<div class="booking-step-item">
+<span>3</span>
+<div>
+<h3>Site Assessment</h3>
+<p>We review camera placement, coverage, recorder, storage and cabling needs.</p>
+</div>
+</div>
+<div class="booking-step-item">
+<span>4</span>
+<div>
+<h3>Recommendation</h3>
+<p>You receive a practical recommendation for your property and budget.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="home-soft-card booking-contact-card">
+<div class="booking-contact-icon">
+<i class="fa-solid fa-headset"></i>
+</div>
+<div>
+<h3>Need help before booking?</h3>
+<p>Call us and our team will guide you on the right CCTV service or package.</p>
+<div class="booking-contact-links">
+<a href="tel:+639123456789">
+<i class="fa-solid fa-phone"></i>
                     +63 912 345 6789
                   </a>
-                  <a href="mailto:booking@rsacctv.com.ph">
-                    <i class="fa-solid fa-envelope"></i>
+<a href="mailto:booking@rsacctv.com.ph">
+<i class="fa-solid fa-envelope"></i>
                     booking@rsacctv.com.ph
                   </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="booking-alert-card booking-alert-card-sidebar">
-              <i class="fa-solid fa-shield-halved"></i>
-              <div>
-                <strong>Free site survey support</strong>
-                <p>We can help recommend the right CCTV placement and setup for your home or business.</p>
-              </div>
-            </div>
-
-            <div class="home-soft-card booking-reminder-card">
-              <h3><i class="fa-solid fa-circle-info"></i> Booking Note</h3>
-              <p>
+</div>
+</div>
+</div>
+<div class="booking-alert-card booking-alert-card-sidebar">
+<i class="fa-solid fa-shield-halved"></i>
+<div>
+<strong>Free site survey support</strong>
+<p>We can help recommend the right CCTV placement and setup for your home or business.</p>
+</div>
+</div>
+<div class="home-soft-card booking-reminder-card">
+<h3><i class="fa-solid fa-circle-info"></i> Booking Note</h3>
+<p>
                 Submitting this form does not confirm the appointment automatically. Our staff will review
                 your request and contact you for final schedule confirmation.
               </p>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <section class="bg-gray-100 booking-support-section booking-request-section">
-      <div class="max-w-7xl mx-auto px-4">
-        <div class="about-page-section-heading booking-support-heading booking-request-heading">
-          <p>What Can We Help With?</p>
-          <h2>Choose the booking request that fits your need.</h2>
-        </div>
-
-        <div class="booking-support-grid booking-request-grid">
-          <article class="home-soft-card booking-support-card booking-request-card">
-            <span class="booking-support-icon booking-request-icon"><i class="fa-solid fa-video"></i></span>
-            <div>
-              <h3>CCTV Installation</h3>
-              <p>Professional camera, recorder, cabling, and monitoring setup for homes and businesses.</p>
-            </div>
-          </article>
-
-          <article class="home-soft-card booking-support-card booking-request-card">
-            <span class="booking-support-icon booking-request-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
-            <div>
-              <h3>Maintenance / Repair</h3>
-              <p>Inspection, troubleshooting, camera replacement, recorder checks, and after-sales support.</p>
-            </div>
-          </article>
-
-          <article class="home-soft-card booking-support-card booking-request-card">
-            <span class="booking-support-icon booking-request-icon"><i class="fa-solid fa-box-open"></i></span>
-            <div>
-              <h3>Package Recommendation</h3>
-              <p>Get help choosing a CCTV package based on your property size, budget, and security goals.</p>
-            </div>
-          </article>
-
-          <article class="home-soft-card booking-support-card booking-request-card">
-            <span class="booking-support-icon booking-request-icon"><i class="fa-solid fa-headset"></i></span>
-            <div>
-              <h3>After-Sales Support</h3>
-              <p>Request support for existing CCTV systems, warranty concerns, and usage guidance.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="contact-service-features-strip-wrap booking-before-cta-strip-wrap">
-      <div class="contact-service-features-strip booking-before-cta-strip">
-
-        <div class="contact-service-feature-item booking-before-cta-item">
-          <div class="feature-card-icon booking-before-cta-icon">
-            <i class="fa-solid fa-calendar-check"></i>
-          </div>
-          <div>
-            <h4>Need a Site Survey?</h4>
-            <p>Let our team assess your property and recommend the right CCTV placement.</p>
-          </div>
-        </div>
-
-        <div class="contact-service-feature-item booking-before-cta-item">
-          <div class="feature-card-icon booking-before-cta-icon">
-            <i class="fa-solid fa-box"></i>
-          </div>
-          <div>
-            <h4>Need Product Recommendations?</h4>
-            <p>We recommend the right CCTV camera, recorder, storage, and package setup.</p>
-          </div>
-        </div>
-
-        <div class="contact-service-feature-item booking-before-cta-item">
-          <div class="feature-card-icon booking-before-cta-icon">
-            <i class="fa-solid fa-headset"></i>
-          </div>
-          <div>
-            <h4>After-Sales Support</h4>
-            <p>We can help with warranty, maintenance, troubleshooting, and technical support.</p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- FINAL CTA - reused from Contact Us page -->
-    <section class="products-cta-section bg-black text-white py-10 border-t border-red-950 mt-2">
-      <div class="max-w-7xl mx-auto px-4 text-center">
-        <p class="text-red-600 text-sm font-bold uppercase mb-3">
+</div>
+</aside>
+</div>
+</div>
+</section>
+<section class="bg-gray-100 booking-support-section booking-request-section">
+<div class="max-w-7xl mx-auto px-4">
+<div class="about-page-section-heading booking-support-heading booking-request-heading">
+<p>What Can We Help With?</p>
+<h2>Choose the booking request that fits your need.</h2>
+</div>
+<div class="booking-support-grid booking-request-grid">
+<article class="home-soft-card booking-support-card booking-request-card">
+<span class="booking-support-icon booking-request-icon"><i class="fa-solid fa-video"></i></span>
+<div>
+<h3>CCTV Installation</h3>
+<p>Professional camera, recorder, cabling, and monitoring setup for homes and businesses.</p>
+</div>
+</article>
+<article class="home-soft-card booking-support-card booking-request-card">
+<span class="booking-support-icon booking-request-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+<div>
+<h3>Maintenance / Repair</h3>
+<p>Inspection, troubleshooting, camera replacement, recorder checks, and after-sales support.</p>
+</div>
+</article>
+<article class="home-soft-card booking-support-card booking-request-card">
+<span class="booking-support-icon booking-request-icon"><i class="fa-solid fa-box-open"></i></span>
+<div>
+<h3>Package Recommendation</h3>
+<p>Get help choosing a CCTV package based on your property size, budget, and security goals.</p>
+</div>
+</article>
+<article class="home-soft-card booking-support-card booking-request-card">
+<span class="booking-support-icon booking-request-icon"><i class="fa-solid fa-headset"></i></span>
+<div>
+<h3>After-Sales Support</h3>
+<p>Request support for existing CCTV systems, warranty concerns, and usage guidance.</p>
+</div>
+</article>
+</div>
+</div>
+</section>
+<section class="contact-service-features-strip-wrap booking-before-cta-strip-wrap">
+<div class="contact-service-features-strip booking-before-cta-strip">
+<div class="contact-service-feature-item booking-before-cta-item">
+<div class="feature-card-icon booking-before-cta-icon">
+<i class="fa-solid fa-calendar-check"></i>
+</div>
+<div>
+<h4>Need a Site Survey?</h4>
+<p>Let our team assess your property and recommend the right CCTV placement.</p>
+</div>
+</div>
+<div class="contact-service-feature-item booking-before-cta-item">
+<div class="feature-card-icon booking-before-cta-icon">
+<i class="fa-solid fa-box"></i>
+</div>
+<div>
+<h4>Need Product Recommendations?</h4>
+<p>We recommend the right CCTV camera, recorder, storage, and package setup.</p>
+</div>
+</div>
+<div class="contact-service-feature-item booking-before-cta-item">
+<div class="feature-card-icon booking-before-cta-icon">
+<i class="fa-solid fa-headset"></i>
+</div>
+<div>
+<h4>After-Sales Support</h4>
+<p>We can help with warranty, maintenance, troubleshooting, and technical support.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- FINAL CTA - reused from Contact Us page -->
+<section class="products-cta-section bg-black text-white py-10 border-t border-red-950 mt-2">
+<div class="max-w-7xl mx-auto px-4 text-center">
+<p class="text-red-600 text-sm font-bold uppercase mb-3">
           Need CCTV Installation?
         </p>
-
-        <h2 class="text-3xl md:text-4xl font-black uppercase mb-4">
+<h2 class="text-3xl md:text-4xl font-black uppercase mb-4">
           Ready to Secure Your Property?
         </h2>
-
-        <p class="text-gray-300 max-w-2xl mx-auto text-sm md:text-base leading-7 mb-8">
+<p class="text-gray-300 max-w-2xl mx-auto text-sm md:text-base leading-7 mb-8">
           Book a site visit today and let R.S.A. CCTV Installation Services help you choose
           the right security solution for your home or business.
         </p>
-
-        <a href="booking.html"
-          class="inline-block bg-red-700 hover:bg-red-800 text-white font-bold px-8 py-3 rounded">
+<a class="inline-block bg-red-700 hover:bg-red-800 text-white font-bold px-8 py-3 rounded" href="booking.html">
           Request Site Visit
         </a>
-      </div>
-    </section>
-
-  </main>
-
+</div>
+</section>
+</main>
 <footer class="bg-black text-white py-6">
-    <div class="max-w-7xl mx-auto px-4 text-center text-sm space-y-2">
-      <p class="font-semibold">
+<div class="max-w-7xl mx-auto px-4 text-center text-sm space-y-2">
+<p class="font-semibold">
         R.S.A. CCTV Installation Services
       </p>
-
-      <p class="text-gray-400">
-        Professional CCTV Installation & Maintenance Services
+<p class="text-gray-400">
+        Professional CCTV Installation &amp; Maintenance Services
       </p>
-
-      <p class="text-gray-500 text-xs">
+<p class="text-gray-500 text-xs">
         © 2026 R.S.A. CCTV Installation Services. All rights reserved.
       </p>
-    </div>
-  </footer>
-
-  <script src="./assets/js/main.js"></script>
+</div>
+</footer>
+<script src="./assets/js/main.js?v=batch50"></script>
 </body>
 </html>

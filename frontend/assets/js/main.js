@@ -2102,3 +2102,841 @@ document.addEventListener("DOMContentLoaded", function () {
 
   updateButtons();
 });
+
+/* =========================================================
+   BATCH 50 - PUBLIC CMS + LEAD PAGE API BINDING
+   - Homepage dynamic products/brands/services
+   - About page content/gallery
+   - Services page cards
+   - Contact page content/persons/socials + inquiry form
+   - Booking page contact helpers + booking form
+========================================================= */
+(function rsaPublicCmsLeadBinding(global) {
+  "use strict";
+
+  if (global.RSA_PUBLIC_CMS_LEAD_VERSION === "batch50-public-cms-lead-api-binding") return;
+  global.RSA_PUBLIC_CMS_LEAD_VERSION = "batch50-public-cms-lead-api-binding";
+
+  const document = global.document;
+  const PHP_LOCALE = "en-PH";
+  const DEFAULT_LOGO = "./assets/images/rsa-logo.png";
+  const DEFAULT_CONTACT_IMAGE = "./assets/images/contact/profile-placeholder.svg";
+
+  function getApiBaseUrl() {
+    if (global.RSA_API_BASE_URL) return String(global.RSA_API_BASE_URL).replace(/\/$/, "");
+    if (global.RSA_API_CONFIG && global.RSA_API_CONFIG.baseUrl) {
+      return String(global.RSA_API_CONFIG.baseUrl).replace(/\/$/, "");
+    }
+    if (global.location.protocol === "file:") return "http://127.0.0.1:8000";
+    return "";
+  }
+
+  function apiUrl(path) {
+    return `${getApiBaseUrl()}${path}`;
+  }
+
+  async function fetchJson(path) {
+    const response = await fetch(apiUrl(path), {
+      headers: { "Accept": "application/json" },
+      cache: "no-store"
+    });
+    if (!response.ok) throw new Error(`${path} returned HTTP ${response.status}`);
+    return response.json();
+  }
+
+  async function postJson(path, payload) {
+    const response = await fetch(apiUrl(path), {
+      method: "POST",
+      headers: { "Accept": "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    let body = null;
+    try { body = await response.json(); } catch (_error) { body = null; }
+    if (!response.ok) {
+      const detail = body && body.detail ? JSON.stringify(body.detail) : `HTTP ${response.status}`;
+      throw new Error(detail);
+    }
+    return body || {};
+  }
+
+  function extractItems(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (!payload || typeof payload !== "object") return [];
+    for (const key of ["items", "data", "products", "brands", "services", "project_gallery", "contact_persons", "social_media", "results", "records", "rows"]) {
+      if (Array.isArray(payload[key])) return payload[key];
+    }
+    if (payload.body) return extractItems(payload.body);
+    return [];
+  }
+
+  async function fetchPagedApiItems(path, perPage = 50) {
+    const safePerPage = Math.min(Math.max(Number(perPage) || 50, 1), 50);
+    const separator = path.includes("?") ? "&" : "?";
+    const firstPayload = await fetchJson(`${path}${separator}page=1&per_page=${safePerPage}`);
+    const firstItems = extractItems(firstPayload);
+    const totalPages = Number(firstPayload && firstPayload.total_pages ? firstPayload.total_pages : 1);
+    if (!Number.isFinite(totalPages) || totalPages <= 1) return firstItems;
+
+    const remainingRequests = [];
+    for (let page = 2; page <= totalPages; page += 1) {
+      remainingRequests.push(fetchJson(`${path}${separator}page=${page}&per_page=${safePerPage}`));
+    }
+    const remainingPayloads = await Promise.all(remainingRequests);
+    return firstItems.concat(...remainingPayloads.map(extractItems));
+  }
+
+  function firstNonEmpty(...values) {
+    for (const value of values) {
+      if (value !== undefined && value !== null && String(value).trim() !== "") return value;
+    }
+    return "";
+  }
+
+  function escapeHtml(value) {
+    return String(value === undefined || value === null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function normalizeSpaces(value) {
+    return String(value === undefined || value === null ? "" : value).replace(/\s+/g, " ").trim();
+  }
+
+  function slugify(value) {
+    return String(value || "")
+      .toLowerCase()
+      .trim()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function normalizeAssetPath(pathValue, fallback = DEFAULT_LOGO) {
+    const value = String(pathValue || "").trim();
+    if (!value) return fallback;
+    if (/^(https?:)?\/\//i.test(value) || value.startsWith("data:") || value.startsWith("/")) return value;
+    if (value.startsWith("./")) return value;
+    if (value.startsWith("assets/") || value.startsWith("uploads/")) return `./${value}`;
+    if (value.includes("/")) return `./${value.replace(/^\/+/, "")}`;
+    return fallback;
+  }
+
+  function numericValue(value) {
+    if (value === undefined || value === null || value === "") return null;
+    if (typeof value === "number") return Number.isFinite(value) ? value : null;
+    const cleaned = String(value).replace(/[^0-9.-]/g, "");
+    if (!cleaned) return null;
+    const parsed = Number(cleaned);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  function formatPrice(value, fallback = "Get Quotation") {
+    if (value === undefined || value === null || String(value).trim() === "") return fallback;
+    const asString = String(value).trim();
+    if (asString.toLowerCase().includes("quotation") || asString.includes("₱")) return asString;
+    const parsed = numericValue(value);
+    if (parsed === null) return asString;
+    return `₱${parsed.toLocaleString(PHP_LOCALE, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  }
+
+  function looksShown(record) {
+    const flag = String(record && record.show_flag !== undefined ? record.show_flag : "Y").toUpperCase();
+    return flag !== "N" && flag !== "FALSE" && flag !== "0";
+  }
+
+  function sortByDisplaySeq(a, b) {
+    return (Number(a.display_seq || 0) - Number(b.display_seq || 0));
+  }
+
+  function serviceIconClass(service) {
+    const title = String(service.service_title || service.title || service.name || "").toLowerCase();
+    if (service.icon_code) return service.icon_code;
+    if (title.includes("maintenance") || title.includes("repair") || title.includes("troubleshoot")) return "fa-solid fa-screwdriver-wrench";
+    if (title.includes("mobile") || title.includes("view")) return "fa-solid fa-mobile-screen-button";
+    if (title.includes("network") || title.includes("cabling") || title.includes("data")) return "fa-solid fa-network-wired";
+    if (title.includes("power")) return "fa-solid fa-bolt";
+    if (title.includes("biometric") || title.includes("lock")) return "fa-solid fa-fingerprint";
+    if (title.includes("alarm") || title.includes("door")) return "fa-solid fa-bell";
+    if (title.includes("hidden")) return "fa-solid fa-eye";
+    if (title.includes("fire") || title.includes("fdas")) return "fa-solid fa-fire-extinguisher";
+    if (title.includes("computer")) return "fa-solid fa-computer";
+    if (title.includes("storage") || title.includes("recorder")) return "fa-solid fa-hard-drive";
+    return "fa-solid fa-video";
+  }
+
+  function socialIconClass(record) {
+    const platform = String(record.platform_key || record.platform_name || "").toLowerCase();
+    if (record.icon_code) return record.icon_code;
+    if (platform.includes("facebook")) return "fa-brands fa-square-facebook";
+    if (platform.includes("instagram")) return "fa-brands fa-instagram";
+    if (platform.includes("youtube")) return "fa-brands fa-youtube";
+    if (platform.includes("viber")) return "fa-brands fa-viber";
+    if (platform.includes("whatsapp")) return "fa-brands fa-whatsapp";
+    return "fa-solid fa-link";
+  }
+
+  function productFeatures(product) {
+    const features = [];
+    for (let index = 1; index <= 10; index += 1) {
+      const value = firstNonEmpty(product[`feature_${String(index).padStart(2, "0")}`], product[`feature_${index}`]);
+      if (value) features.push(String(value));
+    }
+    return features;
+  }
+
+  function normalizeProduct(product) {
+    const sale = firstNonEmpty(product.sale_price, product.promo_price, product.discount_price);
+    const hasSale = sale !== "" && sale !== null && sale !== undefined;
+    const price = firstNonEmpty(product.price, product.regular_price, product.product_price);
+    return {
+      id: firstNonEmpty(product.product_id, product.id),
+      name: firstNonEmpty(product.product_name, product.name, product.title, "Unnamed Product"),
+      model: firstNonEmpty(product.product_model, product.model, product.sku),
+      categoryKey: slugify(firstNonEmpty(product.category_key, product.product_category_key, product.category_name, product.category)),
+      categoryName: firstNonEmpty(product.subcategory, product.category_name, product.product_category, product.category_key),
+      brandKey: slugify(firstNonEmpty(product.product_brand_key, product.brand_key, product.product_brand_name, product.brand_name)),
+      brandName: firstNonEmpty(product.product_brand_name, product.brand_name, product.product_brand_key, "RSA"),
+      imagePath: normalizeAssetPath(firstNonEmpty(product.image_path, product.product_image_path, product.image_url, product.product_image), DEFAULT_LOGO),
+      brandLogoPath: normalizeAssetPath(firstNonEmpty(product.brand_logo_path, product.logo_path, product.product_brand_logo_path), DEFAULT_LOGO),
+      price: formatPrice(hasSale ? sale : price),
+      oldPrice: hasSale ? formatPrice(price, "") : "",
+      salePrice: hasSale ? formatPrice(sale, "") : "",
+      hasSale,
+      showPack: String(product.show_pack_flag || "N").toUpperCase() === "Y",
+      features: productFeatures(product)
+    };
+  }
+
+  function normalizeBrand(brand) {
+    const name = firstNonEmpty(brand.brand_name, brand.name, brand.title, brand.brand_key);
+    return {
+      key: slugify(firstNonEmpty(brand.brand_key, name)),
+      name: firstNonEmpty(name, "Brand"),
+      logo: normalizeAssetPath(firstNonEmpty(brand.brand_logo_path, brand.logo_path, brand.image_path, brand.image_url), DEFAULT_LOGO)
+    };
+  }
+
+  function normalizeService(service) {
+    return {
+      title: firstNonEmpty(service.service_title, service.title, service.name, "Service"),
+      shortDescription: firstNonEmpty(service.short_description, service.description, service.service_description, "Professional CCTV and security support."),
+      description: firstNonEmpty(service.service_description, service.short_description, service.description, "Professional CCTV and security support."),
+      ctaLabel: firstNonEmpty(service.cta_label, "Learn More"),
+      ctaUrl: firstNonEmpty(service.cta_url, "booking.html"),
+      iconClass: serviceIconClass(service)
+    };
+  }
+
+  function setText(selector, value) {
+    const element = document.querySelector(selector);
+    if (element && value) element.textContent = value;
+  }
+
+  function setHtml(selector, value) {
+    const element = document.querySelector(selector);
+    if (element && value) element.innerHTML = value;
+  }
+
+  function heroTitleHtml(title, fallback) {
+    const text = normalizeSpaces(title || fallback);
+    if (!text) return "";
+    const parts = text.split(/\s+-\s+|:\s+|,\s+/);
+    if (parts.length > 1) {
+      return `${escapeHtml(parts[0])}<br><span>${escapeHtml(parts.slice(1).join(" "))}</span>`;
+    }
+    const words = text.split(" ");
+    if (words.length > 4) {
+      const first = words.slice(0, 4).join(" ");
+      const rest = words.slice(4).join(" ");
+      return `${escapeHtml(first)}<br><span>${escapeHtml(rest)}</span>`;
+    }
+    return `<span>${escapeHtml(text)}</span>`;
+  }
+
+  function renderFeaturedCard(product) {
+    const p = normalizeProduct(product);
+    return `
+      <div class="featured-product-card">
+        <div class="featured-product-image"><img src="${escapeHtml(p.imagePath)}" alt="${escapeHtml(p.name)}"></div>
+        <p class="featured-product-name text-sm font-black">${escapeHtml(p.name)}</p>
+        <p class="text-gray-500 text-xs">${escapeHtml(p.categoryName)}</p>
+        <p class="text-red-700 font-black text-base">${escapeHtml(p.price)}</p>
+      </div>`;
+  }
+
+  function renderPromoCard(product) {
+    const p = normalizeProduct(product);
+    return `
+      <div class="promo-product-card">
+        <span class="promo-sale-badge">SALE</span>
+        <div class="promo-product-image"><img src="${escapeHtml(p.imagePath)}" alt="${escapeHtml(p.name)}"></div>
+        <p class="promo-product-name text-sm font-black">${escapeHtml(p.name)}</p>
+        <p class="text-gray-500 text-xs">${escapeHtml(p.categoryName)}</p>
+        ${p.oldPrice ? `<p class="promo-old-price">${escapeHtml(p.oldPrice)}</p>` : ""}
+        <p class="promo-sale-price">${escapeHtml(p.salePrice || p.price)}</p>
+      </div>`;
+  }
+
+  function renderPackageCard(product) {
+    const p = normalizeProduct(product);
+    return `<a href="promotions.html" class="package-banner-card"><img src="${escapeHtml(p.imagePath)}" alt="${escapeHtml(p.name)}"></a>`;
+  }
+
+  function renderBrandCard(brand) {
+    const b = normalizeBrand(brand);
+    return `<div class="home-brand-item"><div class="home-brand-logo-box"><img src="${escapeHtml(b.logo)}" alt="${escapeHtml(b.name)}"></div></div>`;
+  }
+
+  function renderHomeServiceCard(service) {
+    const s = normalizeService(service);
+    return `
+      <a href="services.html" class="home-service-preview-card">
+        <div class="home-service-preview-icon"><i class="${escapeHtml(s.iconClass)}"></i></div>
+        <h3>${escapeHtml(s.title)}</h3>
+      </a>`;
+  }
+
+  function renderServicesPageCard(service) {
+    const s = normalizeService(service);
+    return `
+      <article class="services-page-card">
+        <div class="services-page-card-icon"><i class="${escapeHtml(s.iconClass)}"></i></div>
+        <div>
+          <h3>${escapeHtml(s.title)}</h3>
+          <p>${escapeHtml(s.description)}</p>
+          ${s.ctaUrl ? `<a href="${escapeHtml(s.ctaUrl)}">${escapeHtml(s.ctaLabel)} <i class="fa-solid fa-arrow-right"></i></a>` : ""}
+        </div>
+      </article>`;
+  }
+
+  function setupPagedDisplay(config) {
+    const container = typeof config.container === "string" ? document.querySelector(config.container) : config.container;
+    const dots = typeof config.dots === "string" ? document.querySelector(config.dots) : config.dots;
+    const prev = typeof config.prev === "string" ? document.querySelector(config.prev) : config.prev;
+    const next = typeof config.next === "string" ? document.querySelector(config.next) : config.next;
+    if (!container || !dots) return;
+
+    let currentPage = 0;
+    const display = config.display || "grid";
+
+    function perPage() {
+      if (config.perPage) return config.perPage();
+      return global.matchMedia("(max-width: 767px) and (orientation: portrait)").matches ? (config.mobile || 6) : (config.desktop || 5);
+    }
+
+    function render() {
+      const items = Array.from(container.querySelectorAll(config.itemSelector));
+      const pageSize = perPage();
+      const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
+      currentPage = Math.min(Math.max(0, currentPage), totalPages - 1);
+      const start = currentPage * pageSize;
+      const end = start + pageSize;
+
+      items.forEach((item, index) => {
+        item.style.display = index >= start && index < end ? display : "none";
+      });
+
+      dots.innerHTML = "";
+      if (items.length > pageSize) {
+        for (let index = 0; index < totalPages; index += 1) {
+          const dot = document.createElement("button");
+          dot.type = "button";
+          dot.className = config.dotClass || "featured-dot";
+          if (index === currentPage) dot.classList.add("active");
+          dot.addEventListener("click", () => { currentPage = index; render(); });
+          dots.appendChild(dot);
+        }
+      }
+
+      if (prev) prev.classList.toggle("is-hidden", currentPage <= 0 || totalPages <= 1);
+      if (next) next.classList.toggle("is-hidden", currentPage >= totalPages - 1 || totalPages <= 1);
+    }
+
+    if (prev && prev.dataset.rsaBatch50Bound !== "true") {
+      prev.dataset.rsaBatch50Bound = "true";
+      prev.addEventListener("click", () => { currentPage -= 1; render(); });
+    }
+    if (next && next.dataset.rsaBatch50Bound !== "true") {
+      next.dataset.rsaBatch50Bound = "true";
+      next.addEventListener("click", () => { currentPage += 1; render(); });
+    }
+    global.addEventListener("resize", render);
+    render();
+  }
+
+  function setupPackageSlider() {
+    const slider = document.getElementById("homePackageSlider");
+    const dots = document.getElementById("homePackageDots");
+    const prev = document.querySelector(".home-package-arrow-prev");
+    const next = document.querySelector(".home-package-arrow-next");
+    if (!slider || !dots) return;
+    let current = 0;
+    function isMobile() {
+      return global.matchMedia("(max-width: 799px) and (orientation: portrait), (max-height: 430px) and (orientation: landscape)").matches;
+    }
+    function render() {
+      const slides = Array.from(slider.querySelectorAll(".package-banner-card"));
+      if (current >= slides.length) current = Math.max(0, slides.length - 1);
+      slides.forEach((slide) => {
+        slide.style.transform = isMobile() ? `translateX(-${current * 100}%)` : "translateX(0)";
+      });
+      dots.innerHTML = "";
+      slides.forEach((_, index) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "home-package-dot";
+        if (index === current) dot.classList.add("active");
+        dot.addEventListener("click", () => { current = index; render(); });
+        dots.appendChild(dot);
+      });
+      if (prev) prev.classList.toggle("is-hidden", !isMobile() || current <= 0);
+      if (next) next.classList.toggle("is-hidden", !isMobile() || current >= slides.length - 1);
+    }
+    if (prev && prev.dataset.rsaBatch50Bound !== "true") {
+      prev.dataset.rsaBatch50Bound = "true";
+      prev.addEventListener("click", () => { if (isMobile()) { current -= 1; render(); } });
+    }
+    if (next && next.dataset.rsaBatch50Bound !== "true") {
+      next.dataset.rsaBatch50Bound = "true";
+      next.addEventListener("click", () => { if (isMobile()) { current += 1; render(); } });
+    }
+    global.addEventListener("resize", render);
+    render();
+  }
+
+  async function loadProductsAndBrands() {
+    const [products, brands] = await Promise.all([
+      fetchPagedApiItems("/api/products", 50),
+      fetchPagedApiItems("/api/brands", 50)
+    ]);
+    return {
+      products: products.filter(looksShown).sort(sortByDisplaySeq),
+      brands: brands.filter(looksShown).sort(sortByDisplaySeq)
+    };
+  }
+
+  async function loadServices() {
+    try {
+      const page = await fetchJson("/api/pages/services");
+      const pageItems = page && Array.isArray(page.services) ? page.services : extractItems(page);
+      if (pageItems.length) return pageItems.filter(looksShown).sort(sortByDisplaySeq);
+    } catch (_error) {}
+    return (await fetchPagedApiItems("/api/services", 50)).filter(looksShown).sort(sortByDisplaySeq);
+  }
+
+  async function loadContactPage() {
+    try {
+      const page = await fetchJson("/api/pages/contact");
+      if (page && (page.company_contact || page.contact_persons || page.social_media)) return page;
+    } catch (_error) {}
+    return fetchJson("/api/contact");
+  }
+
+  async function loadAboutPage() {
+    try {
+      const payload = await fetchJson("/api/pages/about");
+      if (payload) return payload;
+    } catch (_error) {}
+    const about = await fetchJson("/api/about");
+    return { about: Array.isArray(about.items) ? about.items[0] : about };
+  }
+
+  function renderHomePage(data, services) {
+    const packageSlider = document.getElementById("homePackageSlider");
+    const featuredGrid = document.getElementById("featuredProductsGrid");
+    const promoGrid = document.getElementById("promoProductsGrid");
+    const brandsGrid = document.getElementById("homeBrandsGrid");
+    const servicesGrid = document.getElementById("homeServicesSlider");
+
+    if (packageSlider) {
+      const packages = data.products.filter((product) => {
+        const p = normalizeProduct(product);
+        return p.showPack || p.categoryKey === "packages";
+      }).slice(0, 3);
+      packageSlider.innerHTML = packages.length ? packages.map(renderPackageCard).join("") : `<div class="rsa-cms-loading-state">No package products available.</div>`;
+      setupPackageSlider();
+    }
+
+    if (featuredGrid) {
+      featuredGrid.innerHTML = data.products.slice(0, 15).map(renderFeaturedCard).join("") || `<div class="rsa-cms-loading-state">No featured products available.</div>`;
+      setupPagedDisplay({ container: featuredGrid, itemSelector: ".featured-product-card", dots: "#featuredProductsDots", prev: ".home-featured-arrow-prev", next: ".home-featured-arrow-next", desktop: 5, mobile: 6, display: "grid", dotClass: "featured-dot" });
+    }
+
+    if (promoGrid) {
+      const promos = data.products.filter((product) => normalizeProduct(product).hasSale).slice(0, 15);
+      promoGrid.innerHTML = promos.length ? promos.map(renderPromoCard).join("") : `<div class="rsa-cms-loading-state">No sale products available.</div>`;
+      setupPagedDisplay({ container: promoGrid, itemSelector: ".promo-product-card", dots: "#promoProductsDots", prev: ".home-promo-arrow-prev", next: ".home-promo-arrow-next", desktop: 5, mobile: 6, display: "grid", dotClass: "promo-dot" });
+    }
+
+    if (brandsGrid) {
+      brandsGrid.innerHTML = data.brands.slice(0, 24).map(renderBrandCard).join("") || `<div class="rsa-cms-loading-state">No brands available.</div>`;
+      setupPagedDisplay({ container: brandsGrid, itemSelector: ".home-brand-item", dots: "#homeBrandsDots", prev: ".home-brands-arrow-prev", next: ".home-brands-arrow-next", desktop: 9, mobile: 6, display: "flex", dotClass: "home-brand-dot" });
+    }
+
+    if (servicesGrid) {
+      servicesGrid.innerHTML = services.slice(0, 12).map(renderHomeServiceCard).join("") || `<div class="rsa-cms-loading-state">No services available.</div>`;
+      global.dispatchEvent(new Event("resize"));
+    }
+  }
+
+  function renderAboutPage(payload) {
+    const about = payload && payload.about ? payload.about : payload;
+    if (!about) return;
+
+    setHtml(".about-page-hero-copy h1", heroTitleHtml(about.hero_title, "Trusted CCTV Installation, Security Products & Site Visit Support"));
+    setText(".about-page-hero-desc", firstNonEmpty(about.hero_subtitle, about.meta_description));
+    setText(".about-page-story-copy > p", firstNonEmpty(about.company_story_title, "Our Company Story"));
+    setHtml(".about-page-story-copy h2", heroTitleHtml(about.company_story_title || about.hero_title, "Your Security, Our Priority"));
+
+    const storyCopy = document.querySelector(".about-page-story-copy");
+    if (storyCopy && about.company_story_body) {
+      const link = storyCopy.querySelector("a.about-page-text-link")?.outerHTML || "";
+      const label = storyCopy.querySelector("p.text-red-700")?.outerHTML || '<p class="text-red-700 text-sm font-bold uppercase mb-2">Our Company Story</p>';
+      const title = storyCopy.querySelector("h2")?.outerHTML || "";
+      storyCopy.innerHTML = `${label}${title}<p>${escapeHtml(about.company_story_body)}</p>${link}`;
+    }
+
+    const storyImage = document.querySelector(".about-page-story-image");
+    if (storyImage && about.company_story_image_path) {
+      storyImage.src = normalizeAssetPath(about.company_story_image_path, storyImage.src);
+    }
+
+    const missionGrid = document.querySelector(".about-page-mission-grid");
+    if (missionGrid) {
+      const cards = [];
+      if (about.mission_title || about.mission_body) {
+        cards.push({ icon: "fa-solid fa-bullseye", label: "Our Mission", title: about.mission_title, body: about.mission_body });
+      }
+      if (about.vision_title || about.vision_body) {
+        cards.push({ icon: "fa-solid fa-handshake", label: "Our Vision", title: about.vision_title, body: about.vision_body });
+      }
+      missionGrid.innerHTML = cards.map((card) => `
+        <div class="home-soft-card about-page-mission-card">
+          <i class="${escapeHtml(card.icon)}"></i>
+          <div><p class="text-red-700 text-sm font-bold uppercase mb-2">${escapeHtml(card.label)}</p><h3>${escapeHtml(card.title)}</h3><p>${escapeHtml(card.body)}</p></div>
+        </div>`).join("") || `<div class="rsa-cms-loading-state">No mission details available.</div>`;
+    }
+
+    const whyGrid = document.querySelector(".about-page-why-grid");
+    if (whyGrid) {
+      const bullets = [];
+      for (let index = 1; index <= 6; index += 1) {
+        const value = about[`why_choose_bullet_${String(index).padStart(2, "0")}`];
+        if (value) bullets.push(value);
+      }
+      whyGrid.innerHTML = bullets.map((text, index) => `
+        <div class="about-page-why-item">
+          <i class="${index % 2 ? "fa-solid fa-shield-halved" : "fa-solid fa-circle-check"}"></i>
+          <h3>${escapeHtml(text)}</h3>
+          <p>${escapeHtml(about.why_choose_body || "Reliable CCTV and security support for your property.")}</p>
+        </div>`).join("") || `<div class="rsa-cms-loading-state">No reasons available.</div>`;
+    }
+
+    const galleryGrid = document.querySelector(".about-page-gallery-grid");
+    const gallery = payload && Array.isArray(payload.project_gallery) ? payload.project_gallery : [];
+    if (galleryGrid && gallery.length) {
+      galleryGrid.innerHTML = gallery.filter(looksShown).sort(sortByDisplaySeq).map((item) => `
+        <div class="about-page-gallery-item">
+          <img src="${escapeHtml(normalizeAssetPath(item.image_path, DEFAULT_LOGO))}" alt="${escapeHtml(firstNonEmpty(item.alt_text, item.project_title))}">
+          <h3>${escapeHtml(item.project_title)}</h3>
+        </div>`).join("");
+    } else if (galleryGrid) {
+      galleryGrid.innerHTML = `<div class="rsa-cms-loading-state">No project gallery records available.</div>`;
+    }
+    global.dispatchEvent(new Event("resize"));
+  }
+
+  function renderServicesPage(services) {
+    const grid = document.querySelector(".services-page-cards-grid");
+    if (!grid) return;
+    grid.innerHTML = services.map(renderServicesPageCard).join("") || `<div class="rsa-cms-loading-state">No services available.</div>`;
+    global.dispatchEvent(new Event("resize"));
+  }
+
+  function contactCompany(payload) {
+    return payload && (payload.company_contact || (Array.isArray(payload.items) ? payload.items.find((item) => item.contact_type === "Company Contact") : null));
+  }
+
+  function contactPersons(payload) {
+    if (!payload) return [];
+    if (Array.isArray(payload.contact_persons)) return payload.contact_persons;
+    if (Array.isArray(payload.items)) return payload.items.filter((item) => item.contact_type === "Contact Person");
+    return [];
+  }
+
+  function contactSocials(payload) {
+    if (!payload) return [];
+    if (Array.isArray(payload.social_media)) return payload.social_media;
+    if (Array.isArray(payload.items)) return payload.items.filter((item) => item.contact_type === "Social Media");
+    return [];
+  }
+
+  function telHref(number) {
+    const digits = String(number || "").replace(/\D+/g, "");
+    return digits ? `tel:+${digits.startsWith("63") ? digits : digits}` : "#";
+  }
+
+  function mailHref(email) {
+    return email ? `mailto:${email}` : "#";
+  }
+
+  function updateGlobalHeaderContact(company, socials) {
+    if (!company) return;
+    const phone = firstNonEmpty(company.primary_contact_number, company.secondary_contact_number, company.whatsapp_number, company.viber_number);
+    const email = firstNonEmpty(company.company_email, company.email_address);
+    document.querySelectorAll(".mobile-contact-row span, .hidden.md\\:flex span").forEach((span) => {
+      const text = span.textContent || "";
+      if (text.includes("@") && email) span.textContent = email;
+      if ((text.includes("+63") || text.includes("091")) && phone) span.textContent = phone;
+    });
+    document.querySelectorAll('a[href^="tel:"]').forEach((a) => {
+      if (phone && (a.textContent.includes("+63") || a.textContent.includes("091") || a.classList.contains("about-page-secondary-btn"))) a.href = telHref(phone);
+    });
+    document.querySelectorAll('a[href^="mailto:"]').forEach((a) => {
+      if (email) a.href = mailHref(email);
+    });
+
+    const socialLinks = Array.from(document.querySelectorAll(".header-social-link, .mobile-social-row a"));
+    socialLinks.forEach((link, index) => {
+      const record = socials[index];
+      if (record && record.profile_url) link.href = record.profile_url;
+    });
+  }
+
+  function renderContactInfo(payload) {
+    const company = contactCompany(payload);
+    const persons = contactPersons(payload).filter(looksShown).sort(sortByDisplaySeq);
+    const socials = contactSocials(payload).filter(looksShown).sort(sortByDisplaySeq);
+    updateGlobalHeaderContact(company, socials);
+    if (!company) return;
+
+    const infoList = document.querySelector(".contact-info-list");
+    if (infoList) {
+      const items = [];
+      const numbers = [company.primary_contact_number, company.secondary_contact_number].filter(Boolean).map((number) => `<strong>${escapeHtml(number)}</strong>`).join("<br>");
+      if (numbers) items.push(["fa-solid fa-phone", "Contact Numbers", numbers]);
+      if (company.company_email) items.push(["fa-solid fa-envelope", "Email", `<strong>${escapeHtml(company.company_email)}</strong>`]);
+      if (company.company_address) items.push(["fa-solid fa-location-dot", "Office Address", escapeHtml(company.company_address)]);
+      if (company.showroom_address) items.push(["fa-solid fa-store", "Showroom", escapeHtml(company.showroom_address)]);
+      if (company.business_hours) items.push(["fa-solid fa-clock", "Office Hours", escapeHtml(company.business_hours)]);
+      infoList.innerHTML = items.map(([icon, title, body]) => `
+        <div class="contact-info-item"><span class="contact-info-icon"><i class="${icon}"></i></span><div><h3>${title}</h3><p>${body}</p></div></div>`).join("");
+    }
+
+    const personGrid = document.querySelector(".contact-person-grid");
+    if (personGrid) {
+      personGrid.innerHTML = persons.map((person) => `
+        <article class="home-soft-card contact-person-card">
+          <img src="${escapeHtml(normalizeAssetPath(person.person_image_path, DEFAULT_CONTACT_IMAGE))}" alt="${escapeHtml(person.person_name || "Contact person")}" class="contact-person-avatar">
+          <div class="contact-person-copy">
+            <p>${escapeHtml(person.department || "Contact Person")}</p>
+            <h3>${escapeHtml(person.person_name || "RSA Team")}</h3>
+            <span>${escapeHtml(person.position_title || "Team Contact")}</span>
+            <div class="contact-person-divider"></div>
+            ${person.phone_number ? `<a href="${escapeHtml(telHref(person.phone_number))}"><i class="fa-solid fa-phone"></i>${escapeHtml(person.phone_number)}</a>` : ""}
+            ${person.email_address ? `<a href="${escapeHtml(mailHref(person.email_address))}"><i class="fa-solid fa-envelope"></i>${escapeHtml(person.email_address)}</a>` : ""}
+          </div>
+        </article>`).join("") || `<div class="rsa-cms-loading-state">No contact persons available.</div>`;
+    }
+
+    const channelGrid = document.querySelector(".contact-channel-grid");
+    if (channelGrid) {
+      const channels = [];
+      if (company.primary_contact_number) channels.push({ icon: "fa-solid fa-message", title: "SMS", detail: company.primary_contact_number, url: `sms:${company.primary_contact_number}` });
+      if (company.viber_number) channels.push({ icon: "fa-brands fa-viber", title: "Viber", detail: company.viber_number, url: "#" });
+      if (company.whatsapp_number) channels.push({ icon: "fa-brands fa-whatsapp", title: "WhatsApp", detail: company.whatsapp_number, url: `https://wa.me/${String(company.whatsapp_number).replace(/\D+/g, "")}` });
+      socials.forEach((social) => channels.push({ icon: socialIconClass(social), title: social.platform_name || social.platform_key, detail: social.profile_url || "Message us", url: social.profile_url || "#" }));
+      channelGrid.innerHTML = channels.map((channel) => `
+        <a href="${escapeHtml(channel.url)}" class="home-soft-card contact-channel-card">
+          <i class="${escapeHtml(channel.icon)}"></i><h3>${escapeHtml(channel.title)}</h3><p>${escapeHtml(channel.detail)}</p><span>Contact us</span>
+        </a>`).join("");
+    }
+
+    const locationAddress = document.querySelector(".contact-location-address p");
+    if (locationAddress && company.company_address) locationAddress.innerHTML = escapeHtml(company.company_address);
+    const mapPin = document.querySelector(".contact-map-pin-card span");
+    if (mapPin && company.company_address) mapPin.textContent = company.company_address;
+
+    document.querySelectorAll(".booking-contact-links a").forEach((link) => {
+      if (link.href.startsWith("tel") && company.primary_contact_number) {
+        link.href = telHref(company.primary_contact_number);
+        link.innerHTML = `<i class="fa-solid fa-phone"></i>${escapeHtml(company.primary_contact_number)}`;
+      }
+      if (link.href.startsWith("mailto") && company.company_email) {
+        link.href = mailHref(company.company_email);
+        link.innerHTML = `<i class="fa-solid fa-envelope"></i>${escapeHtml(company.company_email)}`;
+      }
+    });
+    global.dispatchEvent(new Event("resize"));
+  }
+
+  function ensureStatusElement(form) {
+    let status = form.querySelector("[data-rsa-form-status]");
+    if (!status) {
+      status = document.createElement("div");
+      status.className = "rsa-api-form-status";
+      status.setAttribute("data-rsa-form-status", "");
+      status.setAttribute("role", "status");
+      status.setAttribute("aria-live", "polite");
+      form.appendChild(status);
+    }
+    status.style.marginTop = "14px";
+    status.style.fontWeight = "700";
+    return status;
+  }
+
+  function setFormStatus(form, message, type) {
+    const status = ensureStatusElement(form);
+    status.textContent = message || "";
+    status.dataset.status = type || "info";
+    status.style.color = type === "error" ? "#b91c1c" : type === "success" ? "#166534" : "#374151";
+  }
+
+  function getField(form, name) {
+    return form.elements[name] || form.querySelector(`[name="${name}"]`) || form.querySelector(`#${name}`);
+  }
+
+  function fieldValue(form, ...names) {
+    for (const name of names) {
+      const field = getField(form, name);
+      if (field && field.value !== undefined && normalizeSpaces(field.value)) return normalizeSpaces(field.value);
+    }
+    return "";
+  }
+
+  function bookingPayload(form) {
+    const propertyType = fieldValue(form, "property_type");
+    const message = fieldValue(form, "message", "notes");
+    return {
+      customer_name: fieldValue(form, "customer_name", "full_name", "customerName"),
+      contact_number: fieldValue(form, "contact_number", "phone_number", "contactNumber"),
+      email: fieldValue(form, "email", "email_address", "emailAddress"),
+      address: fieldValue(form, "location_address", "address", "site_address"),
+      preferred_date: fieldValue(form, "preferred_date", "preferredDate"),
+      preferred_time: fieldValue(form, "preferred_time", "preferredTime"),
+      service_interest: fieldValue(form, "booking_type", "service_interest", "service_type"),
+      notes: [message, propertyType ? `Property type: ${propertyType}` : ""].filter(Boolean).join("\n")
+    };
+  }
+
+  function inquiryPayload(form) {
+    return {
+      customer_name: fieldValue(form, "customer_name", "full_name", "fullName"),
+      contact_number: fieldValue(form, "contact_number", "phone_number", "contactNumber"),
+      email: fieldValue(form, "email", "email_address", "emailAddress"),
+      subject: fieldValue(form, "subject", "inquiry_subject"),
+      message: fieldValue(form, "message", "notes"),
+      source_page: form.dataset.rsaSourcePage || "contact-us"
+    };
+  }
+
+  function removeEmpty(payload) {
+    Object.keys(payload).forEach((key) => {
+      if (payload[key] === undefined || payload[key] === null || payload[key] === "") delete payload[key];
+    });
+    return payload;
+  }
+
+  function setSubmitting(form, submitting) {
+    form.querySelectorAll('button[type="submit"], input[type="submit"]').forEach((button) => {
+      button.disabled = submitting;
+      if (button.tagName === "BUTTON") {
+        if (submitting) {
+          button.dataset.rsaOriginalHtml = button.innerHTML;
+          button.textContent = "Sending...";
+        } else if (button.dataset.rsaOriginalHtml) {
+          button.innerHTML = button.dataset.rsaOriginalHtml;
+          delete button.dataset.rsaOriginalHtml;
+        }
+      }
+    });
+  }
+
+  function bindLeadForms() {
+    const bookingForm = document.querySelector('form[data-rsa-booking-form], #bookingForm');
+    if (bookingForm && bookingForm.dataset.rsaBatch50Bound !== "true") {
+      bookingForm.dataset.rsaBatch50Bound = "true";
+      bookingForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const payload = removeEmpty(bookingPayload(bookingForm));
+        try {
+          setSubmitting(bookingForm, true);
+          setFormStatus(bookingForm, "Sending booking request...", "loading");
+          const result = await postJson("/api/bookings", payload);
+          setFormStatus(bookingForm, `Booking request sent. Reference: ${result.booking_id || "received"}`, "success");
+          bookingForm.reset();
+        } catch (error) {
+          console.error("Booking submit failed", error);
+          setFormStatus(bookingForm, `Could not send booking request: ${error.message}`, "error");
+        } finally {
+          setSubmitting(bookingForm, false);
+        }
+      });
+    }
+
+    const inquiryForm = document.querySelector('form[data-rsa-inquiry-form], form.contact-form-card');
+    if (inquiryForm && inquiryForm.dataset.rsaBatch50Bound !== "true") {
+      inquiryForm.dataset.rsaBatch50Bound = "true";
+      inquiryForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const payload = removeEmpty(inquiryPayload(inquiryForm));
+        try {
+          setSubmitting(inquiryForm, true);
+          setFormStatus(inquiryForm, "Sending inquiry...", "loading");
+          const result = await postJson("/api/inquiries", payload);
+          setFormStatus(inquiryForm, `Inquiry sent. Reference: ${result.inquiry_id || "received"}`, "success");
+          inquiryForm.reset();
+        } catch (error) {
+          console.error("Inquiry submit failed", error);
+          setFormStatus(inquiryForm, `Could not send inquiry: ${error.message}`, "error");
+        } finally {
+          setSubmitting(inquiryForm, false);
+        }
+      });
+    }
+  }
+
+  async function initializePublicCmsPages() {
+    const isHome = document.body.classList.contains("home-page") || Boolean(document.getElementById("featuredProductsGrid"));
+    const isAbout = document.body.classList.contains("about-page");
+    const isServices = document.body.classList.contains("services-page");
+    const isContact = document.body.classList.contains("contact-page");
+    const isBooking = document.body.classList.contains("booking-page");
+
+    bindLeadForms();
+
+    if (isHome) {
+      try {
+        const [data, services] = await Promise.all([loadProductsAndBrands(), loadServices()]);
+        renderHomePage(data, services);
+      } catch (error) {
+        console.error("Unable to load homepage API content.", error);
+      }
+    }
+
+    if (isAbout) {
+      try { renderAboutPage(await loadAboutPage()); }
+      catch (error) { console.error("Unable to load about page API content.", error); }
+    }
+
+    if (isServices) {
+      try { renderServicesPage(await loadServices()); }
+      catch (error) { console.error("Unable to load services API content.", error); }
+    }
+
+    if (isContact || isBooking) {
+      try { renderContactInfo(await loadContactPage()); }
+      catch (error) { console.error("Unable to load contact API content.", error); }
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializePublicCmsPages);
+  } else {
+    initializePublicCmsPages();
+  }
+})(window);
+
