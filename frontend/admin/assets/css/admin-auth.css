@@ -69,6 +69,12 @@
   padding: 10px 12px;
 }
 
+.admin-login-card input:focus {
+  outline: none;
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
 .admin-login-card button {
   width: 100%;
   min-height: 46px;
@@ -78,6 +84,11 @@
   color: #ffffff;
   font-weight: 800;
   cursor: pointer;
+}
+
+.admin-login-card button:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
 }
 
 .admin-login-note {
@@ -94,4 +105,11 @@
   margin-top: 12px;
   font-size: 13px;
   color: #4b5563;
+}
+
+.admin-login-hint {
+  margin: -6px 0 10px;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.45;
 }

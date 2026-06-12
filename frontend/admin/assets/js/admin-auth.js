@@ -2,6 +2,8 @@
   'use strict';
 
   const TOKEN_KEY = 'rsa_admin_access_token';
+  const ID_TOKEN_KEY = 'rsa_admin_id_token';
+  const REFRESH_TOKEN_KEY = 'rsa_admin_refresh_token';
   const MODE_KEY = 'rsa_admin_auth_mode';
   const DEFAULT_API_BASE = 'http://127.0.0.1:8000/api';
 
@@ -17,7 +19,7 @@
     if (window.RSA_ADMIN_API_BASE_URL) return normalizeBaseUrl(window.RSA_ADMIN_API_BASE_URL);
 
     const host = window.location.hostname;
-    if (host === '127.0.0.1' || host === 'localhost') {
+    if (host === '127.0.0.1' || host === 'localhost' || !host) {
       return DEFAULT_API_BASE;
     }
 
@@ -36,8 +38,22 @@
     window.localStorage.setItem(TOKEN_KEY, token);
   }
 
+  function setCognitoTokens(result) {
+    setToken(result.access_token || '');
+
+    if (result.id_token) {
+      window.localStorage.setItem(ID_TOKEN_KEY, result.id_token);
+    }
+
+    if (result.refresh_token) {
+      window.localStorage.setItem(REFRESH_TOKEN_KEY, result.refresh_token);
+    }
+  }
+
   function clearToken() {
     window.localStorage.removeItem(TOKEN_KEY);
+    window.localStorage.removeItem(ID_TOKEN_KEY);
+    window.localStorage.removeItem(REFRESH_TOKEN_KEY);
     window.localStorage.removeItem(MODE_KEY);
   }
 
@@ -60,9 +76,9 @@
     } else if (config.mode === 'mock') {
       badge.textContent = 'Mock admin auth mode';
     } else if (config.mode === 'cognito') {
-      badge.textContent = config.is_cognito_configured ? 'Cognito auth prepared' : 'Cognito config incomplete';
+      badge.textContent = config.is_cognito_configured ? 'Cognito admin auth mode' : 'Cognito config incomplete';
     } else {
-      badge.textContent = 'Admin auth prep';
+      badge.textContent = 'Admin auth';
     }
 
     document.body.appendChild(badge);
@@ -155,8 +171,42 @@
     return result;
   }
 
+  async function cognitoLogin(username, password) {
+    const result = await fetchJson('/admin/auth/cognito-login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    if (!result.challenge_required) {
+      setCognitoTokens(result);
+    }
+
+    return result;
+  }
+
+  async function cognitoCompleteNewPassword(username, newPassword, session) {
+    const result = await fetchJson('/admin/auth/cognito-complete-new-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, new_password: newPassword, session })
+    });
+
+    if (!result.challenge_required) {
+      setCognitoTokens(result);
+    }
+
+    return result;
+  }
+
   window.RSAAdminAuth = {
     TOKEN_KEY,
+    ID_TOKEN_KEY,
+    REFRESH_TOKEN_KEY,
     getApiBaseUrl,
     getToken,
     setToken,
@@ -165,7 +215,9 @@
     loadConfig,
     checkStatus,
     initGuard,
-    mockLogin
+    mockLogin,
+    cognitoLogin,
+    cognitoCompleteNewPassword
   };
 
   document.addEventListener('DOMContentLoaded', () => {
