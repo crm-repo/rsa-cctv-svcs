@@ -133,9 +133,9 @@ server {
     }
 
     # Any unapproved API route is blocked by default.
-    location ^~ /api/ {
-        return 403;
-    }
+	location /api/ {
+		return 403;
+	}
 
     # Avoid exposing hidden/local files.
     location ~ /\. {
