@@ -1,0 +1,6 @@
+# Do not commit deployment-specific local Cognito values or secrets.
+*.local.env
+*.values.env
+admin-auth.values.*
+*cognito*secret*
+*password*
