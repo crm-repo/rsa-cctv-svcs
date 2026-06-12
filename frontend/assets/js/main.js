@@ -1,3 +1,4 @@
+const RSA_PUBLIC_CATALOG_DYNAMIC_VERSION = "batch49b-api-page-limit-fix";
 const mobileMenuButton = document.getElementById("mobileMenuButton");
 const mobileMenu = document.getElementById("mobileMenu");
 const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
@@ -724,6 +725,26 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     return [];
   }
 
+  async function fetchPagedApiItems(path, perPage = 50) {
+    const safePerPage = Math.min(Math.max(Number(perPage) || 50, 1), 50);
+    const separator = path.includes("?") ? "&" : "?";
+    const firstPayload = await fetchJson(`${path}${separator}page=1&per_page=${safePerPage}`);
+    const firstItems = extractItems(firstPayload);
+    const totalPages = Number(firstPayload?.total_pages || 1);
+
+    if (!Number.isFinite(totalPages) || totalPages <= 1) {
+      return firstItems;
+    }
+
+    const remainingRequests = [];
+    for (let page = 2; page <= totalPages; page++) {
+      remainingRequests.push(fetchJson(`${path}${separator}page=${page}&per_page=${safePerPage}`));
+    }
+
+    const remainingPayloads = await Promise.all(remainingRequests);
+    return firstItems.concat(...remainingPayloads.map(extractItems));
+  }
+
   function slugify(value) {
     return String(value || "")
       .toLowerCase()
@@ -1375,12 +1396,12 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
 
     try {
       const [productsPayload, brandsPayload] = await Promise.all([
-        fetchJson("/api/products?per_page=500&page_size=500&limit=500"),
-        fetchJson("/api/brands?per_page=500&page_size=500&limit=500")
+        fetchPagedApiItems("/api/products", 50),
+        fetchPagedApiItems("/api/brands", 50)
       ]);
 
-      publicProducts = extractItems(productsPayload);
-      publicBrands = extractItems(brandsPayload).map(normalizeBrand).filter((brand) => brand.key);
+      publicProducts = productsPayload;
+      publicBrands = brandsPayload.map(normalizeBrand).filter((brand) => brand.key);
 
       renderBrandStrips();
       await renderPromotionHeroBanners();
