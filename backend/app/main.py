@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.middleware.admin_route_auth import AdminRouteAuthMiddleware
 from app.routes import (
     about,
     admin_auth,
@@ -34,6 +35,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Batch 46: backend protection for admin/CRM management APIs.
+# Nginx may expose these routes, but anonymous requests must still receive 401.
+app.add_middleware(AdminRouteAuthMiddleware)
 
 
 @app.get("/")
