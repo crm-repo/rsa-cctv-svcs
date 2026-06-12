@@ -1,0 +1,21 @@
+# Batch 43 Checklist — Cognito Config on EC2
+
+- [ ] EC2 started only for deployment/testing.
+- [ ] Current public IPv4 confirmed.
+- [ ] Latest git release deployed to EC2.
+- [ ] Batch 43 env/check scripts copied to `/tmp`.
+- [ ] `/opt/rsa-cms/runtime/backend.env` updated with Cognito mode.
+- [ ] `RSA_ADMIN_AUTH_MODE=cognito` set on EC2.
+- [ ] `RSA_COGNITO_REGION=ap-southeast-1` set on EC2.
+- [ ] `RSA_COGNITO_USER_POOL_ID` set on EC2.
+- [ ] `RSA_COGNITO_CLIENT_ID` set on EC2.
+- [ ] No AWS access keys stored in backend env file.
+- [ ] Backend service active after restart.
+- [ ] EC2-local `/api/admin/auth/config` returns Cognito mode.
+- [ ] Public Nginx still blocks `/admin/`.
+- [ ] Public Nginx still blocks `/api/admin/*`.
+- [ ] Public Nginx still blocks CRM/admin management APIs.
+- [ ] Public Nginx still blocks `/docs`, `/redoc`, and `/openapi.json`.
+- [ ] Public static pages and approved public APIs still return 200.
+- [ ] Direct public port 8000 remains blocked.
+- [ ] EC2 stopped after testing if not continuing immediately.
