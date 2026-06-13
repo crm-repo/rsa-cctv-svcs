@@ -38,7 +38,7 @@ class Product(BaseModel):
     feature_09: Optional[str] = None
     feature_10: Optional[str] = None
 
-    price: float
+    price: Optional[float] = None
     sale_price: Optional[float] = None
 
     image_path: str
@@ -93,7 +93,7 @@ class ProductAdminCreateRequest(BaseModel):
     feature_09: Optional[str] = None
     feature_10: Optional[str] = None
 
-    price: float = 0
+    price: Optional[float] = None
     sale_price: Optional[float] = None
 
     image_path: Optional[str] = None
