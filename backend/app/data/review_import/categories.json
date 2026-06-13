@@ -1,0 +1,209 @@
+[
+  {
+    "category_id": "CATG-0000001",
+    "show_flag": "Y",
+    "display_seq": 10,
+    "category_name": "Packages/Kits",
+    "category_key": "packages",
+    "category_prefix": "PACK",
+    "icon_code": "fa-solid fa-box-open",
+    "description": "Packages/Kits products imported from the legacy static catalog.",
+    "subcategories": [
+      {
+        "subcategory_key": "camera-kit",
+        "subcategory_name": "Camera Kit",
+        "display_seq": 10
+      },
+      {
+        "subcategory_key": "camera-kits",
+        "subcategory_name": "Camera Kits",
+        "display_seq": 20
+      }
+    ],
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "category_id": "CATG-0000002",
+    "show_flag": "Y",
+    "display_seq": 20,
+    "category_name": "CCTV Cameras",
+    "category_key": "cctv",
+    "category_prefix": "CCTV",
+    "icon_code": "fa-solid fa-video",
+    "description": "CCTV Cameras products imported from the legacy static catalog.",
+    "subcategories": [
+      {
+        "subcategory_key": "6mp-bullet-camera",
+        "subcategory_name": "6MP Bullet Camera",
+        "display_seq": 10
+      },
+      {
+        "subcategory_key": "2mp-dome-camera",
+        "subcategory_name": "2MP Dome Camera",
+        "display_seq": 20
+      },
+      {
+        "subcategory_key": "2mp-turret-camera",
+        "subcategory_name": "2MP Turret Camera",
+        "display_seq": 30
+      },
+      {
+        "subcategory_key": "2mp-bullet-camera",
+        "subcategory_name": "2MP Bullet Camera",
+        "display_seq": 40
+      },
+      {
+        "subcategory_key": "8mp-bullet-camera",
+        "subcategory_name": "8MP Bullet Camera",
+        "display_seq": 50
+      },
+      {
+        "subcategory_key": "8mp-turret-camera",
+        "subcategory_name": "8MP Turret Camera",
+        "display_seq": 60
+      },
+      {
+        "subcategory_key": "analog-dome-camera",
+        "subcategory_name": "Analog Dome Camera",
+        "display_seq": 70
+      },
+      {
+        "subcategory_key": "smart-ip-camera",
+        "subcategory_name": "Smart IP Camera",
+        "display_seq": 80
+      }
+    ],
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "category_id": "CATG-0000003",
+    "show_flag": "Y",
+    "display_seq": 30,
+    "category_name": "Recorders",
+    "category_key": "recorders",
+    "category_prefix": "RECO",
+    "icon_code": "fa-solid fa-hard-drive",
+    "description": "Recorders products imported from the legacy static catalog.",
+    "subcategories": [
+      {
+        "subcategory_key": "4-channel-dvr",
+        "subcategory_name": "4 Channel DVR",
+        "display_seq": 10
+      },
+      {
+        "subcategory_key": "32-channel-nvr",
+        "subcategory_name": "32 Channel NVR",
+        "display_seq": 20
+      }
+    ],
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "category_id": "CATG-0000004",
+    "show_flag": "Y",
+    "display_seq": 40,
+    "category_name": "Networking",
+    "category_key": "networking",
+    "category_prefix": "NETW",
+    "icon_code": "fa-solid fa-network-wired",
+    "description": "Networking products imported from the legacy static catalog.",
+    "subcategories": [
+      {
+        "subcategory_key": "16-port-switch",
+        "subcategory_name": "16-Port Switch",
+        "display_seq": 10
+      },
+      {
+        "subcategory_key": "48-port-switch",
+        "subcategory_name": "48-Port Switch",
+        "display_seq": 20
+      },
+      {
+        "subcategory_key": "24-port-switch",
+        "subcategory_name": "24-Port Switch",
+        "display_seq": 30
+      }
+    ],
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "category_id": "CATG-0000005",
+    "show_flag": "Y",
+    "display_seq": 50,
+    "category_name": "Accessories",
+    "category_key": "accessories",
+    "category_prefix": "ACCS",
+    "icon_code": "fa-solid fa-screwdriver-wrench",
+    "description": "Accessories products imported from the legacy static catalog.",
+    "subcategories": [
+      {
+        "subcategory_key": "camera-cable",
+        "subcategory_name": "Camera Cable",
+        "display_seq": 10
+      }
+    ],
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "category_id": "CATG-0000006",
+    "show_flag": "Y",
+    "display_seq": 60,
+    "category_name": "Power Supply",
+    "category_key": "power",
+    "category_prefix": "POWR",
+    "icon_code": "fa-solid fa-plug",
+    "description": "Power Supply products imported from the legacy static catalog.",
+    "subcategories": [
+      {
+        "subcategory_key": "12v-power-supply",
+        "subcategory_name": "12V Power Supply",
+        "display_seq": 10
+      }
+    ],
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "category_id": "CATG-0000007",
+    "show_flag": "Y",
+    "display_seq": 70,
+    "category_name": "Storage",
+    "category_key": "storage",
+    "category_prefix": "STOR",
+    "icon_code": "fa-solid fa-database",
+    "description": "Storage products imported from the legacy static catalog.",
+    "subcategories": [
+      {
+        "subcategory_key": "surveillance-hdd",
+        "subcategory_name": "Surveillance HDD",
+        "display_seq": 10
+      },
+      {
+        "subcategory_key": "storage",
+        "subcategory_name": "Storage",
+        "display_seq": 20
+      }
+    ],
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  }
+]

@@ -1,0 +1,1506 @@
+[
+  {
+    "key_feat_id": "KFEA-0000001",
+    "key_feat_name": "High quality imaging with 6 MP resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000002",
+    "key_feat_name": "Efficient H.265+ compression technology",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000003",
+    "key_feat_name": "Clear imaging against strong backlight due to 120 dB WDR technology",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000004",
+    "key_feat_name": "Focusing on human and vehicle classification based on deep learning",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000005",
+    "key_feat_name": "Water and dust resistant (IP67)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000006",
+    "key_feat_name": "1/2.7” 2Megapixel CMOS",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000007",
+    "key_feat_name": "Powerful 4x optical zoom",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000008",
+    "key_feat_name": "120dB true WDR, 3D DNR",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000009",
+    "key_feat_name": "Max. 25/30fps@1080P, 25/30/50/60fps@720P",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000010",
+    "key_feat_name": "IP66, IK10)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000011",
+    "key_feat_name": "2MP Full HD resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000012",
+    "key_feat_name": "1/2.9inch CMOS image sensor",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000013",
+    "key_feat_name": "0.110 in Viewing angle",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000014",
+    "key_feat_name": "Shutter speed 1/30 (1/25) sec 1/50,000 sec",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000015",
+    "key_feat_name": "Weatherproof, IP66",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000016",
+    "key_feat_name": "5 MP at 25/30 fps",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000017",
+    "key_feat_name": "OptimizedIR",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000018",
+    "key_feat_name": "Forensic WDR and Lightfinder",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000019",
+    "key_feat_name": "I/O ports and audio support",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000020",
+    "key_feat_name": "Zipstream",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000021",
+    "key_feat_name": "4 channels and 1 HDD 1U DVR",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000022",
+    "key_feat_name": "Efficient H.265 pro+ compression technology",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000023",
+    "key_feat_name": "Encoding ability up to 1080p @ 15 fps",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000024",
+    "key_feat_name": "5 signals input adaptively (HDTVI/AHD/CVI/CVBS/IP)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000025",
+    "key_feat_name": "Up to 6 network cameras can be connected",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000026",
+    "key_feat_name": "High quality imaging with 2 MP resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000027",
+    "key_feat_name": "Efficient H.264 compression technology",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000028",
+    "key_feat_name": "Clear imaging against strong back light due to DWDR technology",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000029",
+    "key_feat_name": "Water and dust resistant (IP67) and vandal resistant (IK10)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000030",
+    "key_feat_name": "EXIR 2.0: advanced infrared technology with long IR range",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000031",
+    "key_feat_name": "16 x 10/100/1000BASE-T ports",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000032",
+    "key_feat_name": "Fanless design for silent operation",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000033",
+    "key_feat_name": "Innovative D-Link Green energy saving features",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000034",
+    "key_feat_name": "Complete web interface for comprehensive switch management",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000035",
+    "key_feat_name": "Support Ultra H.265/H.265/H.264 video formats",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000036",
+    "key_feat_name": "16/32 channel input",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000037",
+    "key_feat_name": "Supports mainstream cameras of ONVIF conformance(Profile S, Profile G, Profile T ) and RTSP protocols",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000038",
+    "key_feat_name": "Support 1 ch HDMI, 1 ch VGA. HDMI up to 4K (3840x2160) resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000039",
+    "key_feat_name": "Support HDMI and VGA simultaneous output",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000040",
+    "key_feat_name": "Up to 12 Megapixels resolution recording",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000041",
+    "key_feat_name": "ANR technology to enhance the storage reliability when the network is disconnected",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000042",
+    "key_feat_name": "Support cloud upgrade",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000043",
+    "key_feat_name": "High-Quality Imaging with 4K Resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000044",
+    "key_feat_name": "Motorized Varifocal Lens for Easy Installation and Monitoring",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000045",
+    "key_feat_name": "Smart Dual Light: Built-in IR and LED Lights with 3 Illumination Modes Supported",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000046",
+    "key_feat_name": "60 m Warm Light and 80 m IR Illumination Distance for Superior Camera Image Quality",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000047",
+    "key_feat_name": "Smart Light+ : Clear Details with Advanced LED Processing Technology",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000048",
+    "key_feat_name": "Built-In Mic : Enhances Video Assistance with Audio Technology",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000049",
+    "key_feat_name": "3DNR & DWDR & Super Adapt Ensures Clear Details in Strong Backlight Conditions",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000050",
+    "key_feat_name": "Effortless Signal Selection with DIP Switch",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000051",
+    "key_feat_name": "IP67 Ratings for Protection Against Harsh Environments",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000052",
+    "key_feat_name": "High quality imaging with 8 MP resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000053",
+    "key_feat_name": "Clear imaging against strong back light due to 120 dB true WDR technology",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000054",
+    "key_feat_name": "-U: built-in microphone for real-time audio security",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000055",
+    "key_feat_name": "Water and dust resistant (-I: IP67/-IU: IP66)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000056",
+    "key_feat_name": "Robust structure design with full metal materials",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000057",
+    "key_feat_name": "High-performance 10 Gigabit Ethernet",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000058",
+    "key_feat_name": "IPv6 support",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000059",
+    "key_feat_name": "Advanced Layer 3 traffic management",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000060",
+    "key_feat_name": "Solid foundation and more than enough bandwidth for your business applications today and in the future",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000061",
+    "key_feat_name": "Easy to deploy and manage without a large IT staff",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000062",
+    "key_feat_name": "1/3-inch CCD Image Sensor",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000063",
+    "key_feat_name": "2.8 to 10mm Varifocal Lens",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000064",
+    "key_feat_name": "650 TVL Resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000065",
+    "key_feat_name": "Night Vision Range up to 66-inch",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000066",
+    "key_feat_name": "Digital Zoom up to 2x",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000067",
+    "key_feat_name": "Tele & Wide View Modes",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000068",
+    "key_feat_name": "Lens Distortion Correction",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000069",
+    "key_feat_name": "On-Screen Display Menu",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000070",
+    "key_feat_name": "4-ch video & 4-ch audio input",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000071",
+    "key_feat_name": "HDTVI/analog/AHD/IP camera quadruple hybrid",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000072",
+    "key_feat_name": "15fps recording at 3MP",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000073",
+    "key_feat_name": "Full channel recording at 1080P resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000074",
+    "key_feat_name": "HDMI output at up to 1920×1080P resolution(DS-7204HUHI-F2/N), support CVBS output",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000075",
+    "key_feat_name": "4K UHD output (DS-7208/16HUHI-F2/N)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000076",
+    "key_feat_name": "Long transmission distance over coax cable",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000077",
+    "key_feat_name": "2 MP black ultra mini turret camera",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000078",
+    "key_feat_name": "EXIR 2.0: advanced infrared technology with 20 m IR distance",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000079",
+    "key_feat_name": "4 in 1 (4 signals switchable TVI/AHD/CVI/CVBS)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000080",
+    "key_feat_name": "26 high-speed Ethernet ports with Gigabit Ethernet support",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000081",
+    "key_feat_name": "24 PoE+ ports with a total power budget of 180W",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000082",
+    "key_feat_name": "2 combo mini-GBIC ports for flexible network integration",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000083",
+    "key_feat_name": "Advanced security features including ACL and 802.1X authentication",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000084",
+    "key_feat_name": "4Energy-efficient design to reduce operational costs",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000085",
+    "key_feat_name": "Seamless video footage capture in 24×7 surveillance workloads",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000086",
+    "key_feat_name": "SkyHawk Health Management actively helps protect your surveillance storage",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000087",
+    "key_feat_name": "Unparalleled data protection with included 3-year Rescue Data Recovery Services plan",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000088",
+    "key_feat_name": "RV sensors built in allow drives to maintain performance in multi-bay systems",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000089",
+    "key_feat_name": "4ATA streaming support enables recordings from up to 64 HD cameras",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000090",
+    "key_feat_name": "1M hours MTBF, 3-year limited warranty",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000091",
+    "key_feat_name": "Lower power consumption means a reduction in heat emissions",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000092",
+    "key_feat_name": "Pan & Tilt for 360° Coverage",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000093",
+    "key_feat_name": "Human Detection",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000094",
+    "key_feat_name": "Smart Tracking",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000095",
+    "key_feat_name": "Night Vision",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000096",
+    "key_feat_name": "Privacy Mode",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000097",
+    "key_feat_name": "Connect your home from anywhere",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000098",
+    "key_feat_name": "Built-in speaker and microphone with echo cancellation feature",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000099",
+    "key_feat_name": "32-channel input",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000100",
+    "key_feat_name": "Plug & Play with 16 independent PoE network interfaces",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000101",
+    "key_feat_name": "Support mainstream cameras of ONVIF conformance(Profile S, Profile G, Profile T ) and RTSP protocols",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000102",
+    "key_feat_name": "Support 1-ch HDMI, 1-ch VGA. HDMI up to 4K (3840x2160) resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000103",
+    "key_feat_name": "VGA and HDMI independent output",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000104",
+    "key_feat_name": "2MP HDCVI IR Eyeball CCTV Camera",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000105",
+    "key_feat_name": "Built-in Mic",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000106",
+    "key_feat_name": "Smart IR",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000107",
+    "key_feat_name": "Full HD 1080p",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000108",
+    "key_feat_name": "4 x Dahua Audio Analog 2mp 1080p CCTV Camera",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000109",
+    "key_feat_name": "1 x Dahua HD DVR (Recorder)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000110",
+    "key_feat_name": "1 x 1TB Harddisk for recorder",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000111",
+    "key_feat_name": "RJ12 connectors included",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000112",
+    "key_feat_name": "Length 8 m (26 ft)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000113",
+    "key_feat_name": "Sold in packs of four",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000114",
+    "key_feat_name": "Compatible with selected AXIS P12 Cameras and FA-line products",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000115",
+    "key_feat_name": "Motorized Lens with Autofocus",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000116",
+    "key_feat_name": "H.265 Video Compression",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000117",
+    "key_feat_name": "Free P2P Cloud EaZy Networking",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000118",
+    "key_feat_name": "ONVIF Support",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000119",
+    "key_feat_name": "Power-over-Ethernet (PoE)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000120",
+    "key_feat_name": "Wide Dynamic Range (WDR)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000121",
+    "key_feat_name": "Durable Design",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000122",
+    "key_feat_name": "Audio Transmission",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000123",
+    "key_feat_name": "Remote Surveillance",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000124",
+    "key_feat_name": "FHD 1080p Resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000125",
+    "key_feat_name": "IP67 Weatherproof Design",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000126",
+    "key_feat_name": "Motion Detection",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000127",
+    "key_feat_name": "Audio Pick-Up",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000128",
+    "key_feat_name": "IR Night Vision (Up to 30 m/98 ft)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000129",
+    "key_feat_name": "H.265 Video Technology",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000130",
+    "key_feat_name": "Supports MicroSD Card (Up to 256 GB",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000131",
+    "key_feat_name": "Supports EZVIZ Cloud Storage",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000132",
+    "key_feat_name": "Input: 115VAC 50/60 HZ; 1.0 Amps",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000133",
+    "key_feat_name": "Output: 3 Amps - 5 Amps 100VA supply currents at 70°F",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000134",
+    "key_feat_name": "Fuse: 7.5 Amps - Eight 12VDC individually fused outputs",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000135",
+    "key_feat_name": "Enclosure Dimensions: 254 x 228.6 x 114.3mm (10” x 9” x 4.5”)",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000136",
+    "key_feat_name": "IConvenient screw and terminal and fuse access",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000137",
+    "key_feat_name": "Lockable heavy gauge metal enclosure",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000138",
+    "key_feat_name": "Power ON/OFF switch",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000139",
+    "key_feat_name": "Individual LED’s for each fused output",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000140",
+    "key_feat_name": "4 Ch HD-CVI camera CCTV package",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000141",
+    "key_feat_name": "Video only or Video + Audio Recording",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000142",
+    "key_feat_name": "Face Recognition! New generation HD analog CCTV",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000143",
+    "key_feat_name": "Industrial/Commercial grade CCTV",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000144",
+    "key_feat_name": "Solid metal casing DVR",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000145",
+    "key_feat_name": "Easy and secured P2P connection",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000146",
+    "key_feat_name": "Mega pixel HD-CVI 1080P camera",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000147",
+    "key_feat_name": "Camera Resolution: 2MP",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000148",
+    "key_feat_name": "Effective pixels: 1920x1080",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000149",
+    "key_feat_name": "Advance 1/3” progressive scan CMOS",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000150",
+    "key_feat_name": "Up to 103° wide angle view",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000151",
+    "key_feat_name": "Waterproof camera (tube): IP66 standard",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000152",
+    "key_feat_name": "Night vision function with IR cut filter",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000153",
+    "key_feat_name": "Smart IR to avoid overexposure",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000154",
+    "key_feat_name": "Motion & video loss detection",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000155",
+    "key_feat_name": "Schedule recording available",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000156",
+    "key_feat_name": "Privacy mask configurable",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000157",
+    "key_feat_name": "Smart phone / PC viewing",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000158",
+    "key_feat_name": "H.265 video: 70% save on storage",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000159",
+    "key_feat_name": "Camera Resolution: 6MP",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000160",
+    "key_feat_name": "Dome camera with built-in mic",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000161",
+    "key_feat_name": "4 Channel NVR with IP CCTV Cameras",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000162",
+    "key_feat_name": "HD movie like superior video quality",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000163",
+    "key_feat_name": "Up to 104° wide angle view",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000164",
+    "key_feat_name": "IR cut filter night vision function",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000165",
+    "key_feat_name": "Motion Detection embedded",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000166",
+    "key_feat_name": "Solid metal casing NVR with PoE",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000167",
+    "key_feat_name": "Smart Phone/PC Viewing",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000168",
+    "key_feat_name": "Standard cabling & system installation",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000169",
+    "key_feat_name": "Full configuration & onsite training",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000170",
+    "key_feat_name": "2 years product and service warranty",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000171",
+    "key_feat_name": "High Definition IP based CCTV Camera",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000172",
+    "key_feat_name": "2MP, 4MP, 8MP (4K) Resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000173",
+    "key_feat_name": "Can be used both indoor or outdoor",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000174",
+    "key_feat_name": "Up to 106° wide angle view",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000175",
+    "key_feat_name": "Solid vandal proof metal casing",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000176",
+    "key_feat_name": "Solid metal casing NVR",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000177",
+    "key_feat_name": "PoE switch & data switch included",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000178",
+    "key_feat_name": "2 years product warranty",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000179",
+    "key_feat_name": "1 year service warranty",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000180",
+    "key_feat_name": "High Definition IP CCTV Camera",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000181",
+    "key_feat_name": "2MP or 4MP Resolution",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000182",
+    "key_feat_name": "IP Camera with NVR",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000183",
+    "key_feat_name": "Indoor IP Camera",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000184",
+    "key_feat_name": "Voice recording",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000185",
+    "key_feat_name": "Two-way talk via mobile app/PC",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000186",
+    "key_feat_name": "98° wide angle viewing",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000187",
+    "key_feat_name": "PIR Sensor motion detection",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "key_feat_id": "KFEA-0000188",
+    "key_feat_name": "Ceiling/ Wall mounting installation",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "project_id": "PROJ-0000001",
+    "show_flag": "Y",
+    "display_seq": 10,
+    "project_title": "Residential CCTV Setup",
+    "project_description": "Residential CCTV Setup",
+    "image_path": "assets/images/about/project-residential.jpg",
+    "alt_text": "Residential CCTV setup",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "project_id": "PROJ-0000002",
+    "show_flag": "Y",
+    "display_seq": 20,
+    "project_title": "Business Camera Installation",
+    "project_description": "Business Camera Installation",
+    "image_path": "assets/images/about/project-business.jpg",
+    "alt_text": "Business camera installation",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "project_id": "PROJ-0000003",
+    "show_flag": "Y",
+    "display_seq": 30,
+    "project_title": "Recorder / NVR Setup",
+    "project_description": "Recorder / NVR Setup",
+    "image_path": "assets/images/about/project-nvr-setup.jpg",
+    "alt_text": "Recorder and NVR setup",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  },
+  {
+    "project_id": "PROJ-0000004",
+    "show_flag": "Y",
+    "display_seq": 40,
+    "project_title": "Structured Cabling / Network Setup",
+    "project_description": "Structured Cabling / Network Setup",
+    "image_path": "assets/images/about/project-cabling.jpg",
+    "alt_text": "Structured cabling and network setup",
+    "created_at": "2026-06-12T00:00:00Z",
+    "updated_at": "2026-06-12T00:00:00Z",
+    "created_by": "static-html-import-review",
+    "updated_by": "static-html-import-review"
+  }
+]

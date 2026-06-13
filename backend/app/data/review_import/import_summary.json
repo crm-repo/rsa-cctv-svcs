@@ -1,0 +1,50 @@
+{
+  "batch": "54A",
+  "purpose": "Extract legacy static HTML content into reviewable DynamoDB import JSON files.",
+  "source_files": [
+    "products.html",
+    "promotions.html",
+    "brands.html",
+    "index.html",
+    "about.html",
+    "services.html",
+    "contact-us.html",
+    "booking.html"
+  ],
+  "extraction_rules": [
+    "products.html is the master source for product records; duplicate product cards in promotions.html, brands.html, and index.html are intentionally ignored.",
+    "index.html homepage package, featured product, promo, brand, and service preview cards are not inserted as separate/duplicate records; they should reference main products/brands/services tables by query conditions.",
+    "Image paths are preserved as relative object keys by stripping only the leading ./ from legacy HTML paths.",
+    "Sale products use price = regular/old price and sale_price = sale/current price. No old_price field is introduced.",
+    "Categories include a subcategories array. Products include subcategory_key and subcategory.",
+    "No DynamoDB tables should be deleted during import. Records can be wiped/reseeded after review, while rsa_id_counters must not be reset downward."
+  ],
+  "record_counts": {
+    "categories": 7,
+    "brands": 24,
+    "products": 28,
+    "key_features": 188,
+    "about": 1,
+    "project_gallery": 4,
+    "services": 12,
+    "contact_us": 10,
+    "customers": 0,
+    "bookings": 0,
+    "inquiries": 0
+  },
+  "category_subcategory_counts": {
+    "packages": 2,
+    "cctv": 8,
+    "recorders": 2,
+    "networking": 3,
+    "accessories": 1,
+    "power": 1,
+    "storage": 2
+  },
+  "notes": [
+    "Brand key typo hanhwa from legacy HTML was normalized to hanwha consistently across brands and products.",
+    "Package records from products.html are kept in rsa_products with show_pack_flag=Y; no separate homepage/package duplicate records are created.",
+    "Some package products in the legacy HTML do not include price values; those are left as null for review.",
+    "Broken images are expected until media/S3 upload is handled later; paths are retained for that future step."
+  ]
+}
