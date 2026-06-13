@@ -12,7 +12,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000002",
@@ -27,7 +27,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000003",
@@ -42,7 +42,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000004",
@@ -57,7 +57,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000005",
@@ -65,14 +65,14 @@
     "display_seq": 50,
     "brand_name": "TP-Link",
     "brand_key": "tplink",
-    "brand_logo_path": "assets/images/brands/aqara.png",
+    "brand_logo_path": "assets/images/brands/tplink.png",
     "description": "TP-Link CCTV/security products and accessories.",
     "meta_title": "TP-Link",
     "meta_description": null,
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000006",
@@ -80,14 +80,14 @@
     "display_seq": 60,
     "brand_name": "D-Link",
     "brand_key": "d-link",
-    "brand_logo_path": "assets/images/brands/eufy.png",
+    "brand_logo_path": "assets/images/brands/dlink.png",
     "description": "D-Link CCTV/security products and accessories.",
     "meta_title": "D-Link",
     "meta_description": null,
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000007",
@@ -102,7 +102,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000008",
@@ -110,14 +110,14 @@
     "display_seq": 80,
     "brand_name": "Seagate",
     "brand_key": "seagate",
-    "brand_logo_path": "assets/images/brands/arlo.png",
+    "brand_logo_path": "assets/images/brands/seagate.png",
     "description": "Seagate CCTV/security products and accessories.",
     "meta_title": "Seagate",
     "meta_description": null,
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000009",
@@ -125,14 +125,14 @@
     "display_seq": 90,
     "brand_name": "Western Digital",
     "brand_key": "western-digital",
-    "brand_logo_path": "assets/images/brands/avtech.png",
+    "brand_logo_path": "assets/images/brands/wd.png",
     "description": "Western Digital CCTV/security products and accessories.",
     "meta_title": "Western Digital",
     "meta_description": null,
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000010",
@@ -147,7 +147,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000011",
@@ -162,7 +162,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000012",
@@ -177,7 +177,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000013",
@@ -192,7 +192,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000014",
@@ -207,7 +207,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000015",
@@ -222,7 +222,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000016",
@@ -237,7 +237,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000017",
@@ -252,7 +252,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000018",
@@ -267,7 +267,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000019",
@@ -282,7 +282,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000020",
@@ -297,7 +297,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000021",
@@ -312,7 +312,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000022",
@@ -327,7 +327,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000023",
@@ -342,7 +342,7 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   },
   {
     "brand_id": "BRND-0000024",
@@ -357,6 +357,6 @@
     "created_at": "2026-06-12T00:00:00Z",
     "updated_at": "2026-06-12T00:00:00Z",
     "created_by": "static-html-import-review",
-    "updated_by": "static-html-import-review"
+    "updated_by": "batch55a-static-brand-logo-path-cleanup"
   }
 ]
