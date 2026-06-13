@@ -3,6 +3,8 @@ from math import ceil
 from typing import Optional
 
 from app.models.product import Product, ProductListResponse
+
+# batch55b-admin-category-subcategory-brand-protection
 from app.repositories.repository_factory import create_product_repository
 
 
@@ -357,6 +359,7 @@ def list_public_products(
             or (product.product_model and search_value in product.product_model.lower())
             or search_value in product.category_key.lower()
             or search_value in product.category_name.lower()
+            or (getattr(product, "subcategory_key", None) and search_value in product.subcategory_key.lower())
             or (product.subcategory and search_value in product.subcategory.lower())
             or (product.product_brand_key and search_value in product.product_brand_key.lower())
             or (product.product_brand_name and search_value in product.product_brand_name.lower())
@@ -482,6 +485,8 @@ def list_admin_products(
             or (product.product_model and search_value in product.product_model.lower())
             or search_value in product.category_key.lower()
             or search_value in product.category_name.lower()
+            or (getattr(product, "subcategory_key", None) and search_value in product.subcategory_key.lower())
+            or (product.subcategory and search_value in product.subcategory.lower())
             or (product.product_brand_key and search_value in product.product_brand_key.lower())
             or (product.product_brand_name and search_value in product.product_brand_name.lower())
         ]
@@ -502,28 +507,57 @@ def get_admin_product_by_id(product_id: str) -> Optional[Product]:
     return _get_product_repository().get_by_id(product_id)
 
 
-def _resolve_admin_category(category_id: str | None = None, category_key: str | None = None):
+def save_admin_product_snapshot(data: dict[str, Any]) -> Product:
+    """Persist product snapshot changes made by category/brand admin protection helpers."""
+    product = Product.model_validate(data)
+    return _get_product_repository().save_product(product)
+
+
+def _resolve_admin_category(category_id: str | None = None, category_key: str | None = None, *, allow_hidden: bool = False):
     from app.services.category_service import get_admin_category_by_id, get_admin_category_by_key
 
+    category = None
     if category_id:
         category = get_admin_category_by_id(category_id)
-        if category:
-            return category
-    if category_key:
+    if category is None and category_key:
         category = get_admin_category_by_key(category_key)
-        if category:
-            return category
-    raise ValueError("A valid category_id or category_key is required.")
+    if category is None:
+        raise ValueError("A valid category_id or category_key is required.")
+    if not allow_hidden and category.show_flag != "Y":
+        raise ValueError("Selected category is hidden and cannot be assigned to a new product.")
+    return category
 
 
-def _resolve_admin_brand(brand_id: str | None = None, brand_key: str | None = None):
+def _resolve_admin_subcategory(category, subcategory_key: str | None = None, subcategory: str | None = None) -> tuple[str | None, str | None]:
+    clean_key = _clean_text(subcategory_key)
+    clean_name = _clean_text(subcategory)
+    subcategories = getattr(category, "subcategories", None) or []
+    if not clean_key and not clean_name:
+        return None, None
+    if not subcategories:
+        return (_slugify(clean_name or clean_key), clean_name or clean_key)
+
+    normalized_key = _slugify(clean_key or clean_name or "")
+    normalized_name = (clean_name or "").strip().lower()
+    for item in subcategories:
+        item_key = item.subcategory_key.lower()
+        item_name = item.subcategory_name.strip().lower()
+        if item_key == normalized_key or item_name == normalized_name:
+            return item.subcategory_key, item.subcategory_name
+    raise ValueError(f"Selected subcategory is not valid for category '{category.category_name}'.")
+
+
+def _resolve_admin_brand(brand_id: str | None = None, brand_key: str | None = None, *, allow_hidden: bool = False):
     from app.services.brand_service import get_admin_brand_by_id, get_admin_brand_by_key
 
+    brand = None
     if brand_id:
-        return get_admin_brand_by_id(brand_id)
-    if brand_key:
-        return get_admin_brand_by_key(brand_key)
-    return None
+        brand = get_admin_brand_by_id(brand_id)
+    if brand is None and brand_key:
+        brand = get_admin_brand_by_key(brand_key)
+    if brand is not None and not allow_hidden and brand.show_flag != "Y":
+        raise ValueError("Selected brand is hidden and cannot be assigned to a new product.")
+    return brand
 
 
 def _validated_features(data: dict[str, Any]) -> dict[str, str | None]:
@@ -562,11 +596,11 @@ def _next_unique_product_id(repository, category_prefix: str) -> str:
 def create_admin_product(request) -> Product:
     repository = _get_product_repository()
     data = request.model_dump()
-    category = _resolve_admin_category(data.get("category_id"), data.get("category_key"))
-    brand = _resolve_admin_brand(data.get("brand_id"), data.get("product_brand_key"))
+    category = _resolve_admin_category(data.get("category_id"), data.get("category_key"), allow_hidden=False)
+    brand = _resolve_admin_brand(data.get("brand_id"), data.get("product_brand_key"), allow_hidden=False)
     features = _validated_features(data)
     now = _now_utc()
-    subcategory = _clean_text(data.get("subcategory"))
+    subcategory_key, subcategory = _resolve_admin_subcategory(category, data.get("subcategory_key"), data.get("subcategory"))
     product_name = _build_product_name(data, brand.brand_name if brand else None, category.category_name, subcategory)
 
     product = Product(
@@ -581,6 +615,7 @@ def create_admin_product(request) -> Product:
         category_key=category.category_key,
         category_name=category.category_name,
         category_prefix=category.category_prefix,
+        subcategory_key=subcategory_key,
         subcategory=subcategory,
         brand_id=brand.brand_id if brand else None,
         product_brand_key=brand.brand_key if brand else None,
@@ -616,23 +651,35 @@ def update_admin_product(product_id: str, request) -> Optional[Product]:
             continue
         data[key] = value
 
-    if "category_id" in update_data or "category_key" in update_data:
-        category = _resolve_admin_category(data.get("category_id"), data.get("category_key"))
-        data.update(
-            category_id=category.category_id,
-            category_key=category.category_key,
-            category_name=category.category_name,
-            category_prefix=category.category_prefix,
-        )
+    category = _resolve_admin_category(
+        data.get("category_id"),
+        data.get("category_key"),
+        allow_hidden=(existing.show_flag != "Y" or existing.category_key == data.get("category_key")),
+    )
+    data.update(
+        category_id=category.category_id,
+        category_key=category.category_key,
+        category_name=category.category_name,
+        category_prefix=category.category_prefix,
+    )
 
     if "brand_id" in update_data or "product_brand_key" in update_data:
-        brand = _resolve_admin_brand(data.get("brand_id"), data.get("product_brand_key"))
+        allow_hidden_brand = bool(
+            existing.product_brand_key
+            and existing.product_brand_key == data.get("product_brand_key")
+        )
+        brand = _resolve_admin_brand(data.get("brand_id"), data.get("product_brand_key"), allow_hidden=allow_hidden_brand)
         data.update(
             brand_id=brand.brand_id if brand else None,
             product_brand_key=brand.brand_key if brand else None,
             product_brand_name=brand.brand_name if brand else None,
             brand_logo_path=brand.brand_logo_path if brand else None,
         )
+
+    if "subcategory_key" in update_data or "subcategory" in update_data or "category_id" in update_data or "category_key" in update_data:
+        subcategory_key, subcategory = _resolve_admin_subcategory(category, data.get("subcategory_key"), data.get("subcategory"))
+        data["subcategory_key"] = subcategory_key
+        data["subcategory"] = subcategory
 
     data.update(_validated_features(data))
     data["product_slug"] = _clean_text(data.get("product_slug")) or _slugify(data["product_name"])

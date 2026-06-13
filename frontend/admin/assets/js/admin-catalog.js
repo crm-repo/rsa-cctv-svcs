@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  const BATCH55B_PROTECTION_VERSION = 'batch55b-admin-category-subcategory-brand-protection';
+  window.RSA_BATCH55B_PROTECTION_VERSION = BATCH55B_PROTECTION_VERSION;
+
   const api = window.RSAAdminApi;
   const app = document.querySelector('[data-admin-app]');
   const page = app ? app.getAttribute('data-admin-page') : '';
@@ -16,7 +19,7 @@
       singular: 'Product',
       kicker: 'Product Catalog',
       columns: [['product_id', 'Product ID'], ['product_name', 'Product'], ['category_name', 'Category'], ['product_brand_name', 'Brand'], ['price', 'Price'], ['sale_price', 'Sale Price'], ['show_flag', 'Visible'], ['show_pack_flag', 'Package'], ['stock_quantity', 'Stock']],
-      detailFields: ['product_id', 'product_name', 'product_model', 'product_slug', 'category_id', 'category_key', 'category_name', 'category_prefix', 'subcategory', 'brand_id', 'product_brand_key', 'product_brand_name', 'description', 'price', 'sale_price', 'stock_quantity', 'low_stock_threshold', 'show_flag', 'show_pack_flag', 'image_path', 'feature_01', 'feature_02', 'feature_03', 'feature_04', 'feature_05', 'feature_06', 'feature_07', 'feature_08', 'feature_09', 'feature_10', 'created_at', 'updated_at']
+      detailFields: ['product_id', 'product_name', 'product_model', 'product_slug', 'category_id', 'category_key', 'category_name', 'category_prefix', 'subcategory_key', 'subcategory', 'brand_id', 'product_brand_key', 'product_brand_name', 'description', 'price', 'sale_price', 'stock_quantity', 'low_stock_threshold', 'show_flag', 'show_pack_flag', 'image_path', 'feature_01', 'feature_02', 'feature_03', 'feature_04', 'feature_05', 'feature_06', 'feature_07', 'feature_08', 'feature_09', 'feature_10', 'created_at', 'updated_at']
     },
     categories: {
       endpoint: '/admin/categories',
@@ -26,8 +29,8 @@
       title: 'Categories',
       singular: 'Category',
       kicker: 'Category Setup',
-      columns: [['category_id', 'Category ID'], ['category_name', 'Name'], ['category_key', 'Key'], ['category_prefix', 'Prefix'], ['icon_code', 'Icon'], ['display_seq', 'Display Seq'], ['show_flag', 'Visible']],
-      detailFields: ['category_id', 'category_name', 'category_key', 'category_prefix', 'icon_code', 'description', 'display_seq', 'show_flag', 'created_at', 'updated_at']
+      columns: [['category_id', 'Category ID'], ['category_name', 'Name'], ['category_key', 'Key'], ['category_prefix', 'Prefix'], ['icon_code', 'Icon'], ['display_seq', 'Display Seq'], ['show_flag', 'Visible'], ['subcategories', 'Subcategories']],
+      detailFields: ['category_id', 'category_name', 'category_key', 'category_prefix', 'icon_code', 'description', 'display_seq', 'show_flag', 'subcategories', 'created_at', 'updated_at']
     },
     brands: {
       endpoint: '/admin/brands',
@@ -61,7 +64,67 @@
 
   function label(value) { return value === null || value === undefined || value === '' ? '—' : String(value); }
   function money(value) { const n = Number(value); return value === null || value === undefined || value === '' ? '—' : Number.isFinite(n) ? `₱${n.toLocaleString('en-PH')}` : String(value); }
-  function fmt(field, value) { return field === 'price' || field === 'sale_price' ? money(value) : label(value); }
+  function fmt(field, value) {
+    if (field === 'price' || field === 'sale_price') return money(value);
+    if (field === 'subcategories') return Array.isArray(value) ? `${value.length} subcategories` : label(value);
+    return label(value);
+  }
+
+  function slugify(value) {
+    return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'item';
+  }
+
+  function activeCategoriesForProduct(currentKey) {
+    return state.categories.filter(category => category.show_flag === 'Y' || String(category.category_key || '') === String(currentKey || ''));
+  }
+
+  function activeBrandsForProduct(currentKey) {
+    return state.brands.filter(brand => brand.show_flag === 'Y' || String(brand.brand_key || '') === String(currentKey || ''));
+  }
+
+  function getCategoryByKey(categoryKey) {
+    return state.categories.find(item => String(item.category_key || '') === String(categoryKey || '')) || null;
+  }
+
+  function subcategoriesForCategory(categoryKey) {
+    const category = getCategoryByKey(categoryKey);
+    return category && Array.isArray(category.subcategories) ? category.subcategories.slice().sort((a, b) => Number(a.display_seq || 0) - Number(b.display_seq || 0)) : [];
+  }
+
+  function subcategoryLines(record) {
+    const items = Array.isArray(record.subcategories) ? record.subcategories : [];
+    return items
+      .slice()
+      .sort((a, b) => Number(a.display_seq || 0) - Number(b.display_seq || 0))
+      .map(item => `${item.display_seq || 0} | ${item.subcategory_key || slugify(item.subcategory_name)} | ${item.subcategory_name || ''}`)
+      .join('\n');
+  }
+
+  function parseSubcategoryLines(value) {
+    return String(value || '')
+      .split(/\r?\n/)
+      .map(line => line.trim())
+      .filter(Boolean)
+      .map((line, index) => {
+        const parts = line.split('|').map(part => part.trim());
+        if (parts.length >= 3) {
+          return { display_seq: Number.parseInt(parts[0], 10) || (index + 1) * 10, subcategory_key: slugify(parts[1]), subcategory_name: parts.slice(2).join(' | ') };
+        }
+        if (parts.length === 2) {
+          return { display_seq: (index + 1) * 10, subcategory_key: slugify(parts[0]), subcategory_name: parts[1] };
+        }
+        return { display_seq: (index + 1) * 10, subcategory_key: slugify(parts[0]), subcategory_name: parts[0] };
+      });
+  }
+
+  function subcategoryDetail(value) {
+    if (!Array.isArray(value) || !value.length) return '—';
+    return value
+      .slice()
+      .sort((a, b) => Number(a.display_seq || 0) - Number(b.display_seq || 0))
+      .map(item => `${item.subcategory_name || item.subcategory_key} (${item.subcategory_key || ''})`)
+      .join(', ');
+  }
   function flag(value, pack) { const yes = value === 'Y'; return `<span class="flag-pill ${yes ? (pack ? 'is-pack' : 'is-y') : 'is-n'}">${yes ? (pack ? 'Package' : 'Visible') : 'No'}</span>`; }
 
   function setStatus(type, title, message) {
@@ -109,6 +172,7 @@
       const cells = config.columns.map(([field]) => {
         if (field === 'show_flag') return `<td>${flag(record[field], false)}</td>`;
         if (field === 'show_pack_flag') return `<td>${flag(record[field], true)}</td>`;
+        if (field === 'subcategories') return `<td>${esc(fmt(field, record[field]))}</td>`;
         const value = fmt(field, record[field]);
         if (field === 'price') return `<td><span class="money">${esc(value)}</span></td>`;
         if (field === 'sale_price') return `<td><span class="sale-money">${esc(value)}</span></td>`;
@@ -120,7 +184,10 @@
   }
 
   function detailRows(record) {
-    return config.detailFields.map(field => `<div class="detail-row"><span>${esc(field.replace(/_/g, ' '))}</span><span>${esc(fmt(field, record[field]))}</span></div>`).join('');
+    return config.detailFields.map(field => {
+      const value = field === 'subcategories' ? subcategoryDetail(record[field]) : fmt(field, record[field]);
+      return `<div class="detail-row"><span>${esc(field.replace(/_/g, ' '))}</span><span>${esc(value)}</span></div>`;
+    }).join('');
   }
 
   function optionList(items, valueField, labelField, current) {
@@ -172,9 +239,20 @@
     if (!form || page !== 'products') return;
 
     const productName = form.querySelector('[name="product_name"]');
+    const categorySelect = form.querySelector('[name="category_key"]');
     const brandSelect = form.querySelector('[name="product_brand_key"]');
     const featureOne = form.querySelector('[name="feature_01"]');
-    const subcategory = form.querySelector('[name="subcategory"]');
+    const subcategoryKey = form.querySelector('[name="subcategory_key"]');
+    const subcategoryName = form.querySelector('[name="subcategory"]');
+
+    function renderSubcategories() {
+      if (!categorySelect || !subcategoryKey) return;
+      const current = subcategoryKey.value || subcategoryKey.dataset.currentValue || '';
+      const items = subcategoriesForCategory(categorySelect.value);
+      subcategoryKey.innerHTML = '<option value="">Select subcategory</option>' + items.map(item => `<option value="${esc(item.subcategory_key)}" ${String(item.subcategory_key || '') === String(current || '') ? 'selected' : ''}>${esc(item.subcategory_name || item.subcategory_key)}</option>`).join('');
+      const selected = items.find(item => String(item.subcategory_key || '') === String(subcategoryKey.value || ''));
+      if (subcategoryName) subcategoryName.value = selected ? (selected.subcategory_name || '') : '';
+    }
 
     if (productName && !productName.dataset.boundNamePreview) {
       productName.dataset.boundNamePreview = 'true';
@@ -184,7 +262,30 @@
       });
     }
 
-    [brandSelect, featureOne, subcategory].forEach(inputEl => {
+    if (categorySelect && !categorySelect.dataset.boundSubcategoryFilter) {
+      categorySelect.dataset.boundSubcategoryFilter = 'true';
+      categorySelect.addEventListener('change', () => {
+        if (subcategoryKey) {
+          subcategoryKey.dataset.currentValue = '';
+          subcategoryKey.value = '';
+        }
+        renderSubcategories();
+        updateProductNamePreview(form);
+      });
+      renderSubcategories();
+    }
+
+    if (subcategoryKey && !subcategoryKey.dataset.boundSubcategoryName) {
+      subcategoryKey.dataset.boundSubcategoryName = 'true';
+      subcategoryKey.addEventListener('change', () => {
+        const items = subcategoriesForCategory(categorySelect ? categorySelect.value : '');
+        const selected = items.find(item => String(item.subcategory_key || '') === String(subcategoryKey.value || ''));
+        if (subcategoryName) subcategoryName.value = selected ? (selected.subcategory_name || '') : '';
+        updateProductNamePreview(form);
+      });
+    }
+
+    [brandSelect, featureOne, subcategoryKey].forEach(inputEl => {
       if (!inputEl || inputEl.dataset.boundNamePreview) return;
       inputEl.dataset.boundNamePreview = 'true';
       inputEl.addEventListener('input', () => updateProductNamePreview(form));
@@ -214,9 +315,10 @@
       <div class="catalog-form-grid">
         <label class="span-2 product-name-preview-field"><span>Product Name</span><input name="product_name" type="text" value="${esc(record.product_name || '')}" /><small>Default suggestion: <strong data-product-name-preview>Brand + Feature 01 + Subcategory</strong></small></label>
         ${input('product_id', 'Product ID', record.product_id || 'Auto-generated on save', 'text', 'readonly')}
-        <label><span>Category</span><select name="category_key" required><option value="">Select category</option>${optionList(state.categories, 'category_key', 'category_name', record.category_key)}</select></label>
-        <label><span>Brand</span><select name="product_brand_key"><option value="">No brand / generic</option>${optionList(state.brands, 'brand_key', 'brand_name', record.product_brand_key)}</select></label>
-        ${input('subcategory', 'Subcategory', record.subcategory || '')}
+        <label><span>Category</span><select name="category_key" required><option value="">Select category</option>${optionList(activeCategoriesForProduct(record.category_key), 'category_key', 'category_name', record.category_key)}</select></label>
+        <label><span>Brand</span><select name="product_brand_key"><option value="">No brand / generic</option>${optionList(activeBrandsForProduct(record.product_brand_key), 'brand_key', 'brand_name', record.product_brand_key)}</select></label>
+        <label><span>Subcategory</span><select name="subcategory_key" data-current-value="${esc(record.subcategory_key || slugify(record.subcategory || ''))}" required><option value="">Select subcategory</option></select></label>
+        <input name="subcategory" type="hidden" value="${esc(record.subcategory || '')}" />
         ${input('product_model', 'Model', record.product_model || '')}
         ${input('display_seq', 'Display Seq', record.display_seq ?? 10, 'number')}
         ${input('stock_quantity', 'Stock Quantity', record.stock_quantity ?? 0, 'number')}
@@ -241,9 +343,11 @@
     const keyField = page === 'brands' ? 'brand_key' : page === 'categories' ? 'category_key' : '';
     const prefix = page === 'categories' ? input('category_prefix', 'Prefix', record.category_prefix || '', 'text', 'maxlength="4" required') : '';
     const logo = page === 'brands' ? input('brand_logo_path', 'Logo Path', record.brand_logo_path || '') : '';
+    const subcategoryEditor = page === 'categories' ? `<label class="span-2"><span>Subcategories</span><textarea name="subcategories_text" rows="8" placeholder="10 | 2mp-dome-camera | 2MP Dome Camera">${esc(subcategoryLines(record))}</textarea><small>Format: display sequence | subcategory key | subcategory name. Removing a used subcategory is blocked by backend validation.</small></label>` : '';
+    const protectionNote = page === 'categories' ? 'Batch 55B blocks hiding categories with active products and blocks deleting used subcategories.' : page === 'brands' ? 'Batch 55B blocks hiding brands with active products. Delete remains disabled.' : 'Batch 20 enables safe create/update. Delete actions remain disabled.';
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
       <h3>${isCreate ? 'Add' : 'Edit'} ${config.singular}</h3>
-      <p class="form-note">Batch 20 enables safe create/update. Delete actions remain disabled.</p>
+      <p class="form-note">${protectionNote}</p>
       <div class="catalog-form-grid">
         ${input(config.idField, 'ID', id, 'text', 'readonly')}
         ${input(nameField, 'Name', record[nameField] || '', 'text', 'required')}
@@ -253,6 +357,7 @@
         ${page !== 'key-features' ? input('display_seq', 'Display Seq', record.display_seq ?? 10, 'number') : ''}
         ${page !== 'key-features' ? select('show_flag', 'Public Visibility', record.show_flag || 'Y', [{ value: 'Y', label: 'Y - Visible' }, { value: 'N', label: 'N - Hidden' }]) : ''}
         ${page !== 'key-features' ? `<label class="span-2"><span>Description</span><textarea name="description" rows="4">${esc(record.description || '')}</textarea></label>` : ''}
+        ${subcategoryEditor}
       </div>
       <div class="drawer-actions"><button class="admin-button" type="submit">${isCreate ? `Create ${config.singular}` : 'Save Changes'}</button><button class="admin-button secondary" type="button" data-close-drawer>Close</button></div>`;
   }
@@ -295,8 +400,12 @@
     const payload = {};
     for (const [key, rawValue] of formData.entries()) {
       if (key.startsWith('_') || key.endsWith('_id')) continue;
+      if (key === 'subcategories_text') {
+        payload.subcategories = parseSubcategoryLines(rawValue);
+        continue;
+      }
       const value = convertValue(key, String(rawValue).trim());
-      if (value !== null || ['sale_price', 'description', 'brand_logo_path', 'product_brand_key'].includes(key)) {
+      if (value !== null || ['sale_price', 'description', 'brand_logo_path', 'product_brand_key', 'subcategory', 'subcategory_key'].includes(key)) {
         payload[key] = value;
       }
     }

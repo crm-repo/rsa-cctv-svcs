@@ -2,6 +2,8 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from app.models.brand import Brand, BrandListResponse
+
+# batch55b-admin-category-subcategory-brand-protection
 from app.repositories.repository_factory import create_brand_repository
 
 now = datetime.now(timezone.utc)
@@ -126,6 +128,40 @@ def _request_update_data(request: Any) -> dict[str, Any]:
 
 
 
+
+
+def _products_using_brand(brand: Brand, active_only: bool = False):
+    from app.services.product_service import list_admin_products
+
+    products = [
+        product
+        for product in list_admin_products(per_page=500).items
+        if (product.brand_id == brand.brand_id)
+        or (product.product_brand_key and product.product_brand_key.lower() == brand.brand_key.lower())
+    ]
+    if active_only:
+        products = [product for product in products if product.show_flag == "Y"]
+    return products
+
+
+def _sync_product_brand_snapshots(old_brand: Brand, new_brand: Brand) -> None:
+    from app.services.product_service import list_admin_products, save_admin_product_snapshot
+
+    for product in list_admin_products(per_page=500).items:
+        if not (
+            product.brand_id == old_brand.brand_id
+            or (product.product_brand_key and product.product_brand_key.lower() == old_brand.brand_key.lower())
+        ):
+            continue
+        data = product.model_dump(mode="python")
+        data["brand_id"] = new_brand.brand_id
+        data["product_brand_key"] = new_brand.brand_key
+        data["product_brand_name"] = new_brand.brand_name
+        data["brand_logo_path"] = new_brand.brand_logo_path
+        data["updated_at"] = _now_utc()
+        data["updated_by"] = "batch55b-brand-snapshot-sync"
+        save_admin_product_snapshot(data)
+
 def list_admin_brands(search: Optional[str] = None) -> BrandListResponse:
     brands = _get_brand_repository().list_all()
     if search:
@@ -195,14 +231,26 @@ def update_admin_brand(brand_id: str, request) -> Optional[Brand]:
     existing = repository.get_by_id(brand_id)
     if existing is None:
         return None
+
     data = existing.model_dump(mode="python")
     update_data = _request_update_data(request)
+    active_products = _products_using_brand(existing, active_only=True)
+
+    if update_data.get("show_flag") == "N" and existing.show_flag == "Y" and active_products:
+        raise ValueError(
+            f"Cannot hide brand '{existing.brand_name}' because {len(active_products)} active product(s) still use it."
+        )
+
     for key, value in update_data.items():
         if key != "updated_by":
             data[key] = value
     if data.get("brand_name") and not data.get("brand_key"):
         data["brand_key"] = _slugify(data["brand_name"])
+    if data.get("brand_key"):
+        data["brand_key"] = _slugify(data["brand_key"])
     data["updated_at"] = _now_utc()
     data["updated_by"] = _clean_text(update_data.get("updated_by")) or "admin"
     brand = Brand.model_validate(data)
-    return repository.save_brand(brand)
+    saved = repository.save_brand(brand)
+    _sync_product_brand_snapshots(existing, saved)
+    return saved

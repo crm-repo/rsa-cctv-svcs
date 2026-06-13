@@ -3,6 +3,8 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
+# batch55b-admin-category-subcategory-brand-protection
+
 
 class Product(BaseModel):
     product_id: str
@@ -18,6 +20,7 @@ class Product(BaseModel):
     category_key: str
     category_name: str
     category_prefix: str
+    subcategory_key: Optional[str] = None
     subcategory: Optional[str] = None
 
     brand_id: Optional[str] = None
@@ -75,6 +78,7 @@ class ProductAdminCreateRequest(BaseModel):
 
     category_id: Optional[str] = None
     category_key: Optional[str] = None
+    subcategory_key: Optional[str] = None
     subcategory: Optional[str] = None
 
     brand_id: Optional[str] = None
@@ -116,6 +120,7 @@ class ProductAdminUpdateRequest(BaseModel):
 
     category_id: Optional[str] = None
     category_key: Optional[str] = None
+    subcategory_key: Optional[str] = None
     subcategory: Optional[str] = None
 
     brand_id: Optional[str] = None
