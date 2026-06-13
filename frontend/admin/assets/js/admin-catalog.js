@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const BATCH55B_PROTECTION_VERSION = 'batch55b-admin-category-subcategory-brand-protection';
+  const BATCH55B_PROTECTION_VERSION = 'batch55b-admin-category-subcategory-brand-protection-ui-table-editor';
   window.RSA_BATCH55B_PROTECTION_VERSION = BATCH55B_PROTECTION_VERSION;
 
   const api = window.RSAAdminApi;
@@ -98,6 +98,111 @@
       .sort((a, b) => Number(a.display_seq || 0) - Number(b.display_seq || 0))
       .map(item => `${item.display_seq || 0} | ${item.subcategory_key || slugify(item.subcategory_name)} | ${item.subcategory_name || ''}`)
       .join('\n');
+  }
+
+
+  function sortedSubcategories(record) {
+    const items = Array.isArray(record.subcategories) ? record.subcategories : [];
+    return items.slice().sort((a, b) => Number(a.display_seq || 0) - Number(b.display_seq || 0));
+  }
+
+  function subcategoryEditorRow(item = {}, index = 0) {
+    const displaySeq = item.display_seq ?? ((index + 1) * 10);
+    const name = item.subcategory_name || item.name || '';
+    const key = item.subcategory_key || slugify(name);
+    return `<div class="subcategory-editor-row" data-subcategory-row>
+      <input type="number" class="subcategory-editor-seq" value="${esc(displaySeq)}" min="0" step="1" data-subcategory-display-seq aria-label="Subcategory display sequence" />
+      <input type="text" class="subcategory-editor-key" value="${esc(key)}" placeholder="subcategory-key" data-subcategory-key aria-label="Subcategory key" />
+      <input type="text" class="subcategory-editor-name" value="${esc(name)}" placeholder="Subcategory name" data-subcategory-name aria-label="Subcategory name" />
+      <button type="button" class="table-action-link subcategory-remove-button" data-remove-subcategory-row>Remove</button>
+    </div>`;
+  }
+
+  function renderSubcategoryEditor(record) {
+    const rows = sortedSubcategories(record).map((item, index) => subcategoryEditorRow(item, index)).join('');
+    return `<div class="span-2 subcategory-admin-editor" data-subcategory-editor>
+      <div class="subcategory-editor-topline">
+        <div>
+          <span class="subcategory-editor-title">Subcategories</span>
+          <small>Edit each subcategory in its own row. Used subcategory removal is blocked by backend validation.</small>
+        </div>
+        <button type="button" class="admin-button secondary compact-action" data-add-subcategory-row>Add Subcategory</button>
+      </div>
+      <div class="subcategory-editor-table" role="table" aria-label="Category subcategories">
+        <div class="subcategory-editor-row subcategory-editor-head" role="row">
+          <span>Seq</span>
+          <span>Subcategory Key</span>
+          <span>Subcategory Name</span>
+          <span>Action</span>
+        </div>
+        <div data-subcategory-rows>${rows}</div>
+      </div>
+      <p class="form-note compact-note">Keys are auto-suggested from the name, but can still be edited. Do not remove a subcategory that is already used by products.</p>
+    </div>`;
+  }
+
+  function nextSubcategoryDisplaySeq(editor) {
+    const values = Array.from(editor.querySelectorAll('[data-subcategory-display-seq]'))
+      .map(input => Number.parseInt(input.value, 10))
+      .filter(value => Number.isFinite(value));
+    return values.length ? Math.max(...values) + 10 : 10;
+  }
+
+  function addSubcategoryEditorRow(editor, item = {}, focus = false) {
+    const rows = editor.querySelector('[data-subcategory-rows]');
+    if (!rows) return;
+    const index = rows.querySelectorAll('[data-subcategory-row]').length;
+    const data = { display_seq: item.display_seq ?? nextSubcategoryDisplaySeq(editor), ...item };
+    rows.insertAdjacentHTML('beforeend', subcategoryEditorRow(data, index));
+    if (focus) rows.querySelector('[data-subcategory-row]:last-child [data-subcategory-name]')?.focus();
+  }
+
+  function collectSubcategoriesFromEditor(form) {
+    return Array.from(form.querySelectorAll('[data-subcategory-row]'))
+      .map((row, index) => {
+        const displaySeq = Number.parseInt(row.querySelector('[data-subcategory-display-seq]')?.value || '', 10) || ((index + 1) * 10);
+        const name = String(row.querySelector('[data-subcategory-name]')?.value || '').trim();
+        const keyInput = String(row.querySelector('[data-subcategory-key]')?.value || '').trim();
+        const key = slugify(keyInput || name);
+        if (!name && !keyInput) return null;
+        return { display_seq: displaySeq, subcategory_key: key, subcategory_name: name || key };
+      })
+      .filter(Boolean)
+      .sort((a, b) => Number(a.display_seq || 0) - Number(b.display_seq || 0));
+  }
+
+  function bindSubcategoryEditor(form) {
+    const editor = form.querySelector('[data-subcategory-editor]');
+    if (!editor || editor.dataset.boundSubcategoryEditor === 'true') return;
+    editor.dataset.boundSubcategoryEditor = 'true';
+
+    editor.addEventListener('click', event => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      if (target.closest('[data-add-subcategory-row]')) {
+        addSubcategoryEditorRow(editor, {}, true);
+        return;
+      }
+      if (target.closest('[data-remove-subcategory-row]')) {
+        const row = target.closest('[data-subcategory-row]');
+        if (row) row.remove();
+      }
+    });
+
+    editor.addEventListener('input', event => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement)) return;
+      const row = target.closest('[data-subcategory-row]');
+      if (!row) return;
+      const keyInput = row.querySelector('[data-subcategory-key]');
+      if (target.matches('[data-subcategory-key]')) {
+        target.dataset.manualKey = 'true';
+        target.value = slugify(target.value);
+      }
+      if (target.matches('[data-subcategory-name]') && keyInput && keyInput instanceof HTMLInputElement && keyInput.dataset.manualKey !== 'true') {
+        keyInput.value = slugify(target.value);
+      }
+    });
   }
 
   function parseSubcategoryLines(value) {
@@ -343,7 +448,7 @@
     const keyField = page === 'brands' ? 'brand_key' : page === 'categories' ? 'category_key' : '';
     const prefix = page === 'categories' ? input('category_prefix', 'Prefix', record.category_prefix || '', 'text', 'maxlength="4" required') : '';
     const logo = page === 'brands' ? input('brand_logo_path', 'Logo Path', record.brand_logo_path || '') : '';
-    const subcategoryEditor = page === 'categories' ? `<label class="span-2"><span>Subcategories</span><textarea name="subcategories_text" rows="8" placeholder="10 | 2mp-dome-camera | 2MP Dome Camera">${esc(subcategoryLines(record))}</textarea><small>Format: display sequence | subcategory key | subcategory name. Removing a used subcategory is blocked by backend validation.</small></label>` : '';
+    const subcategoryEditor = page === 'categories' ? renderSubcategoryEditor(record) : '';
     const protectionNote = page === 'categories' ? 'Batch 55B blocks hiding categories with active products and blocks deleting used subcategories.' : page === 'brands' ? 'Batch 55B blocks hiding brands with active products. Delete remains disabled.' : 'Batch 20 enables safe create/update. Delete actions remain disabled.';
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
       <h3>${isCreate ? 'Add' : 'Edit'} ${config.singular}</h3>
@@ -376,6 +481,7 @@
     form.dataset.recordId = record[config.idField] || '';
     form.innerHTML = page === 'products' ? productForm(record) : simpleForm(record);
     enhanceProductForm(form);
+    bindSubcategoryEditor(form);
     drawer.classList.add('is-open');
     drawer.setAttribute('aria-hidden', 'false');
   }
@@ -398,6 +504,9 @@
   function collectFormPayload(form) {
     const formData = new FormData(form);
     const payload = {};
+    if (page === 'categories' && form.querySelector('[data-subcategory-editor]')) {
+      payload.subcategories = collectSubcategoriesFromEditor(form);
+    }
     for (const [key, rawValue] of formData.entries()) {
       if (key.startsWith('_') || key.endsWith('_id')) continue;
       if (key === 'subcategories_text') {
