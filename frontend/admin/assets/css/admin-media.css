@@ -77,3 +77,20 @@
 @media (max-width: 760px) {
   .admin-media-picker { grid-template-columns: 1fr !important; }
 }
+
+/* batch55c-hotfix-v3-admin-polish-final-sweep */
+.admin-media-picker {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: stretch !important;
+  gap: 8px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+}
+.admin-media-picker .admin-media-filename { flex: 1 1 280px !important; min-width: 0 !important; }
+.admin-media-picker .admin-media-button,
+.admin-media-picker .admin-media-clear,
+.admin-media-picker .admin-media-restore { flex: 0 0 auto !important; white-space: nowrap !important; }
+.admin-media-note { flex: 1 0 100% !important; overflow-wrap: anywhere !important; }
+

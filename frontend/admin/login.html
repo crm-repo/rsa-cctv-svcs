@@ -20,7 +20,7 @@
     </div>
 
     <p class="admin-login-note" data-admin-login-note>
-      Checking admin authentication configuration…
+      Preparing admin sign-in…
     </p>
 
     <form data-admin-login-form>
@@ -47,10 +47,11 @@
       <button type="submit" data-admin-login-submit>Continue</button>
     </form>
 
-    <p class="admin-login-status" data-admin-login-status>Checking admin auth configuration…</p>
+    <p class="admin-login-status" data-admin-login-status></p>
   </main>
 
   <script src="./assets/js/admin-auth.js"></script>
+  <script src="./assets/js/admin-polish-v3.js"></script>
   <script>
     (function () {
       const form = document.querySelector('[data-admin-login-form]');
@@ -89,7 +90,7 @@
           document.querySelector('[data-cognito-field]').hidden = true;
           form.elements.password.required = false;
           form.elements.password.placeholder = 'Password';
-          submitButton.textContent = 'Open Dashboard';
+          submitButton.textContent = 'Sign In';
           note.innerHTML = isLoggedOutView()
             ? 'You have been logged out.'
             : 'Sign in to continue to the admin dashboard.';

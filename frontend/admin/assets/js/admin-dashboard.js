@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  const BATCH55C_HOTFIX_V3_VERSION = 'batch55c-hotfix-v3-admin-polish-final-sweep';
+  window.RSA_BATCH55C_DASHBOARD_HOTFIX_V3_VERSION = BATCH55C_HOTFIX_V3_VERSION;
+
   const api = window.RSAAdminApi;
   const app = document.querySelector('[data-admin-app]');
   const statusBanner = document.querySelector('[data-status-banner]');
@@ -200,7 +203,7 @@
     document.querySelectorAll('.nav-item.is-disabled').forEach((item) => {
       item.addEventListener('click', (event) => {
         event.preventDefault();
-        setStatus('is-warning', 'Action unavailable.', 'Use the left menu to open the matching admin page.');
+        setStatus('is-warning', 'Action unavailable.', 'This admin section is not active yet.');
       });
     });
   }
