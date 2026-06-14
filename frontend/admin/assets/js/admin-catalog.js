@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  const BATCH55C_HOTFIX_V2_VERSION = 'batch55c-hotfix-v2-admin-polish-corrections';
+  window.RSA_BATCH55C_HOTFIX_V2_VERSION = BATCH55C_HOTFIX_V2_VERSION;
+
   const BATCH55C_HOTFIX_VERSION = 'batch55c-hotfixes-admin-polish-corrections';
   window.RSA_BATCH55C_HOTFIX_VERSION = BATCH55C_HOTFIX_VERSION;
 
@@ -256,6 +259,7 @@
   function sortRecords(records) {
     const mode = sortValue();
     return records.slice().sort((a, b) => {
+      if (mode === 'display_seq') return Number(a.display_seq || 0) - Number(b.display_seq || 0);
       if (mode === 'oldest') return recordDateValue(a) - recordDateValue(b);
       if (mode === 'az') return displayName(a).localeCompare(displayName(b));
       if (mode === 'za') return displayName(b).localeCompare(displayName(a));
@@ -286,9 +290,9 @@
   function renderTable() {
     const body = document.querySelector('[data-table-body]');
     if (!body) return;
-    setCount(`${state.filtered.length} of ${state.records.length} records`);
+    setCount(`${state.filtered.length} ${config.title} records found`);
     if (!state.filtered.length) {
-      body.innerHTML = `<tr><td colspan="${config.columns.length + 1}" class="empty-cell">No matching records found.</td></tr>`;
+      body.innerHTML = `<tr><td colspan="${config.columns.length + 1}" class="empty-cell">No matching catalog records found.</td></tr>`;
       return;
     }
     body.innerHTML = state.filtered.map((record, index) => {
@@ -438,8 +442,12 @@
   }
 
   function input(name, labelText, value = '', type = 'text', attrs = '') {
-    const readonlyClass = String(attrs || '').includes('readonly') ? ' class="is-readonly-field"' : '';
-    return `<label${readonlyClass}><span>${requiredLabel(esc(labelText), attrs)}</span><input class="${String(attrs || '').includes('readonly') ? 'is-readonly-field' : ''}" name="${esc(name)}" type="${esc(type)}" value="${esc(value ?? '')}" ${attrs} /></label>`;
+    const readonly = String(attrs || '').includes('readonly');
+    const mediaNames = new Set(['image_path', 'brand_logo_path', 'hero_image_path', 'company_story_image_path', 'service_image_path', 'project_image_path', 'logo_path', 'icon_path', 'person_image_path']);
+    const isMedia = mediaNames.has(String(name || '')) || String(name || '').endsWith('_image_path') || String(name || '').endsWith('_logo_path');
+    const labelClasses = [readonly ? 'is-readonly-field' : '', isMedia ? 'media-field-label span-2' : ''].filter(Boolean).join(' ');
+    const classAttr = labelClasses ? ` class="${labelClasses}"` : '';
+    return `<label${classAttr}><span>${requiredLabel(esc(labelText), attrs)}</span><input class="${readonly ? 'is-readonly-field' : ''}" name="${esc(name)}" type="${esc(type)}" value="${esc(value ?? '')}" ${attrs} /></label>`;
   }
 
   function select(name, labelText, value, options, attrs = '') {
@@ -453,7 +461,8 @@
     const pairs = [
       ['brand_name', 'brand_key'],
       ['category_name', 'category_key'],
-      ['key_feat_name', 'key_feat_key']
+      ['key_feat_name', 'key_feat_key'],
+      ['subcategory_name', 'subcategory_key']
     ];
     pairs.forEach(([nameField, keyField]) => {
       const source = form.querySelector(`[name="${nameField}"]`);
@@ -509,9 +518,9 @@
     const logo = page === 'brands' ? input('brand_logo_path', 'Brand Logo', record.brand_logo_path || '') : '';
     const subcategoryEditor = page === 'categories' ? renderSubcategoryEditor(record) : '';
     const formNote = page === 'categories'
-      ? 'Manage category details and subcategories. Categories with active products cannot be hidden, and used subcategories cannot be removed.'
+      ? 'Manage category details and subcategories. Manage category details and subcategories.'
       : page === 'brands'
-        ? 'Manage brand details and logo. Brands with active products cannot be hidden.'
+        ? 'Manage brand details and logo. Manage brand details and logo.'
         : 'Manage reusable product feature suggestions.';
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
       <p class="form-note">${formNote}</p>

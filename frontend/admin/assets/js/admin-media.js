@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  const BATCH55C_HOTFIX_V2_VERSION = 'batch55c-hotfix-v2-admin-polish-corrections';
+  window.RSA_BATCH55C_MEDIA_HOTFIX_V2_VERSION = BATCH55C_HOTFIX_V2_VERSION;
+
   const MEDIA_FIELD_NAMES = new Set([
     'image_path',
     'brand_logo_path',
@@ -118,6 +121,7 @@
     const wrapper = document.createElement('div');
     wrapper.className = 'admin-media-picker';
     wrapper.dataset.mediaPicker = 'true';
+    wrapper.dataset.mediaField = String(input.name || '').toLowerCase();
 
     const display = document.createElement('input');
     display.type = 'text';
@@ -148,7 +152,7 @@
 
     const note = document.createElement('small');
     note.className = 'admin-media-note';
-    setNote(note, `${currentPathMessage(input.value)} Browse is safe-preview only until upload storage/S3 is enabled.`, input.value ? 'info' : 'warning');
+    setNote(note, `${currentPathMessage(input.value)} Browse is preview only until image upload storage is enabled.`, input.value ? 'info' : 'warning');
 
     choose.addEventListener('click', () => file.click());
 

@@ -88,29 +88,29 @@
           form.dataset.localPreview = 'true';
           document.querySelector('[data-cognito-field]').hidden = true;
           form.elements.password.required = false;
-          form.elements.password.placeholder = 'Local preview mode';
-          submitButton.textContent = 'Continue to Dashboard';
+          form.elements.password.placeholder = 'Password';
+          submitButton.textContent = 'Open Dashboard';
           note.innerHTML = isLoggedOutView()
-            ? 'You have logged out. Local preview mode is active; continue only when you are ready to open the dashboard again.'
-            : 'Local preview mode is active. Use Continue to Dashboard to open the admin dashboard.';
-          status.textContent = 'No sign-in is required while local auth is disabled.';
+            ? 'You have been logged out.'
+            : 'Sign in to continue to the admin dashboard.';
+          status.textContent = '';
           return;
         }
 
         if (authConfig.mode === 'cognito') {
           note.innerHTML = authConfig.is_cognito_configured
-            ? 'Cognito admin login is enabled for local testing. Use the admin email and temporary/permanent password.'
+            ? 'Enter your admin email and password.'
             : 'Cognito mode is selected, but user pool/app client settings are missing.';
           status.textContent = authConfig.is_cognito_configured
             ? 'Enter your Cognito admin credentials.'
-            : 'Ask the developer to configure RSA_COGNITO_USER_POOL_ID and RSA_COGNITO_CLIENT_ID.';
+            : 'Admin authentication is not ready. Please check the configuration.';
           return;
         }
 
-        note.innerHTML = 'Mock mode enabled. Enter the local mock token configured in the backend.';
+        note.innerHTML = 'Enter your admin access token.';
         document.querySelector('[data-cognito-field]').hidden = true;
-        form.elements.password.placeholder = 'local-dev-admin-token';
-        status.textContent = 'Mock mode enabled. Enter the local mock token to continue.';
+        form.elements.password.placeholder = 'Admin access token';
+        status.textContent = 'Enter your admin access token to continue.';
       }
 
       form.addEventListener('submit', async (event) => {
@@ -124,6 +124,7 @@
           submitButton.disabled = true;
           if (form.dataset.localPreview === 'true') {
             status.textContent = 'Opening dashboard…';
+            window.localStorage.removeItem('rsa_admin_logged_out');
             redirectAfterLogin();
             return;
           }

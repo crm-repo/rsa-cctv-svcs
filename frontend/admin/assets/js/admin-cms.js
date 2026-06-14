@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  const BATCH55C_HOTFIX_V2_VERSION = 'batch55c-hotfix-v2-admin-polish-corrections';
+  window.RSA_BATCH55C_CMS_HOTFIX_V2_VERSION = BATCH55C_HOTFIX_V2_VERSION;
+
   const BATCH55C_HOTFIX_VERSION = 'batch55c-hotfixes-admin-polish-corrections';
   window.RSA_BATCH55C_CMS_HOTFIX_VERSION = BATCH55C_HOTFIX_VERSION;
 
@@ -77,7 +80,7 @@
   function sortValue() { return String(document.querySelector('[data-sort-filter]')?.value || 'recent'); }
   function recordDateValue(record) { const parsed = Date.parse(record.created_at || record.updated_at || ''); return Number.isFinite(parsed) ? parsed : 0; }
   function displayName(record) { return String(record.hero_title || record.project_title || record.service_title || record.person_name || record.platform_name || record.contact_us_id || '').toLowerCase(); }
-  function sortRecords(records) { const mode = sortValue(); return records.slice().sort((a,b)=>{ if(mode==='oldest') return recordDateValue(a)-recordDateValue(b); if(mode==='az') return displayName(a).localeCompare(displayName(b)); if(mode==='za') return displayName(b).localeCompare(displayName(a)); return recordDateValue(b)-recordDateValue(a); }); }
+  function sortRecords(records) { const mode = sortValue(); return records.slice().sort((a,b)=>{ if(mode==='display_seq') return Number(a.display_seq || 0)-Number(b.display_seq || 0); if(mode==='oldest') return recordDateValue(a)-recordDateValue(b); if(mode==='az') return displayName(a).localeCompare(displayName(b)); if(mode==='za') return displayName(b).localeCompare(displayName(a)); return recordDateValue(b)-recordDateValue(a); }); }
 
   function applyFilters() {
     const query = searchValue();
@@ -100,9 +103,9 @@
   function renderTable() {
     const body = document.querySelector('[data-table-body]');
     if (!body || !config) return;
-    setCount(`${state.filtered.length} of ${state.records.length} records`);
+    setCount(`${state.filtered.length} ${config.title} records found`);
     if (!state.filtered.length) {
-      body.innerHTML = `<tr><td colspan="${config.columns.length + 1}" class="empty-cell">No matching CMS records found.</td></tr>`;
+      body.innerHTML = `<tr><td colspan="${config.columns.length + 1}" class="empty-cell">No matching ${esc(config.title)} records found.</td></tr>`;
       return;
     }
     body.innerHTML = state.filtered.map((record, index) => {
@@ -123,7 +126,10 @@
   function requiredLabel(labelText, attrs = '') { return String(attrs || '').includes('required') ? `${labelText} <span class="required-star" aria-hidden="true">*</span>` : labelText; }
   function input(name, labelText, value = '', type = 'text', attrs = '') {
     const ro = String(attrs || '').includes('readonly');
-    return `<label${ro ? ' class="is-readonly-field"' : ''}><span>${requiredLabel(esc(labelText), attrs)}</span><input class="${ro ? 'is-readonly-field' : ''}" name="${esc(name)}" type="${esc(type)}" value="${esc(value ?? '')}" ${attrs} /></label>`;
+    const mediaNames = new Set(['image_path', 'brand_logo_path', 'hero_image_path', 'company_story_image_path', 'service_image_path', 'project_image_path', 'logo_path', 'icon_path', 'person_image_path']);
+    const isMedia = mediaNames.has(String(name || '')) || String(name || '').endsWith('_image_path') || String(name || '').endsWith('_logo_path');
+    const labelClasses = [ro ? 'is-readonly-field' : '', isMedia ? 'media-field-label span-2' : ''].filter(Boolean).join(' ');
+    return `<label${labelClasses ? ` class="${labelClasses}"` : ''}><span>${requiredLabel(esc(labelText), attrs)}</span><input class="${ro ? 'is-readonly-field' : ''}" name="${esc(name)}" type="${esc(type)}" value="${esc(value ?? '')}" ${attrs} /></label>`;
   }
 
   function select(name, labelText, value, options) {

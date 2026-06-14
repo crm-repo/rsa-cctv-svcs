@@ -1,10 +1,14 @@
 (function () {
   'use strict';
 
+  const BATCH55C_HOTFIX_V2_VERSION = 'batch55c-hotfix-v2-admin-polish-corrections';
+  window.RSA_BATCH55C_AUTH_HOTFIX_V2_VERSION = BATCH55C_HOTFIX_V2_VERSION;
+
   const TOKEN_KEY = 'rsa_admin_access_token';
   const ID_TOKEN_KEY = 'rsa_admin_id_token';
   const REFRESH_TOKEN_KEY = 'rsa_admin_refresh_token';
   const MODE_KEY = 'rsa_admin_auth_mode';
+  const LOGGED_OUT_KEY = 'rsa_admin_logged_out';
   const DEFAULT_API_BASE = 'http://127.0.0.1:8000/api';
 
   function normalizeBaseUrl(value) {
@@ -77,14 +81,15 @@
   }
 
   function showAuthBadge(config) {
+    return;
     const badge = document.createElement('div');
     badge.className = 'admin-auth-dev-badge';
     badge.setAttribute('data-admin-auth-badge', 'true');
 
     if (!config || config.mode === 'disabled') {
-      badge.textContent = 'Local admin mode';
+      badge.textContent = 'Admin mode';
     } else if (config.mode === 'mock') {
-      badge.textContent = 'Mock admin auth mode';
+      badge.textContent = 'Admin auth mode';
     } else if (config.mode === 'cognito') {
       badge.textContent = config.is_cognito_configured ? 'Cognito admin auth mode' : 'Cognito config incomplete';
     } else {
@@ -154,6 +159,10 @@
     }
 
     if (!config.enabled || config.mode === 'disabled') {
+      if (!isLoginPage() && window.localStorage.getItem(LOGGED_OUT_KEY) === '1') {
+        window.location.href = './login.html?logged_out=1';
+        return { allowed: false, config };
+      }
       return { allowed: true, config };
     }
 
@@ -232,7 +241,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     initGuard().catch((error) => {
-      console.warn('Admin auth guard failed in local preview mode:', error);
+      console.warn('Admin auth guard failed:', error);
     });
 
     document.addEventListener('click', (event) => {
@@ -240,6 +249,7 @@
       if (!logoutButton) return;
       event.preventDefault();
       clearToken();
+      window.localStorage.setItem(LOGGED_OUT_KEY, '1');
       window.location.replace('./login.html?logged_out=1');
     });
   });
