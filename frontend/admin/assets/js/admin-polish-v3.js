@@ -39,7 +39,7 @@
       if (item.type === 'heading') return `<p class="nav-heading">${item.label}</p>`;
       const isActive = item.key === active ? ' is-active' : '';
       return `<a class="nav-item${isActive}" href="${item.href}"><span class="nav-icon"><i class="${item.icon}"></i></span><span>${item.label}</span></a>`;
-    }).join('') + `<a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon"><i class="fa-solid fa-gear"></i></span><span>Settings</span></a><button class="nav-item nav-item-button" type="button" data-admin-logout><span class="nav-icon"><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></button>`;
+    }).join('') + `<a class="nav-item${active === 'settings' ? ' is-active' : ''}" href="./settings.html"><span class="nav-icon"><i class="fa-solid fa-gear"></i></span><span>Settings</span></a><button class="nav-item nav-item-button" type="button" data-admin-logout><span class="nav-icon"><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></button>`;
   }
 
   function removeVisibleNotes() {
