@@ -113,3 +113,43 @@
   font-size: 12px;
   line-height: 1.45;
 }
+
+/* batch55c-admin-login-theme */
+.admin-login-page {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(17,24,39,0.92) 0%, rgba(127,29,29,0.76) 48%, rgba(17,24,39,0.35) 100%),
+    url('../images/admin-login-security-bg.svg') center / cover no-repeat;
+}
+.admin-login-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 18% 18%, rgba(248,113,113,0.28), transparent 36%);
+  pointer-events: none;
+}
+.admin-login-card {
+  position: relative;
+  z-index: 1;
+  margin-right: auto;
+  margin-left: clamp(18px, 8vw, 110px);
+  border: 1px solid rgba(255,255,255,0.22);
+}
+.admin-login-card button { background: #b91c1c; }
+.admin-login-card button:hover:not(:disabled) { background: #7f1d1d; }
+.admin-login-card input:focus {
+  border-color: #b91c1c;
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.14);
+}
+@media (max-width: 767px), (orientation: portrait) {
+  .admin-login-page {
+    background:
+      radial-gradient(circle at top left, rgba(248,113,113,0.22), transparent 42%),
+      linear-gradient(145deg, #111827 0%, #7f1d1d 48%, #1f2937 100%);
+  }
+  .admin-login-card {
+    margin: 0;
+  }
+}
+

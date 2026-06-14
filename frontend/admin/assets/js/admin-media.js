@@ -1,1 +1,225 @@
-(function () {\n  'use strict';\n\n  const MEDIA_FIELD_NAMES = new Set([\n    'image_path',\n    'brand_logo_path',\n    'hero_image_path',\n    'company_story_image_path',\n    'service_image_path',\n    'project_image_path',\n    'logo_path',\n    'icon_path'\n  ]);\n\n  const RSA_ADMIN_MEDIA_INTERIM_VERSION = 'batch55a-admin-media-path-interim-fix';\n  window.RSA_ADMIN_MEDIA_INTERIM_VERSION = RSA_ADMIN_MEDIA_INTERIM_VERSION;\n\n  function normalizeStoredPath(value) {\n    return String(value || '').trim().replace(/^\\.\\//, '').replace(/^\\/+/, '');\n  }\n\n  function basename(value) {\n    const text = normalizeStoredPath(value);\n    if (!text) return '';\n    return text.split(/[\\\\/]/).filter(Boolean).pop() || text;\n  }\n\n  function inferMediaType(input) {\n    const path = window.location.pathname.toLowerCase();\n    const name = String(input.name || '').toLowerCase();\n\n    if (path.includes('brands') || name.includes('brand_logo')) return 'brands';\n    if (path.includes('project-gallery')) return 'project-gallery';\n    if (path.includes('services')) return 'services';\n    if (path.includes('about') || name.includes('hero') || name.includes('company_story')) return 'about';\n    if (path.includes('contact')) return 'contact';\n    if (path.includes('products') || name === 'image_path') return 'products';\n    return 'general';\n  }\n\n  function buildClientFallbackKey(mediaType, fileName) {\n    const safeName = String(fileName || '')\n      .trim()\n      .replace(/\\s+/g, '-')\n      .replace(/[^A-Za-z0-9._-]/g, '')\n      .toLowerCase();\n    const folder = {\n      products: 'uploads/products',\n      brands: 'uploads/brands',\n      'project-gallery': 'uploads/project-gallery',\n      services: 'uploads/services',\n      about: 'uploads/about',\n      contact: 'uploads/contact',\n      general: 'uploads/general'\n    }[mediaType] || 'uploads/general';\n    return `${folder}/${safeName}`;\n  }\n\n  function isStoredPathPublicNow(value) {\n    const path = normalizeStoredPath(value);\n    if (!path) return false;\n    return path.startsWith('assets/images/') || path.startsWith('http://') || path.startsWith('https://');\n  }\n\n  async function prepareMediaKey(input, file) {\n    const mediaType = inferMediaType(input);\n\n    if (window.RSAAdminApi && typeof window.RSAAdminApi.postJson === 'function') {\n      const result = await window.RSAAdminApi.postJson('/admin/media/prepare-upload', {\n        media_type: mediaType,\n        file_name: file.name,\n        content_type: file.type || null,\n        size_bytes: file.size || null\n      });\n      return result;\n    }\n\n    return {\n      storage_mode: 'client-fallback',\n      upload_prepared: false,\n      file_name: file.name,\n      field_value: buildClientFallbackKey(mediaType, file.name),\n      object_key: buildClientFallbackKey(mediaType, file.name),\n      message: 'Backend media endpoint was not available. Existing image path was preserved.'\n    };\n  }\n\n  function shouldEnhance(input) {\n    if (!input || input.dataset.mediaEnhanced === 'true') return false;\n    if (!input.name) return false;\n    if (input.type === 'file') return false;\n    if (input.closest('[data-media-picker]')) return false;\n\n    const name = input.name.toLowerCase();\n    return MEDIA_FIELD_NAMES.has(name) || name.endsWith('_image_path') || name.endsWith('_logo_path');\n  }\n\n  function setNote(note, text, tone) {\n    note.textContent = text;\n    note.dataset.tone = tone || '';\n  }\n\n  function currentPathMessage(value) {\n    const path = normalizeStoredPath(value);\n    if (!path) return 'No image path is currently stored.';\n    if (isStoredPathPublicNow(path)) return `Current public image path: ${path}`;\n    return `Current stored image path: ${path}`;\n  }\n\n  function enhanceInput(input) {\n    if (!shouldEnhance(input)) return;\n\n    input.dataset.mediaEnhanced = 'true';\n    input.dataset.originalMediaValue = normalizeStoredPath(input.value);\n    input.value = normalizeStoredPath(input.value);\n    input.hidden = true;\n\n    const wrapper = document.createElement('div');\n    wrapper.className = 'admin-media-picker';\n    wrapper.dataset.mediaPicker = 'true';\n\n    const display = document.createElement('input');\n    display.type = 'text';\n    display.readOnly = true;\n    display.className = 'admin-media-filename';\n    display.placeholder = 'No image selected';\n    display.value = basename(input.value);\n\n    const choose = document.createElement('button');\n    choose.type = 'button';\n    choose.className = 'admin-button secondary admin-media-button';\n    choose.textContent = 'Choose File';\n\n    const clear = document.createElement('button');\n    clear.type = 'button';\n    clear.className = 'admin-button ghost admin-media-clear';\n    clear.textContent = 'Clear';\n\n    const restore = document.createElement('button');\n    restore.type = 'button';\n    restore.className = 'admin-button ghost admin-media-restore';\n    restore.textContent = 'Restore Current';\n\n    const file = document.createElement('input');\n    file.type = 'file';\n    file.accept = 'image/*';\n    file.hidden = true;\n\n    const note = document.createElement('small');\n    note.className = 'admin-media-note';\n    setNote(note, `${currentPathMessage(input.value)} Browse is safe-preview only until upload storage/S3 is enabled.`, input.value ? 'info' : 'warning');\n\n    choose.addEventListener('click', () => file.click());\n\n    clear.addEventListener('click', () => {\n      input.value = '';\n      display.value = '';\n      setNote(note, 'Image path cleared. Save only if you intentionally want this record to have no image.', 'warning');\n    });\n\n    restore.addEventListener('click', () => {\n      const original = normalizeStoredPath(input.dataset.originalMediaValue || '');\n      input.value = original;\n      display.value = basename(original);\n      setNote(note, `${currentPathMessage(original)} Restored from the value loaded when this form opened.`, original ? 'info' : 'warning');\n    });\n\n    file.addEventListener('change', async () => {\n      const selected = file.files && file.files[0];\n      if (!selected) return;\n\n      const previousValue = normalizeStoredPath(input.value);\n      display.value = selected.name;\n      setNote(note, 'Checking media upload readiness…', 'info');\n\n      try {\n        const result = await prepareMediaKey(input, selected);\n        const preparedValue = normalizeStoredPath(result.field_value || result.public_path || result.object_key || '');\n\n        if (result.upload_prepared === true && preparedValue) {\n          input.value = preparedValue;\n          display.value = result.file_name || selected.name;\n          setNote(note, `${result.message || 'Image upload prepared.'} Stored path: ${input.value}`, 'success');\n          return;\n        }\n\n        input.value = previousValue;\n        display.value = basename(previousValue) || selected.name;\n        const futureKey = preparedValue || buildClientFallbackKey(inferMediaType(input), selected.name);\n        setNote(\n          note,\n          `Selected ${selected.name}, but binary upload/storage is not active yet. Existing saved path was preserved${previousValue ? `: ${previousValue}` : ' as blank'}. Future upload key would be: ${futureKey}`,\n          'warning'\n        );\n      } catch (error) {\n        input.value = previousValue;\n        display.value = basename(previousValue) || selected.name;\n        setNote(note, `Could not prepare media (${error.message}). Existing saved path was preserved${previousValue ? `: ${previousValue}` : ' as blank'}.`, 'warning');\n      }\n    });\n\n    wrapper.append(display, choose, clear, restore, file, note);\n    input.insertAdjacentElement('afterend', wrapper);\n  }\n\n  function enhanceAll(root = document) {\n    root.querySelectorAll('input[name]').forEach(enhanceInput);\n  }\n\n  document.addEventListener('DOMContentLoaded', () => {\n    enhanceAll();\n    const observer = new MutationObserver((mutations) => {\n      mutations.forEach((mutation) => {\n        mutation.addedNodes.forEach((node) => {\n          if (node.nodeType !== Node.ELEMENT_NODE) return;\n          if (node.matches && node.matches('input[name]')) enhanceInput(node);\n          if (node.querySelectorAll) enhanceAll(node);\n        });\n      });\n    });\n    observer.observe(document.body, { childList: true, subtree: true });\n  });\n}());\n
+(function () {
+  'use strict';
+
+  const MEDIA_FIELD_NAMES = new Set([
+    'image_path',
+    'brand_logo_path',
+    'hero_image_path',
+    'company_story_image_path',
+    'service_image_path',
+    'project_image_path',
+    'logo_path',
+    'icon_path'
+  ]);
+
+  const RSA_ADMIN_MEDIA_INTERIM_VERSION = 'batch55a-admin-media-path-interim-fix';
+  window.RSA_ADMIN_MEDIA_INTERIM_VERSION = RSA_ADMIN_MEDIA_INTERIM_VERSION;
+
+  function normalizeStoredPath(value) {
+    return String(value || '').trim().replace(/^\.\//, '').replace(/^\/+/, '');
+  }
+
+  function basename(value) {
+    const text = normalizeStoredPath(value);
+    if (!text) return '';
+    return text.split(/[\\/]/).filter(Boolean).pop() || text;
+  }
+
+  function inferMediaType(input) {
+    const path = window.location.pathname.toLowerCase();
+    const name = String(input.name || '').toLowerCase();
+
+    if (path.includes('brands') || name.includes('brand_logo')) return 'brands';
+    if (path.includes('project-gallery')) return 'project-gallery';
+    if (path.includes('services')) return 'services';
+    if (path.includes('about') || name.includes('hero') || name.includes('company_story')) return 'about';
+    if (path.includes('contact')) return 'contact';
+    if (path.includes('products') || name === 'image_path') return 'products';
+    return 'general';
+  }
+
+  function buildClientFallbackKey(mediaType, fileName) {
+    const safeName = String(fileName || '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[^A-Za-z0-9._-]/g, '')
+      .toLowerCase();
+    const folder = {
+      products: 'uploads/products',
+      brands: 'uploads/brands',
+      'project-gallery': 'uploads/project-gallery',
+      services: 'uploads/services',
+      about: 'uploads/about',
+      contact: 'uploads/contact',
+      general: 'uploads/general'
+    }[mediaType] || 'uploads/general';
+    return `${folder}/${safeName}`;
+  }
+
+  function isStoredPathPublicNow(value) {
+    const path = normalizeStoredPath(value);
+    if (!path) return false;
+    return path.startsWith('assets/images/') || path.startsWith('http://') || path.startsWith('https://');
+  }
+
+  async function prepareMediaKey(input, file) {
+    const mediaType = inferMediaType(input);
+
+    if (window.RSAAdminApi && typeof window.RSAAdminApi.postJson === 'function') {
+      const result = await window.RSAAdminApi.postJson('/admin/media/prepare-upload', {
+        media_type: mediaType,
+        file_name: file.name,
+        content_type: file.type || null,
+        size_bytes: file.size || null
+      });
+      return result;
+    }
+
+    return {
+      storage_mode: 'client-fallback',
+      upload_prepared: false,
+      file_name: file.name,
+      field_value: buildClientFallbackKey(mediaType, file.name),
+      object_key: buildClientFallbackKey(mediaType, file.name),
+      message: 'Backend media endpoint was not available. Existing image path was preserved.'
+    };
+  }
+
+  function shouldEnhance(input) {
+    if (!input || input.dataset.mediaEnhanced === 'true') return false;
+    if (!input.name) return false;
+    if (input.type === 'file') return false;
+    if (input.closest('[data-media-picker]')) return false;
+
+    const name = input.name.toLowerCase();
+    return MEDIA_FIELD_NAMES.has(name) || name.endsWith('_image_path') || name.endsWith('_logo_path');
+  }
+
+  function setNote(note, text, tone) {
+    note.textContent = text;
+    note.dataset.tone = tone || '';
+  }
+
+  function currentPathMessage(value) {
+    const path = normalizeStoredPath(value);
+    if (!path) return 'No image path is currently stored.';
+    if (isStoredPathPublicNow(path)) return `Current public image path: ${path}`;
+    return `Current stored image path: ${path}`;
+  }
+
+  function enhanceInput(input) {
+    if (!shouldEnhance(input)) return;
+
+    input.dataset.mediaEnhanced = 'true';
+    input.dataset.originalMediaValue = normalizeStoredPath(input.value);
+    input.value = normalizeStoredPath(input.value);
+    input.hidden = true;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'admin-media-picker';
+    wrapper.dataset.mediaPicker = 'true';
+
+    const display = document.createElement('input');
+    display.type = 'text';
+    display.readOnly = true;
+    display.className = 'admin-media-filename';
+    display.placeholder = 'No image selected';
+    display.value = basename(input.value);
+
+    const choose = document.createElement('button');
+    choose.type = 'button';
+    choose.className = 'admin-button secondary admin-media-button';
+    choose.textContent = 'Choose File';
+
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'admin-button ghost admin-media-clear';
+    clear.textContent = 'Clear';
+
+    const restore = document.createElement('button');
+    restore.type = 'button';
+    restore.className = 'admin-button ghost admin-media-restore';
+    restore.textContent = 'Restore Current';
+
+    const file = document.createElement('input');
+    file.type = 'file';
+    file.accept = 'image/*';
+    file.hidden = true;
+
+    const note = document.createElement('small');
+    note.className = 'admin-media-note';
+    setNote(note, `${currentPathMessage(input.value)} Browse is safe-preview only until upload storage/S3 is enabled.`, input.value ? 'info' : 'warning');
+
+    choose.addEventListener('click', () => file.click());
+
+    clear.addEventListener('click', () => {
+      input.value = '';
+      display.value = '';
+      setNote(note, 'Image path cleared. Save only if you intentionally want this record to have no image.', 'warning');
+    });
+
+    restore.addEventListener('click', () => {
+      const original = normalizeStoredPath(input.dataset.originalMediaValue || '');
+      input.value = original;
+      display.value = basename(original);
+      setNote(note, `${currentPathMessage(original)} Restored from the value loaded when this form opened.`, original ? 'info' : 'warning');
+    });
+
+    file.addEventListener('change', async () => {
+      const selected = file.files && file.files[0];
+      if (!selected) return;
+
+      const previousValue = normalizeStoredPath(input.value);
+      display.value = selected.name;
+      setNote(note, 'Checking media upload readiness…', 'info');
+
+      try {
+        const result = await prepareMediaKey(input, selected);
+        const preparedValue = normalizeStoredPath(result.field_value || result.public_path || result.object_key || '');
+
+        if (result.upload_prepared === true && preparedValue) {
+          input.value = preparedValue;
+          display.value = result.file_name || selected.name;
+          setNote(note, `${result.message || 'Image upload prepared.'} Stored path: ${input.value}`, 'success');
+          return;
+        }
+
+        input.value = previousValue;
+        display.value = basename(previousValue) || selected.name;
+        const futureKey = preparedValue || buildClientFallbackKey(inferMediaType(input), selected.name);
+        setNote(
+          note,
+          `Selected ${selected.name}, but binary upload/storage is not active yet. Existing saved path was preserved${previousValue ? `: ${previousValue}` : ' as blank'}. Future upload key would be: ${futureKey}`,
+          'warning'
+        );
+      } catch (error) {
+        input.value = previousValue;
+        display.value = basename(previousValue) || selected.name;
+        setNote(note, `Could not prepare media (${error.message}). Existing saved path was preserved${previousValue ? `: ${previousValue}` : ' as blank'}.`, 'warning');
+      }
+    });
+
+    wrapper.append(display, choose, clear, restore, file, note);
+    input.insertAdjacentElement('afterend', wrapper);
+  }
+
+  function enhanceAll(root = document) {
+    root.querySelectorAll('input[name]').forEach(enhanceInput);
+  }
+
+  window.RSAAdminMedia = { enhanceAll, enhanceInput };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    enhanceAll();
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType !== Node.ELEMENT_NODE) return;
+          if (node.matches && node.matches('input[name]')) enhanceInput(node);
+          if (node.querySelectorAll) enhanceAll(node);
+        });
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+}());

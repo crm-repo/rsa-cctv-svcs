@@ -301,7 +301,7 @@
       setStatus('is-warning', 'CMS page could not start.', 'Missing admin API client or page configuration.');
       return;
     }
-    setStatus('', `Loading ${config.title.toLowerCase()}…`, `Fetching from ${api.getApiBaseUrl()}${config.endpoint}.`);
+    setStatus('', `Loading ${config.title.toLowerCase()}…`, 'Please wait while records are loaded.');
     try {
       let payload;
       try { payload = await api.request(config.endpoint); }
@@ -316,14 +316,14 @@
       state.filtered = state.records.slice();
       renderHead();
       applyFilters();
-      setStatus('is-success', `${config.title} loaded.`, `${state.records.length} CMS records loaded from the backend API.`);
+      setStatus('is-success', `${config.title} loaded.`, `${state.records.length} CMS records found.`);
     } catch (error) {
       console.error(error);
       state.records = [];
       state.filtered = [];
       renderHead();
       renderTable();
-      setStatus('is-warning', `Unable to load ${config.title.toLowerCase()}.`, error.message || 'Check backend server and CORS settings.');
+      setStatus('is-warning', `Unable to load ${config.title.toLowerCase()}.`, error.message || 'Please check that the admin server is running.');
     }
   }
 

@@ -72,7 +72,7 @@
     badge.setAttribute('data-admin-auth-badge', 'true');
 
     if (!config || config.mode === 'disabled') {
-      badge.textContent = 'Local admin preview · auth disabled';
+      badge.textContent = 'Local admin mode';
     } else if (config.mode === 'mock') {
       badge.textContent = 'Mock admin auth mode';
     } else if (config.mode === 'cognito') {
@@ -113,7 +113,7 @@
       return {
         enabled: false,
         mode: 'disabled',
-        safety_note: 'Auth config endpoint unavailable; local preview remains unblocked.'
+        safety_note: 'Auth config endpoint unavailable; local admin mode is active.'
       };
     }
   }

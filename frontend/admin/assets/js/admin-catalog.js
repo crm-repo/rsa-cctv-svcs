@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  const BATCH55C_ADMIN_POLISH_VERSION = 'batch55c-admin-page-overall-polish';
+  window.RSA_BATCH55C_ADMIN_POLISH_VERSION = BATCH55C_ADMIN_POLISH_VERSION;
+
   const BATCH55B_PROTECTION_VERSION = 'batch55b-admin-category-subcategory-brand-protection-ui-table-editor';
   window.RSA_BATCH55B_PROTECTION_VERSION = BATCH55B_PROTECTION_VERSION;
 
@@ -18,7 +21,7 @@
       title: 'Products',
       singular: 'Product',
       kicker: 'Product Catalog',
-      columns: [['product_id', 'Product ID'], ['product_name', 'Product'], ['category_name', 'Category'], ['product_brand_name', 'Brand'], ['price', 'Price'], ['sale_price', 'Sale Price'], ['show_flag', 'Visible'], ['show_pack_flag', 'Package'], ['stock_quantity', 'Stock']],
+      columns: [['product_id', 'Product ID'], ['product_name', 'Product'], ['category_name', 'Category'], ['product_brand_name', 'Brand'], ['price', 'Price'], ['sale_price', 'Sale Price'], ['show_flag', 'Visible'], ['show_pack_flag', 'Promote Package'], ['stock_quantity', 'Stock']],
       detailFields: ['product_id', 'product_name', 'product_model', 'product_slug', 'category_id', 'category_key', 'category_name', 'category_prefix', 'subcategory_key', 'subcategory', 'brand_id', 'product_brand_key', 'product_brand_name', 'description', 'price', 'sale_price', 'stock_quantity', 'low_stock_threshold', 'show_flag', 'show_pack_flag', 'image_path', 'feature_01', 'feature_02', 'feature_03', 'feature_04', 'feature_05', 'feature_06', 'feature_07', 'feature_08', 'feature_09', 'feature_10', 'created_at', 'updated_at']
     },
     categories: {
@@ -230,7 +233,7 @@
       .map(item => `${item.subcategory_name || item.subcategory_key} (${item.subcategory_key || ''})`)
       .join(', ');
   }
-  function flag(value, pack) { const yes = value === 'Y'; return `<span class="flag-pill ${yes ? (pack ? 'is-pack' : 'is-y') : 'is-n'}">${yes ? (pack ? 'Package' : 'Visible') : 'No'}</span>`; }
+  function flag(value, pack) { const yes = value === 'Y'; return `<span class="flag-pill ${yes ? (pack ? 'is-pack' : 'is-y') : 'is-n'}">${pack ? (yes ? 'Yes' : 'No') : (yes ? 'Visible' : 'Hidden')}</span>`; }
 
   function setStatus(type, title, message) {
     const banner = document.querySelector('[data-status-banner]');
@@ -329,7 +332,7 @@
     const suggested = buildSuggestedProductName(form);
     const previousSuggestion = productName.dataset.lastSuggestion || '';
 
-    preview.textContent = suggested || 'Select a brand, enter Feature 01, and enter subcategory to preview the default product name.';
+    preview.textContent = suggested || 'Select a brand, Feature 01, and subcategory to preview the default product name.';
 
     if (!productName.dataset.manualEdit || productName.value.trim() === '' || productName.value.trim() === previousSuggestion) {
       if (suggested) {
@@ -349,6 +352,7 @@
     const featureOne = form.querySelector('[name="feature_01"]');
     const subcategoryKey = form.querySelector('[name="subcategory_key"]');
     const subcategoryName = form.querySelector('[name="subcategory"]');
+    const showPackSelect = form.querySelector('[name="show_pack_flag"]');
 
     function renderSubcategories() {
       if (!categorySelect || !subcategoryKey) return;
@@ -358,6 +362,17 @@
       const selected = items.find(item => String(item.subcategory_key || '') === String(subcategoryKey.value || ''));
       if (subcategoryName) subcategoryName.value = selected ? (selected.subcategory_name || '') : '';
     }
+
+    function updateShowPackAvailability() {
+      if (!showPackSelect || !categorySelect) return;
+      const isPackage = categorySelect.value === 'packages';
+      if (!isPackage) showPackSelect.value = 'N';
+      showPackSelect.disabled = !isPackage;
+      showPackSelect.closest('label')?.classList.toggle('is-readonly-field', !isPackage);
+      const note = form.querySelector('[data-show-pack-note]');
+      if (note) note.textContent = isPackage ? 'Package products can be promoted on homepage/package highlights.' : 'Promote Package is available only for Packages/Kits.';
+    }
+
 
     if (productName && !productName.dataset.boundNamePreview) {
       productName.dataset.boundNamePreview = 'true';
@@ -375,10 +390,13 @@
           subcategoryKey.value = '';
         }
         renderSubcategories();
+        updateShowPackAvailability();
         updateProductNamePreview(form);
       });
       renderSubcategories();
     }
+
+    updateShowPackAvailability();
 
     if (subcategoryKey && !subcategoryKey.dataset.boundSubcategoryName) {
       subcategoryKey.dataset.boundSubcategoryName = 'true';
@@ -400,45 +418,51 @@
     updateProductNamePreview(form);
   }
 
-  function input(name, labelText, value = '', type = 'text', attrs = '') {
-    return `<label><span>${esc(labelText)}</span><input name="${esc(name)}" type="${esc(type)}" value="${esc(value ?? '')}" ${attrs} /></label>`;
+  function requiredLabel(labelText, attrs = '') {
+    return String(attrs || '').includes('required') ? `${labelText} <span class="required-star" aria-hidden="true">*</span>` : labelText;
   }
 
-  function select(name, labelText, value, options) {
-    return `<label><span>${esc(labelText)}</span><select name="${esc(name)}">${options.map(opt => `<option value="${esc(opt.value)}" ${String(opt.value) === String(value ?? '') ? 'selected' : ''}>${esc(opt.label)}</option>`).join('')}</select></label>`;
+  function input(name, labelText, value = '', type = 'text', attrs = '') {
+    const readonlyClass = String(attrs || '').includes('readonly') ? ' class="is-readonly-field"' : '';
+    return `<label${readonlyClass}><span>${requiredLabel(esc(labelText), attrs)}</span><input name="${esc(name)}" type="${esc(type)}" value="${esc(value ?? '')}" ${attrs} /></label>`;
+  }
+
+  function select(name, labelText, value, options, attrs = '') {
+    return `<label><span>${requiredLabel(esc(labelText), attrs)}</span><select name="${esc(name)}" ${attrs}>${options.map(opt => `<option value="${esc(opt.value)}" ${String(opt.value) === String(value ?? '') ? 'selected' : ''}>${esc(opt.label)}</option>`).join('')}</select></label>`;
   }
 
   function productForm(record) {
     const isCreate = !record.product_id;
     const features = Array.from({ length: 10 }, (_, index) => {
       const n = String(index + 1).padStart(2, '0');
-      return input(`feature_${n}`, `Feature ${n}`, record[`feature_${n}`] || '', 'text', 'list="key-feature-suggestions"');
+      const req = index < 3 ? 'required ' : '';
+      return input(`feature_${n}`, `Feature ${n}`, record[`feature_${n}`] || '', 'text', `${req}list="key-feature-suggestions"`);
     }).join('');
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
       <h3>${isCreate ? 'Add Product' : 'Edit Product'}</h3>
-      <p class="form-note">Batch 20 enables safe create/update. Delete is still disabled. Image Browse prepares a future upload key; S3 upload comes later.</p>
+      <p class="form-note">Manage product details, category, brand, features, visibility, and media. Product images use the safe media picker until real upload storage is enabled.</p>
       <div class="catalog-form-grid">
-        <label class="span-2 product-name-preview-field"><span>Product Name</span><input name="product_name" type="text" value="${esc(record.product_name || '')}" /><small>Default suggestion: <strong data-product-name-preview>Brand + Feature 01 + Subcategory</strong></small></label>
+        <label class="span-2 product-name-preview-field"><span>Product Name <span class="required-star" aria-hidden="true">*</span></span><input name="product_name" type="text" value="${esc(record.product_name || '')}" required /><small>Default suggestion: <strong data-product-name-preview>Brand + Feature 01 + Subcategory</strong></small></label>
         ${input('product_id', 'Product ID', record.product_id || 'Auto-generated on save', 'text', 'readonly')}
-        <label><span>Category</span><select name="category_key" required><option value="">Select category</option>${optionList(activeCategoriesForProduct(record.category_key), 'category_key', 'category_name', record.category_key)}</select></label>
-        <label><span>Brand</span><select name="product_brand_key"><option value="">No brand / generic</option>${optionList(activeBrandsForProduct(record.product_brand_key), 'brand_key', 'brand_name', record.product_brand_key)}</select></label>
-        <label><span>Subcategory</span><select name="subcategory_key" data-current-value="${esc(record.subcategory_key || slugify(record.subcategory || ''))}" required><option value="">Select subcategory</option></select></label>
+        <label><span>Category <span class="required-star" aria-hidden="true">*</span></span><select name="category_key" required><option value="">Select category</option>${optionList(activeCategoriesForProduct(record.category_key), 'category_key', 'category_name', record.category_key)}</select></label>
+        <label><span>Brand <span class="required-star" aria-hidden="true">*</span></span><select name="product_brand_key" required><option value="">Select brand</option>${optionList(activeBrandsForProduct(record.product_brand_key), 'brand_key', 'brand_name', record.product_brand_key)}</select></label>
+        <label><span>Subcategory <span class="required-star" aria-hidden="true">*</span></span><select name="subcategory_key" data-current-value="${esc(record.subcategory_key || slugify(record.subcategory || ''))}" required><option value="">Select subcategory</option></select></label>
         <input name="subcategory" type="hidden" value="${esc(record.subcategory || '')}" />
         ${input('product_model', 'Model', record.product_model || '')}
         ${input('display_seq', 'Display Seq', record.display_seq ?? 10, 'number')}
-        ${input('stock_quantity', 'Stock Quantity', record.stock_quantity ?? 0, 'number')}
-        ${input('low_stock_threshold', 'Low Stock Threshold', record.low_stock_threshold ?? 10, 'number')}
-        ${input('price', 'Price', record.price ?? '', 'number', 'step="0.01" required')}
+        ${input('stock_quantity', 'Stock Quantity', record.stock_quantity ?? 0, 'number', 'required')}
+        ${input('low_stock_threshold', 'Low Stock Threshold', record.low_stock_threshold ?? 10, 'number', 'required')}
+        ${input('price', 'Price', record.price ?? '', 'number', 'step="0.01"')}
         ${input('sale_price', 'Sale Price', record.sale_price ?? '', 'number', 'step="0.01"')}
-        ${select('show_flag', 'Public Visibility', record.show_flag || 'Y', [{ value: 'Y', label: 'Y - Visible' }, { value: 'N', label: 'N - Hidden' }])}
-        ${select('show_pack_flag', 'Package Placement', record.show_pack_flag || 'N', [{ value: 'N', label: 'N - Normal' }, { value: 'Y', label: 'Y - Package hero' }])}
-        ${input('image_path', 'Image Path', record.image_path || '')}
+        ${select('show_flag', 'Public Visibility', record.show_flag || 'Y', [{ value: 'Y', label: 'Y - Visible' }, { value: 'N', label: 'N - Hidden' }], 'required')}
+        <label><span>Promote Package</span><select name="show_pack_flag"><option value="N" ${String(record.show_pack_flag || 'N') !== 'Y' ? 'selected' : ''}>No</option><option value="Y" ${String(record.show_pack_flag || 'N') === 'Y' ? 'selected' : ''}>Yes</option></select><small data-show-pack-note>Promote Package is available only for Packages/Kits.</small></label>
+        ${input('image_path', 'Product Image', record.image_path || '')}
         <label class="span-2"><span>Description</span><textarea name="description" rows="4">${esc(record.description || '')}</textarea></label>
       </div>
       <h3>Product Features</h3><div class="feature-grid">${features}</div>
       <datalist id="key-feature-suggestions">${keyFeatureOptions()}</datalist>
-      <p class="form-note compact-note">Feature fields support reusable key-feature suggestions. You can still type a custom value.</p>
-      <div class="drawer-actions"><button class="admin-button" type="submit">${isCreate ? 'Create Product' : 'Save Product'}</button><button class="admin-button secondary" type="button" data-close-drawer>Close</button></div>`;
+      <p class="form-note compact-note">At least three product features are required. Suggestions are reusable, but custom text is allowed.</p>
+      <div class="drawer-actions"><button class="admin-button" type="submit" data-save-button>${isCreate ? 'Create Product' : 'Save Product'}</button><button class="admin-button secondary" type="button" data-close-drawer>Close</button></div>`;
   }
 
   function simpleForm(record) {
@@ -447,24 +471,58 @@
     const nameField = page === 'brands' ? 'brand_name' : page === 'categories' ? 'category_name' : 'key_feat_name';
     const keyField = page === 'brands' ? 'brand_key' : page === 'categories' ? 'category_key' : '';
     const prefix = page === 'categories' ? input('category_prefix', 'Prefix', record.category_prefix || '', 'text', 'maxlength="4" required') : '';
-    const logo = page === 'brands' ? input('brand_logo_path', 'Logo Path', record.brand_logo_path || '') : '';
+    const iconCode = page === 'categories' ? input('icon_code', 'Icon Code', record.icon_code || '', 'text', 'placeholder="fa-solid fa-video" required') : '';
+    const logo = page === 'brands' ? input('brand_logo_path', 'Brand Logo', record.brand_logo_path || '') : '';
     const subcategoryEditor = page === 'categories' ? renderSubcategoryEditor(record) : '';
-    const protectionNote = page === 'categories' ? 'Batch 55B blocks hiding categories with active products and blocks deleting used subcategories.' : page === 'brands' ? 'Batch 55B blocks hiding brands with active products. Delete remains disabled.' : 'Batch 20 enables safe create/update. Delete actions remain disabled.';
+    const formNote = page === 'categories'
+      ? 'Manage category details and subcategories. Categories with active products cannot be hidden, and used subcategories cannot be removed.'
+      : page === 'brands'
+        ? 'Manage brand details and logo. Brands with active products cannot be hidden.'
+        : 'Manage reusable product feature suggestions.';
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
       <h3>${isCreate ? 'Add' : 'Edit'} ${config.singular}</h3>
-      <p class="form-note">${protectionNote}</p>
+      <p class="form-note">${formNote}</p>
       <div class="catalog-form-grid">
         ${input(config.idField, 'ID', id, 'text', 'readonly')}
         ${input(nameField, 'Name', record[nameField] || '', 'text', 'required')}
-        ${keyField ? input(keyField, 'Key', record[keyField] || '') : ''}
+        ${keyField ? input(keyField, 'Key', record[keyField] || '', 'text', 'required') : ''}
         ${prefix}
+        ${iconCode}
         ${logo}
         ${page !== 'key-features' ? input('display_seq', 'Display Seq', record.display_seq ?? 10, 'number') : ''}
-        ${page !== 'key-features' ? select('show_flag', 'Public Visibility', record.show_flag || 'Y', [{ value: 'Y', label: 'Y - Visible' }, { value: 'N', label: 'N - Hidden' }]) : ''}
+        ${page !== 'key-features' ? select('show_flag', 'Public Visibility', record.show_flag || 'Y', [{ value: 'Y', label: 'Y - Visible' }, { value: 'N', label: 'N - Hidden' }], 'required') : ''}
         ${page !== 'key-features' ? `<label class="span-2"><span>Description</span><textarea name="description" rows="4">${esc(record.description || '')}</textarea></label>` : ''}
         ${subcategoryEditor}
       </div>
-      <div class="drawer-actions"><button class="admin-button" type="submit">${isCreate ? `Create ${config.singular}` : 'Save Changes'}</button><button class="admin-button secondary" type="button" data-close-drawer>Close</button></div>`;
+      <div class="drawer-actions"><button class="admin-button" type="submit" data-save-button>${isCreate ? `Create ${config.singular}` : 'Save Changes'}</button><button class="admin-button secondary" type="button" data-close-drawer>Close</button></div>`;
+  }
+
+  function snapshotForm(form) {
+    return JSON.stringify(collectFormPayload(form));
+  }
+
+  function setSaveDirtyState(form, changed = false) {
+    const button = form.querySelector('[data-save-button]');
+    if (!button) return;
+    const mode = form.querySelector('[name="_mode"]')?.value || 'update';
+    button.disabled = mode !== 'create' && !changed;
+  }
+
+  function bindDirtyTracking(form) {
+    const mode = form.querySelector('[name="_mode"]')?.value || 'update';
+    window.setTimeout(() => {
+      form.dataset.initialPayload = snapshotForm(form);
+      setSaveDirtyState(form, mode === 'create');
+    }, 0);
+    if (form.dataset.boundDirtyTracking === 'true') return;
+    form.dataset.boundDirtyTracking = 'true';
+    form.addEventListener('input', () => setSaveDirtyState(form, snapshotForm(form) !== form.dataset.initialPayload));
+    form.addEventListener('change', () => setSaveDirtyState(form, snapshotForm(form) !== form.dataset.initialPayload));
+    form.addEventListener('click', event => {
+      if (event.target.closest('[data-add-subcategory-row]') || event.target.closest('[data-remove-subcategory-row]')) {
+        window.setTimeout(() => setSaveDirtyState(form, snapshotForm(form) !== form.dataset.initialPayload), 0);
+      }
+    });
   }
 
   function openDrawer(record = {}, mode = 'view') {
@@ -474,14 +532,16 @@
     const body = document.querySelector('[data-drawer-body]');
     const form = document.querySelector('[data-catalog-form]');
     if (!drawer || !title || !body || !form) return;
-    title.textContent = mode === 'create' ? `Add ${config.singular}` : (record[config.idField] || 'Catalog Detail');
+    title.textContent = mode === 'create' ? `Add ${config.singular}` : (record[config.idField] || `Edit ${config.singular}`);
     if (kicker) kicker.textContent = config.kicker;
-    body.innerHTML = mode === 'create' ? '<p class="helper-text">Create a new catalog record. Required fields are marked by browser validation.</p>' : `<div class="detail-grid">${detailRows(record)}</div>`;
+    body.innerHTML = '';
     form.hidden = false;
     form.dataset.recordId = record[config.idField] || '';
     form.innerHTML = page === 'products' ? productForm(record) : simpleForm(record);
     enhanceProductForm(form);
     bindSubcategoryEditor(form);
+    bindDirtyTracking(form);
+    if (window.RSAAdminMedia && typeof window.RSAAdminMedia.enhanceAll === 'function') window.RSAAdminMedia.enhanceAll(form);
     drawer.classList.add('is-open');
     drawer.setAttribute('aria-hidden', 'false');
   }
@@ -518,6 +578,9 @@
         payload[key] = value;
       }
     }
+    if (page === 'products' && payload.category_key !== 'packages') {
+      payload.show_pack_flag = 'N';
+    }
     payload.updated_by = 'local-admin';
     return payload;
   }
@@ -532,15 +595,19 @@
     const save = mode === 'create' ? api.postJson : api.putJson;
 
     try {
-      setStatus('', 'Saving catalog record…', `${mode === 'create' ? 'Creating' : 'Updating'} ${config.singular.toLowerCase()}.`);
+      setStatus('', `Saving ${config.singular.toLowerCase()}…`, 'Please wait while the changes are saved.');
       const saved = await save(path, payload);
-      setStatus('is-success', `${config.singular} saved.`, `${saved[config.idField] || 'Record'} was saved successfully.`);
+      setStatus('is-success', `${config.singular} saved.`, mode === 'create' ? `${config.singular} created successfully.` : 'Changes saved successfully.');
       await loadRecords();
+      if (mode === 'create') {
+        closeDrawer();
+        return;
+      }
       const refreshed = state.records.find(record => record[config.idField] === saved[config.idField]) || saved;
       openDrawer(refreshed, 'view');
     } catch (error) {
       console.error(error);
-      setStatus('is-warning', `Unable to save ${config.singular.toLowerCase()}.`, error.message || 'Check backend validation details.');
+      setStatus('is-warning', `Unable to save ${config.singular.toLowerCase()}.`, error.message || 'Please review the form and try again.');
     }
   }
 
@@ -568,7 +635,7 @@
       setStatus('is-warning', 'Catalog page could not start.', 'Missing admin API client or page configuration.');
       return;
     }
-    setStatus('', `Loading ${config.title.toLowerCase()}…`, `Fetching from ${api.getApiBaseUrl()}${config.endpoint}.`);
+    setStatus('', `Loading ${config.title.toLowerCase()}…`, 'Please wait while records are loaded.');
     try {
       await preloadLookups();
       let payload;
@@ -578,14 +645,14 @@
       state.filtered = state.records.slice();
       renderHead();
       applyFilters();
-      setStatus('is-success', `${config.title} loaded.`, `${state.records.length} records loaded from the backend API.`);
+      setStatus('is-success', `${config.title} loaded successfully.`, `${state.records.length} ${state.records.length === 1 ? 'record' : 'records'} found.`);
     } catch (error) {
       console.error(error);
       state.records = [];
       state.filtered = [];
       renderHead();
       renderTable();
-      setStatus('is-warning', `Unable to load ${config.title.toLowerCase()}.`, error.message || 'Check backend server and CORS settings.');
+      setStatus('is-warning', `Unable to load ${config.title.toLowerCase()}.`, error.message || 'Please check that the admin server is running.');
     }
   }
 

@@ -141,7 +141,7 @@
       return;
     }
 
-    setStatus('', 'Loading admin dashboard…', `Fetching data from ${api.getApiBaseUrl()}`);
+    setStatus('', 'Loading admin dashboard…', 'Please wait while dashboard data is loaded.');
 
     const settled = await Promise.allSettled([
       api.request(api.endpoints.products),
@@ -187,7 +187,7 @@
     if (failures.length) {
       setStatus('is-warning', 'Dashboard loaded with warnings.', 'Some API panels could not be loaded. Check backend logs and CORS settings.');
     } else {
-      setStatus('is-success', 'Dashboard connected.', `Admin shell is reading API data from ${api.getApiBaseUrl()}.`);
+      setStatus('is-success', 'Dashboard loaded successfully.', 'Latest catalog, lead, and customer information is ready.');
     }
   }
 
@@ -200,7 +200,7 @@
     document.querySelectorAll('.nav-item.is-disabled, .quick-actions button').forEach((item) => {
       item.addEventListener('click', (event) => {
         event.preventDefault();
-        setStatus('is-warning', 'Coming in a later admin batch.', 'Batch 17 is the dashboard shell only. Full admin CRUD will be added later.');
+        setStatus('is-warning', 'Action unavailable.', 'Use the left menu to open the matching admin page.');
       });
     });
   }

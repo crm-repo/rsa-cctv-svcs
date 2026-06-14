@@ -1,6 +1,6 @@
 :root {
-  --rsa-red: #c72127;
-  --rsa-red-dark: #9e171d;
+  --rsa-red: #b91c1c;
+  --rsa-red-dark: #7f1d1d;
   --rsa-charcoal: #111827;
   --rsa-charcoal-2: #1f2937;
   --rsa-slate: #64748b;
@@ -707,3 +707,53 @@ td { padding: 13px 10px; border-bottom: 1px solid #eef2f7; color: #243041; }
     flex-direction: column;
   }
 }
+
+/* batch55c-admin-page-overall-polish */
+.required-star { color: var(--rsa-red); font-weight: 900; }
+.catalog-form input[readonly],
+.catalog-form .is-readonly-field input,
+.catalog-form .is-readonly-field select,
+.catalog-form select:disabled,
+.admin-data-table input[readonly] {
+  background: #f3f4f6 !important;
+  color: #64748b !important;
+  border-color: #d1d5db !important;
+  cursor: not-allowed;
+}
+.catalog-form label.is-readonly-field span,
+.catalog-form label:has(input[readonly]) span {
+  color: #64748b;
+}
+.admin-button:disabled,
+button.admin-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.nav-item-button {
+  width: 100%;
+  border: 0;
+  text-align: left;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+.nav-item-button:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.sidebar-note { display: none !important; }
+.nav-icon i,
+.metric-icon i,
+.content-card i { font-size: 0.95rem; }
+.metric-icon {
+  background: #fee2e2;
+  color: var(--rsa-red);
+}
+.icon-button[title] { color: #111827; }
+.form-note.compact-note { margin-top: 8px; }
+.catalog-form-grid label small {
+  display: block;
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
