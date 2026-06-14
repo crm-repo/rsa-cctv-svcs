@@ -757,3 +757,74 @@ button.admin-button:disabled {
   line-height: 1.35;
 }
 
+
+
+/* batch55c-hotfixes-admin-polish-corrections */
+.catalog-toolbar-group label,
+.lead-toolbar-group label,
+.catalog-form-grid label {
+  min-width: 0;
+}
+.catalog-form-grid input,
+.catalog-form-grid select,
+.catalog-form-grid textarea,
+.drawer-update-form input,
+.drawer-update-form select,
+.drawer-update-form textarea {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.catalog-form-grid select,
+.lead-toolbar-group select,
+.catalog-toolbar-group select {
+  min-height: 44px;
+  height: 44px;
+  line-height: 1.2;
+}
+.admin-media-picker {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.admin-media-picker .admin-media-filename {
+  min-width: 0;
+  flex: 1 1 220px;
+}
+.admin-media-picker .admin-media-button,
+.admin-media-picker .admin-media-clear,
+.admin-media-picker .admin-media-restore {
+  flex: 0 0 auto;
+}
+.quick-actions a.quick-action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(185, 28, 28, 0.24);
+  background: rgba(185, 28, 28, 0.08);
+  color: var(--rsa-red, #b91c1c);
+  font-weight: 800;
+  text-decoration: none;
+}
+.quick-actions a.quick-action-link:hover {
+  background: rgba(185, 28, 28, 0.14);
+}
+input.is-readonly-field,
+select.is-readonly-field,
+textarea.is-readonly-field,
+label.is-readonly-field input,
+label.is-readonly-field select,
+label.is-readonly-field textarea {
+  background: #f3f4f6 !important;
+  color: #6b7280 !important;
+  cursor: not-allowed;
+}
+.subcategory-editor-key.is-readonly-field {
+  background: #f3f4f6 !important;
+  color: #6b7280 !important;
+}

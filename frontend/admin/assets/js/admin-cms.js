@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  const BATCH55C_HOTFIX_VERSION = 'batch55c-hotfixes-admin-polish-corrections';
+  window.RSA_BATCH55C_CMS_HOTFIX_VERSION = BATCH55C_HOTFIX_VERSION;
+
   const api = window.RSAAdminApi;
   const app = document.querySelector('[data-admin-app]');
   const page = app ? app.getAttribute('data-admin-page') : '';
@@ -26,7 +29,7 @@
       title: 'Project Gallery',
       singular: 'Project Item',
       kicker: 'Gallery Content',
-      columns: [['project_id', 'ID'], ['project_title', 'Project'], ['image_path', 'Image Path'], ['display_seq', 'Display Seq'], ['show_flag', 'Visible']],
+      columns: [['project_id', 'ID'], ['project_title', 'Project'], ['image_path', 'Image'], ['display_seq', 'Display Seq'], ['show_flag', 'Visible']],
       detailFields: ['project_id', 'show_flag', 'display_seq', 'project_title', 'project_description', 'image_path', 'alt_text', 'created_at', 'updated_at']
     },
     services: {
@@ -70,16 +73,19 @@
 
   function text(record) { return Object.values(record || {}).map(value => String(value ?? '')).join(' ').toLowerCase(); }
   function searchValue() { return String(document.querySelector('[data-cms-search]')?.value || document.querySelector('[data-admin-search]')?.value || '').trim().toLowerCase(); }
+  function slugify(value) { return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'item'; }
+  function sortValue() { return String(document.querySelector('[data-sort-filter]')?.value || 'recent'); }
+  function recordDateValue(record) { const parsed = Date.parse(record.created_at || record.updated_at || ''); return Number.isFinite(parsed) ? parsed : 0; }
+  function displayName(record) { return String(record.hero_title || record.project_title || record.service_title || record.person_name || record.platform_name || record.contact_us_id || '').toLowerCase(); }
+  function sortRecords(records) { const mode = sortValue(); return records.slice().sort((a,b)=>{ if(mode==='oldest') return recordDateValue(a)-recordDateValue(b); if(mode==='az') return displayName(a).localeCompare(displayName(b)); if(mode==='za') return displayName(b).localeCompare(displayName(a)); return recordDateValue(b)-recordDateValue(a); }); }
 
   function applyFilters() {
     const query = searchValue();
-    const visibility = document.querySelector('[data-flag-filter]')?.value || '';
     const contactType = document.querySelector('[data-contact-type-filter]')?.value || '';
-    state.filtered = state.records.filter(record =>
+    state.filtered = sortRecords(state.records.filter(record =>
       (!query || text(record).includes(query)) &&
-      (!visibility || record.show_flag === visibility) &&
       (!contactType || record.contact_type === contactType)
-    );
+    ));
     renderTable();
   }
 
@@ -114,8 +120,10 @@
     return config.detailFields.map(field => `<div class="detail-row"><span>${esc(field.replace(/_/g, ' '))}</span><span>${esc(fmt(field, record[field]))}</span></div>`).join('');
   }
 
+  function requiredLabel(labelText, attrs = '') { return String(attrs || '').includes('required') ? `${labelText} <span class="required-star" aria-hidden="true">*</span>` : labelText; }
   function input(name, labelText, value = '', type = 'text', attrs = '') {
-    return `<label><span>${esc(labelText)}</span><input name="${esc(name)}" type="${esc(type)}" value="${esc(value ?? '')}" ${attrs} /></label>`;
+    const ro = String(attrs || '').includes('readonly');
+    return `<label${ro ? ' class="is-readonly-field"' : ''}><span>${requiredLabel(esc(labelText), attrs)}</span><input class="${ro ? 'is-readonly-field' : ''}" name="${esc(name)}" type="${esc(type)}" value="${esc(value ?? '')}" ${attrs} /></label>`;
   }
 
   function select(name, labelText, value, options) {
@@ -129,16 +137,14 @@
   function aboutForm(record) {
     const isCreate = !record.about_id;
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
-      <h3>${isCreate ? 'Add About Record' : 'Edit About Record'}</h3>
-      <p class="form-note">Batch 21 enables CMS create/update. Delete is still disabled. Image Browse prepares a future upload key; S3 upload comes later.</p>
       <div class="catalog-form-grid">
         ${input('about_id', 'About ID', record.about_id || 'Auto-generated on save', 'text', 'readonly')}
         ${select('show_flag', 'Public Visibility', record.show_flag || 'Y', [{ value: 'Y', label: 'Y - Visible' }, { value: 'N', label: 'N - Hidden' }])}
         ${input('hero_title', 'Hero Title', record.hero_title || '', 'text', 'required')}
-        ${input('hero_image_path', 'Hero Image Path', record.hero_image_path || '')}
+        ${input('hero_image_path', 'Hero Image', record.hero_image_path || '')}
         ${textarea('hero_subtitle', 'Hero Subtitle', record.hero_subtitle || '')}
         ${input('company_story_title', 'Company Story Title', record.company_story_title || '')}
-        ${input('company_story_image_path', 'Company Story Image Path', record.company_story_image_path || '')}
+        ${input('company_story_image_path', 'Company Story Image', record.company_story_image_path || '')}
         ${textarea('company_story_body', 'Company Story Body', record.company_story_body || '')}
         ${input('mission_title', 'Mission Title', record.mission_title || '')}
         ${textarea('mission_body', 'Mission Body', record.mission_body || '')}
@@ -160,13 +166,12 @@
   function projectForm(record) {
     const isCreate = !record.project_id;
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
-      <h3>${isCreate ? 'Add Project' : 'Edit Project'}</h3>
       <div class="catalog-form-grid">
         ${input('project_id', 'Project ID', record.project_id || 'Auto-generated on save', 'text', 'readonly')}
         ${select('show_flag', 'Public Visibility', record.show_flag || 'Y', [{ value: 'Y', label: 'Y - Visible' }, { value: 'N', label: 'N - Hidden' }])}
         ${input('project_title', 'Project Title', record.project_title || '', 'text', 'required')}
         ${input('display_seq', 'Display Seq', record.display_seq ?? 10, 'number')}
-        ${input('image_path', 'Image Path', record.image_path || '', 'text', 'required')}
+        ${input('image_path', 'Image', record.image_path || '', 'text', 'required')}
         ${input('alt_text', 'Alt Text', record.alt_text || '')}
         ${textarea('project_description', 'Project Description', record.project_description || '')}
       </div>${drawerActions(isCreate)}`;
@@ -175,15 +180,14 @@
   function serviceForm(record) {
     const isCreate = !record.service_id;
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
-      <h3>${isCreate ? 'Add Service' : 'Edit Service'}</h3>
       <div class="catalog-form-grid">
         ${input('service_id', 'Service ID', record.service_id || 'Auto-generated on save', 'text', 'readonly')}
         ${select('show_flag', 'Public Visibility', record.show_flag || 'Y', [{ value: 'Y', label: 'Y - Visible' }, { value: 'N', label: 'N - Hidden' }])}
         ${input('service_title', 'Service Title', record.service_title || '', 'text', 'required')}
-        ${input('service_slug', 'Service Slug', record.service_slug || '')}
+        ${input('service_slug', 'Service Slug', record.service_slug || '', 'text', 'readonly data-system-key="true"')}
         ${input('display_seq', 'Display Seq', record.display_seq ?? 10, 'number')}
-        ${input('image_path', 'Image Path', record.image_path || '')}
-        ${input('icon_path', 'Icon Path', record.icon_path || '')}
+        ${input('image_path', 'Image', record.image_path || '')}
+        ${input('icon_path', 'Icon Image', record.icon_path || '')}
         ${input('cta_label', 'CTA Label', record.cta_label || '')}
         ${input('cta_url', 'CTA URL', record.cta_url || '')}
         ${textarea('short_description', 'Short Description', record.short_description || '', 3)}
@@ -196,7 +200,6 @@
   function contactForm(record) {
     const isCreate = !record.contact_us_id;
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
-      <h3>${isCreate ? 'Add Contact Record' : 'Edit Contact Record'}</h3>
       <div class="catalog-form-grid">
         ${input('contact_us_id', 'Contact ID', record.contact_us_id || 'Auto-generated by contact type', 'text', 'readonly')}
         ${select('contact_type', 'Contact Type', record.contact_type || 'Contact Person', [{ value: 'Company Contact', label: 'Company Contact' }, { value: 'Contact Person', label: 'Contact Person' }, { value: 'Social Media', label: 'Social Media' }])}
@@ -217,14 +220,14 @@
         ${input('phone_number', 'Phone Number', record.phone_number || '')}
         ${input('email_address', 'Email Address', record.email_address || '', 'email')}
         ${input('platform_name', 'Platform Name', record.platform_name || '')}
-        ${input('platform_key', 'Platform Key', record.platform_key || '')}
+        ${input('platform_key', 'Platform Key', record.platform_key || '', 'text', 'readonly data-system-key="true"')}
         ${input('profile_url', 'Profile URL', record.profile_url || '')}
         ${input('icon_code', 'Icon Code', record.icon_code || '')}
       </div>${drawerActions(isCreate)}`;
   }
 
   function drawerActions(isCreate) {
-    return `<div class="drawer-actions"><button class="admin-button" type="submit">${isCreate ? `Create ${config.singular}` : 'Save Changes'}</button><button class="admin-button secondary" type="button" data-close-drawer>Close</button></div>`;
+    return `<div class="drawer-actions"><button class="admin-button" type="submit" data-save-button>${isCreate ? `Create ${config.singular}` : 'Save Changes'}</button><button class="admin-button secondary" type="button" data-close-drawer>Close</button></div>`;
   }
 
   function formHtml(record) {
@@ -233,6 +236,41 @@
     if (page === 'services') return serviceForm(record);
     if (page === 'contact-us') return contactForm(record);
     return '';
+  }
+
+
+  function bindSystemGeneratedKeys(form) {
+    if (!form || form.dataset.boundSystemKeys === 'true') return;
+    form.dataset.boundSystemKeys = 'true';
+    const pairs = [
+      ['service_title', 'service_slug'],
+      ['platform_name', 'platform_key']
+    ];
+    pairs.forEach(([nameField, keyField]) => {
+      const source = form.querySelector(`[name="${nameField}"]`);
+      const target = form.querySelector(`[name="${keyField}"]`);
+      if (!source || !target) return;
+      const sync = () => { target.value = slugify(source.value); };
+      if (!target.value || form.querySelector('[name="_mode"]')?.value === 'create') sync();
+      source.addEventListener('input', sync);
+      source.addEventListener('change', sync);
+    });
+  }
+
+  function snapshotForm(form) { return JSON.stringify(collectFormPayload(form)); }
+  function setSaveDirtyState(form, changed = false) {
+    const button = form.querySelector('[data-save-button]');
+    if (!button) return;
+    const mode = form.querySelector('[name="_mode"]')?.value || 'update';
+    button.disabled = mode !== 'create' && !changed;
+  }
+  function bindDirtyTracking(form) {
+    const mode = form.querySelector('[name="_mode"]')?.value || 'update';
+    window.setTimeout(() => { form.dataset.initialPayload = snapshotForm(form); setSaveDirtyState(form, mode === 'create'); }, 0);
+    if (form.dataset.boundDirtyTracking === 'true') return;
+    form.dataset.boundDirtyTracking = 'true';
+    form.addEventListener('input', () => setSaveDirtyState(form, snapshotForm(form) !== form.dataset.initialPayload));
+    form.addEventListener('change', () => setSaveDirtyState(form, snapshotForm(form) !== form.dataset.initialPayload));
   }
 
   function openDrawer(record = {}, mode = 'view') {
@@ -244,10 +282,13 @@
     if (!drawer || !title || !body || !form) return;
     title.textContent = mode === 'create' ? `Add ${config.singular}` : (record[config.idField] || 'CMS Detail');
     if (kicker) kicker.textContent = config.kicker;
-    body.innerHTML = mode === 'create' ? '<p class="helper-text">Create a new CMS record. Required fields are marked by browser validation.</p>' : `<div class="detail-grid">${detailRows(record)}</div>`;
+    body.innerHTML = '';
     form.hidden = false;
     form.dataset.recordId = record[config.idField] || '';
     form.innerHTML = formHtml(record);
+    bindSystemGeneratedKeys(form);
+    bindDirtyTracking(form);
+    if (window.RSAAdminMedia && typeof window.RSAAdminMedia.enhanceAll === 'function') window.RSAAdminMedia.enhanceAll(form);
     drawer.classList.add('is-open');
     drawer.setAttribute('aria-hidden', 'false');
   }
@@ -288,8 +329,7 @@
       const saved = await save(path, payload);
       setStatus('is-success', `${config.singular} saved.`, `${saved[config.idField] || 'Record'} was saved successfully.`);
       await loadRecords();
-      const refreshed = state.records.find(record => record[config.idField] === saved[config.idField]) || saved;
-      openDrawer(refreshed, 'view');
+      closeDrawer();
     } catch (error) {
       console.error(error);
       setStatus('is-warning', `Unable to save ${config.singular.toLowerCase()}.`, error.message || 'Check backend validation details.');
@@ -316,7 +356,7 @@
       state.filtered = state.records.slice();
       renderHead();
       applyFilters();
-      setStatus('is-success', `${config.title} loaded.`, `${state.records.length} CMS records found.`);
+      setStatus('is-success', `${config.title} loaded successfully.`, `${state.records.length} ${config.title} records found.`);
     } catch (error) {
       console.error(error);
       state.records = [];
@@ -330,13 +370,14 @@
   function setup() {
     const toggle = document.querySelector('[data-sidebar-toggle]');
     if (toggle && app) toggle.addEventListener('click', () => app.classList.toggle('sidebar-open'));
-    ['[data-cms-search]', '[data-admin-search]', '[data-flag-filter]', '[data-contact-type-filter]'].forEach(selector => {
+    ['[data-cms-search]', '[data-admin-search]', '[data-sort-filter]', '[data-contact-type-filter]'].forEach(selector => {
       const element = document.querySelector(selector);
       if (element) element.addEventListener(element.tagName === 'INPUT' ? 'input' : 'change', applyFilters);
     });
     document.querySelector('[data-clear-filters]')?.addEventListener('click', () => {
       document.querySelectorAll('[data-cms-search],[data-admin-search]').forEach(element => { element.value = ''; });
-      document.querySelectorAll('[data-flag-filter],[data-contact-type-filter]').forEach(element => { element.value = ''; });
+      document.querySelectorAll('[data-contact-type-filter]').forEach(element => { element.value = ''; });
+      document.querySelectorAll('[data-sort-filter]').forEach(element => { element.value = 'recent'; });
       applyFilters();
     });
     document.querySelector('[data-refresh-list]')?.addEventListener('click', loadRecords);
@@ -360,5 +401,5 @@
     document.addEventListener('keydown', event => { if (event.key === 'Escape') closeDrawer(); });
   }
 
-  document.addEventListener('DOMContentLoaded', () => { setup(); loadRecords(); });
+  document.addEventListener('DOMContentLoaded', async () => { setup(); await loadRecords(); if (new URLSearchParams(window.location.search).get('action') === 'create') openDrawer({}, 'create'); });
 }());

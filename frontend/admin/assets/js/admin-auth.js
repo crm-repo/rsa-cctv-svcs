@@ -51,10 +51,20 @@
   }
 
   function clearToken() {
-    window.localStorage.removeItem(TOKEN_KEY);
-    window.localStorage.removeItem(ID_TOKEN_KEY);
-    window.localStorage.removeItem(REFRESH_TOKEN_KEY);
-    window.localStorage.removeItem(MODE_KEY);
+    const explicitKeys = [TOKEN_KEY, ID_TOKEN_KEY, REFRESH_TOKEN_KEY, MODE_KEY];
+    explicitKeys.forEach((key) => {
+      window.localStorage.removeItem(key);
+      window.sessionStorage.removeItem(key);
+    });
+
+    [window.localStorage, window.sessionStorage].forEach((store) => {
+      Object.keys(store).forEach((key) => {
+        const normalized = String(key || '').toLowerCase();
+        if (normalized.includes('rsa_admin') || normalized.includes('cognito') || normalized.includes('amplify') || normalized.includes('admin_auth')) {
+          store.removeItem(key);
+        }
+      });
+    });
   }
 
   function getAuthHeader() {
@@ -228,8 +238,9 @@
     document.addEventListener('click', (event) => {
       const logoutButton = event.target.closest('[data-admin-logout]');
       if (!logoutButton) return;
+      event.preventDefault();
       clearToken();
-      window.location.href = './login.html';
+      window.location.replace('./login.html?logged_out=1');
     });
   });
 }());

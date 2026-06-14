@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  const BATCH55C_HOTFIX_VERSION = 'batch55c-hotfixes-admin-polish-corrections';
+  window.RSA_BATCH55C_HOTFIX_VERSION = BATCH55C_HOTFIX_VERSION;
+
   const BATCH55C_ADMIN_POLISH_VERSION = 'batch55c-admin-page-overall-polish';
   window.RSA_BATCH55C_ADMIN_POLISH_VERSION = BATCH55C_ADMIN_POLISH_VERSION;
 
@@ -115,7 +118,7 @@
     const key = item.subcategory_key || slugify(name);
     return `<div class="subcategory-editor-row" data-subcategory-row>
       <input type="number" class="subcategory-editor-seq" value="${esc(displaySeq)}" min="0" step="1" data-subcategory-display-seq aria-label="Subcategory display sequence" />
-      <input type="text" class="subcategory-editor-key" value="${esc(key)}" placeholder="subcategory-key" data-subcategory-key aria-label="Subcategory key" />
+      <input type="text" class="subcategory-editor-key is-readonly-field" value="${esc(key)}" placeholder="system-generated" data-subcategory-key aria-label="Subcategory key" readonly />
       <input type="text" class="subcategory-editor-name" value="${esc(name)}" placeholder="Subcategory name" data-subcategory-name aria-label="Subcategory name" />
       <button type="button" class="table-action-link subcategory-remove-button" data-remove-subcategory-row>Remove</button>
     </div>`;
@@ -140,7 +143,7 @@
         </div>
         <div data-subcategory-rows>${rows}</div>
       </div>
-      <p class="form-note compact-note">Keys are auto-suggested from the name, but can still be edited. Do not remove a subcategory that is already used by products.</p>
+      <p class="form-note compact-note">Subcategory keys are system-generated from the name and are read-only. Do not remove a subcategory that is already used by products.</p>
     </div>`;
   }
 
@@ -198,11 +201,7 @@
       const row = target.closest('[data-subcategory-row]');
       if (!row) return;
       const keyInput = row.querySelector('[data-subcategory-key]');
-      if (target.matches('[data-subcategory-key]')) {
-        target.dataset.manualKey = 'true';
-        target.value = slugify(target.value);
-      }
-      if (target.matches('[data-subcategory-name]') && keyInput && keyInput instanceof HTMLInputElement && keyInput.dataset.manualKey !== 'true') {
+      if (target.matches('[data-subcategory-name]') && keyInput && keyInput instanceof HTMLInputElement) {
         keyInput.value = slugify(target.value);
       }
     });
@@ -245,18 +244,34 @@
 
   function text(record) { return Object.values(record || {}).map(value => String(value ?? '')).join(' ').toLowerCase(); }
   function searchValue() { return String(document.querySelector('[data-catalog-search]')?.value || document.querySelector('[data-admin-search]')?.value || '').trim().toLowerCase(); }
+  function sortValue() { return String(document.querySelector('[data-sort-filter]')?.value || 'recent'); }
+  function recordDateValue(record) {
+    const raw = record.created_at || record.updated_at || '';
+    const parsed = Date.parse(raw);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+  function displayName(record) {
+    return String(record.product_name || record.category_name || record.brand_name || record.key_feat_name || record[config.idField] || '').toLowerCase();
+  }
+  function sortRecords(records) {
+    const mode = sortValue();
+    return records.slice().sort((a, b) => {
+      if (mode === 'oldest') return recordDateValue(a) - recordDateValue(b);
+      if (mode === 'az') return displayName(a).localeCompare(displayName(b));
+      if (mode === 'za') return displayName(b).localeCompare(displayName(a));
+      return recordDateValue(b) - recordDateValue(a);
+    });
+  }
 
   function applyFilters() {
     const query = searchValue();
     const category = document.querySelector('[data-category-filter]')?.value || '';
     const brand = document.querySelector('[data-brand-filter]')?.value || '';
-    const visibility = document.querySelector('[data-flag-filter]')?.value || '';
-    state.filtered = state.records.filter(record =>
+    state.filtered = sortRecords(state.records.filter(record =>
       (!query || text(record).includes(query)) &&
       (!category || record.category_key === category) &&
-      (!brand || record.product_brand_key === brand || record.brand_key === brand) &&
-      (!visibility || record.show_flag === visibility)
-    );
+      (!brand || record.product_brand_key === brand || record.brand_key === brand)
+    ));
     renderTable();
   }
 
@@ -424,11 +439,31 @@
 
   function input(name, labelText, value = '', type = 'text', attrs = '') {
     const readonlyClass = String(attrs || '').includes('readonly') ? ' class="is-readonly-field"' : '';
-    return `<label${readonlyClass}><span>${requiredLabel(esc(labelText), attrs)}</span><input name="${esc(name)}" type="${esc(type)}" value="${esc(value ?? '')}" ${attrs} /></label>`;
+    return `<label${readonlyClass}><span>${requiredLabel(esc(labelText), attrs)}</span><input class="${String(attrs || '').includes('readonly') ? 'is-readonly-field' : ''}" name="${esc(name)}" type="${esc(type)}" value="${esc(value ?? '')}" ${attrs} /></label>`;
   }
 
   function select(name, labelText, value, options, attrs = '') {
     return `<label><span>${requiredLabel(esc(labelText), attrs)}</span><select name="${esc(name)}" ${attrs}>${options.map(opt => `<option value="${esc(opt.value)}" ${String(opt.value) === String(value ?? '') ? 'selected' : ''}>${esc(opt.label)}</option>`).join('')}</select></label>`;
+  }
+
+
+  function bindSystemGeneratedKeys(form) {
+    if (!form || form.dataset.boundSystemKeys === 'true') return;
+    form.dataset.boundSystemKeys = 'true';
+    const pairs = [
+      ['brand_name', 'brand_key'],
+      ['category_name', 'category_key'],
+      ['key_feat_name', 'key_feat_key']
+    ];
+    pairs.forEach(([nameField, keyField]) => {
+      const source = form.querySelector(`[name="${nameField}"]`);
+      const target = form.querySelector(`[name="${keyField}"]`);
+      if (!source || !target) return;
+      const sync = () => { target.value = slugify(source.value); };
+      if (!target.value || form.querySelector('[name="_mode"]')?.value === 'create') sync();
+      source.addEventListener('input', sync);
+      source.addEventListener('change', sync);
+    });
   }
 
   function productForm(record) {
@@ -439,7 +474,6 @@
       return input(`feature_${n}`, `Feature ${n}`, record[`feature_${n}`] || '', 'text', `${req}list="key-feature-suggestions"`);
     }).join('');
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
-      <h3>${isCreate ? 'Add Product' : 'Edit Product'}</h3>
       <p class="form-note">Manage product details, category, brand, features, visibility, and media. Product images use the safe media picker until real upload storage is enabled.</p>
       <div class="catalog-form-grid">
         <label class="span-2 product-name-preview-field"><span>Product Name <span class="required-star" aria-hidden="true">*</span></span><input name="product_name" type="text" value="${esc(record.product_name || '')}" required /><small>Default suggestion: <strong data-product-name-preview>Brand + Feature 01 + Subcategory</strong></small></label>
@@ -480,12 +514,11 @@
         ? 'Manage brand details and logo. Brands with active products cannot be hidden.'
         : 'Manage reusable product feature suggestions.';
     return `<input type="hidden" name="_mode" value="${isCreate ? 'create' : 'update'}" />
-      <h3>${isCreate ? 'Add' : 'Edit'} ${config.singular}</h3>
       <p class="form-note">${formNote}</p>
       <div class="catalog-form-grid">
         ${input(config.idField, 'ID', id, 'text', 'readonly')}
         ${input(nameField, 'Name', record[nameField] || '', 'text', 'required')}
-        ${keyField ? input(keyField, 'Key', record[keyField] || '', 'text', 'required') : ''}
+        ${keyField ? input(keyField, 'Key', record[keyField] || '', 'text', 'required readonly data-system-key="true"') : ''}
         ${prefix}
         ${iconCode}
         ${logo}
@@ -540,6 +573,7 @@
     form.innerHTML = page === 'products' ? productForm(record) : simpleForm(record);
     enhanceProductForm(form);
     bindSubcategoryEditor(form);
+    bindSystemGeneratedKeys(form);
     bindDirtyTracking(form);
     if (window.RSAAdminMedia && typeof window.RSAAdminMedia.enhanceAll === 'function') window.RSAAdminMedia.enhanceAll(form);
     drawer.classList.add('is-open');
@@ -599,12 +633,7 @@
       const saved = await save(path, payload);
       setStatus('is-success', `${config.singular} saved.`, mode === 'create' ? `${config.singular} created successfully.` : 'Changes saved successfully.');
       await loadRecords();
-      if (mode === 'create') {
-        closeDrawer();
-        return;
-      }
-      const refreshed = state.records.find(record => record[config.idField] === saved[config.idField]) || saved;
-      openDrawer(refreshed, 'view');
+      closeDrawer();
     } catch (error) {
       console.error(error);
       setStatus('is-warning', `Unable to save ${config.singular.toLowerCase()}.`, error.message || 'Please review the form and try again.');
@@ -645,7 +674,7 @@
       state.filtered = state.records.slice();
       renderHead();
       applyFilters();
-      setStatus('is-success', `${config.title} loaded successfully.`, `${state.records.length} ${state.records.length === 1 ? 'record' : 'records'} found.`);
+      setStatus('is-success', `${config.title} loaded successfully.`, `${state.records.length} ${config.title} records found.`);
     } catch (error) {
       console.error(error);
       state.records = [];
@@ -659,13 +688,14 @@
   function setup() {
     const toggle = document.querySelector('[data-sidebar-toggle]');
     if (toggle && app) toggle.addEventListener('click', () => app.classList.toggle('sidebar-open'));
-    ['[data-catalog-search]', '[data-admin-search]', '[data-category-filter]', '[data-brand-filter]', '[data-flag-filter]'].forEach(selector => {
+    ['[data-catalog-search]', '[data-admin-search]', '[data-category-filter]', '[data-brand-filter]', '[data-sort-filter]'].forEach(selector => {
       const element = document.querySelector(selector);
       if (element) element.addEventListener(element.tagName === 'INPUT' ? 'input' : 'change', applyFilters);
     });
     document.querySelector('[data-clear-filters]')?.addEventListener('click', () => {
       document.querySelectorAll('[data-catalog-search],[data-admin-search]').forEach(element => { element.value = ''; });
-      document.querySelectorAll('[data-category-filter],[data-brand-filter],[data-flag-filter]').forEach(element => { element.value = ''; });
+      document.querySelectorAll('[data-category-filter],[data-brand-filter]').forEach(element => { element.value = ''; });
+      document.querySelectorAll('[data-sort-filter]').forEach(element => { element.value = 'recent'; });
       applyFilters();
     });
     document.querySelector('[data-refresh-list]')?.addEventListener('click', loadRecords);
@@ -689,5 +719,5 @@
     document.addEventListener('keydown', event => { if (event.key === 'Escape') closeDrawer(); });
   }
 
-  document.addEventListener('DOMContentLoaded', () => { setup(); loadRecords(); });
+  document.addEventListener('DOMContentLoaded', async () => { setup(); await loadRecords(); if (new URLSearchParams(window.location.search).get('action') === 'create') openDrawer({}, 'create'); });
 }());

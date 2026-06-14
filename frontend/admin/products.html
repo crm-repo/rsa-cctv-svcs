@@ -23,26 +23,22 @@
       </a>
 
       <nav class="admin-nav">
-        <a class="nav-item " href="./index.html"><span class="nav-icon"><i class="fa-solid fa-gauge-high"></i></span><span>Dashboard</span></a>
-
+        <a class="nav-item" href="./index.html"><span class="nav-icon"><i class="fa-solid fa-gauge-high"></i></span><span>Dashboard</span></a>
         <p class="nav-heading">Catalog</p>
         <a class="nav-item is-active" href="./products.html"><span class="nav-icon"><i class="fa-solid fa-boxes-stacked"></i></span><span>Products</span></a>
-        <a class="nav-item " href="./categories.html"><span class="nav-icon"><i class="fa-solid fa-layer-group"></i></span><span>Categories</span></a>
-        <a class="nav-item " href="./brands.html"><span class="nav-icon"><i class="fa-solid fa-tags"></i></span><span>Brands</span></a>
-        <a class="nav-item " href="./key-features.html"><span class="nav-icon"><i class="fa-solid fa-list-check"></i></span><span>Key Features</span></a>
-        <a class="nav-item " href="./promotions.html"><span class="nav-icon"><i class="fa-solid fa-percent"></i></span><span>Promotions</span></a>
-
+        <a class="nav-item" href="./categories.html"><span class="nav-icon"><i class="fa-solid fa-layer-group"></i></span><span>Categories</span></a>
+        <a class="nav-item" href="./brands.html"><span class="nav-icon"><i class="fa-solid fa-tags"></i></span><span>Brands</span></a>
+        <a class="nav-item" href="./key-features.html"><span class="nav-icon"><i class="fa-solid fa-list-check"></i></span><span>Key Features</span></a>
+        <a class="nav-item" href="./promotions.html"><span class="nav-icon"><i class="fa-solid fa-percent"></i></span><span>Promotions</span></a>
         <p class="nav-heading">CRM</p>
-        <a class="nav-item " href="./customers.html"><span class="nav-icon"><i class="fa-solid fa-users"></i></span><span>Customers</span></a>
-        <a class="nav-item " href="./bookings.html"><span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span><span>Bookings</span></a>
-        <a class="nav-item " href="./inquiries.html"><span class="nav-icon"><i class="fa-solid fa-envelope-open-text"></i></span><span>Inquiries</span></a>
-
+        <a class="nav-item" href="./customers.html"><span class="nav-icon"><i class="fa-solid fa-users"></i></span><span>Customers</span></a>
+        <a class="nav-item" href="./bookings.html"><span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span><span>Bookings</span></a>
+        <a class="nav-item" href="./inquiries.html"><span class="nav-icon"><i class="fa-solid fa-envelope-open-text"></i></span><span>Inquiries</span></a>
         <p class="nav-heading">Contents</p>
         <a class="nav-item" href="./about.html"><span class="nav-icon"><i class="fa-solid fa-circle-info"></i></span><span>About Us</span></a>
         <a class="nav-item" href="./project-gallery.html"><span class="nav-icon"><i class="fa-solid fa-images"></i></span><span>Project Gallery</span></a>
         <a class="nav-item" href="./services.html"><span class="nav-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span><span>Services</span></a>
         <a class="nav-item" href="./contact-us.html"><span class="nav-icon"><i class="fa-solid fa-address-book"></i></span><span>Contact Us</span></a>
-
         <p class="nav-heading">System</p>
         <a class="nav-item is-disabled" href="#" aria-disabled="true"><span class="nav-icon"><i class="fa-solid fa-gear"></i></span><span>Settings</span></a>
         <button class="nav-item nav-item-button" type="button" data-admin-logout><span class="nav-icon"><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></button>
@@ -64,7 +60,7 @@
       <section class="admin-page-heading"><div class="page-icon">□</div><div><p class="eyebrow">Products and package catalog</p><h2>Products</h2><p>Review product catalog records, sale prices, package placement, and public visibility flags.</p></div></section>
 
       <section class="catalog-toolbar panel">
-        <div class="catalog-toolbar-group"><label><span>Category</span><select data-category-filter><option value="">All categories</option></select></label><label><span>Brand</span><select data-brand-filter><option value="">All brands</option></select></label><label><span>Visibility</span><select data-flag-filter><option value="">All</option><option value="Y">Visible</option><option value="N">Hidden</option></select></label><label><span>Search</span><input type="search" placeholder="Search product name, ID, brand, category..." data-catalog-search /></label></div>
+        <div class="catalog-toolbar-group"><label><span>Category</span><select data-category-filter><option value="">All categories</option></select></label><label><span>Brand</span><select data-brand-filter><option value="">All brands</option></select></label><label><span>Sort By</span><select data-sort-filter><option value="recent" selected>Most Recent</option><option value="oldest">Oldest First</option><option value="az">Name A-Z</option><option value="za">Name Z-A</option></select></label><label><span>Search</span><input type="search" placeholder="Search product name, ID, brand, category..." data-catalog-search /></label></div>
         <div class="lead-toolbar-actions"><button class="admin-button secondary" type="button" data-clear-filters>Clear Filters</button><button class="admin-button secondary" type="button" data-refresh-list>Refresh</button><button class="admin-button" type="button" data-open-create>Add Product</button></div>
       </section>
 

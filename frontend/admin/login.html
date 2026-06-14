@@ -69,6 +69,10 @@
         window.location.href = next || './';
       }
 
+      function isLoggedOutView() {
+        return new URLSearchParams(window.location.search).get('logged_out') === '1';
+      }
+
       function showNewPasswordChallenge(result, username) {
         pendingCognitoSession = result.session || '';
         pendingUsername = username || '';
@@ -81,9 +85,15 @@
       async function init() {
         authConfig = await window.RSAAdminAuth.loadConfig();
         if (!authConfig.enabled || authConfig.mode === 'disabled') {
-          note.innerHTML = 'Local preview mode: auth is disabled. Redirecting to dashboard…';
-          status.textContent = 'No login required in disabled local mode.';
-          window.setTimeout(redirectAfterLogin, 700);
+          form.dataset.localPreview = 'true';
+          document.querySelector('[data-cognito-field]').hidden = true;
+          form.elements.password.required = false;
+          form.elements.password.placeholder = 'Local preview mode';
+          submitButton.textContent = 'Continue to Dashboard';
+          note.innerHTML = isLoggedOutView()
+            ? 'You have logged out. Local preview mode is active; continue only when you are ready to open the dashboard again.'
+            : 'Local preview mode is active. Use Continue to Dashboard to open the admin dashboard.';
+          status.textContent = 'No sign-in is required while local auth is disabled.';
           return;
         }
 
@@ -112,6 +122,11 @@
 
         try {
           submitButton.disabled = true;
+          if (form.dataset.localPreview === 'true') {
+            status.textContent = 'Opening dashboard…';
+            redirectAfterLogin();
+            return;
+          }
           status.textContent = 'Signing in…';
 
           if (authConfig && authConfig.mode === 'cognito') {

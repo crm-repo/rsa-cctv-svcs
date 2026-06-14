@@ -197,7 +197,7 @@
       toggle.addEventListener('click', () => app.classList.toggle('sidebar-open'));
     }
 
-    document.querySelectorAll('.nav-item.is-disabled, .quick-actions button').forEach((item) => {
+    document.querySelectorAll('.nav-item.is-disabled').forEach((item) => {
       item.addEventListener('click', (event) => {
         event.preventDefault();
         setStatus('is-warning', 'Action unavailable.', 'Use the left menu to open the matching admin page.');

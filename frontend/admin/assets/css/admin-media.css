@@ -36,3 +36,19 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* batch55c-hotfixes-media-overflow */
+.admin-media-picker {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.admin-media-filename {
+  min-width: 0;
+  flex: 1 1 220px;
+}
+.admin-media-note {
+  flex-basis: 100%;
+}
