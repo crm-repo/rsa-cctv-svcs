@@ -90,6 +90,12 @@ server {
         include /etc/nginx/snippets/rsa-cms-proxy-headers.conf;
     }
 
+    # batch56b-media-public-route: allow public media display paths
+    location ^~ /api/media/ {
+        proxy_pass http://127.0.0.1:8000;
+        include /etc/nginx/snippets/rsa-cms-proxy-headers.conf;
+    }
+
     # Public admin authentication endpoints needed by login.html.
     location ^~ /api/admin/auth/ {
         proxy_pass http://127.0.0.1:8000;
