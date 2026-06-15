@@ -34,6 +34,7 @@ fi
 
 cat > "${NGINX_SITE}" <<'NGINXCONF'
 server {
+    client_max_body_size 8m;  # batch56b-media-upload-size-limit
     listen 80 default_server;
     listen [::]:80 default_server;
 
