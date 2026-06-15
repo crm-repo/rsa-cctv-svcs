@@ -2554,7 +2554,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (packageSlider) {
       const packages = data.products.filter((product) => {
         const p = normalizeProduct(product);
-        return p.showPack || p.categoryKey === "packages";
+        const categoryText = String(firstNonEmpty(product.category_key, product.category_name, product.product_category_key, product.product_category, product.category, "")).toLowerCase();
+        const isPackageCategory = p.categoryKey === "packages" || p.categoryKey === "packages-kits" || categoryText.includes("package") || categoryText.includes("kit");
+        return looksShown(product) && p.showPack && isPackageCategory;
       }).slice(0, 3);
       packageSlider.innerHTML = packages.length ? packages.map(renderPackageCard).join("") : `<div class="rsa-cms-loading-state">No package products available.</div>`;
       setupPackageSlider();
