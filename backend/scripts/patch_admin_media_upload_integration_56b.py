@@ -1,4 +1,11 @@
-(function () {
+from __future__ import annotations
+
+from pathlib import Path
+
+ROOT = Path.cwd()
+BATCH_VERSION = "batch56b-admin-media-upload-integration"
+
+ADMIN_MEDIA_JS = r'''(function () {
   'use strict';
 
   const BATCH56B_MEDIA_VERSION = 'batch56b-admin-media-upload-integration';
@@ -446,3 +453,184 @@
     observer.observe(document.body, { childList: true, subtree: true });
   });
 }());
+'''
+
+ADMIN_MEDIA_CSS = r'''.admin-media-picker {
+  display: grid;
+  grid-template-columns: 74px minmax(180px, 1fr) auto auto auto;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.admin-media-picker .admin-media-filename {
+  min-width: 0;
+  background: #f9fafb;
+  cursor: default;
+}
+
+.admin-media-preview {
+  width: 64px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #f8fafc;
+}
+
+.admin-media-preview[hidden] {
+  display: none;
+}
+
+.admin-media-button,
+.admin-media-clear,
+.admin-media-restore {
+  white-space: nowrap;
+}
+
+.admin-media-note {
+  grid-column: 1 / -1;
+  display: block;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.admin-media-note[data-tone="success"] {
+  color: #047857;
+}
+
+.admin-media-note[data-tone="warning"] {
+  color: #b45309;
+}
+
+.admin-media-note[data-tone="info"] {
+  color: #475569;
+}
+
+.admin-button.ghost {
+  background: #ffffff;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+}
+
+.admin-media-picker button:disabled {
+  opacity: 0.62;
+  cursor: wait;
+}
+
+/* batch56b-admin-media-upload-integration */
+@media (max-width: 860px) {
+  .admin-media-picker {
+    grid-template-columns: 74px minmax(160px, 1fr) auto;
+  }
+
+  .admin-media-restore {
+    grid-column: 2 / -1;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 720px) {
+  .admin-media-picker {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-media-preview {
+    width: 100%;
+    height: 150px;
+  }
+}
+'''
+
+DOC = r'''# Batch 56B - Admin media upload integration
+
+Batch 56B connects the Batch 56A backend/S3 media upload endpoint to the existing admin media picker.
+
+## Scope
+
+Integrated real uploads for:
+
+- Products: `image_path`
+- Brands: `brand_logo_path`
+- Project Gallery: `image_path`
+- Contact Us: `person_image_path` for Contact Person records
+
+Not included:
+
+- No backend route changes
+- No DynamoDB schema changes
+- No S3 bucket/IAM changes
+- No CloudFront or Route 53
+- No email/SMS/notification changes
+- No About/Services upload enablement in this batch
+
+## Behavior
+
+Choose File now uploads the selected image to `POST /api/admin/media/upload` before the record is saved.
+
+Successful upload returns `upload_prepared=true` and a `/api/media/...` path. The hidden form field is updated only after the backend confirms upload success.
+
+If upload fails, the existing image path is preserved.
+
+Restore Current restores the image path that was loaded when the form opened.
+
+## Safety
+
+- JPG/JPEG/PNG/WEBP only
+- Backend max upload limit from `/api/admin/media/config`
+- Existing admin bearer token is used
+- No unauthenticated upload
+- Static legacy image paths remain supported
+'''
+
+README = r'''Batch 56B - Admin media upload integration
+
+Apply:
+  python backend/scripts/patch_admin_media_upload_integration_56b.py
+
+Verify:
+  node --check frontend/admin/assets/js/admin-media.js
+  Select-String -Path .\frontend\admin\assets\js\admin-media.js,.\frontend\admin\assets\css\admin-media.css -Pattern "batch56b-admin-media-upload-integration"
+  Select-String -Path .\frontend\admin\*.html,.\frontend\admin\assets\js\*.js,.\frontend\admin\assets\css\*.css -Pattern "â|�|admin-icon-consistency-55c|fa-boxes-stackedes-stacked"
+
+Browser checks:
+  Products image upload
+  Brand logo upload
+  Project Gallery image upload
+  Contact Person photo upload
+  Failed upload preserves existing path
+  Restore Current works
+'''
+
+
+def write(path: Path, content: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content, encoding="utf-8", newline="\n")
+    print(f"[ok] wrote {path}")
+
+
+def preflight() -> None:
+    media_service = ROOT / "backend" / "app" / "services" / "media_service.py"
+    admin_media_route = ROOT / "backend" / "app" / "routes" / "admin_media.py"
+    if not media_service.exists() or not admin_media_route.exists():
+        raise SystemExit("[fail] Batch 56A media upload endpoint files are missing. Apply/verify Batch 56A first.")
+    service_text = media_service.read_text(encoding="utf-8", errors="replace")
+    route_text = admin_media_route.read_text(encoding="utf-8", errors="replace")
+    if "batch56a-media-upload-endpoint" not in service_text or "/upload" not in route_text:
+        raise SystemExit("[fail] Batch 56A upload endpoint marker was not found. Verify Batch 56A before applying 56B.")
+
+
+def main() -> None:
+    preflight()
+    write(ROOT / "frontend" / "admin" / "assets" / "js" / "admin-media.js", ADMIN_MEDIA_JS)
+    write(ROOT / "frontend" / "admin" / "assets" / "css" / "admin-media.css", ADMIN_MEDIA_CSS)
+    write(ROOT / "docs" / "phase8_batch56b_admin_media_upload_integration.md", DOC)
+    write(ROOT / "README_PHASE8_BATCH56B_ADMIN_MEDIA_UPLOAD_INTEGRATION.txt", README)
+    print("[done] batch56b-admin-media-upload-integration applied.")
+    print("[done] Admin media picker now uploads through the existing Batch 56A backend endpoint before save.")
+    print("[done] No backend route, DynamoDB schema, S3 bucket/IAM, CloudFront, Route 53, email/SMS, or notification change.")
+
+
+if __name__ == "__main__":
+    main()
