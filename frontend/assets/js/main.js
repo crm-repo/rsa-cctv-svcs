@@ -953,32 +953,66 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     }
   }
 
-  async function renderPromotionHeroBanners() {
+/* batch56d-promotions-hero-promoted-packages-only: Promotions hero uses package products with show_pack_flag=Y. */
+  async function renderPromotionHeroBanners(products = []) {
     if (!isPromotionsPage) return;
 
     const heroGrid = document.querySelector(".promotions-hero-grid");
     if (!heroGrid) return;
 
-    try {
-      const payload = await fetchJson("/api/package-banners?per_page=12&page_size=12&limit=12");
-      const banners = extractItems(payload);
-      if (!banners.length) return;
+    function isYesFlag(value) {
+      return String(value || "").trim().toUpperCase() === "Y";
+    }
 
+    function isPromotedPackageProduct(product) {
+      const normalized = normalizeProduct(product);
+      const categoryText = String(firstNonEmpty(
+        product.category_key,
+        product.category_name,
+        product.product_category_key,
+        product.product_category,
+        product.category,
+        product.subcategory,
+        product.subcategory_key,
+        normalized.categoryKey
+      )).toLowerCase();
+
+      const isPackageCategory =
+        normalized.categoryKey === "packages" ||
+        normalized.categoryKey === "packages-kits" ||
+        categoryText.includes("package") ||
+        categoryText.includes("kit");
+
+      return isPackageCategory && isYesFlag(product.show_pack_flag);
+    }
+
+    function renderHeroItems(records) {
       heroGrid.innerHTML = "";
-      banners.slice(0, 3).forEach((banner, index) => {
+      records.slice(0, 3).forEach((record, index) => {
+        const normalized = normalizeProduct(record);
         const imagePath = normalizeAssetPath(
-          firstNonEmpty(banner.image_path, banner.product_image_path, banner.banner_image_path, banner.image_url, banner.product_image),
+          firstNonEmpty(record.image_path, record.product_image_path, record.banner_image_path, record.image_url, record.product_image, normalized.imagePath),
           "./assets/images/rsa-logo.png"
         );
-        const title = firstNonEmpty(banner.product_name, banner.title, banner.name, `Promo Package ${index + 1}`);
+        const title = firstNonEmpty(record.product_name, record.title, record.name, normalized.name, `Promo Package ${index + 1}`);
         const item = document.createElement("div");
         item.className = "promotions-hero-banner";
+        item.dataset.rsaBatch56d = "promoted-packages-only";
         item.innerHTML = `<img src="${escapeHtml(imagePath)}" alt="${escapeHtml(title)}">`;
         heroGrid.appendChild(item);
       });
-    } catch (error) {
-      console.warn("Package banner API unavailable; keeping existing promotion banners.", error);
     }
+
+    const promotedPackages = products
+      .filter(isPromotedPackageProduct)
+      .sort((a, b) => Number(a.display_seq || 9999) - Number(b.display_seq || 9999));
+
+    if (promotedPackages.length) {
+      renderHeroItems(promotedPackages);
+      return;
+    }
+
+    heroGrid.innerHTML = `<div class="rsa-cms-loading-state">No promoted package products available.</div>`;
   }
 
   function getProductsPerPage() {
@@ -1404,7 +1438,7 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
       publicBrands = brandsPayload.map(normalizeBrand).filter((brand) => brand.key);
 
       renderBrandStrips();
-      await renderPromotionHeroBanners();
+      await renderPromotionHeroBanners(publicProducts);
 
       allProductCards = publicProducts.map(renderProductCard);
       productsGrid.innerHTML = "";
