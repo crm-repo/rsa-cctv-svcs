@@ -157,12 +157,22 @@ def _validate_cognito_access_token(token: str) -> dict[str, Any] | None:
     attributes = _user_attributes_to_dict(response.get("UserAttributes", []))
     username = response.get("Username") or payload.get("username") or attributes.get("email") or "Cognito Admin"
 
+    groups = payload.get("cognito:groups") or []
+    if isinstance(groups, str):
+        groups = [groups]
+    groups = [str(group) for group in groups if group]
+    role = "Admin" if "Admin" in groups else "Standard"
+
     return {
         "user_id": username,
         "username": attributes.get("email") or username,
         "email": attributes.get("email", ""),
         "email_verified": attributes.get("email_verified") == "true",
-        "role": "admin",
+        "first_name": attributes.get("given_name", ""),
+        "last_name": attributes.get("family_name", ""),
+        "full_name": attributes.get("name", ""),
+        "role": role,
+        "groups": groups,
         "auth_mode": "cognito",
         "token_use": payload.get("token_use", "access"),
         "client_id": token_client_id or configured_client_id,
@@ -181,7 +191,8 @@ def get_optional_admin_user(authorization: str | None = Header(default=None)) ->
         return {
             "user_id": "local-admin-preview",
             "username": "Local Admin",
-            "role": "local-preview",
+            "role": "Admin",
+            "groups": ["Admin"],
             "auth_mode": mode,
         }
 
@@ -193,7 +204,8 @@ def get_optional_admin_user(authorization: str | None = Header(default=None)) ->
             return {
                 "user_id": "mock-admin",
                 "username": "Mock Admin",
-                "role": "admin",
+                "role": "Admin",
+                "groups": ["Admin"],
                 "auth_mode": mode,
             }
         return None
@@ -283,3 +295,28 @@ def cognito_complete_new_password(username: str, new_password: str, session: str
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"{code}: {message}") from error
     except BotoCoreError as error:
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=str(error)) from error
+
+# batch59a-cognito-groups-settings-users
+
+def is_admin_group_user(user: dict[str, Any] | None) -> bool:
+    if not user:
+        return False
+    groups = user.get("groups") or []
+    if isinstance(groups, str):
+        groups = [groups]
+    role = str(user.get("role") or "").lower()
+    auth_mode = str(user.get("auth_mode") or "").lower()
+    return "Admin" in groups or role == "admin" or auth_mode in {"disabled", "mock"}
+
+
+def require_admin_group(authorization: str | None = Header(default=None)) -> dict[str, Any]:
+    """FastAPI dependency for Admin-group-only endpoints."""
+
+    user = require_admin_user(authorization=authorization)
+    if not is_admin_group_user(user):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin role required.",
+        )
+    return user
+

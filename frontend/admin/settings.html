@@ -88,6 +88,47 @@
             <div><dt>Current marker</dt><dd>batch55d-admin-page-finalization</dd></div>
           </dl>
         </article>
+        <article class="settings-card settings-card-wide" data-settings-users data-admin-requires-admin>
+          <div class="settings-card-heading">
+            <span><i class="fa-solid fa-users-gear"></i></span>
+            <div><p class="eyebrow">Cognito Users</p><h2>Settings &gt; Users</h2></div>
+          </div>
+          <p class="settings-note">Manage Cognito admin users through protected FastAPI routes. Roles come from Cognito Groups only: Admin and Standard.</p>
+          <div class="users-inline-status" data-users-status><strong>Users ready.</strong><span>Use Refresh to load Cognito users.</span></div>
+          <div class="users-toolbar">
+            <strong><span data-users-count>0</span> users</strong>
+            <button class="admin-button secondary" type="button" data-users-refresh>Refresh Users</button>
+          </div>
+          <form class="users-create-form" data-user-create-form>
+            <label>First Name <input name="first_name" type="text" required maxlength="80" /></label>
+            <label>Last Name <input name="last_name" type="text" required maxlength="80" /></label>
+            <label>Email <input name="email" type="email" required autocomplete="off" /></label>
+            <label>Role <select name="role"><option value="Standard">Standard</option><option value="Admin">Admin</option></select></label>
+            <button class="admin-button" type="submit">Add User</button>
+          </form>
+          <div class="users-temp-password" data-temp-password-panel hidden></div>
+          <div class="users-table-wrap">
+            <table class="users-table">
+              <thead><tr><th>Full Name</th><th>Email</th><th>Role</th><th>Status</th><th>Password Status</th><th>Created</th><th>Last Updated</th><th>Actions</th></tr></thead>
+              <tbody data-users-table-body><tr><td colspan="8" class="users-empty">Users not loaded yet.</td></tr></tbody>
+            </table>
+          </div>
+        </article>
+
+        <div class="user-edit-modal" data-user-edit-modal hidden data-admin-requires-admin>
+          <div class="user-edit-card">
+            <button class="modal-close" type="button" data-user-edit-close aria-label="Close">&times;</button>
+            <p class="eyebrow">Edit user</p>
+            <h2 data-edit-user-email>User</h2>
+            <form data-user-edit-form>
+              <label>First Name <input name="first_name" type="text" required maxlength="80" /></label>
+              <label>Last Name <input name="last_name" type="text" required maxlength="80" /></label>
+              <label>Role <select name="role"><option value="Standard">Standard</option><option value="Admin">Admin</option></select></label>
+              <label class="users-checkbox"><input name="enabled" type="checkbox" /> Enabled</label>
+              <div class="settings-actions"><button class="admin-button" type="submit">Save User</button><button class="admin-button secondary" type="button" data-user-edit-close>Cancel</button></div>
+            </form>
+          </div>
+        </div>
       </section>
 
       <footer class="admin-footer"><span>RSA CCTV Installation Services</span><span>Batch 55D Admin Page Finalization</span></footer>
@@ -97,6 +138,8 @@
   <script src="./assets/js/admin-api.js"></script>
   <script src="./assets/js/admin-media.js"></script>
   <script src="./assets/js/admin-polish-v3.js"></script>
+  <script src="./assets/js/admin-role-guard-59a.js"></script>
   <script src="./assets/js/admin-header-utilities-55d.js"></script>
+  <script src="./assets/js/admin-users-59a.js"></script>
 </body>
 </html>

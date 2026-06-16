@@ -107,7 +107,8 @@
       adminServices: '/admin/services',
       adminContactUs: '/admin/contact-us',
       adminMediaConfig: '/admin/media/config',
-      adminMediaPrepareUpload: '/admin/media/prepare-upload'
+      adminMediaPrepareUpload: '/admin/media/prepare-upload',
+      adminUsers: '/admin/users'
     }
   };
 }());

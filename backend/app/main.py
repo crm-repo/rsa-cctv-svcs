@@ -7,6 +7,7 @@ from app.routes import (
     about,
     admin_auth,
     admin_media,
+    admin_users,
     bookings,
     brands,
     categories,
@@ -52,6 +53,7 @@ def root():
 app.include_router(health.router, prefix=settings.API_PREFIX, tags=["Health"])
 app.include_router(admin_auth.router, prefix=settings.API_PREFIX, tags=["Admin Auth"])
 app.include_router(admin_media.router, prefix=settings.API_PREFIX, tags=["Admin Media"])
+app.include_router(admin_users.router, prefix=settings.API_PREFIX, tags=["Admin Users"])
 app.include_router(admin_media.media_router, prefix=settings.API_PREFIX, tags=["Media"])
 app.include_router(products.router, prefix=settings.API_PREFIX, tags=["Products"])
 app.include_router(brands.router, prefix=settings.API_PREFIX, tags=["Brands"])
