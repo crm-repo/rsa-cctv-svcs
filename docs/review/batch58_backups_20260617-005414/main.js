@@ -1,4 +1,3 @@
-/* batch58-image-lazy-loading: non-critical rendered images use loading="lazy" and decoding="async". */
 const RSA_PUBLIC_CATALOG_DYNAMIC_VERSION = "batch49b-api-page-limit-fix";
 const mobileMenuButton = document.getElementById("mobileMenuButton");
 const mobileMenu = document.getElementById("mobileMenu");
@@ -912,9 +911,9 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
 
     card.innerHTML = `
       ${hasSale ? '<span class="catalog-sale-badge">SALE</span>' : ''}
-      <div class="catalog-product-image"><img loading="lazy" decoding="async" src="${escapeHtml(normalized.imagePath)}" alt="${escapeHtml(normalized.name)}"></div>
+      <div class="catalog-product-image"><img src="${escapeHtml(normalized.imagePath)}" alt="${escapeHtml(normalized.name)}"></div>
       <span class="catalog-stock-badge ${stockClass}">${stockLabel}</span>
-      <img loading="lazy" decoding="async" class="catalog-brand-logo" src="${escapeHtml(normalized.brandLogoPath)}" alt="${escapeHtml(normalized.brandName)}">
+      <img class="catalog-brand-logo" src="${escapeHtml(normalized.brandLogoPath)}" alt="${escapeHtml(normalized.brandName)}">
       <p class="catalog-product-model">${escapeHtml(normalized.model)}</p>
       <h3 class="catalog-product-name">${escapeHtml(normalized.name)}</h3>
       <p class="catalog-product-subcategory">${escapeHtml(normalized.categoryName)}</p>
@@ -2395,7 +2394,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const p = normalizeProduct(product);
     return `
       <div class="featured-product-card">
-        <div class="featured-product-image"><img loading="lazy" decoding="async" src="${escapeHtml(p.imagePath)}" alt="${escapeHtml(p.name)}"></div>
+        <div class="featured-product-image"><img src="${escapeHtml(p.imagePath)}" alt="${escapeHtml(p.name)}"></div>
         <p class="featured-product-name text-sm font-black">${escapeHtml(p.name)}</p>
         <p class="text-gray-500 text-xs">${escapeHtml(p.categoryName)}</p>
         <p class="text-red-700 font-black text-base">${escapeHtml(p.price)}</p>
@@ -2407,7 +2406,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return `
       <div class="promo-product-card">
         <span class="promo-sale-badge">SALE</span>
-        <div class="promo-product-image"><img loading="lazy" decoding="async" src="${escapeHtml(p.imagePath)}" alt="${escapeHtml(p.name)}"></div>
+        <div class="promo-product-image"><img src="${escapeHtml(p.imagePath)}" alt="${escapeHtml(p.name)}"></div>
         <p class="promo-product-name text-sm font-black">${escapeHtml(p.name)}</p>
         <p class="text-gray-500 text-xs">${escapeHtml(p.categoryName)}</p>
         ${p.oldPrice ? `<p class="promo-old-price">${escapeHtml(p.oldPrice)}</p>` : ""}
@@ -2422,7 +2421,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderBrandCard(brand) {
     const b = normalizeBrand(brand);
-    return `<div class="home-brand-item"><div class="home-brand-logo-box"><img loading="lazy" decoding="async" src="${escapeHtml(b.logo)}" alt="${escapeHtml(b.name)}"></div></div>`;
+    return `<div class="home-brand-item"><div class="home-brand-logo-box"><img src="${escapeHtml(b.logo)}" alt="${escapeHtml(b.name)}"></div></div>`;
   }
 
   function renderHomeServiceCard(service) {
@@ -2677,7 +2676,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (galleryGrid && gallery.length) {
       galleryGrid.innerHTML = gallery.filter(looksShown).sort(sortByDisplaySeq).map((item) => `
         <div class="about-page-gallery-item">
-          <img loading="lazy" decoding="async" src="${escapeHtml(normalizeAssetPath(item.image_path, DEFAULT_LOGO))}" alt="${escapeHtml(firstNonEmpty(item.alt_text, item.project_title))}">
+          <img src="${escapeHtml(normalizeAssetPath(item.image_path, DEFAULT_LOGO))}" alt="${escapeHtml(firstNonEmpty(item.alt_text, item.project_title))}">
           <h3>${escapeHtml(item.project_title)}</h3>
         </div>`).join("");
     } else if (galleryGrid) {
@@ -2767,7 +2766,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (personGrid) {
       personGrid.innerHTML = persons.map((person) => `
         <article class="home-soft-card contact-person-card">
-          <img loading="lazy" decoding="async" src="${escapeHtml(normalizeAssetPath(person.person_image_path, DEFAULT_CONTACT_IMAGE))}" alt="${escapeHtml(person.person_name || "Contact person")}" class="contact-person-avatar">
+          <img src="${escapeHtml(normalizeAssetPath(person.person_image_path, DEFAULT_CONTACT_IMAGE))}" alt="${escapeHtml(person.person_name || "Contact person")}" class="contact-person-avatar">
           <div class="contact-person-copy">
             <p>${escapeHtml(person.department || "Contact Person")}</p>
             <h3>${escapeHtml(person.person_name || "RSA Team")}</h3>

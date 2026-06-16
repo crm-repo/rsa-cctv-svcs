@@ -16,15 +16,14 @@ Not included:
 Run from project root:
 
 ```powershell
-python .\scripts\pply_batch58_image_lazy_loading.py --dry-run
-python .\scripts\pply_batch58_image_lazy_loading.py --execute
-node --check .\rontend\ssets\js\main.js
+python .\scriptspply_batch58_image_lazy_loading.py --dry-run
+python .\scriptspply_batch58_image_lazy_loading.py --execute
+node --check .rontendssets\js\main.js
 ```
 
 After execute, review:
 
 ```powershell
 git diff --stat
-git diff -- .\rontend .\docs
-eviewatch58_image_lazy_loading_report.txt
+git diff -- .rontend .\docseviewatch58_image_lazy_loading_report.txt
 ```

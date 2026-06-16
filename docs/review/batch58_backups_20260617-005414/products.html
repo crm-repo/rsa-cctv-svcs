@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 
-<body class="bg-white text-gray-900 brands-page">
+<body class="bg-white text-gray-900">
 
   <div class="bg-red-700 text-white text-center text-xs font-bold py-1">
     Trusted CCTV Installation & Maintenance Services
@@ -103,10 +103,11 @@
 
     <nav class="bg-black md:border-t md:border-red-950">
       <div class="max-w-7xl mx-auto px-4">
+
         <ul class="hidden md:flex items-center justify-between text-sm font-bold uppercase">
           <li><a href="index.html" class="block py-4 hover:text-red-500">Home</a></li>
-          <li><a href="brands.html" class="block py-4 text-red-500 border-b-4 border-red-600">Brands</a></li>
-          <li><a href="products.html" class="block py-4 hover:text-red-500">Products</a></li>
+          <li><a href="brands.html" class="block py-4 hover:text-red-500">Brands</a></li>
+          <li><a href="products.html" class="block py-4 text-red-500 border-b-4 border-red-600">Products</a></li>
           <li><a href="promotions.html" class="block py-4 hover:text-red-500">Promotions</a></li>
           <li><a href="about.html" class="block py-4 hover:text-red-500">About Us</a></li>
           <li><a href="services.html" class="block py-4 hover:text-red-500">Services</a></li>
@@ -135,44 +136,53 @@
 
   </header>
 
-<section class="brands-hero-section bg-black text-white overflow-hidden border-b border-gray-900">
-  <div class="max-w-7xl mx-auto px-4 py-14 md:py-16 brands-hero-content">
+  <section class="products-hero-section relative bg-black text-white overflow-hidden border-b border-gray-900">
 
-    <div class="brands-hero-text">
-      <h1>
-        Trusted CCTV &<br>
-        <span>Security Brands</span>
-      </h1>
+    <div class="absolute inset-0 products-hero-bg"></div>
 
-      <p>
-        We supply and install genuine CCTV cameras, recorders, networking devices,
-        storage solutions, and security accessories from leading global brands.
+    <div class="relative z-20 max-w-7xl mx-auto px-4 py-14 md:py-16 products-hero-content">
+
+      <p class="text-lg font-bold uppercase mb-3">
+        Our Products
       </p>
 
-      <div class="brands-hero-features">
-        <div><i class="fa-solid fa-thumbs-up"></i><span>Genuine Products</span></div>
-        <div><i class="fa-solid fa-certificate"></i><span>Reliable Warranty</span></div>
-        <div><i class="fa-solid fa-medal"></i><span>Proven Performance</span></div>
+      <h1 class="text-3xl md:text-5xl font-black uppercase leading-tight mb-3">
+        High Quality<br>
+        <span class="hero-nowrap text-red-600">CCTV Solutions</span>
+      </h1>
+
+      <p class="text-base md:text-lg font-normal max-w-2xl mb-9">
+        Explore our wide range of CCTV cameras, recorders, accessories,
+        <br>and security devices for your home or business.
+      </p>
+
+      <div class="products-hero-features">
+
+        <div class="products-hero-feature"><span class="products-hero-icon"><i class="fa-solid fa-circle-check"></i></span>
+          <div>
+            <h3>100% Original</h3>
+            <p>Genuine Products</p>
+          </div>
+        </div>
+
+        <div class="products-hero-feature"><span class="products-hero-icon"><i class="fa-solid fa-award"></i></span>
+        <div>
+            <h3>Trusted Brands</h3>
+            <p>Top Quality</p>
+          </div>
+        </div>
+
+        <div class="products-hero-feature">
+          <span class="products-hero-icon"><i class="fa-solid fa-user-gear"></i></span>
+          <div>
+            <h3>Expert Support</h3>
+            <p>After Sales Service</p>
+          </div>
+        </div>
+
       </div>
     </div>
-
-    <div class="brands-hero-grid">
-      <div><img src="./assets/images/brands/dahua.png" alt="Dahua"></div>
-      <div><img src="./assets/images/brands/hikvision.png" alt="Hikvision"></div>
-      <div><img src="./assets/images/brands/uniview.png" alt="Uniview"></div>
-      <div><img src="./assets/images/brands/ezviz.png" alt="EZVIZ"></div>
-      <div><img src="./assets/images/brands/aqara.png" alt="TP-Link"></div>
-      <div><img src="./assets/images/brands/eufy.png" alt="D-Link"></div>
-      <div><img src="./assets/images/brands/bosch.png" alt="Bosch"></div>
-      <div><img src="./assets/images/brands/arlo.png" alt="Seagate"></div>
-      <div><img src="./assets/images/brands/avtech.png" alt="Western Digital"></div>
-      <div><img loading="lazy" decoding="async" src="./assets/images/brands/hanwha.png" alt="Hanwha"></div>
-      <div><img loading="lazy" decoding="async" src="./assets/images/brands/axis.png" alt="Axis"></div>
-      <div><img loading="lazy" decoding="async" src="./assets/images/brands/imou.png" alt="Imou"></div>
-    </div>
-
-  </div>
-</section>
+  </section>
 
   <main class="bg-gray-100">
 
@@ -183,7 +193,7 @@
           <nav class="products-breadcrumb" aria-label="Breadcrumb">
             <a href="index.html">Home</a>
             <span>></span>
-            <span>Brands</span>
+            <span>Products</span>
           </nav>
           <!-- Search Toolbar -->
           <div class="products-search-wrap">
@@ -191,46 +201,13 @@
             <input type="search" id="productsSearchInput" class="products-search-input" placeholder="Search">
           </div>
         </div>
-        <!-- Main Brands Strip -->
-        <div class="products-brand-strip bg-white rounded-xl shadow-sm p-6 mb-10">
-          <div class="text-center mb-5">
-            <p class="top-brands-title text-red-700 text-sm font-bold uppercase">Explore Our Brands</p>
-          </div>
-          <div class="brand-strip-scroll-wrap">
-            <button class="brand-scroll-btn brand-scroll-left" type="button">‹</button>
-            <div id="brandsPageStrip" class="brand-strip-row">
-              <div class="brand-strip-item" data-brand-filter="dahua"><img loading="lazy" decoding="async" src="./assets/images/brands/dahua.png" alt="Dahua"></div>
-              <div class="brand-strip-item" data-brand-filter="hikvision"><img loading="lazy" decoding="async" src="./assets/images/brands/hikvision.png" alt="Hikvision"></div>
-              <div class="brand-strip-item" data-brand-filter="axis"><img loading="lazy" decoding="async" src="./assets/images/brands/axis.png" alt="Axis Communcations"></div>
-              <div class="brand-strip-item" data-brand-filter="bosch"><img loading="lazy" decoding="async" src="./assets/images/brands/bosch.png" alt="Bosch"></div>
-              <div class="brand-strip-item" data-brand-filter="hanhwa"><img loading="lazy" decoding="async" src="./assets/images/brands/hanwha.png" alt="Hanwha"></div>
-              <div class="brand-strip-item" data-brand-filter="ezviz"><img loading="lazy" decoding="async" src="./assets/images/brands/ezviz.png" alt="EZVIZ"></div>
-              <div class="brand-strip-item" data-brand-filter="avtech"><img loading="lazy" decoding="async" src="./assets/images/brands/avtech.png" alt="AVTech"></div>
-              <div class="brand-strip-item" data-brand-filter="uniview"><img loading="lazy" decoding="async" src="./assets/images/brands/uniview.png" alt="UNV"></div>
-              <div class="brand-strip-item" data-brand-filter="imou"><img loading="lazy" decoding="async" src="./assets/images/brands/imou.png" alt="imou"></div>
-              <div class="brand-strip-item" data-brand-filter="panasonic"><img loading="lazy" decoding="async" src="./assets/images/brands/panasonic.png" alt="Panasonic"></div>
-              <div class="brand-strip-item" data-brand-filter="tplink"><img loading="lazy" decoding="async" src="./assets/images/brands/tplink.png" alt="TP-Link"></div>
-              <div class="brand-strip-item" data-brand-filter="dlink"><img loading="lazy" decoding="async" src="./assets/images/brands/dlink.png" alt="D-Link"></div>
-              <div class="brand-strip-item" data-brand-filter="cisco"><img loading="lazy" decoding="async" src="./assets/images/brands/cisco.png" alt="Cisco"></div>
-              <div class="brand-strip-item" data-brand-filter="eufy"><img loading="lazy" decoding="async" src="./assets/images/brands/eufy.png" alt="eufy"></div>
-              <div class="brand-strip-item" data-brand-filter="aqara"><img loading="lazy" decoding="async" src="./assets/images/brands/aqara.png" alt="aqara"></div>
-              <div class="brand-strip-item" data-brand-filter="igloohome"><img loading="lazy" decoding="async" src="./assets/images/brands/igloohome.png" alt="igloohome"></div>
-              <div class="brand-strip-item" data-brand-filter="arlo"><img loading="lazy" decoding="async" src="./assets/images/brands/arlo.png" alt="arlo"></div>
-              <div class="brand-strip-item" data-brand-filter="unifi"><img loading="lazy" decoding="async" src="./assets/images/brands/unifi.png" alt="unifi"></div>
-              <div class="brand-strip-item" data-brand-filter="mercusys"><img loading="lazy" decoding="async" src="./assets/images/brands/mercusys.png" alt="mercusys"></div>
-              <div class="brand-strip-item" data-brand-filter="yale"><img loading="lazy" decoding="async" src="./assets/images/brands/yale.png" alt="yale"></div>
-              <div class="brand-strip-item" data-brand-filter="wd"><img loading="lazy" decoding="async" src="./assets/images/brands/wd.png" alt="Western Digital"></div>
-              <div class="brand-strip-item" data-brand-filter="seagate"><img loading="lazy" decoding="async" src="./assets/images/brands/seagate.png" alt="Seagate"></div>
-            </div>
-            <button class="brand-scroll-btn brand-scroll-right" type="button">›</button>
-          </div>
-        </div>
         <!-- Category Filters Overlay Arrows/Button -->
         <div class="products-category-scroll-wrap">
           <button class="category-scroll-btn category-scroll-left" type="button">‹</button>
           <!-- Category Filters -->
             <div class="products-category-filter flex gap-4 overflow-x-auto pb-4 mb-6">
-              <button class="product-filter-btn" data-filter="all"><i class="fa-solid fa-table-cells-large"></i>All Products</button>
+              <button class="product-filter-btn active" data-filter="all"><i class="fa-solid fa-table-cells-large"></i>All Products</button>
+              <button class="product-filter-btn" data-filter="sale"><i class="fa-solid fa-tag"></i>Sale</button>
               <button class="product-filter-btn" data-filter="packages"><i class="fa-solid fa-box-open"></i>Packages/Kits</button>
               <button class="product-filter-btn" data-filter="cctv"><i class="fa-solid fa-video"></i>CCTV Cameras</button>
               <button class="product-filter-btn" data-filter="recorders"><i class="fa-solid fa-hard-drive"></i>Recorders</button>
@@ -241,11 +218,35 @@
             </div>
           <button class="category-scroll-btn category-scroll-right" type="button">›</button>
         </div>
+        <!-- Top Brands Strip -->
+        <div class="products-brand-strip bg-white rounded-xl shadow-sm p-6 mb-10">
+          <div class="flex items-center justify-between mb-5">
+            <p class="top-brands-title text-red-700 text-sm font-bold uppercase">Top and Trusted Brands</p>
+            <a href="brands.html" class="top-brands-view-all text-sm font-bold hover:text-red-700">View All Brands ›</a>
+          </div>
+		  <div class="product-brand-scroll-wrap">
+			<button class="product-brand-scroll-btn product-brand-scroll-left" type="button" aria-label="Previous brands">‹</button>
+			<div class="brand-strip-row">
+			<div class="brand-strip-item" data-brand-filter="dahua"><img src="./assets/images/brands/dahua.png" alt="Dahua"></div>
+				<div class="brand-strip-item" data-brand-filter="hikvision"><img src="./assets/images/brands/hikvision.png" alt="Hikvision"></div>
+				<div class="brand-strip-item" data-brand-filter="dlink"><img src="./assets/images/brands/dlink.png" alt="TP-Link"></div>
+				<div class="brand-strip-item" data-brand-filter="uniview"><img src="./assets/images/brands/uniview.png" alt="UNV"></div>
+				<div class="brand-strip-item" data-brand-filter="ezviz"><img src="./assets/images/brands/ezviz.png" alt="EZVIZ"></div>
+				<div class="brand-strip-item" data-brand-filter="axis"><img src="./assets/images/brands/axis.png" alt="Axis Communcations"></div>
+				<div class="brand-strip-item" data-brand-filter="avtech"><img src="./assets/images/brands/avtech.png" alt="AVTech"></div>
+				<div class="brand-strip-item" data-brand-filter="hanhwa"><img src="./assets/images/brands/hanwha.png" alt="Hanwha"></div>
+				<div class="brand-strip-item" data-brand-filter="imou"><img src="./assets/images/brands/imou.png" alt="imou"></div>
+				<div class="brand-strip-item" data-brand-filter="seagate"><img src="./assets/images/brands/seagate.png" alt="Seagate"></div>
+			</div>
+			<button class="product-brand-scroll-btn product-brand-scroll-right" type="button" aria-label="Next brands">›</button>
+		  </div>
+        </div>
+
         <!-- Products Header -->
           <div class="products-toolbar mb-8">
 
             <h2 id="productsSectionTitle" class="products-section-title">
-               &nbsp;Products per Brand
+               &nbsp;All Products
             </h2>
 
             <div class="products-toolbar-right">
@@ -279,44 +280,48 @@
 
       </div>
     </section>
-    <!-- Brands Features Strip -->
-    <section class="service-features-strip-wrap brands-trust-strip-wrap">
-      <div class="service-features-strip brands-trust-strip">
+    <!-- Service Features Strip -->
+    <section class="service-features-strip-wrap">
+      <div class="service-features-strip">
 
-        <div class="brands-trust-heading">
-          <h3>Why We Choose These Brands</h3>
+        <div class="service-feature-item">
+          <div class="feature-card-icon">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h4>Quality Guaranteed</h4>
+            <p>We only sell 100% original and high-quality products.</p>
+          </div>
         </div>
 
-        <div class="brands-trust-divider"></div>
-
-        <div class="brands-trust-item">
-          <i class="fa-solid fa-thumbs-up"></i>
-          <h4>Genuine Products</h4>
+        <div class="service-feature-item">
+          <div class="feature-card-icon">
+            <i class="fa-solid fa-handshake"></i>
+          </div>
+          <div>
+            <h4>Trusted by Customers</h4>
+            <p>Hundreds of satisfied customers and ongoing installations.</p>
+          </div>
         </div>
 
-        <div class="brands-trust-item">
-          <i class="fa-solid fa-certificate"></i>
-          <h4>Reliable Warranty</h4>
+        <div class="service-feature-item">
+          <div class="feature-card-icon">
+            <i class="fa-solid fa-truck-fast"></i>
+          </div>
+          <div>
+            <h4>Fast Delivery</h4>
+            <p>Nationwide delivery with safe and secure packaging.</p>
+          </div>
         </div>
 
-        <div class="brands-trust-item">
-          <i class="fa-solid fa-medal"></i>
-          <h4>Proven Performance</h4>
-        </div>
-
-        <div class="brands-trust-item">
-          <i class="fa-solid fa-network-wired"></i>
-          <h4>Easy Integration</h4>
-        </div>
-
-        <div class="brands-trust-item">
-          <i class="fa-solid fa-cube"></i>
-          <h4>Long-Term Availability</h4>
-        </div>
-
-        <div class="brands-trust-item">
-          <i class="fa-solid fa-headset"></i>
-          <h4>Technical Support</h4>
+        <div class="service-feature-item">
+          <div class="feature-card-icon">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <div>
+            <h4>Technical Support</h4>
+            <p>Our team is here to help you before and after purchase.</p>
+          </div>
         </div>
 
       </div>
@@ -370,7 +375,7 @@
 
       <div class="product-modal-image">
         <div id="modalSaleBadge" class="product-modal-sale-badge hidden">SALE</div>
-        <img loading="lazy" decoding="async" id="modalProductImage" src="" alt="">
+        <img id="modalProductImage" src="" alt="">
       </div>
 
       <div class="product-modal-content">
