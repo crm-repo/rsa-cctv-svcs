@@ -467,3 +467,144 @@ This document records significant project decisions and their rationale. For imp
 | Decision | Treat Phase 8 local backend/admin implementation as complete for the current phase after Batch 28 regression and Batch 29 documentation update. |
 | Reasoning | The next meaningful work area is deployment/security/pre-launch readiness rather than more local feature expansion. |
 | Impact | New work should move toward billing alerts, EC2/IP-based deployment, Cognito enforcement, S3 enablement, SEO, and launch readiness unless the user explicitly reopens a completed feature. |
+
+
+## ADR-043: EC2 Demo Deployment Uses One Free-Tier-First Instance
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batches 30-39 |
+| Status | Accepted |
+| Context | The project needs public-IP demo/testing without early domain cost or complex paid AWS services. |
+| Decision | Use one locked-down Free-Tier-first EC2 instance with Nginx and FastAPI systemd runtime. Avoid ALB, NAT Gateway, RDS, Route 53, and multiple instances for demo. |
+| Impact | Test/demo through EC2 public IP until final domain planning. Stop EC2 when not actively testing. |
+
+## ADR-044: Cognito Protects Admin/API Access Before Public Admin Exposure
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batches 40-48 |
+| Status | Accepted |
+| Context | Admin pages and admin/CRM APIs must not be exposed publicly without authentication. |
+| Decision | Use Cognito login/JWT flow and backend bearer-token middleware for protected admin/API routes. |
+| Impact | Admin exposure through Nginx requires token-based backend enforcement. |
+
+## ADR-045: Public Catalog/CMS Pages Render From APIs While Preserving Static Fallback Layouts
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batches 49-50 |
+| Status | Accepted |
+| Context | Public frontend must move from hardcoded static content toward backend/CMS data without redesigning completed pages. |
+| Decision | Bind public catalog/CMS/lead pages to APIs using JavaScript renderers while preserving page layout and fallback markup where useful. |
+| Impact | Products, Promotions, Brands, Homepage, About, Services, Contact, and Booking can show backend/DynamoDB content. |
+
+## ADR-046: Safe Static Data Import Does Not Delete DynamoDB Tables or Reset Counters Downward
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batches 54A-54B |
+| Status | Accepted |
+| Context | Static HTML data needed review/import into existing DynamoDB tables. |
+| Decision | Use dry-run-first review/import; wipe/reseed approved records without deleting tables and without resetting `rsa_id_counters` downward. |
+| Impact | Production-like data can be imported safely while preserving table infrastructure and ID safety. |
+
+## ADR-047: Package Products May Omit Fixed Price and Display Get Quotation
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 54C |
+| Status | Accepted |
+| Context | Package products may not have a fixed full price before consultation/site visit. |
+| Decision | Allow package product price to be optional. Public display should show `Get Quotation` and link users to Contact Us/request flow. |
+| Impact | Do not force package price to zero. Treat quotation display as valid product/package behavior. |
+
+## ADR-048: Category/Subcategory/Brand Admin Protection Rules
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 55B |
+| Status | Accepted |
+| Context | Admin users need to manage categories, subcategories, and brands without breaking active products. |
+| Decision | Block category hide/delete if active products use it; block subcategory delete if products use it; block brand hide/delete when products depend on it; preserve current hidden values when editing existing records. |
+| Impact | Products store category and subcategory snapshots; dependency checks protect catalog integrity. |
+
+## ADR-049: Admin Settings Finalization Does Not Add User Management Yet
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 55D |
+| Status | Accepted |
+| Context | Settings, notification bell, and user menu were needed before user-management scope was ready. |
+| Decision | Finalize Settings page/user menu/bell/dropdown using existing data only. Defer profile editing, password reset, and user management. |
+| Impact | User management becomes a separate later batch with Cognito Groups. |
+
+## ADR-050: Private S3 Media Storage With Backend Media Display Route
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batches 56A-56B |
+| Status | Accepted |
+| Context | Admin uploads should not rely on public S3 bucket access or local project-folder path typing. |
+| Decision | Use private S3 bucket storage and serve media through backend `/api/media/...` route, proxied by Nginx before generic `/api/` blocking rules. |
+| Impact | Admin upload fields store `/api/media/...` paths. Nginx must allow `/api/media/` and set upload size limit. |
+
+## ADR-051: Products/Brands S3 Backfill Scope Is Limited
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 56C |
+| Status | Accepted |
+| Context | Existing static Product/Brand media paths needed backfill to S3, while few Project Gallery/Contact Person assets can be handled manually. |
+| Decision | Backfill Products and Brands only. Skip Project Gallery and Contact Person bulk backfill. Use approved D-Link record mapping and skip missing local files. |
+| Impact | Products/Brands media paths point to S3-backed `/api/media/...`; remaining small sets can be manually uploaded. |
+
+## ADR-052: Promotions Hero Uses Promoted Package Products Only
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 56D |
+| Status | Accepted |
+| Context | Promotions hero must not show package records where Promote Package is disabled. Brands hero was already dynamic and should not be touched. |
+| Decision | Render Promotions hero from already-loaded products filtered by package/kits category, `show_flag=Y`, and `show_pack_flag=Y`. Leave Brands hero dynamic renderer unchanged. |
+| Impact | Promotions hero respects admin Promote Package setting and avoids duplicate Brands renderer risk. |
+
+## ADR-053: Defer SEO Metadata Until Final Domain / Route 53
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 57 Planning |
+| Status | Accepted |
+| Context | Canonical URLs, Open Graph URLs, sitemap.xml, and robots.txt depend on the final public domain. |
+| Decision | Defer Batch 57 SEO metadata/page titles and related files until Route 53/final domain is ready. Do not use EC2 public IP as canonical URL. |
+| Impact | Avoids duplicate SEO work and wrong launch signals. |
+
+## ADR-054: Use Cognito Groups for Admin/Standard Authorization
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 59A Planning |
+| Status | Accepted |
+| Context | Admin page needs Admin vs Standard user capabilities without creating a DynamoDB users table. |
+| Decision | Use Cognito Groups named `Admin` and `Standard`. Do not use the Cognito `profile` attribute for roles. Manage users through FastAPI backend routes only. |
+| Impact | Settings > Users is Admin-only; Standard users are restricted by UI and backend 403 checks. |
+
+## ADR-055: Leads Are Non-Delete Records
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 59B Planning |
+| Status | Accepted |
+| Context | Booking/inquiry/customer lead records are operational history and should remain available for traceability. |
+| Decision | Do not enable delete for leads even for Admin users. Use status workflows/archive-style behavior instead of destructive delete for leads. |
+| Impact | Batch 59B delete controls apply only to approved non-lead record types. |
+
+## ADR-056: Project-Structure Patch Zips Are Preferred
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Continuation |
+| Status | Accepted |
+| Context | Root-level batch folders created repo clutter and diverged from earlier Phase 8 delivery style. |
+| Decision | Deliver patches in project-structure zips (`frontend/`, `backend/`, `docs/`, etc.) and avoid committing temporary root batch folders. |
+| Impact | Cleaner repository, fewer accidental commits, and easier file review. |

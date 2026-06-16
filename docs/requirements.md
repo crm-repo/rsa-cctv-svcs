@@ -4,6 +4,52 @@
 
 This document is the authoritative business, functional, and non-functional requirements specification for RSA CMS / Mini-CRM. For implementation progress, use [feature-status.md](./feature-status.md). For technical design, use [architecture.md](./architecture.md).
 
+
+## Phase 8 Continuation Requirements — Batches 56D to 60
+
+### Promotions hero promoted package rule
+
+The Promotions hero must show only package/kits products that meet all of these conditions:
+
+```text
+show_flag = Y
+show_pack_flag = Y
+category/category_key indicates Packages/Kits
+```
+
+Brands hero must remain dynamic from the Brands API and must not be patched by duplicate frontend renderers.
+
+### Media upload/display requirements
+
+- Admin media fields should use Browse/Choose File controls, not manual path typing.
+- Approved media upload fields include Products, Brands, Project Gallery, and Contact Person images.
+- Company Contact and Social Media records should not receive image/photo upload fields unless explicitly reopened.
+- Uploaded media should store resolved `/api/media/...` paths and remain displayable through the backend media route.
+- The S3 bucket remains private; public display is through the backend/Nginx media route, not public bucket access.
+- Upload size should remain bounded for Free-Tier-first operation.
+
+### Admin user/role requirements
+
+- Use Cognito Groups for role/authorization: `Admin` and `Standard`.
+- Do not use the Cognito `profile` attribute as a role field.
+- Do not create a DynamoDB users table for launch user management.
+- Settings > Users should read/manage Cognito users through protected FastAPI backend routes only.
+- Admin users may view/add/update/enable/disable Cognito users and manage Admin/Standard group assignment.
+- Standard users must not see Settings and must be blocked by backend authorization from user-management routes.
+
+### Delete/restricted-action requirements
+
+- Delete controls are Admin-only for record types where delete is approved.
+- Standard users must not see delete controls and backend delete endpoints must still return 403 if called.
+- Leads must not expose delete controls even for Admin. Keep booking, inquiry, and customer/lead records for traceability.
+- Prefer hide/archive/disable where data relationships or operational traceability matter.
+- Existing category/subcategory/brand dependency protections remain required.
+
+### SEO/domain requirements
+
+- Batch 57 SEO metadata/page titles, canonical URLs, Open Graph URLs, sitemap.xml, and robots.txt are deferred until Route 53/final domain is ready.
+- Do not set EC2 public IP as canonical URL.
+
 ## Functional Requirements
 
 ## Approved Phase 8 Backend/CMS Requirements
@@ -691,7 +737,7 @@ Before launch:
 | product_model | Optional; max 100 characters |
 | category | Required; approved category only |
 | product_brand_name / brand_key | Lowercase slug style; no spaces |
-| price | Required numeric value >= 0 |
+| price | Optional for package/quotation products; numeric value >= 0 when provided |
 | sale_price | Optional numeric value |
 | image_path | Required for products and packages |
 | stock_quantity | Required integer >= 0 |
@@ -714,7 +760,7 @@ Future implementation must include:
 - Hashed passwords only.
 - Input validation.
 - Input sanitization.
-- Role-based authorization.
+- Role-based authorization using Cognito Groups (`Admin`, `Standard`).
 - Audit logging.
 - Safe error messages.
 - SSL before production.

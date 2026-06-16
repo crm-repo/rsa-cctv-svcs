@@ -4,8 +4,74 @@
 
 This document is the authoritative implementation progress tracker. If status here conflicts with another document, this document controls implementation status.
 
-Last updated: 2026-06-11  
-Update scope: Phase 8 Batch 29 documentation/status update after full public/admin regression.
+Last updated: 2026-06-16  
+Update scope: Phase 8 continuation update through Batch 56D completion, Batch 57 deferral, and Batch 58-60 planning.
+
+
+## Phase 8 Continuation Status — Batches 30 to 60
+
+This section supersedes older Batch 29-only planning notes for deployment/security/media/admin continuation work.
+
+### Completed / closed batches after Batch 29
+
+| Batch | Status | Summary |
+|---|---|---|
+| Batch 30 | Complete | AWS cost-safety and billing-alert checklist/script prepared. |
+| Batch 31 | Complete | EC2 public-IP deployment preflight prepared. |
+| Batch 32 | Complete | EC2 IAM/security checklist prepared. |
+| Batch 33 | Complete | EC2 deployment permission setup guide prepared. |
+| Batch 34 | Complete | EC2 demo instance setup using one locked-down Free-Tier-first instance; no ALB/NAT/RDS/Route 53. |
+| Batch 35 | Complete | EC2 SSH/connect and server environment preparation. |
+| Batch 36 | Complete | Backend/frontend runtime deployed to EC2; FastAPI systemd service in DynamoDB mode. |
+| Batch 37 | Complete | Nginx public-site proxy on port 80 with admin initially blocked. |
+| Batch 38 | Complete | Nginx public API exposure lockdown; admin/CRM and direct port access blocked. |
+| Batch 39 | Complete | Public EC2 smoke regression. |
+| Batch 40 | Complete | Cognito admin-auth preflight. |
+| Batch 41 | Complete | Cognito admin user pool setup/templates. |
+| Batch 42 | Complete | Local Cognito admin-auth wiring with login/auth routes. |
+| Batch 43 | Complete | Cognito config deployed to EC2 while admin remained blocked. |
+| Batch 44 | Complete | Admin static/login and auth endpoint exposure through Nginx. |
+| Batch 46 | Complete | Protected admin/CRM API exposure through Nginx with backend bearer-token middleware. |
+| Batch 47 | Complete | Authenticated admin API/browser smoke. |
+| Batch 47A | Complete | Auth smoke token parse/redaction fix. |
+| Batch 48 | Complete | Full authenticated admin EC2 regression. |
+| Batch 49 | Complete | Dynamic API-rendered public Products/Promotions/Brands catalog. |
+| Batch 49B | Complete | Public catalog API pagination limit fix using `per_page=50` and all pages. |
+| Batch 50 | Complete | Homepage/About/Services/Contact/Booking CMS and lead pages bound to APIs. |
+| Batch 54A | Complete | Static HTML data extraction review: 7 categories, 22 brands, 28 products, 188 key features, 1 about, 4 gallery, 12 services, 10 contact records. |
+| Batch 54B | Complete | Safe DynamoDB wipe/reimport from reviewed static data without deleting tables or resetting counters downward. |
+| Batch 54C | Complete | Optional product price/package quotation hotfix; package products may show Get Quotation. |
+| Batch 55A | Complete | Admin media path interim fix; Browse/Choose File does not overwrite existing paths unless upload is prepared. |
+| Batch 55B | Complete | Admin category/subcategory/brand protection polish; product category/subcategory dropdowns and dependency protections verified. |
+| Batch 55C | Complete | Admin page overall polish; navigation, labels, login theme, media picker repair, required markers, and UI cleanup. |
+| Batch 55D | Complete | Admin Settings page finalization, notification bell dropdown, user menu dropdown, Settings link enablement, logout/session utility reuse. |
+| Batch 56A | Complete | Backend media upload/display endpoints plus private S3 media bucket/runtime setup and EC2 S3 smoke. |
+| Batch 56B | Complete | Admin media upload integration for Products, Brands, Project Gallery, and Contact Person photos; EC2 media display/upload smoke passed after Nginx fixes. |
+| Batch 56C | Complete | Products/Brands S3 image backfill; Project Gallery and Contact Person backfill intentionally skipped/manual. |
+| Batch 56D | Complete | Promotions hero fixed to show promoted package products only; Brands left unchanged because already dynamic. Pushed to Git. |
+
+### Deferred / current / planned batches
+
+| Batch | Status | Summary |
+|---|---|---|
+| Batch 57 | Deferred | SEO metadata/page titles deferred until Route 53/final domain is ready to avoid duplicate canonical/Open Graph/sitemap/robots work. |
+| Batch 58 | Current Active / Prepared | Image optimization/lazy loading; frontend-only browser loading hints, no backend/S3 path changes. |
+| Batch 59A | Planned | Cognito Groups + Settings > Users management. Use Admin and Standard groups; no DynamoDB users table. |
+| Batch 59B | Planned | Admin-only restricted actions/delete controls. Standard users do not see Settings or delete controls; backend still enforces 403. Leads remain non-delete. |
+| Batch 60 | Planned | Backup/restore/production safety notes and operational runbooks. |
+| Batch 61 | Deferred / Later | Route 53/domain, SSL/HTTPS, CloudFront planning after final domain/cost review. |
+| Batch 62 | Deferred / Later | Final demo/launch checklist after domain/security/backup readiness. |
+
+### Current authorization decision
+
+- Use Cognito Groups for admin authorization roles: `Admin` and `Standard`.
+- Do not use the Cognito `profile` attribute for role/permission decisions.
+- Do not add a DynamoDB users table for launch user management.
+- Settings > Users reads/manages Cognito users only through protected FastAPI backend routes.
+- User viewing/add/update/enable/disable/group assignment is Admin-only.
+- Standard users should not see Settings and must receive backend 403 for protected user-management routes.
+- Delete controls should be Admin-only for supported records.
+- Leads (`bookings`, `inquiries`, customer/lead records) should not expose delete controls even for Admin; keep those records for traceability.
 
 ## Status Legend
 
@@ -59,25 +125,25 @@ Update scope: Phase 8 Batch 29 documentation/status update after full public/adm
 | CMS Management Admin | Complete | High | About, project gallery, services, and contact-us admin pages/actions implemented |
 | Contact Person Photo Prep | Complete | Medium | Contact Person image/profile photo field uses the media prep workflow; Company Contact and Social Media do not add photo upload fields |
 | Customer CRM | Complete for Phase 8 | High | Customers auto-created/linked from bookings and inquiries; admin customer list/detail available |
-| User Roles / Permissions | Deferred | Medium | Full roles/permissions remain future work; Cognito prep exists |
+| User Roles / Permissions | Planned | Medium | Use Cognito Groups (`Admin`, `Standard`) in Batch 59A; no DynamoDB users table for launch |
 | Audit Logs | Deferred | Medium | Future admin audit trail |
 | Backend FastAPI | Complete | High | Local FastAPI backend, route modules, config, CORS, health endpoint, Swagger docs |
 | Repository Layer | Complete | High | Mock/DynamoDB repository mode switch implemented; mock remains safe default |
 | DynamoDB Integration | Complete | High | Approved 12 tables created in AWS `ap-southeast-1`; DynamoDB mode tested successfully |
 | DynamoDB Seed Data | Complete | High | JSON seed data and safe seed loader implemented; null cleanup applied |
 | DynamoDB Regression Tests | Complete | High | Public/admin DynamoDB regression tests passed |
-| Cognito Auth Prep | Complete | High | Local admin auth prep and login shell implemented; real Cognito protection still deferred until deployment/security step |
-| S3 / Image Upload Prep | Complete | Medium | Admin media upload controls prepared; binary upload/storage remains a later S3 enablement step |
+| Cognito Admin Auth | Complete | High | Cognito login/JWT protection deployed for admin/API access; group-based roles planned in Batch 59A |
+| S3 / Image Upload | Complete | High | Private S3 media storage, backend upload/display routes, admin upload integration, and EC2 smoke completed in Batches 56A/56B |
 | Excel/CSV Launch Data Templates | Complete | Medium | Company-friendly launch data templates created and validated |
 | Launch Data Import Loader | Complete | Medium | Safe dry-run-first CSV/Excel import loader implemented; writes only with `--execute` |
 | Full Public/Admin Regression | Complete | High | Batch 28 regression script/checklist passed in current testing |
 | CloudFront / SSL | Planned | High | Required for production/domain launch |
-| AWS EC2 Deployment | Planned | High | Required before external demo/public testing |
+| AWS EC2 Deployment | Complete for demo | High | Single Free-Tier-first EC2 public-IP deployment path implemented and tested; keep instance stopped unless actively testing |
 | Route 53 / Domain | Planned | Medium | Delayed until after EC2 public-IP testing/demo |
 | AWS Billing Alerts | Planned | High | Required before public/external AWS testing |
 | Free-Tier Deployment Review | Planned | High | Required before backend/admin public testing |
-| SEO Metadata | Planned | High | Required before launch |
-| Sitemap / robots.txt | Planned | High | Required before launch |
+| SEO Metadata | Deferred | High | Deferred until final Route 53/domain to avoid duplicate canonical/Open Graph work |
+| Sitemap / robots.txt | Deferred | High | Deferred until final domain and launch URL are ready |
 | Image Optimization | Planned | High | Required before launch |
 | Analytics | Deferred | Low | Optional unless business requires |
 

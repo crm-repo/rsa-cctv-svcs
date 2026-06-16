@@ -4,6 +4,47 @@
 
 This document is the authoritative technical design reference for RSA CMS / Mini-CRM. For implementation progress, use [feature-status.md](./feature-status.md). For business requirements, use [requirements.md](./requirements.md).
 
+
+## Current Phase 8 Continuation Architecture — Through Batch 56D
+
+As of Batch 56D, the working architecture has moved beyond the Batch 29 local-only baseline:
+
+- Public frontend remains static HTML/CSS/JavaScript, but major public sections are now API-rendered.
+- Public Products, Promotions, Brands, Homepage, About, Services, Contact, and Booking pages are API-backed where implemented.
+- FastAPI backend is deployed to a single Free-Tier-first EC2 demo instance using systemd.
+- Nginx fronts the public site on port 80 and proxies only approved public/API/media/admin routes.
+- Admin pages and admin/CRM APIs are protected through Cognito JWT bearer-token auth.
+- DynamoDB mode is the active deployed backend data source; mock mode remains useful for safe local/default development only where explicitly configured.
+- Private S3 media storage is enabled for uploaded media, with backend `/api/media/...` display/proxy routes.
+- Admin media upload integration writes resolved `/api/media/...` paths for Products, Brands, Project Gallery, and Contact Person images.
+- Products/Brands static image records were backfilled to S3; Project Gallery and Contact Person backfill were intentionally left for manual handling.
+- Promotions hero uses promoted package products only (`show_flag=Y`, `show_pack_flag=Y`, package/kits category).
+- Brands hero is already dynamic through the public brands API and must not be overwritten by duplicate renderers.
+
+### EC2/Nginx deployment notes from Batch 56B
+
+The EC2 Nginx config must preserve both media fixes:
+
+```text
+location ^~ /api/media/ ...
+client_max_body_size 8m;
+```
+
+The media route must appear before any default `/api/` deny/403 rule so public media can display while admin/CRM APIs remain protected.
+
+### Cognito role-management direction
+
+Cognito remains the launch source of truth for admin login accounts. The planned authorization model uses Cognito Groups:
+
+```text
+Admin
+Standard
+```
+
+The browser must not call Cognito admin APIs directly. Settings > Users should call protected FastAPI routes; FastAPI performs Cognito admin API operations server-side with IAM permissions.
+
+No `rsa_admin_users` DynamoDB table is required for launch unless later profile metadata/audit requirements are added.
+
 ## Architecture Overview
 
 RSA CMS / Mini-CRM uses a phased architecture.
@@ -51,7 +92,7 @@ Still planned for production/external use:
 
 - EC2 public-IP backend/admin deployment.
 - Real Cognito JWT enforcement for admin routes.
-- Real S3 binary upload/storage.
+- Real S3 binary upload/storage is now implemented for the current media scope; image optimization/backfill cleanup remains ongoing.
 - CloudFront/SSL/domain.
 - Billing alerts and Free-Tier deployment review.
 - SEO, sitemap, robots, image optimization, and launch hardening.

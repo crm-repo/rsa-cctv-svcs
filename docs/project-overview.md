@@ -1,5 +1,33 @@
 # RSA CMS / Mini-CRM Project Overview
 
+## Current Project Status — Phase 8 Continuation Through Batch 56D
+
+The project has progressed beyond the original Batch 29 documentation baseline.
+
+Current completed state:
+
+- Public website pages are effectively complete for the current phase.
+- Public catalog/CMS/lead pages are API-backed where implemented.
+- Backend FastAPI, DynamoDB mode, Cognito admin auth, EC2 demo deployment, Nginx routing, and S3 media storage are implemented for the current scope.
+- Admin catalog/CMS/lead pages are operational with Cognito-protected access.
+- Admin media upload works for Products, Brands, Project Gallery, and Contact Person images.
+- Products/Brands media backfill to S3 is complete for Batch 56C scope.
+- Promotions hero now uses promoted package products only.
+- Batch 57 SEO work is intentionally deferred until Route 53/final domain.
+
+Current active/planned work:
+
+- Batch 58: image optimization/lazy loading.
+- Batch 59A: Cognito Groups + Settings > Users management.
+- Batch 59B: Admin-only delete/restricted actions; no delete for lead records.
+- Batch 60: backup/restore/production safety notes.
+
+Deferred until later/final launch planning:
+
+- SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, robots.txt.
+- Route 53/domain, SSL/HTTPS, CloudFront.
+- Final demo/launch checklist after security, backup, and domain readiness.
+
 ## Document Purpose
 
 This document is the entry point for the RSA CMS / Mini-CRM documentation set. It explains the project purpose, business goals, scope, high-level architecture, current implementation status, and where to find authoritative details.

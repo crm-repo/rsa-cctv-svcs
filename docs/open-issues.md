@@ -7,6 +7,39 @@ This document tracks risks, unresolved questions, blockers, technical debt, and 
 Last updated: 2026-06-11  
 Update scope: Phase 8 Batch 29 documentation/status update.
 
+
+## Current Open / Deferred Items After Batch 56D
+
+| Item | Status | Notes |
+|---|---|---|
+| Batch 58 image lazy loading | Current Active / Prepared | Frontend-only browser loading hints; no image compression or S3 path changes. |
+| Batch 59A Cognito Groups + Users | Planned | Settings > Users backed by Cognito admin APIs through FastAPI only. |
+| Batch 59B Admin-only restricted/delete actions | Planned | Standard users hidden/blocked; leads remain non-delete. |
+| Batch 60 backup/restore/safety notes | Planned | Operational runbooks for DynamoDB/S3/deployment safety. |
+| SEO metadata/page titles | Deferred | Defer until Route 53/final domain. |
+| Canonical URLs/Open Graph URLs | Deferred | Do not use EC2 IP as canonical. |
+| sitemap.xml/robots.txt | Deferred | Defer until final domain and launch URL. |
+| Route 53/domain/SSL/CloudFront | Deferred | After final domain decision and cost review. |
+| Admin audit logs | Optional future | Not required for launch; may be added for traceability later. |
+| Email/SMS notifications | Optional future | Disabled by default for cost control. |
+| Analytics dashboard | Optional future | Future enhancement only. |
+
+## Resolved After Batch 29
+
+| Item | Resolution |
+|---|---|
+| EC2 public-IP deployment | Completed for demo path in Batches 34-39. |
+| Cognito admin protection | Completed for admin/login/API deployment path in Batches 40-48. |
+| Public catalog/CMS API rendering | Completed through Batches 49/49B/50. |
+| Static data extraction/import | Completed in Batches 54A/54B. |
+| Package quotation optional price | Completed in Batch 54C. |
+| Admin media path interim behavior | Completed in Batch 55A. |
+| Category/subcategory/brand protection polish | Completed in Batch 55B. |
+| Admin page polish/finalization | Completed in Batches 55C/55D. |
+| S3 media upload/storage | Completed for current scope in Batches 56A/56B. |
+| Products/Brands S3 backfill | Completed in Batch 56C. |
+| Promotions hero promoted package filtering | Completed in Batch 56D. |
+
 ## Known Issues
 
 | Issue | Severity | Impact | Status | Notes |

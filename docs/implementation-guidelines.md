@@ -1,5 +1,53 @@
 # RSA CMS / Mini-CRM Implementation Guidelines
 
+## Phase 8 Continuation Guardrails — Batch 56D Onward
+
+### Patch/package delivery style
+
+Use project-structure patch zips only. Do not leave root-level batch folders inside the repository.
+
+Preferred zip structure:
+
+```text
+frontend/...
+backend/...
+docs/...
+deploy/...
+scripts/...
+```
+
+Temporary patch/apply folders may be used outside the repository, but must not be committed.
+
+### Runtime proof before patching
+
+Before changing public/admin behavior:
+
+1. Inspect the current file/function responsible for the behavior.
+2. Confirm runtime behavior when possible from browser/admin output.
+3. Patch only the affected function/section.
+4. Do not add duplicate renderers over already-working dynamic sections.
+5. State files changed and files intentionally not changed.
+
+### Local development baseline
+
+For current local testing, prefer:
+
+- Backend in DynamoDB mode when validating real deployed data behavior.
+- Media in S3 mode when validating `/api/media/...` paths that now point to S3-backed objects.
+- Frontend through the local proxy on `http://127.0.0.1:5500` so `/api/*` and `/api/media/*` resolve correctly.
+
+### Admin roles and restricted actions
+
+- Use Cognito Groups for roles: `Admin` and `Standard`.
+- Do not use the Cognito `profile` attribute for authorization.
+- Do not expose AWS/Cognito admin credentials or direct Cognito admin calls in frontend JavaScript.
+- Hide restricted UI for Standard users, but always enforce restrictions in backend routes.
+- Do not add lead delete functionality. Booking, inquiry, and customer/lead records must remain for traceability.
+
+### EC2 cost safety
+
+Keep the EC2 demo instance stopped unless actively deploying/testing. Continue avoiding ALB, NAT Gateway, RDS, unnecessary paid notifications, and always-on extra infrastructure unless explicitly approved after cost review.
+
 ## Purpose
 
 This document guides frontend, backend, admin, and AI-assisted development work for RSA CMS / Mini-CRM.
@@ -428,7 +476,7 @@ Remove-Item Env:RSA_REPOSITORY_MODE
 - Admin image/photo/logo fields should use Browse/Choose File UI.
 - Do not ask admins to type project-folder paths manually.
 - Store/display resolved media paths or object keys.
-- Real S3 binary upload/storage is a later enablement step.
+- Real S3 binary upload/storage is enabled for the approved Batch 56A/56B media scope.
 - Contact Person records may use the Contact Person photo/profile image field.
 - Company Contact and Social Media records should not add extra photo upload fields unless reopened.
 
