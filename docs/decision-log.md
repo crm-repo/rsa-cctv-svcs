@@ -608,3 +608,44 @@ This document records significant project decisions and their rationale. For imp
 | Context | Root-level batch folders created repo clutter and diverged from earlier Phase 8 delivery style. |
 | Decision | Deliver patches in project-structure zips (`frontend/`, `backend/`, `docs/`, etc.) and avoid committing temporary root batch folders. |
 | Impact | Cleaner repository, fewer accidental commits, and easier file review. |
+
+## ADR-057: Batch 59A User Onboarding Uses One-Time Temporary Passwords
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 59A Planning |
+| Status | Accepted |
+| Context | Admin-created Cognito users need a practical onboarding path without command-line password reset and without adding SES/email invitation dependency for launch. |
+| Decision | Use Option A: suppress Cognito invitation email, generate a temporary password server-side, show it once in Settings > Users after create/reset, and require the user to change it through the browser first-login password-change flow. Do not store, log, or re-display temporary passwords. If lost, Admin resets/generates a new temporary password. |
+| Impact | Batch 59A must add first-login password-change UI support and reset temporary password behavior. No DynamoDB users table or password storage is added. |
+
+## ADR-058: Batch 59A User Fields Use First/Last Name With Generated Full Name
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 59A Planning |
+| Status | Accepted |
+| Context | Cognito exposes separate standard name attributes and the admin Users table should remain compact. |
+| Decision | User creation and view/edit modal use First Name and Last Name, mapped to Cognito `given_name` and `family_name`. The main Settings > Users table shows one system-generated Full Name column built from First Name + Last Name. Role remains Cognito Group membership (`Admin` / `Standard`). |
+| Impact | Admin UI table stays clean while preserving editable first/last name fields. Role is not stored in `profile`, `name`, or a custom role field. |
+
+## ADR-059: Demo Readiness and Backup Batches Split Into 60A and 60B
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Demo Readiness Planning |
+| Status | Accepted |
+| Context | Earlier plans included a full public/admin regression after final data and a separate backup/restore/rollback procedure. These need to happen before demo/production handoff. |
+| Decision | Use Batch 60A for EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression and demo data sanity check. Use Batch 60B for backup/restore/production safety notes. |
+| Impact | Earlier Batch 62 maps to Batch 60A. Earlier Batch 64 maps to Batch 60B. Batch 60A should remind the user of the full demo checklist before execution. |
+
+## ADR-060: Batch 61 Domain HTTPS Launch Uses Route 53 + ACM + CloudFront + EC2 Origin
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 61 Planning |
+| Status | Accepted / Deferred until final domain approval |
+| Context | The current demo uses EC2 public-IP HTTP, but launch needs domain-based HTTPS without adding high-cost infrastructure. |
+| Decision | After customer/demo approval and final domain confirmation, use Route 53 + ACM + CloudFront + EC2 Nginx origin. Keep `/admin/` under the main domain by default. Route 53/domain is the approved paid exception. Cost planning assumes normal `.com` domain registration/renewal around USD 15/year plus Route 53 hosted zone around USD 0.50/month, about USD 20-25/year plus tiny DNS query charges. |
+| Impact | CloudFront/ACM/domain setup is Batch 61. SEO canonical/Open Graph/sitemap/robots remain deferred until domain confirmation. Avoid ALB, NAT Gateway, RDS, paid WAF, extra always-on EC2 instances, and unnecessary paid services unless separately approved. |
+

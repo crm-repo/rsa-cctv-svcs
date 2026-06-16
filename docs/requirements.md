@@ -5,7 +5,7 @@
 This document is the authoritative business, functional, and non-functional requirements specification for RSA CMS / Mini-CRM. For implementation progress, use [feature-status.md](./feature-status.md). For technical design, use [architecture.md](./architecture.md).
 
 
-## Phase 8 Continuation Requirements — Batches 56D to 60
+## Phase 8 Continuation Requirements — Batches 56D to 61
 
 ### Promotions hero promoted package rule
 
@@ -28,7 +28,7 @@ Brands hero must remain dynamic from the Brands API and must not be patched by d
 - The S3 bucket remains private; public display is through the backend/Nginx media route, not public bucket access.
 - Upload size should remain bounded for Free-Tier-first operation.
 
-### Admin user/role requirements
+### Admin user/role requirements — Batch 59A
 
 - Use Cognito Groups for role/authorization: `Admin` and `Standard`.
 - Do not use the Cognito `profile` attribute as a role field.
@@ -36,6 +36,12 @@ Brands hero must remain dynamic from the Brands API and must not be patched by d
 - Settings > Users should read/manage Cognito users through protected FastAPI backend routes only.
 - Admin users may view/add/update/enable/disable Cognito users and manage Admin/Standard group assignment.
 - Standard users must not see Settings and must be blocked by backend authorization from user-management routes.
+- Admin-created users must use Option A onboarding: Cognito invitation email suppressed, backend-generated temporary password, and browser-based first-login password change.
+- Temporary passwords are one-time visible only after create/reset and must not be stored, logged, or re-viewable. If lost, Admin resets/generates a new temporary password.
+- Create and view/edit modal fields use First Name and Last Name separately.
+- Main Users table uses a system-generated Full Name column.
+- Cognito mapping: `given_name = First Name`, `family_name = Last Name`, `name = Full Name`, and Role = Cognito Group.
+- Phone number is not required for launch user management and should be skipped unless separately approved.
 
 ### Delete/restricted-action requirements
 
@@ -49,6 +55,35 @@ Brands hero must remain dynamic from the Brands API and must not be patched by d
 
 - Batch 57 SEO metadata/page titles, canonical URLs, Open Graph URLs, sitemap.xml, and robots.txt are deferred until Route 53/final domain is ready.
 - Do not set EC2 public IP as canonical URL.
+
+### Demo-readiness requirements — Batch 60A
+
+- Batch 60A must run after Batch 58, Batch 59A, and Batch 59B before declaring the EC2 public-IP demo ready.
+- Batch 60A must include final EC2 smoke regression and demo data sanity check.
+- Public website smoke must cover Home, Products, Promotions, Brands, About, Services, Contact, and Booking.
+- Lead capture smoke must cover booking submit and inquiry/contact submit.
+- Admin smoke must cover login, dashboard, lead pages, catalog pages, CMS pages, media display/upload, and role-based Settings visibility.
+- Batch 59A/59B behavior must be tested: Admin can manage users; Standard cannot see Settings; Standard gets backend 403; lead records have no delete controls.
+
+### Backup/restore/safety requirements — Batch 60B
+
+- Batch 60B must document DynamoDB backup/export/restore approach, S3 media preservation, import rollback, Git rollback, EC2 deployment rollback, and Nginx config rollback.
+- Batch 60B must preserve the dry-run-first import rule, no table deletion rule, and no downward `rsa_id_counters` reset rule.
+- Batch 60B is documentation/procedure only unless a separately approved safety script is requested.
+- Batch 60B must not add paid backup services unless separately approved after cost review.
+
+### Domain / HTTPS / CloudFront / Route 53 requirements — Batch 61
+
+- Batch 61 remains deferred until customer demo/launch approval and final domain confirmation.
+- Approved launch direction: Route 53 + ACM + CloudFront + EC2 Nginx origin.
+- Domain name, root/www behavior, certificate names, DNS records, and SEO canonical/Open Graph domain cannot be finalized until the customer-approved domain is known.
+- Admin should remain under the main domain path `/admin/` by default, not a separate admin subdomain, unless separately approved.
+- CloudFront behavior must avoid caching admin/auth/API responses unless each endpoint is explicitly reviewed as safe.
+- Existing Nginx rules must be preserved, especially `/api/media/` before generic `/api/` blocking and `client_max_body_size 8m`.
+- Cognito callback/logout URLs, FastAPI CORS origins, admin base URL assumptions, and hardcoded EC2 public IP references must be reviewed during domain cutover.
+- Route 53/domain cost is approved as the paid exception: normal `.com` planning estimate roughly USD 15/year registration/renewal plus Route 53 hosted zone around USD 0.50/month, approximately USD 20-25/year plus tiny DNS query charges for small traffic.
+- ACM standard public certificate and CloudFront are expected to remain free/low for small traffic under current AWS allowances, but AWS pricing must be rechecked before implementation.
+- Do not add ALB, NAT Gateway, RDS, paid WAF, extra always-on EC2 instances, SMS/email notifications, or high-cost logging by default.
 
 ## Functional Requirements
 

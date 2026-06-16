@@ -15,11 +15,13 @@ Update scope: Phase 8 Batch 29 documentation/status update.
 | Batch 58 image lazy loading | Current Active / Prepared | Frontend-only browser loading hints; no image compression or S3 path changes. |
 | Batch 59A Cognito Groups + Users | Planned | Settings > Users backed by Cognito admin APIs through FastAPI only. |
 | Batch 59B Admin-only restricted/delete actions | Planned | Standard users hidden/blocked; leads remain non-delete. |
-| Batch 60 backup/restore/safety notes | Planned | Operational runbooks for DynamoDB/S3/deployment safety. |
+| Batch 60A EC2 public-IP demo readiness pass | Planned | Final EC2 smoke regression and demo data sanity check after Batch 58/59A/59B. |
+| Batch 60B backup/restore/safety notes | Planned | Operational runbooks for DynamoDB/S3/Git/EC2/Nginx rollback safety. |
+| Batch 61 domain/HTTPS/CloudFront/Route 53 | Deferred | Planned after customer demo/launch approval and final domain confirmation. |
 | SEO metadata/page titles | Deferred | Defer until Route 53/final domain. |
 | Canonical URLs/Open Graph URLs | Deferred | Do not use EC2 IP as canonical. |
 | sitemap.xml/robots.txt | Deferred | Defer until final domain and launch URL. |
-| Route 53/domain/SSL/CloudFront | Deferred | After final domain decision and cost review. |
+| Route 53/domain/SSL/CloudFront | Deferred | Batch 61 after final domain decision; approved direction is Route 53 + ACM + CloudFront + EC2 origin. |
 | Admin audit logs | Optional future | Not required for launch; may be added for traceability later. |
 | Email/SMS notifications | Optional future | Disabled by default for cost control. |
 | Analytics dashboard | Optional future | Future enhancement only. |

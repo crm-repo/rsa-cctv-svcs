@@ -45,6 +45,23 @@ The browser must not call Cognito admin APIs directly. Settings > Users should c
 
 No `rsa_admin_users` DynamoDB table is required for launch unless later profile metadata/audit requirements are added.
 
+Batch 59A user onboarding uses suppressed Cognito invitation email and a backend-generated temporary password shown once only after create/reset. Temporary passwords are not stored, logged, or re-viewable. First-login password change must be handled in the browser. User create/view/edit fields use First Name and Last Name (`given_name`, `family_name`); the main Users table shows generated Full Name.
+
+### Planned domain/HTTPS architecture — Batch 61
+
+After customer demo/launch approval and final domain confirmation, the approved HTTPS architecture is:
+
+```text
+Visitor browser
+  -> HTTPS
+Route 53 DNS
+  -> alias record
+CloudFront distribution + ACM certificate
+  -> EC2 Nginx origin / FastAPI backend
+```
+
+Batch 61 is deferred until the domain is known. The current EC2 public-IP HTTP demo remains the active demo setup until then. Route 53/domain is the approved paid exception. Avoid ALB, NAT Gateway, RDS, paid WAF, extra always-on EC2 instances, and unnecessary paid services by default.
+
 ## Architecture Overview
 
 RSA CMS / Mini-CRM uses a phased architecture.

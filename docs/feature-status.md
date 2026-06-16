@@ -5,7 +5,7 @@
 This document is the authoritative implementation progress tracker. If status here conflicts with another document, this document controls implementation status.
 
 Last updated: 2026-06-16  
-Update scope: Phase 8 continuation update through Batch 56D completion, Batch 57 deferral, and Batch 58-60 planning.
+Update scope: Phase 8 continuation update through Batch 56D completion, Batch 57 deferral, Batch 58-61 planning, and Batch 60A/60B demo-readiness split.
 
 
 ## Phase 8 Continuation Status — Batches 30 to 60
@@ -58,11 +58,12 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Batch 58 | Current Active / Prepared | Image optimization/lazy loading; frontend-only browser loading hints, no backend/S3 path changes. |
 | Batch 59A | Planned | Cognito Groups + Settings > Users management. Use Admin and Standard groups; no DynamoDB users table. |
 | Batch 59B | Planned | Admin-only restricted actions/delete controls. Standard users do not see Settings or delete controls; backend still enforces 403. Leads remain non-delete. |
-| Batch 60 | Planned | Backup/restore/production safety notes and operational runbooks. |
-| Batch 61 | Deferred / Later | Route 53/domain, SSL/HTTPS, CloudFront planning after final domain/cost review. |
-| Batch 62 | Deferred / Later | Final demo/launch checklist after domain/security/backup readiness. |
+| Batch 60A | Planned | EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression and demo data sanity check. Supersedes earlier Batch 62 regression idea for demo readiness. |
+| Batch 60B | Planned | Backup/restore/production safety notes and operational runbooks. Supersedes earlier Batch 64 backup/rollback idea. |
+| Batch 61 | Deferred / Later | Route 53/domain, ACM, SSL/HTTPS, CloudFront, and EC2 origin planning after final customer domain/cost approval. Supersedes earlier Batch 65 domain planning idea. |
+| Batch 62 | Deferred / Later | Final launch checklist after domain/security/backup readiness, if needed. |
 
-### Current authorization decision
+### Current authorization and user-management decision
 
 - Use Cognito Groups for admin authorization roles: `Admin` and `Standard`.
 - Do not use the Cognito `profile` attribute for role/permission decisions.
@@ -70,6 +71,12 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 - Settings > Users reads/manages Cognito users only through protected FastAPI backend routes.
 - User viewing/add/update/enable/disable/group assignment is Admin-only.
 - Standard users should not see Settings and must receive backend 403 for protected user-management routes.
+- Admin-created users use Option A onboarding: Cognito invitation email suppressed; backend generates a temporary password; admin UI shows it once only after create/reset.
+- Temporary passwords must not be stored, logged, or re-viewable. If lost, Admin resets/generates a new temporary password.
+- First login must support browser-based password change for Cognito's new-password-required challenge; real users must not use CLI/command prompt.
+- Create/view/edit forms use First Name and Last Name separately, mapped to Cognito `given_name` and `family_name`.
+- Main Settings > Users table shows generated `Full Name = First Name + " " + Last Name`.
+- Role comes from Cognito Group membership only, not `profile`, `name`, or a custom role attribute.
 - Delete controls should be Admin-only for supported records.
 - Leads (`bookings`, `inquiries`, customer/lead records) should not expose delete controls even for Admin; keep those records for traceability.
 

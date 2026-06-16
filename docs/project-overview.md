@@ -18,15 +18,17 @@ Current completed state:
 Current active/planned work:
 
 - Batch 58: image optimization/lazy loading.
-- Batch 59A: Cognito Groups + Settings > Users management.
-- Batch 59B: Admin-only delete/restricted actions; no delete for lead records.
-- Batch 60: backup/restore/production safety notes.
+- Batch 59A: Cognito Groups + Settings > Users management, including Option A onboarding, one-time temporary passwords, first-login password change, First Name/Last Name forms, and generated Full Name table display.
+- Batch 59B: Admin-only restricted/delete actions; Standard users do not see Settings/delete controls; no delete for lead records.
+- Batch 60A: EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression and demo data sanity check.
+- Batch 60B: backup/restore/production safety notes.
+- Batch 61: Route 53 + ACM + CloudFront + EC2 origin planning, deferred until customer domain approval.
 
 Deferred until later/final launch planning:
 
-- SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, robots.txt.
-- Route 53/domain, SSL/HTTPS, CloudFront.
-- Final demo/launch checklist after security, backup, and domain readiness.
+- SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, robots.txt until the final domain is confirmed.
+- Route 53/domain, SSL/HTTPS, and CloudFront implementation until customer/domain approval.
+- Final launch checklist after demo readiness, backup/safety notes, and domain readiness.
 
 ## Document Purpose
 

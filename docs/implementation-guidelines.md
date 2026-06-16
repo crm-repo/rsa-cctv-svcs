@@ -43,6 +43,27 @@ For current local testing, prefer:
 - Do not expose AWS/Cognito admin credentials or direct Cognito admin calls in frontend JavaScript.
 - Hide restricted UI for Standard users, but always enforce restrictions in backend routes.
 - Do not add lead delete functionality. Booking, inquiry, and customer/lead records must remain for traceability.
+- Batch 59A user onboarding uses suppressed Cognito invitation email and one-time visible temporary password after create/reset.
+- Do not store, log, or re-display temporary passwords. If lost, reset/generate a new temporary password.
+- Create/view/edit user forms use First Name and Last Name; main Users table displays generated Full Name.
+- First-login password change must be handled through the browser UI, not command-line tools.
+
+### Demo readiness and safety batches
+
+- Batch 60A is the EC2 public-IP demo smoke checklist and demo data sanity pass. It supersedes the earlier Batch 62 regression idea for demo readiness.
+- Batch 60B is the backup/restore/production safety notes batch. It supersedes the earlier Batch 64 backup/rollback idea.
+- During Batch 60A, repeat the full demo checklist before declaring the app demo-ready.
+- Batch 60B should document DynamoDB, S3, Git, EC2 deployment, Nginx rollback, import safety, and secret-handling procedures.
+
+### Domain / HTTPS / CloudFront planning
+
+- Batch 61 replaces the earlier Batch 65 CloudFront/SSL/domain planning idea.
+- Keep the current EC2 public-IP HTTP demo until customer/domain approval.
+- Later launch target: Route 53 + ACM + CloudFront + EC2 Nginx origin.
+- Use `/admin/` under the main domain by default.
+- Preserve Nginx `/api/media/` and `client_max_body_size 8m` rules during domain/CloudFront changes.
+- Route 53/domain cost is approved as the paid exception: roughly USD 20-25/year planning number for normal `.com` domain + hosted zone, plus tiny DNS query charges.
+- Avoid ALB, NAT Gateway, RDS, paid WAF, extra always-on EC2 instances, and unnecessary paid services unless separately approved.
 
 ### EC2 cost safety
 
