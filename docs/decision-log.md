@@ -649,3 +649,15 @@ This document records significant project decisions and their rationale. For imp
 | Decision | After customer/demo approval and final domain confirmation, use Route 53 + ACM + CloudFront + EC2 Nginx origin. Keep `/admin/` under the main domain by default. Route 53/domain is the approved paid exception. Cost planning assumes normal `.com` domain registration/renewal around USD 15/year plus Route 53 hosted zone around USD 0.50/month, about USD 20-25/year plus tiny DNS query charges. |
 | Impact | CloudFront/ACM/domain setup is Batch 61. SEO canonical/Open Graph/sitemap/robots remain deferred until domain confirmation. Avoid ALB, NAT Gateway, RDS, paid WAF, extra always-on EC2 instances, and unnecessary paid services unless separately approved. |
 
+
+
+## ADR-061: Phase 8 Documentation Files Stay Flat Under docs Root
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 59A documentation cleanup |
+| Status | Accepted |
+| Context | Recent batch packages inconsistently placed README text files at the zip/project root and Markdown README files under nested `docs/Phase 8 README` or `docs/phase8` folders, creating project-folder clutter and documentation drift. |
+| Decision | Keep main project Markdown docs and Phase 8 batch Markdown files directly under the root `docs/` folder. Use normal filenames such as `phase8_batch58_image_lazy_loading.md`. Keep apply/verify/cleanup scripts under `backend/scripts/`. Do not create root-level README/TXT files or nested Phase 8 README folders for new batch packages. |
+| Reasoning | A flat docs folder matches the current project expectation, keeps batch documentation easy to find, and prevents duplicate README files from drifting out of sync. |
+| Impact | Batch 59A and later packages must follow the cleaned docs/package structure. Existing nested README files should be consolidated into normal root `docs/phase8_*.md` files. |

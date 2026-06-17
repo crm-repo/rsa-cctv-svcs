@@ -25,5 +25,20 @@ After execute, review:
 
 ```powershell
 git diff --stat
-git diff -- .rontend .\docseviewatch58_image_lazy_loading_report.txt
+git diff -- .rontend .\docs
+eviewatch58_image_lazy_loading_report.txt
 ```
+
+## Local testing result
+
+Status: Local testing passed.
+
+The broken image issue seen during local verification was caused by starting the backend with local media mode while DynamoDB records already pointed to S3-backed `/api/media/...` paths. Local development should use:
+
+```powershell
+$env:RSA_MEDIA_STORAGE_MODE="s3"
+$env:RSA_MEDIA_S3_BUCKET="rsa-cms-media-537765358118-ap-southeast-1"
+$env:RSA_MEDIA_MAX_UPLOAD_MB="5"
+```
+
+Frontend testing should continue through the local proxy so `/api/*` and `/api/media/*` resolve correctly.

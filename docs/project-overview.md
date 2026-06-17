@@ -17,7 +17,7 @@ Current completed state:
 
 Current active/planned work:
 
-- Batch 58: image optimization/lazy loading.
+- Batch 58: image lazy loading local testing passed.
 - Batch 59A: Cognito Groups + Settings > Users management, including Option A onboarding, one-time temporary passwords, first-login password change, First Name/Last Name forms, and generated Full Name table display.
 - Batch 59B: Admin-only restricted/delete actions; Standard users do not see Settings/delete controls; no delete for lead records.
 - Batch 60A: EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression and demo data sanity check.

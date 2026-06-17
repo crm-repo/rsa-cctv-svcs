@@ -1,0 +1,41 @@
+
+
+/* batch59a-hotfix-v9-users-role-labels-reset-spacing */
+.user-reset-card.admin-modal-card {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  padding-top: 30px !important;
+  padding-bottom: 34px !important;
+}
+.user-reset-card.admin-modal-card .eyebrow {
+  margin: 0 0 34px !important;
+}
+.user-reset-card.admin-modal-card h2 {
+  margin: 0 0 22px !important;
+  padding: 0 !important;
+  line-height: 1.18 !important;
+}
+.user-reset-card.admin-modal-card .settings-note {
+  margin: 0 0 24px !important;
+  max-width: 100% !important;
+}
+.user-reset-card.admin-modal-card .users-modal-status {
+  margin: 14px 0 22px !important;
+}
+.user-reset-card.admin-modal-card .drawer-actions {
+  margin-top: 16px !important;
+}
+.user-reset-card.admin-modal-card .users-temp-password-inline {
+  margin-top: 14px !important;
+}
+.user-reset-card.admin-modal-card .users-temp-password-inline code {
+  margin-top: 10px !important;
+}
+.admin-login-page input.is-readonly,
+.admin-login-page input:disabled {
+  background: #f8fafc !important;
+  color: #64748b !important;
+  cursor: not-allowed !important;
+}

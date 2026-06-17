@@ -34,14 +34,16 @@
   async function request(path, options = {}) {
     const base = getApiBaseUrl();
     const url = `${base}${path.startsWith('/') ? path : `/${path}`}`;
+    const { headers: optionHeaders = {}, ...fetchOptions } = options || {};
+    const hasBody = Object.prototype.hasOwnProperty.call(fetchOptions, 'body') && fetchOptions.body != null;
     const response = await fetch(url, {
+      ...fetchOptions,
       headers: {
         Accept: 'application/json',
         ...getAuthHeaders(),
-        ...(options.body ? { 'Content-Type': 'application/json' } : {}),
-        ...(options.headers || {})
-      },
-      ...options
+        ...(hasBody ? { 'Content-Type': 'application/json' } : {}),
+        ...optionHeaders
+      }
     });
 
     if (!response.ok) {

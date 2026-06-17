@@ -5,7 +5,7 @@ Status: implementation package prepared.
 ## Scope
 
 - Use Cognito Groups for roles: `Admin` and `Standard`.
-- Settings > Users reads and manages Cognito users through protected FastAPI backend routes.
+- Settings > Users reads and manages Cognito users through protected FastAPI routes.
 - No DynamoDB users table is added.
 - The browser never calls Cognito admin APIs directly.
 - Admin-created users use suppressed invitation email and a backend-generated temporary password shown once only.
@@ -26,20 +26,36 @@ frontend/admin/assets/js/admin-api.js
 frontend/admin/assets/js/admin-role-guard-59a.js
 frontend/admin/assets/js/admin-users-59a.js
 frontend/admin/assets/css/admin.css
-docs/phase8/README_BATCH59A_COGNITO_GROUPS_SETTINGS_USERS.md
+docs/phase8_batch59a_cognito_groups_settings_users.md
 ```
 
-## Apply command
+## Batch package standard
 
-Run from the project root after extracting the package:
+This file is intentionally stored flat under `docs/` as `phase8_batch59a_cognito_groups_settings_users.md`.
 
-```powershell
-python .\backend\scripts\apply_batch59a_cognito_groups_settings_users.py
+Do not recreate:
+
+```text
+docs/phase8/
+docs/Phase 8 README/
+root README txt/md files
+```
+
+Patch and verify scripts belong under:
+
+```text
+backend/scripts/
 ```
 
 ## Local verification markers
 
-Expected backend route markers after local start:
+Expected file markers after applying:
+
+```text
+python ./backend/scripts/verify_batch59a_cognito_groups_settings_users.py
+```
+
+Expected backend route markers after local start and Admin login/token:
 
 ```text
 GET /api/admin/users/health -> version: batch59a-cognito-groups-settings-users
@@ -57,4 +73,4 @@ Settings hidden/restricted for Standard
 
 ## Notes
 
-AWS Console setup instructions are intentionally not duplicated here. Follow the chat instructions for creating/verifying Cognito groups and assigning the current admin user to the Admin group.
+AWS Console setup instructions are intentionally kept outside this README and should be followed from the chat steps before runtime testing.

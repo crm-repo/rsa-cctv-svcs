@@ -169,5 +169,38 @@
       });
     }());
   </script>
+<script data-batch59a-hotfix-v9-login-email-lock>
+(function () {
+  'use strict';
+
+  function syncEmailLock() {
+    const newPasswordFields = document.querySelector('[data-new-password-fields]');
+    const emailInput = document.querySelector('[data-admin-login-form] input[name="username"]');
+    if (!newPasswordFields || !emailInput) return;
+    const isChallenge = !newPasswordFields.hidden;
+    emailInput.disabled = isChallenge;
+    emailInput.classList.toggle('is-readonly', isChallenge);
+    if (isChallenge) emailInput.setAttribute('aria-readonly', 'true');
+    else emailInput.removeAttribute('aria-readonly');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncEmailLock);
+  } else {
+    syncEmailLock();
+  }
+
+  const start = function () {
+    const newPasswordFields = document.querySelector('[data-new-password-fields]');
+    if (!newPasswordFields || !window.MutationObserver) return;
+    const observer = new MutationObserver(syncEmailLock);
+    observer.observe(newPasswordFields, { attributes: true, attributeFilter: ['hidden'] });
+    [50, 150, 350].forEach((delay) => setTimeout(syncEmailLock, delay));
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+}());
+</script>
 </body>
 </html>

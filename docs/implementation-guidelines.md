@@ -2,6 +2,28 @@
 
 ## Phase 8 Continuation Guardrails — Batch 56D Onward
 
+### Documentation/package folder standard
+
+From Batch 59A cleanup onward, documentation packages should avoid creating nested Phase 8 README folders or root README text clutter. Use this structure:
+
+```text
+docs/
+  project-overview.md
+  architecture.md
+  requirements.md
+  feature-status.md
+  implementation-guidelines.md
+  decision-log.md
+  open-issues.md
+  UPDATE_SUMMARY.md
+  phase8_batchXX_*.md
+
+backend/scripts/
+  apply/verify/cleanup scripts
+```
+
+Do not place patch scripts, README text files, or random Markdown files at the project root. Do not create `docs/Phase 8 README/` or `docs/phase8/` for new batch README files; use normal root-level `docs/phase8_batch*.md` files instead.
+
 ### Patch/package delivery style
 
 Use project-structure patch zips only. Do not leave root-level batch folders inside the repository.

@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const VERSION = 'batch59a-hotfix-v9-users-role-labels-reset-spacing';
+  const VERSION = 'batch59a-hotfix-v8-users-role-temp-password-reset';
   window.RSA_BATCH59A_ADMIN_USERS_VERSION = VERSION;
 
   const state = { users: [], editingUsername: '' };
@@ -121,22 +121,9 @@
   async function request(path, options) { return api().request(path, options || {}); }
   function getItems(payload) { return api().getItems(payload); }
 
-  function roleLabel(role) {
-    if (role === 'Admin') return 'System Administrator';
-    if (role === 'Standard') return 'Standard User';
-    return role || 'Standard User';
-  }
-
-  function normalizeRoleOptionLabels() {
-    qsa('select[name="role"] option').forEach((option) => {
-      if (option.value === 'Admin') option.textContent = 'System Administrator';
-      if (option.value === 'Standard') option.textContent = 'Standard User';
-    });
-  }
-
   function rolePill(role) {
     const isAdmin = role === 'Admin';
-    return `<span class="users-role-pill ${isAdmin ? 'is-admin' : 'is-standard'}">${escapeHtml(roleLabel(role || 'Standard'))}</span>`;
+    return `<span class="users-role-pill ${isAdmin ? 'is-admin' : 'is-standard'}">${escapeHtml(role || 'Standard')}</span>`;
   }
 
   function statusPill(user) {
@@ -207,7 +194,6 @@
     const form = qs('[data-user-create-form]', modal);
     if (!modal || !form) return;
     form.reset();
-    normalizeRoleOptionLabels();
     if (form.elements.role) form.elements.role.value = 'Standard';
     clearModalStatus('[data-user-add-status]');
     modal.hidden = false;
@@ -232,7 +218,6 @@
     const modal = qs('[data-user-edit-modal]');
     if (!user || !form || !modal) return;
     state.editingUsername = user.username;
-    normalizeRoleOptionLabels();
     form.elements.full_name.value = displayName(user);
     form.elements.role.value = user.role || 'Standard';
     form.elements.enabled.checked = user.enabled !== false;
@@ -316,7 +301,7 @@
       form.reset();
       if (form.elements.role) form.elements.role.value = payload.role || 'Standard';
       await loadUsers();
-      setPageStatus('is-success', 'User created.', 'Copy it from the drawer.');
+      setPageStatus('is-success', 'User created.', '');
     } catch (error) {
       console.error(error);
       setModalStatus('[data-user-add-status]', 'is-warning', 'Unable to create user.', parseErrorMessage(error));
@@ -370,7 +355,7 @@
       <div class="user-reset-card admin-modal-card" role="dialog" aria-modal="true" aria-labelledby="user-reset-title">
         <button class="modal-close" type="button" data-user-reset-close aria-label="Close">&times;</button>
         <p class="eyebrow">Reset Password</p>
-        <h2 id="user-reset-title">Reset Password</h2>
+        <h2 id="user-reset-title">Temporary Password</h2>
         <p class="settings-note" data-user-reset-copy>Generate a new temporary password. It will be shown here once only.</p>
         <div class="users-modal-status" data-user-reset-status hidden></div>
         <div class="drawer-actions">
@@ -423,7 +408,7 @@
       const result = await request(`/admin/users/${encodeURIComponent(username)}/reset-password`, { method: 'POST' });
       showTempPasswordInModal('[data-user-reset-status]', result, 'Temporary password generated.');
       await loadUsers();
-      setPageStatus('is-success', 'Password reset.', 'Copy it from the drawer.');
+      setPageStatus('is-success', 'Password reset.', 'Copy the temporary password from the drawer.');
     } catch (error) {
       console.error(error);
       setModalStatus('[data-user-reset-status]', 'is-warning', 'Unable to reset password.', parseErrorMessage(error));
@@ -455,7 +440,6 @@
 
   function bind() {
     normalizeUsersToolbar();
-    normalizeRoleOptionLabels();
     const refresh = qs('[data-users-refresh]');
     if (refresh) refresh.addEventListener('click', loadUsers);
     const addOpen = qs('[data-user-add-open]');

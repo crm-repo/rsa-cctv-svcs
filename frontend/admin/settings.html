@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Settings | RSA CMS Admin</title>
   <meta name="robots" content="noindex,nofollow" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="./assets/css/admin.css" />
   <link rel="stylesheet" href="./assets/css/admin-auth.css" />
   <link rel="stylesheet" href="./assets/css/admin-media.css" />
@@ -21,23 +22,7 @@
       </a>
 
       <nav class="admin-nav" data-admin-nav="true">
-        <a class="nav-item" href="./index.html"><span class="nav-icon"><i class="fa-solid fa-chart-column"></i></span><span>Dashboard</span></a>
-        <p class="nav-heading">Catalog</p>
-        <a class="nav-item" href="./products.html"><span class="nav-icon"><i class="fa-solid fa-box-open"></i></span><span>Products</span></a>
-        <a class="nav-item" href="./categories.html"><span class="nav-icon"><i class="fa-solid fa-table-list"></i></span><span>Categories</span></a>
-        <a class="nav-item" href="./brands.html"><span class="nav-icon"><i class="fa-solid fa-certificate"></i></span><span>Brands</span></a>
-        <a class="nav-item" href="./key-features.html"><span class="nav-icon"><i class="fa-solid fa-star"></i></span><span>Key Features</span></a>
-        <p class="nav-heading">CRM</p>
-        <a class="nav-item" href="./customers.html"><span class="nav-icon"><i class="fa-solid fa-users"></i></span><span>Customers</span></a>
-        <a class="nav-item" href="./bookings.html"><span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span><span>Bookings</span></a>
-        <a class="nav-item" href="./inquiries.html"><span class="nav-icon"><i class="fa-solid fa-file-circle-question"></i></span><span>Inquiries</span></a>
-        <p class="nav-heading">CMS</p>
-        <a class="nav-item" href="./about.html"><span class="nav-icon"><i class="fa-solid fa-address-card"></i></span><span>About Us</span></a>
-        <a class="nav-item" href="./project-gallery.html"><span class="nav-icon"><i class="fa-solid fa-images"></i></span><span>Project Gallery</span></a>
-        <a class="nav-item" href="./services.html"><span class="nav-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span><span>Services</span></a>
-        <a class="nav-item" href="./contact-us.html"><span class="nav-icon"><i class="fa-solid fa-address-book"></i></span><span>Contact Us</span></a>
-        <p class="nav-heading">System</p>
-        <a class="nav-item is-active" href="./settings.html"><span class="nav-icon"><i class="fa-solid fa-gear"></i></span><span>Settings</span></a>
+        <a class="nav-item" href="./index.html"><span class="nav-icon"><i class="fa-solid fa-gear" aria-hidden="true"></i></span><span>Settings</span></a>
         <button class="nav-item nav-item-button" type="button" data-admin-logout><span class="nav-icon"><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></button>
       </nav>
     </aside>
@@ -83,12 +68,14 @@
         <article class="settings-card settings-card-wide" data-settings-system>
           <div class="settings-card-heading"><span><i class="fa-solid fa-circle-check"></i></span><div><p class="eyebrow">System</p><h2>Admin app status</h2></div></div>
           <dl class="settings-kv settings-kv-wide">
-            <div><dt>Admin app version</dt><dd data-settings-app-version>Batch 55D - Admin Page Finalization</dd></div>
+            <div><dt>Admin app version</dt><dd data-settings-app-version>Batch 59A - Cognito Groups + Users</dd></div>
             <div><dt>Data connection</dt><dd data-settings-api-status>Checking connection</dd></div>
-            <div><dt>Current marker</dt><dd>batch55d-admin-page-finalization</dd></div>
+            <div><dt>Current marker</dt><dd>batch59a-cognito-groups-settings-users</dd></div>
           </dl>
         </article>
-        <article class="settings-card settings-card-wide" data-settings-users data-admin-requires-admin>
+              </section>
+
+<article class="settings-card settings-card-wide settings-users-standalone" data-settings-users data-admin-requires-admin>
           <div class="settings-card-heading">
             <span><i class="fa-solid fa-users-gear"></i></span>
             <div><p class="eyebrow">Cognito Users</p><h2>Settings &gt; Users</h2></div>
@@ -97,15 +84,11 @@
           <div class="users-inline-status" data-users-status><strong>Users ready.</strong><span>Use Refresh to load Cognito users.</span></div>
           <div class="users-toolbar">
             <strong><span data-users-count>0</span> users</strong>
-            <button class="admin-button secondary" type="button" data-users-refresh>Refresh Users</button>
+            <div class="users-toolbar-actions">
+              <button class="admin-button secondary" type="button" data-users-refresh>Refresh Users</button>
+              <button class="admin-button" type="button" data-user-add-open>Add User</button>
+            </div>
           </div>
-          <form class="users-create-form" data-user-create-form>
-            <label>First Name <input name="first_name" type="text" required maxlength="80" /></label>
-            <label>Last Name <input name="last_name" type="text" required maxlength="80" /></label>
-            <label>Email <input name="email" type="email" required autocomplete="off" /></label>
-            <label>Role <select name="role"><option value="Standard">Standard</option><option value="Admin">Admin</option></select></label>
-            <button class="admin-button" type="submit">Add User</button>
-          </form>
           <div class="users-temp-password" data-temp-password-panel hidden></div>
           <div class="users-table-wrap">
             <table class="users-table">
@@ -114,26 +97,36 @@
             </table>
           </div>
         </article>
-
-        <div class="user-edit-modal" data-user-edit-modal hidden data-admin-requires-admin>
-          <div class="user-edit-card">
-            <button class="modal-close" type="button" data-user-edit-close aria-label="Close">&times;</button>
-            <p class="eyebrow">Edit user</p>
-            <h2 data-edit-user-email>User</h2>
-            <form data-user-edit-form>
-              <label>First Name <input name="first_name" type="text" required maxlength="80" /></label>
-              <label>Last Name <input name="last_name" type="text" required maxlength="80" /></label>
+                <div class="user-add-modal admin-modal-overlay" data-user-add-modal hidden data-admin-requires-admin aria-hidden="true">
+          <div class="user-add-card admin-modal-card" role="dialog" aria-modal="true" aria-labelledby="user-add-title">
+            <button class="modal-close" type="button" data-user-add-close aria-label="Close">&times;</button>
+            <p class="eyebrow">Add User</p>
+            <h2 id="user-add-title">Create Cognito User</h2>
+            <p class="settings-note">The temporary password is shown inside this panel once after create/reset.</p>
+            <div class="users-modal-status" data-user-add-status hidden></div>
+            <form data-user-create-form>
+              <label>First Name <input name="first_name" type="text" required maxlength="80" autocomplete="given-name" /></label>
+              <label>Last Name <input name="last_name" type="text" required maxlength="80" autocomplete="family-name" /></label>
+              <label>Email <input name="email" type="email" required autocomplete="off" /></label>
               <label>Role <select name="role"><option value="Standard">Standard</option><option value="Admin">Admin</option></select></label>
-              <label class="users-checkbox"><input name="enabled" type="checkbox" /> Enabled</label>
-              <div class="settings-actions"><button class="admin-button" type="submit">Save User</button><button class="admin-button secondary" type="button" data-user-edit-close>Cancel</button></div>
+              <div class="drawer-actions"><button class="admin-button" type="submit" data-user-create-submit>Create User</button><button class="admin-button secondary" type="button" data-user-add-close>Cancel</button></div>
             </form>
           </div>
         </div>
-      </section>
-
-      <footer class="admin-footer"><span>RSA CCTV Installation Services</span><span>Batch 55D Admin Page Finalization</span></footer>
-    </main>
-  </div>
+                <div class="user-edit-modal admin-modal-overlay" data-user-edit-modal hidden data-admin-requires-admin aria-hidden="true">
+          <div class="user-edit-card admin-modal-card" role="dialog" aria-modal="true" aria-labelledby="user-edit-title">
+            <button class="modal-close" type="button" data-user-edit-close aria-label="Close">&times;</button>
+            <p class="eyebrow">Edit User</p>
+            <h2 id="user-edit-title" data-edit-user-email>User</h2>
+            <div class="users-modal-status" data-user-edit-status hidden></div>
+            <form data-user-edit-form>
+              <label>Full Name <input name="full_name" type="text" required maxlength="160" /></label>
+              <label>Role <select name="role"><option value="Standard">Standard</option><option value="Admin">Admin</option></select></label>
+              <label class="users-checkbox"><input name="enabled" type="checkbox" /> Enabled</label>
+              <div class="drawer-actions"><button class="admin-button" type="submit" data-user-edit-submit>Save User</button><button class="admin-button secondary" type="button" data-user-edit-close>Cancel</button></div>
+            </form>
+          </div>
+        </div>
   <script src="./assets/js/admin-auth.js"></script>
   <script src="./assets/js/admin-api.js"></script>
   <script src="./assets/js/admin-media.js"></script>

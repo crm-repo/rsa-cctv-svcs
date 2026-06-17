@@ -15,7 +15,7 @@ As of Batch 56D, the working architecture has moved beyond the Batch 29 local-on
 - Nginx fronts the public site on port 80 and proxies only approved public/API/media/admin routes.
 - Admin pages and admin/CRM APIs are protected through Cognito JWT bearer-token auth.
 - DynamoDB mode is the active deployed backend data source; mock mode remains useful for safe local/default development only where explicitly configured.
-- Private S3 media storage is enabled for uploaded media, with backend `/api/media/...` display/proxy routes.
+- Private S3 media storage is enabled for uploaded media, with backend `/api/media/...` display/proxy routes. Local development should use S3 media mode when validating current DynamoDB media paths, because Products/Brands records now point to S3-backed `/api/media/...` paths.
 - Admin media upload integration writes resolved `/api/media/...` paths for Products, Brands, Project Gallery, and Contact Person images.
 - Products/Brands static image records were backfilled to S3; Project Gallery and Contact Person backfill were intentionally left for manual handling.
 - Promotions hero uses promoted package products only (`show_flag=Y`, `show_pack_flag=Y`, package/kits category).

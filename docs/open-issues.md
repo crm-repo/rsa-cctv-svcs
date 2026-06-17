@@ -4,16 +4,16 @@
 
 This document tracks risks, unresolved questions, blockers, technical debt, and dependencies. Implementation status is controlled by [feature-status.md](./feature-status.md).
 
-Last updated: 2026-06-11  
-Update scope: Phase 8 Batch 29 documentation/status update.
+Last updated: 2026-06-17  
+Update scope: Phase 8 continuation update through Batch 58 local testing pass, Batch 59A current active, Batch 60A/60B planning, and Batch 61 deferral.
 
 
 ## Current Open / Deferred Items After Batch 56D
 
 | Item | Status | Notes |
 |---|---|---|
-| Batch 58 image lazy loading | Current Active / Prepared | Frontend-only browser loading hints; no image compression or S3 path changes. |
-| Batch 59A Cognito Groups + Users | Planned | Settings > Users backed by Cognito admin APIs through FastAPI only. |
+| Batch 58 image lazy loading | Complete / Local testing passed | Frontend-only browser loading hints applied and locally tested; no image compression or S3 path changes. |
+| Batch 59A Cognito Groups + Users | Current Active | Settings > Users backed by Cognito admin APIs through FastAPI only. |
 | Batch 59B Admin-only restricted/delete actions | Planned | Standard users hidden/blocked; leads remain non-delete. |
 | Batch 60A EC2 public-IP demo readiness pass | Planned | Final EC2 smoke regression and demo data sanity check after Batch 58/59A/59B. |
 | Batch 60B backup/restore/safety notes | Planned | Operational runbooks for DynamoDB/S3/Git/EC2/Nginx rollback safety. |
@@ -53,7 +53,7 @@ Update scope: Phase 8 Batch 29 documentation/status update.
 | Real S3 binary upload/storage not enabled | Medium | Medium | Open | Admin media fields prepare/resolve paths/keys; actual upload/storage is later |
 | SEO metadata incomplete | High | Medium | Open | Required before production launch |
 | sitemap.xml and robots.txt missing/incomplete | High | Medium | Open | Required before production launch |
-| Image optimization pending | Medium | High | Open | Needed for production/mobile performance |
+| Image compression/optimization pipeline pending | Low | Medium | Deferred | Batch 58 lazy loading passed locally; compression pipeline remains optional/future unless reopened. |
 | Production content import not completed | Medium | High | Open | Excel/CSV templates and import loader exist; final company data still needed |
 | Product/promotions legacy static markup | Medium | Medium | Partially reduced | API integration exists; final cleanup depends on production data migration and launch readiness |
 | GitHub Pages/backend split | Medium | Medium | Open | Public static site can run separately; backend/admin production hosting still needs deployment plan |

@@ -27,6 +27,7 @@ Brands hero must remain dynamic from the Brands API and must not be patched by d
 - Uploaded media should store resolved `/api/media/...` paths and remain displayable through the backend media route.
 - The S3 bucket remains private; public display is through the backend/Nginx media route, not public bucket access.
 - Upload size should remain bounded for Free-Tier-first operation.
+- Local validation of S3-backed media paths must run the backend with `RSA_MEDIA_STORAGE_MODE=s3` and the approved media bucket configured; otherwise public `/api/media/...` images may appear broken locally.
 
 ### Admin user/role requirements — Batch 59A
 

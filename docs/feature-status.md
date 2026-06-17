@@ -4,8 +4,8 @@
 
 This document is the authoritative implementation progress tracker. If status here conflicts with another document, this document controls implementation status.
 
-Last updated: 2026-06-16  
-Update scope: Phase 8 continuation update through Batch 56D completion, Batch 57 deferral, Batch 58-61 planning, and Batch 60A/60B demo-readiness split.
+Last updated: 2026-06-17  
+Update scope: Phase 8 continuation update through Batch 58 local testing pass, Batch 59A current active, Batch 60A/60B demo-readiness split, Batch 61 deferral, and documentation folder cleanup.
 
 
 ## Phase 8 Continuation Status — Batches 30 to 60
@@ -55,8 +55,8 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Batch | Status | Summary |
 |---|---|---|
 | Batch 57 | Deferred | SEO metadata/page titles deferred until Route 53/final domain is ready to avoid duplicate canonical/Open Graph/sitemap/robots work. |
-| Batch 58 | Current Active / Prepared | Image optimization/lazy loading; frontend-only browser loading hints, no backend/S3 path changes. |
-| Batch 59A | Planned | Cognito Groups + Settings > Users management. Use Admin and Standard groups; no DynamoDB users table. |
+| Batch 58 | Complete / Local testing passed | Image lazy loading applied and locally tested; no backend/S3 path changes. Local backend must use S3 media mode when validating `/api/media/...` paths. |
+| Batch 59A | Current Active | Cognito Groups + Settings > Users management. Use Admin and Standard groups; no DynamoDB users table. |
 | Batch 59B | Planned | Admin-only restricted actions/delete controls. Standard users do not see Settings or delete controls; backend still enforces 403. Leads remain non-delete. |
 | Batch 60A | Planned | EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression and demo data sanity check. Supersedes earlier Batch 62 regression idea for demo readiness. |
 | Batch 60B | Planned | Backup/restore/production safety notes and operational runbooks. Supersedes earlier Batch 64 backup/rollback idea. |
@@ -151,7 +151,7 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Free-Tier Deployment Review | Planned | High | Required before backend/admin public testing |
 | SEO Metadata | Deferred | High | Deferred until final Route 53/domain to avoid duplicate canonical/Open Graph work |
 | Sitemap / robots.txt | Deferred | High | Deferred until final domain and launch URL are ready |
-| Image Optimization | Planned | High | Required before launch |
+| Image Optimization / Lazy Loading | Complete / Local testing passed | High | Batch 58 lazy loading completed locally; image compression remains separate only if reopened |
 | Analytics | Deferred | Low | Optional unless business requires |
 
 ## Phase 8 Batch Completion Snapshot
