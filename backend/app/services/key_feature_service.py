@@ -175,3 +175,24 @@ def update_admin_key_feature(key_feat_id: str, request) -> Optional[KeyFeature]:
     data["updated_by"] = _clean_text(update_data.get("updated_by")) or "admin"
     feature = KeyFeature.model_validate(data)
     return repository.save_key_feature(feature)
+
+# --- batch59b-full-admin-delete-actions ---
+def delete_admin_key_feature(key_feat_id: str) -> bool:
+    repository = _get_key_feature_repository()
+    existing = repository.get_by_id(key_feat_id)
+    if existing is None:
+        return False
+
+    from app.repositories.repository_factory import create_product_repository
+
+    feature_name = str(getattr(existing, "key_feat_name", "") or "").strip().lower()
+    if feature_name:
+        for product in create_product_repository().list_all():
+            for index in range(1, 11):
+                product_feature = str(getattr(product, f"feature_{index:02d}", "") or "").strip().lower()
+                if product_feature and product_feature == feature_name:
+                    raise ValueError("Key feature cannot be deleted because one or more products use it.")
+
+    if not hasattr(repository, "delete_key_feature"):
+        raise ValueError("Key feature repository delete support is unavailable.")
+    return bool(repository.delete_key_feature(key_feat_id))

@@ -1,0 +1,17 @@
+/* batch59b-safe-admin-only-restricted-actions */
+.rsa-role-standard [data-admin-only],
+.rsa-role-standard [data-requires-admin],
+.rsa-role-standard [data-restricted-admin],
+.rsa-role-standard [data-delete-action],
+.rsa-role-standard [data-action="delete"],
+.rsa-role-standard [data-action="remove"],
+.rsa-role-standard .admin-only,
+.rsa-role-standard .requires-admin,
+.rsa-role-standard .restricted-admin,
+.rsa-role-standard .delete-btn,
+.rsa-role-standard .btn-delete,
+.rsa-role-standard .js-delete,
+.rsa-role-standard .js-remove,
+.rsa-role-standard .danger-action {
+  display: none !important;
+}

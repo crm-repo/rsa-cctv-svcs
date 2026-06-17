@@ -55,3 +55,18 @@ if not hasattr(DynamoDBKeyFeatureRepository, "save_key_feature"):
         return key_feature
 
     DynamoDBKeyFeatureRepository.save_key_feature = _dynamodb_save_key_feature  # type: ignore[attr-defined]
+
+# --- batch59b-full-admin-delete-actions ---
+def _batch59b_key_feature_delete_key_feature(self, key_feat_id: str) -> bool:
+    if hasattr(self, "delete"):
+        return bool(self.delete(key_feat_id))
+    existing = self.get_by_id(key_feat_id)
+    if existing is None:
+        return False
+    self._repository.delete_by_id(key_feat_id)
+    return True
+
+if not hasattr(KeyFeatureRepository, "delete_key_feature"):
+    KeyFeatureRepository.delete_key_feature = _batch59b_key_feature_delete_key_feature  # type: ignore[attr-defined]
+if not hasattr(DynamoDBKeyFeatureRepository, "delete_key_feature"):
+    DynamoDBKeyFeatureRepository.delete_key_feature = _batch59b_key_feature_delete_key_feature  # type: ignore[attr-defined]

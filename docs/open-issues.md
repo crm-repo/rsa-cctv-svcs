@@ -1,4 +1,4 @@
-# RSA CMS / Mini-CRM Open Issues
+﻿# RSA CMS / Mini-CRM Open Issues
 
 ## Authority
 
@@ -14,7 +14,7 @@ Update scope: Phase 8 continuation update through Batch 58 local testing pass, B
 |---|---|---|
 | Batch 58 image lazy loading | Complete / Local testing passed | Frontend-only browser loading hints applied and locally tested; no image compression or S3 path changes. |
 | Batch 59A Cognito Groups + Users | Current Active | Settings > Users backed by Cognito admin APIs through FastAPI only. |
-| Batch 59B Admin-only restricted/delete actions | Planned | Standard users hidden/blocked; leads remain non-delete. |
+| Batch 59B Admin-only restricted/delete actions | Complete | Admin-only catalog delete actions completed; Standard users hidden/blocked; leads remain non-delete. |
 | Batch 60A EC2 public-IP demo readiness pass | Planned | Final EC2 smoke regression and demo data sanity check after Batch 58/59A/59B. |
 | Batch 60B backup/restore/safety notes | Planned | Operational runbooks for DynamoDB/S3/Git/EC2/Nginx rollback safety. |
 | Batch 61 domain/HTTPS/CloudFront/Route 53 | Deferred | Planned after customer demo/launch approval and final domain confirmation. |
@@ -117,7 +117,7 @@ Update scope: Phase 8 continuation update through Batch 58 local testing pass, B
 | S3 bucket naming and CloudFront path strategy | Open | Keep Free-Tier-first and simple |
 | Cognito admin user setup | Open | Avoid SMS/MFA costs; email/password only unless explicitly changed |
 | Production import overwrite behavior | Open | Keep skip-existing default unless an explicit overwrite process is approved |
-| Whether product prices can be hidden as “Contact for Price” | Open | Current data supports price/sale_price; business may decide later |
+| Whether product prices can be hidden as â€œContact for Priceâ€ | Open | Current data supports price/sale_price; business may decide later |
 | Whether assigned contact persons should be selectable from Contact Us records | Open | Current assigned person can be free text |
 | Package banner click behavior | Deferred | Data source approved as products with `show_pack_flag`; UI behavior can be adjusted later |
 
@@ -166,3 +166,4 @@ Update scope: Phase 8 continuation update through Batch 58 local testing pass, B
 | Customer email GSI | Do not create at launch; store normalized email only |
 | Product GSIs | Add category and brand product GSIs at launch |
 | Product types | `rsa_product_types` deferred and not for launch |
+

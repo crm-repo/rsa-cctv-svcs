@@ -1,4 +1,4 @@
-# RSA CMS / Mini-CRM Feature Status
+﻿# RSA CMS / Mini-CRM Feature Status
 
 ## Authority
 
@@ -8,7 +8,7 @@ Last updated: 2026-06-17
 Update scope: Phase 8 continuation update through Batch 58 local testing pass, Batch 59A current active, Batch 60A/60B demo-readiness split, Batch 61 deferral, and documentation folder cleanup.
 
 
-## Phase 8 Continuation Status — Batches 30 to 60
+## Phase 8 Continuation Status â€” Batches 30 to 60
 
 This section supersedes older Batch 29-only planning notes for deployment/security/media/admin continuation work.
 
@@ -57,7 +57,7 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Batch 57 | Deferred | SEO metadata/page titles deferred until Route 53/final domain is ready to avoid duplicate canonical/Open Graph/sitemap/robots work. |
 | Batch 58 | Complete / Local testing passed | Image lazy loading applied and locally tested; no backend/S3 path changes. Local backend must use S3 media mode when validating `/api/media/...` paths. |
 | Batch 59A | Current Active | Cognito Groups + Settings > Users management. Use Admin and Standard groups; no DynamoDB users table. |
-| Batch 59B | Planned | Admin-only restricted actions/delete controls. Standard users do not see Settings or delete controls; backend still enforces 403. Leads remain non-delete. |
+| Batch 59B | Complete | Admin-only restricted actions/delete controls completed. Admin users can see approved catalog delete actions; Standard users remain hidden/blocked; backend still enforces 403. Leads remain non-delete. |
 | Batch 60A | Planned | EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression and demo data sanity check. Supersedes earlier Batch 62 regression idea for demo readiness. |
 | Batch 60B | Planned | Backup/restore/production safety notes and operational runbooks. Supersedes earlier Batch 64 backup/rollback idea. |
 | Batch 61 | Deferred / Later | Route 53/domain, ACM, SSL/HTTPS, CloudFront, and EC2 origin planning after final customer domain/cost approval. Supersedes earlier Batch 65 domain planning idea. |
@@ -260,3 +260,4 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 5. Use DynamoDB mode intentionally only for AWS-backed regression/import testing.
 6. Keep completed public pages closed unless explicitly reopened.
 7. Preserve the AWS Free-Tier-first architecture during deployment planning.
+

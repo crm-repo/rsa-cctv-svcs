@@ -406,3 +406,25 @@ def update_admin_category(category_id: str, request) -> Optional[Category]:
     _sync_product_category_snapshots(existing, saved)
     _sync_product_subcategory_names(saved)
     return saved
+
+# --- batch59b-full-admin-delete-actions ---
+def delete_admin_category(category_id: str) -> bool:
+    repository = _get_category_repository()
+    existing = repository.get_by_id(category_id)
+    if existing is None:
+        return False
+
+    from app.repositories.repository_factory import create_product_repository
+
+    category_key = str(getattr(existing, "category_key", "") or "").strip().lower()
+    category_name = str(getattr(existing, "category_name", "") or "").strip().lower()
+    for product in create_product_repository().list_all():
+        product_category_id = str(getattr(product, "category_id", "") or "").strip()
+        product_category_key = str(getattr(product, "category_key", "") or "").strip().lower()
+        product_category_name = str(getattr(product, "category_name", "") or "").strip().lower()
+        if product_category_id == category_id or (category_key and product_category_key == category_key) or (category_name and product_category_name == category_name):
+            raise ValueError("Category cannot be deleted because one or more products use it.")
+
+    if not hasattr(repository, "delete_category"):
+        raise ValueError("Category repository delete support is unavailable.")
+    return bool(repository.delete_category(category_id))

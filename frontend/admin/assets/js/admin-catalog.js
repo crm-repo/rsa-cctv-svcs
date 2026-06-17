@@ -730,3 +730,165 @@
 
   document.addEventListener('DOMContentLoaded', async () => { setup(); await loadRecords(); if (new URLSearchParams(window.location.search).get('action') === 'create') openDrawer({}, 'create'); });
 }());
+
+// --- batch59b-full-admin-delete-actions ---
+(function () {
+  'use strict';
+
+  const MARKER = 'batch59b-full-admin-delete-actions';
+  const PAGE_CONFIG = {
+    products: { endpoint: '/admin/products', noun: 'product' },
+    brands: { endpoint: '/admin/brands', noun: 'brand' },
+    categories: { endpoint: '/admin/categories', noun: 'category' },
+    'key-features': { endpoint: '/admin/key-features', noun: 'key feature' },
+  };
+
+  function qs(selector, root) { return (root || document).querySelector(selector); }
+  function qsa(selector, root) { return Array.from((root || document).querySelectorAll(selector)); }
+
+  function decodeJwt(token) {
+    try {
+      const parts = String(token || '').split('.');
+      if (parts.length < 2) return {};
+      const payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+      const padded = payload + '='.repeat((4 - payload.length % 4) % 4);
+      return JSON.parse(atob(padded));
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function isAdmin() {
+    if (window.RSAAdminRole && window.RSAAdminRole.isAdmin === true) return true;
+    if (document.body && document.body.getAttribute('data-admin-role') === 'Admin') return true;
+    const access = decodeJwt(window.localStorage.getItem('rsa_admin_access_token'));
+    const id = decodeJwt(window.localStorage.getItem('rsa_admin_id_token'));
+    const groups = access['cognito:groups'] || id['cognito:groups'] || [];
+    return Array.isArray(groups) && groups.includes('Admin');
+  }
+
+  function currentPage() {
+    const app = qs('[data-admin-app]');
+    return app ? app.getAttribute('data-admin-page') : '';
+  }
+
+  function setStatus(kind, title, detail) {
+    const banner = qs('[data-status-banner]');
+    if (!banner) return;
+    banner.className = 'status-banner';
+    if (kind) banner.classList.add(kind);
+    banner.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(detail || '')}</span>`;
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function rowId(row) {
+    const firstStrong = row.querySelector('td strong');
+    return firstStrong ? firstStrong.textContent.trim() : '';
+  }
+
+  function ensureDeleteButtons() {
+    const page = currentPage();
+    const cfg = PAGE_CONFIG[page];
+    if (!cfg) return;
+
+    // Only System Administrator/Admin gets the delete button. Standard users never see it.
+    if (!isAdmin()) return;
+
+    qsa('[data-table-body] tr[data-row-index]').forEach((row) => {
+      if (row.querySelector('[data-batch59b-delete]')) return;
+      const id = rowId(row);
+      if (!id || id === '—') return;
+      const actionCell = row.querySelector('td:last-child');
+      if (!actionCell) return;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'table-action-link table-action-delete batch59b-delete-action';
+      button.setAttribute('data-batch59b-delete', 'true');
+      button.setAttribute('data-record-id', id);
+      button.setAttribute('data-record-label', cfg.noun);
+      button.textContent = 'Delete';
+      actionCell.appendChild(document.createTextNode(' '));
+      actionCell.appendChild(button);
+    });
+  }
+
+  async function deleteRecord(id, cfg) {
+    if (!window.RSAAdminApi) throw new Error('Admin API client is not loaded.');
+    const base = window.RSAAdminApi.getApiBaseUrl().replace(/\/$/, '');
+    const url = `${base}${cfg.endpoint}/${encodeURIComponent(id)}`;
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        ...(typeof window.RSAAdminApi.getAuthHeaders === 'function' ? window.RSAAdminApi.getAuthHeaders() : {}),
+      },
+    });
+    if (!response.ok) {
+      let detail = '';
+      try {
+        const payload = await response.json();
+        detail = payload && payload.detail ? payload.detail : JSON.stringify(payload);
+      } catch (error) {
+        detail = await response.text().catch(() => '');
+      }
+      throw new Error(detail || `${response.status} ${response.statusText}`);
+    }
+  }
+
+  document.addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-batch59b-delete]');
+    if (!button) return;
+    event.preventDefault();
+    event.stopPropagation();
+
+    const page = currentPage();
+    const cfg = PAGE_CONFIG[page];
+    const id = button.getAttribute('data-record-id') || '';
+    if (!cfg || !id) return;
+
+    const confirmed = window.confirm(`Delete this ${cfg.noun}? This is permanent and only allowed when dependency checks pass.`);
+    if (!confirmed) return;
+
+    try {
+      button.disabled = true;
+      setStatus('', `Deleting ${cfg.noun}…`, id);
+      await deleteRecord(id, cfg);
+      setStatus('is-success', `${cfg.noun.charAt(0).toUpperCase() + cfg.noun.slice(1)} deleted.`, id);
+      const refresh = qs('[data-refresh-list]');
+      if (refresh) refresh.click();
+      else window.location.reload();
+    } catch (error) {
+      console.error(error);
+      button.disabled = false;
+      setStatus('is-warning', `Unable to delete ${cfg.noun}.`, error.message || 'The backend rejected this delete action.');
+      window.alert(error.message || `Unable to delete ${cfg.noun}.`);
+    }
+  }, true);
+
+  function scheduleEnsureDeleteButtons() {
+    [0, 75, 250, 700, 1500].forEach((delay) => window.setTimeout(ensureDeleteButtons, delay));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', scheduleEnsureDeleteButtons);
+  } else {
+    scheduleEnsureDeleteButtons();
+  }
+  document.addEventListener('rsa-admin-role-ready', scheduleEnsureDeleteButtons);
+
+  const target = qs('[data-table-body]') || document.body;
+  if (target) {
+    const observer = new MutationObserver(() => window.setTimeout(ensureDeleteButtons, 0));
+    observer.observe(target, { childList: true, subtree: true });
+  }
+
+  window.RSABatch59BDeleteActions = { marker: MARKER, ensureDeleteButtons };
+}());

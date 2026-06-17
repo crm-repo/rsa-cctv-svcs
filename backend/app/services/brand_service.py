@@ -254,3 +254,25 @@ def update_admin_brand(brand_id: str, request) -> Optional[Brand]:
     saved = repository.save_brand(brand)
     _sync_product_brand_snapshots(existing, saved)
     return saved
+
+# --- batch59b-full-admin-delete-actions ---
+def delete_admin_brand(brand_id: str) -> bool:
+    repository = _get_brand_repository()
+    existing = repository.get_by_id(brand_id)
+    if existing is None:
+        return False
+
+    from app.repositories.repository_factory import create_product_repository
+
+    brand_key = str(getattr(existing, "brand_key", "") or "").strip().lower()
+    brand_name = str(getattr(existing, "brand_name", "") or "").strip().lower()
+    for product in create_product_repository().list_all():
+        product_brand_id = str(getattr(product, "brand_id", "") or "").strip()
+        product_brand_key = str(getattr(product, "product_brand_key", "") or "").strip().lower()
+        product_brand_name = str(getattr(product, "product_brand_name", "") or "").strip().lower()
+        if product_brand_id == brand_id or (brand_key and product_brand_key == brand_key) or (brand_name and product_brand_name == brand_name):
+            raise ValueError("Brand cannot be deleted because one or more products use it.")
+
+    if not hasattr(repository, "delete_brand"):
+        raise ValueError("Brand repository delete support is unavailable.")
+    return bool(repository.delete_brand(brand_id))

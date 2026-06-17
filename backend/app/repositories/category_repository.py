@@ -84,3 +84,18 @@ class DynamoDBCategoryRepository:
             if category.category_key.lower() == key:
                 return category
         return None
+
+# --- batch59b-full-admin-delete-actions ---
+def _batch59b_category_delete_category(self, category_id: str) -> bool:
+    if hasattr(self, "delete"):
+        return bool(self.delete(category_id))
+    existing = self.get_by_id(category_id)
+    if existing is None:
+        return False
+    self._repository.delete_by_id(category_id)
+    return True
+
+if not hasattr(CategoryRepository, "delete_category"):
+    CategoryRepository.delete_category = _batch59b_category_delete_category  # type: ignore[attr-defined]
+if not hasattr(DynamoDBCategoryRepository, "delete_category"):
+    DynamoDBCategoryRepository.delete_category = _batch59b_category_delete_category  # type: ignore[attr-defined]

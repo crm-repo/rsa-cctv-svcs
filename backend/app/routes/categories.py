@@ -85,3 +85,19 @@ def get_category(category_id: str):
         raise HTTPException(status_code=404, detail="Category not found")
 
     return category
+
+# --- batch59b-full-admin-delete-actions ---
+from fastapi import Depends as _Batch59BDepends, Response as _Batch59BResponse
+from app.auth.admin_auth import require_admin_group as _batch59b_require_admin_group
+
+
+@router.delete("/admin/categories/{category_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_category_admin_59b(category_id: str, _admin=_Batch59BDepends(_batch59b_require_admin_group)):
+    from app.services.category_service import delete_admin_category
+    try:
+        deleted = delete_admin_category(category_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Category not found")
+    return _Batch59BResponse(status_code=status.HTTP_204_NO_CONTENT)

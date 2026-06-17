@@ -1,4 +1,4 @@
-# RSA CMS / Mini-CRM Documentation Cleanup and Latest Status Update
+﻿# RSA CMS / Mini-CRM Documentation Cleanup and Latest Status Update
 
 Update batch: Phase 8 documentation cleanup after Batch 58 local testing and before Batch 59A implementation  
 Date: 2026-06-17
@@ -19,14 +19,14 @@ This cleaned `docs/` package restores a consistent documentation layout after se
 ## Latest status captured
 
 ```text
-Batch 56D — Promotions Hero Promoted Packages Only — Complete / pushed
-Batch 57  — SEO metadata/page titles — Deferred until final domain
-Batch 58  — Image Lazy Loading — Local testing passed
-Batch 59A — Cognito Groups + Settings > Users — Current Active
-Batch 59B — Admin-only Restricted/Delete Actions — Planned
-Batch 60A — EC2 Public-IP Demo Smoke Checklist / Demo Readiness Pass — Planned
-Batch 60B — Backup / Restore / Production Safety Notes — Planned
-Batch 61  — Route 53 + ACM + CloudFront + EC2 origin — Deferred until customer/domain approval
+Batch 56D â€” Promotions Hero Promoted Packages Only â€” Complete / pushed
+Batch 57  â€” SEO metadata/page titles â€” Deferred until final domain
+Batch 58  â€” Image Lazy Loading â€” Local testing passed
+Batch 59A â€” Cognito Groups + Settings > Users â€” Current Active
+Batch 59B â€” Admin-only Restricted/Delete Actions â€” Planned
+Batch 60A â€” EC2 Public-IP Demo Smoke Checklist / Demo Readiness Pass â€” Planned
+Batch 60B â€” Backup / Restore / Production Safety Notes â€” Planned
+Batch 61  â€” Route 53 + ACM + CloudFront + EC2 origin â€” Deferred until customer/domain approval
 ```
 
 ## Batch 58 local note
@@ -42,3 +42,4 @@ $env:RSA_MEDIA_MAX_UPLOAD_MB="5"
 ## Cost-control reminder
 
 AWS Free-Tier-first remains mandatory. Keep EC2 stopped when not actively deploying/testing. Continue avoiding ALB, NAT Gateway, RDS, paid WAF, multiple always-on EC2 instances, SMS/MFA costs, unnecessary paid notifications, and high-cost logging unless explicitly approved after cost review.
+

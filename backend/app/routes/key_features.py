@@ -63,3 +63,19 @@ def get_key_feature(key_feat_id: str):
         raise HTTPException(status_code=404, detail="Key feature not found")
 
     return key_feature
+
+# --- batch59b-full-admin-delete-actions ---
+from fastapi import Depends as _Batch59BDepends, Response as _Batch59BResponse
+from app.auth.admin_auth import require_admin_group as _batch59b_require_admin_group
+
+
+@router.delete("/admin/key-features/{key_feat_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_key_feature_admin_59b(key_feat_id: str, _admin=_Batch59BDepends(_batch59b_require_admin_group)):
+    from app.services.key_feature_service import delete_admin_key_feature
+    try:
+        deleted = delete_admin_key_feature(key_feat_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Key feature not found")
+    return _Batch59BResponse(status_code=status.HTTP_204_NO_CONTENT)

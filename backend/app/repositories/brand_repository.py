@@ -84,3 +84,18 @@ class DynamoDBBrandRepository:
             if brand.brand_key.lower() == normalized_key:
                 return brand
         return None
+
+# --- batch59b-full-admin-delete-actions ---
+def _batch59b_brand_delete_brand(self, brand_id: str) -> bool:
+    if hasattr(self, "delete"):
+        return bool(self.delete(brand_id))
+    existing = self.get_by_id(brand_id)
+    if existing is None:
+        return False
+    self._repository.delete_by_id(brand_id)
+    return True
+
+if not hasattr(BrandRepository, "delete_brand"):
+    BrandRepository.delete_brand = _batch59b_brand_delete_brand  # type: ignore[attr-defined]
+if not hasattr(DynamoDBBrandRepository, "delete_brand"):
+    DynamoDBBrandRepository.delete_brand = _batch59b_brand_delete_brand  # type: ignore[attr-defined]

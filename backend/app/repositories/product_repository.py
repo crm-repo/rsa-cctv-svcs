@@ -59,3 +59,18 @@ class DynamoDBProductRepository:
         if product.show_flag != "Y":
             return None
         return product
+
+# --- batch59b-full-admin-delete-actions ---
+def _batch59b_product_delete_product(self, product_id: str) -> bool:
+    if hasattr(self, "delete"):
+        return bool(self.delete(product_id))
+    existing = self.get_by_id(product_id)
+    if existing is None:
+        return False
+    self._repository.delete_by_id(product_id)
+    return True
+
+if not hasattr(ProductRepository, "delete_product"):
+    ProductRepository.delete_product = _batch59b_product_delete_product  # type: ignore[attr-defined]
+if not hasattr(DynamoDBProductRepository, "delete_product"):
+    DynamoDBProductRepository.delete_product = _batch59b_product_delete_product  # type: ignore[attr-defined]

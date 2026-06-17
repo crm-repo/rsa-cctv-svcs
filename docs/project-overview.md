@@ -1,6 +1,6 @@
-# RSA CMS / Mini-CRM Project Overview
+﻿# RSA CMS / Mini-CRM Project Overview
 
-## Current Project Status — Phase 8 Continuation Through Batch 56D
+## Current Project Status â€” Phase 8 Continuation Through Batch 56D
 
 The project has progressed beyond the original Batch 29 documentation baseline.
 
@@ -124,7 +124,7 @@ The following are deferred unless explicitly reopened:
 - Swipe-to-close modal gesture
 - Brand modal popups
 - Separate Brands-specific CTA
-- Scrolling logo strip under “Why We Use These Brands”
+- Scrolling logo strip under â€œWhy We Use These Brandsâ€
 
 ## High-Level Architecture Summary
 
@@ -176,7 +176,7 @@ Default cost guardrails:
 
 The project is successful when:
 
-1. Visitors can quickly understand the company’s CCTV services, products, packages, and value proposition.
+1. Visitors can quickly understand the companyâ€™s CCTV services, products, packages, and value proposition.
 2. Recommended CCTV packages are immediately visible on the homepage.
 3. Products can be browsed by category, brand, sale status, search, and sorting.
 4. Promotions page shows sale/promotional items only.
@@ -271,3 +271,4 @@ Still outside this completed baseline:
 - CloudFront/SSL/domain.
 - SEO/sitemap/robots/image optimization.
 - Billing-alert and Free-Tier deployment readiness verification.
+

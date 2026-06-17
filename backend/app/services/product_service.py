@@ -688,3 +688,13 @@ def update_admin_product(product_id: str, request) -> Optional[Product]:
 
     product = Product.model_validate(data)
     return repository.save_product(product)
+
+# --- batch59b-full-admin-delete-actions ---
+def delete_admin_product(product_id: str) -> bool:
+    repository = _get_product_repository()
+    existing = repository.get_by_id(product_id)
+    if existing is None:
+        return False
+    if not hasattr(repository, "delete_product"):
+        raise ValueError("Product repository delete support is unavailable.")
+    return bool(repository.delete_product(product_id))
