@@ -1,5 +1,5 @@
 /* batch58-image-lazy-loading: non-critical rendered images use loading="lazy" and decoding="async". */
-const RSA_PUBLIC_CATALOG_DYNAMIC_VERSION = "batch59c-hotfix-v2-public-category-strip-only";
+const RSA_PUBLIC_CATALOG_DYNAMIC_VERSION = "batch49b-api-page-limit-fix";
 const mobileMenuButton = document.getElementById("mobileMenuButton");
 const mobileMenu = document.getElementById("mobileMenu");
 const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
@@ -645,7 +645,7 @@ const productsCount = document.getElementById("productsCount");
 const productsPageNumbers = document.getElementById("productsPageNumbers");
 const productsPrevBtn = document.getElementById("productsPrevBtn");
 const productsNextBtn = document.getElementById("productsNextBtn");
-let productFilterButtons = Array.from(document.querySelectorAll(".product-filter-btn"));
+const productFilterButtons = document.querySelectorAll(".product-filter-btn");
 const productsSectionTitle = document.getElementById("productsSectionTitle");
 const productsSearchInput = document.getElementById("productsSearchInput");
 const productsEmptyState = document.getElementById("productsEmptyState");
@@ -924,115 +924,6 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     `;
 
     return card;
-  }
-
-  /* batch59c-hotfix-v2-public-category-strip-only:
-     Only the public category button strip is hydrated from /api/categories.
-     Existing product/brand loading, pagination, modal, and promotions hero logic stay unchanged. */
-  function isPublicCategoryVisible(category) {
-    const flag = String(category && category.show_flag !== undefined ? category.show_flag : "Y").trim().toUpperCase();
-    return flag !== "N" && flag !== "FALSE" && flag !== "0";
-  }
-
-  function normalizePublicCategory(category) {
-    const name = firstNonEmpty(category.category_name, category.name, category.title, category.category_key);
-    const key = slugify(firstNonEmpty(category.category_key, category.key, name));
-    const icon = firstNonEmpty(category.icon_code, "fa-solid fa-folder");
-    const displaySeq = numericValue(firstNonEmpty(category.display_seq, category.display_order, category.sort_order)) ?? 9999;
-
-    return {
-      key,
-      name: firstNonEmpty(name, key),
-      icon,
-      displaySeq
-    };
-  }
-
-  function publicCategoryButtonHtml(filter, label, iconClass, extraClass = "") {
-    const classes = ["product-filter-btn", extraClass].filter(Boolean).join(" ");
-    return `<button class="${escapeHtml(classes)}" data-filter="${escapeHtml(filter)}"><i class="${escapeHtml(iconClass)}"></i>${escapeHtml(label)}</button>`;
-  }
-
-  function balancePublicCategoryStrip(categoryFilterElement) {
-    if (!categoryFilterElement) return;
-
-    const buttons = Array.from(categoryFilterElement.querySelectorAll(".product-filter-btn"));
-    categoryFilterElement.innerHTML = "";
-
-    if (buttons.length <= 15) {
-      categoryFilterElement.classList.remove("two-row");
-      buttons.forEach((button) => categoryFilterElement.appendChild(button));
-      return;
-    }
-
-    categoryFilterElement.classList.add("two-row");
-    const firstRowCount = Math.ceil(buttons.length / 2);
-    const firstRow = buttons.slice(0, firstRowCount);
-    const secondRow = buttons.slice(firstRowCount);
-
-    for (let index = 0; index < firstRowCount; index += 1) {
-      if (firstRow[index]) categoryFilterElement.appendChild(firstRow[index]);
-      if (secondRow[index]) categoryFilterElement.appendChild(secondRow[index]);
-    }
-  }
-
-  async function renderPublicCategoryStripFromApi() {
-    const categoryFilterElement = document.querySelector(".products-category-filter");
-    if (!categoryFilterElement) return;
-
-    let categoryRecords = [];
-
-    try {
-      categoryRecords = await fetchPagedApiItems("/api/categories", 50);
-    } catch (error) {
-      console.warn("Unable to load public categories from API. Keeping static category buttons.", error);
-      return;
-    }
-
-    const categories = categoryRecords
-      .filter(isPublicCategoryVisible)
-      .map(normalizePublicCategory)
-      .filter((category) => category.key)
-      .sort((a, b) => a.displaySeq - b.displaySeq || a.name.localeCompare(b.name));
-
-    if (!categories.length) return;
-
-    categories.forEach((category) => {
-      filterTitles[category.key] = category.name;
-    });
-
-    const categoryButtonsHtml = categories
-      .map((category) => publicCategoryButtonHtml(category.key, category.name, category.icon))
-      .join("");
-
-    if (isPromotionsPage) {
-      categoryFilterElement.innerHTML = [
-        publicCategoryButtonHtml("all", "All Products", "fa-solid fa-table-cells-large"),
-        publicCategoryButtonHtml("sale", "Sale", "fa-solid fa-tag", "active promo-sale-locked"),
-        categoryButtonsHtml
-      ].join("");
-    } else if (isBrandsPage) {
-      categoryFilterElement.innerHTML = [
-        publicCategoryButtonHtml("all", "All Products", "fa-solid fa-table-cells-large"),
-        categoryButtonsHtml
-      ].join("");
-    } else {
-      categoryFilterElement.innerHTML = [
-        publicCategoryButtonHtml("all", "All Products", "fa-solid fa-table-cells-large", currentFilter === "all" ? "active" : ""),
-        publicCategoryButtonHtml("sale", "Sale", "fa-solid fa-tag", currentFilter === "sale" ? "active" : ""),
-        categoryButtonsHtml
-      ].join("");
-    }
-
-    productFilterButtons = Array.from(categoryFilterElement.querySelectorAll(".product-filter-btn"));
-
-    const allowedFilters = new Set(productFilterButtons.map((button) => button.dataset.filter || "all"));
-    if (!allowedFilters.has(currentFilter)) {
-      currentFilter = "all";
-    }
-
-    balancePublicCategoryStrip(categoryFilterElement);
-    bindProductFilterButtons();
   }
 
   function renderBrandStrips() {
@@ -1437,39 +1328,30 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
     }
   });
 
-  function bindProductFilterButtons() {
-    productFilterButtons = Array.from(document.querySelectorAll(".product-filter-btn"));
+  productFilterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (isPromotionsPage && button.dataset.filter === "sale") return;
 
-    productFilterButtons.forEach((button) => {
-      if (button.dataset.rsaBatch59cV2Bound === "true") return;
-      button.dataset.rsaBatch59cV2Bound = "true";
-
-      button.addEventListener("click", () => {
-        if (isPromotionsPage && button.dataset.filter === "sale") return;
-
-        if (isBrandsPage && currentBrand === "all") {
-          productFilterButtons.forEach((btn) => btn.classList.remove("active"));
-          currentFilter = "all";
-          currentProductsPage = 0;
-          setSectionTitle();
-          renderProductsPage();
-          return;
-        }
-
-        productFilterButtons.forEach((btn) => {
-          if (!(isPromotionsPage && btn.dataset.filter === "sale")) btn.classList.remove("active");
-        });
-
-        button.classList.add("active");
-        currentFilter = button.getAttribute("data-filter") || "all";
+      if (isBrandsPage && currentBrand === "all") {
+        productFilterButtons.forEach((btn) => btn.classList.remove("active"));
+        currentFilter = "all";
         currentProductsPage = 0;
         setSectionTitle();
         renderProductsPage();
-      });
-    });
-  }
+        return;
+      }
 
-  bindProductFilterButtons();
+      productFilterButtons.forEach((btn) => {
+        if (!(isPromotionsPage && btn.dataset.filter === "sale")) btn.classList.remove("active");
+      });
+
+      button.classList.add("active");
+      currentFilter = button.getAttribute("data-filter") || "all";
+      currentProductsPage = 0;
+      setSectionTitle();
+      renderProductsPage();
+    });
+  });
 
   document.querySelectorAll(".brand-strip-row").forEach((row) => {
     row.addEventListener("click", (event) => {
@@ -1557,7 +1439,6 @@ if (productsGrid && productsPageNumbers && productsPrevBtn && productsNextBtn) {
       publicBrands = brandsPayload.map(normalizeBrand).filter((brand) => brand.key);
 
       renderBrandStrips();
-      await renderPublicCategoryStripFromApi();
       await renderPromotionHeroBanners(publicProducts);
 
       allProductCards = publicProducts.map(renderProductCard);
