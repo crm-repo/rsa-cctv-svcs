@@ -440,7 +440,7 @@
       card.setAttribute('title', `${name} · ${role}`);
     });
 
-    document.querySelectorAll('[data-admin-role], [data-settings-admin-role]').forEach((el) => {
+    document.querySelectorAll('[data-admin-role]:not(body), [data-settings-admin-role]').forEach((el) => {
       el.textContent = role;
     });
   }
@@ -543,7 +543,7 @@
       card.setAttribute('title', `${name} · ${displayRole}`);
     });
 
-    document.querySelectorAll('[data-admin-role], [data-settings-admin-role]').forEach((el) => {
+    document.querySelectorAll('[data-admin-role]:not(body), [data-settings-admin-role]').forEach((el) => {
       el.textContent = displayRole;
     });
   }
@@ -556,3 +556,5 @@
   [50, 150, 350, 900, 1800].forEach((delay) => setTimeout(syncTopbarRole, delay));
   window.RSAHotfix59ATopbarRoleV9 = { marker: MARKER, syncTopbarRole, rawRoleFromGroups, roleLabel };
 }());
+
+/* batch60a-precheck-hotfix-v2-admin-role-label-selector-not-body: role label updater no longer targets body[data-admin-role]. */
