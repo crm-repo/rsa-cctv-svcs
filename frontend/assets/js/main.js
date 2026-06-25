@@ -2566,6 +2566,39 @@ document.addEventListener("DOMContentLoaded", function () {
       </article>`;
   }
 
+  /* batch60c-1-public-polish: restore static-era swipe pagination for dynamic homepage sections. */
+  function bindSwipePagination(element, callbacks) {
+    if (!element || element.dataset.rsaBatch60cSwipeBound === "true") return;
+
+    let startX = 0;
+    let startY = 0;
+
+    element.dataset.rsaBatch60cSwipeBound = "true";
+
+    element.addEventListener("touchstart", (event) => {
+      if (!event.touches || !event.touches.length) return;
+      const touch = event.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+    }, { passive: true });
+
+    element.addEventListener("touchend", (event) => {
+      if (!event.changedTouches || !event.changedTouches.length) return;
+      const touch = event.changedTouches[0];
+      const distanceX = startX - touch.clientX;
+      const distanceY = startY - touch.clientY;
+
+      if (Math.abs(distanceX) < 40) return;
+      if (Math.abs(distanceX) < Math.abs(distanceY) * 1.1) return;
+
+      if (distanceX > 0 && callbacks && typeof callbacks.next === "function") {
+        callbacks.next();
+      } else if (distanceX < 0 && callbacks && typeof callbacks.prev === "function") {
+        callbacks.prev();
+      }
+    }, { passive: true });
+  }
+
   function setupPagedDisplay(config) {
     const container = typeof config.container === "string" ? document.querySelector(config.container) : config.container;
     const dots = typeof config.dots === "string" ? document.querySelector(config.dots) : config.dots;
@@ -2617,6 +2650,11 @@ document.addEventListener("DOMContentLoaded", function () {
       next.dataset.rsaBatch50Bound = "true";
       next.addEventListener("click", () => { currentPage += 1; render(); });
     }
+    bindSwipePagination(container, {
+      prev: () => { currentPage -= 1; render(); },
+      next: () => { currentPage += 1; render(); }
+    });
+
     global.addEventListener("resize", render);
     render();
   }
@@ -2657,6 +2695,11 @@ document.addEventListener("DOMContentLoaded", function () {
       next.dataset.rsaBatch50Bound = "true";
       next.addEventListener("click", () => { if (isMobile()) { current += 1; render(); } });
     }
+    bindSwipePagination(slider, {
+      prev: () => { if (isMobile()) { current -= 1; render(); } },
+      next: () => { if (isMobile()) { current += 1; render(); } }
+    });
+
     global.addEventListener("resize", render);
     render();
   }
@@ -2841,7 +2884,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function updateGlobalHeaderContact(company, socials) {
     if (!company) return;
-    const phone = firstNonEmpty(company.primary_contact_number, company.secondary_contact_number, company.whatsapp_number, company.viber_number);
+    const phone = firstNonEmpty(company.primary_contact_number, company.secondary_contact_number);
     const email = firstNonEmpty(company.company_email, company.email_address);
     document.querySelectorAll(".mobile-contact-row span, .hidden.md\\:flex span").forEach((span) => {
       const text = span.textContent || "";
@@ -2860,6 +2903,31 @@ document.addEventListener("DOMContentLoaded", function () {
       const record = socials[index];
       if (record && record.profile_url) link.href = record.profile_url;
     });
+  }
+
+  function socialContactValue(record) {
+    return firstNonEmpty(
+      record && record.profile_url,
+      record && record.phone_number_url,
+      record && record.phone_number,
+      record && record.url,
+      record && record.contact_value
+    );
+  }
+
+  function socialChannelUrl(record, value) {
+    const raw = String(value || "").trim();
+    if (!raw) return "#";
+    if (/^(https?:|mailto:|tel:|sms:|viber:)/i.test(raw)) return raw;
+
+    const platform = String(firstNonEmpty(record && record.platform_name, record && record.platform_key, "")).toLowerCase();
+    const digits = raw.replace(/\D+/g, "");
+
+    if (platform.includes("whatsapp") && digits) return `https://wa.me/${digits.startsWith("63") ? digits : digits}`;
+    if (raw.includes("@") && !raw.includes(" ")) return mailHref(raw);
+    if (/^\+?\d[\d\s().-]+$/.test(raw) || digits.length >= 7) return telHref(raw);
+
+    return raw;
   }
 
   function renderContactInfo(payload) {
@@ -2897,18 +2965,22 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </article>`).join("") || `<div class="rsa-cms-loading-state">No contact persons available.</div>`;
     }
-
     const channelGrid = document.querySelector(".contact-channel-grid");
     if (channelGrid) {
-      const channels = [];
-      if (company.primary_contact_number) channels.push({ icon: "fa-solid fa-message", title: "SMS", detail: company.primary_contact_number, url: `sms:${company.primary_contact_number}` });
-      if (company.viber_number) channels.push({ icon: "fa-brands fa-viber", title: "Viber", detail: company.viber_number, url: "#" });
-      if (company.whatsapp_number) channels.push({ icon: "fa-brands fa-whatsapp", title: "WhatsApp", detail: company.whatsapp_number, url: `https://wa.me/${String(company.whatsapp_number).replace(/\D+/g, "")}` });
-      socials.forEach((social) => channels.push({ icon: socialIconClass(social), title: social.platform_name || social.platform_key, detail: social.profile_url || "Message us", url: social.profile_url || "#" }));
+      const channels = socials.map((social) => {
+        const detail = socialContactValue(social);
+        return {
+          icon: socialIconClass(social),
+          title: firstNonEmpty(social.platform_name, social.platform_key, "Social Media"),
+          detail,
+          url: socialChannelUrl(social, detail)
+        };
+      }).filter((channel) => channel.detail);
+
       channelGrid.innerHTML = channels.map((channel) => `
         <a href="${escapeHtml(channel.url)}" class="home-soft-card contact-channel-card">
-          <i class="${escapeHtml(channel.icon)}"></i><h3>${escapeHtml(channel.title)}</h3><p>${escapeHtml(channel.detail)}</p><span>Contact us</span>
-        </a>`).join("");
+          <i class="${escapeHtml(channel.icon)}"></i><h3>${escapeHtml(channel.title)}</h3><p>${escapeHtml(channel.detail)}</p>
+        </a>`).join("") || `<div class="rsa-cms-loading-state">No social media contacts available.</div>`;
     }
 
     const locationAddress = document.querySelector(".contact-location-address p");
@@ -2947,8 +3019,99 @@ document.addEventListener("DOMContentLoaded", function () {
   function setFormStatus(form, message, type) {
     const status = ensureStatusElement(form);
     status.textContent = message || "";
+    status.hidden = !message;
     status.dataset.status = type || "info";
     status.style.color = type === "error" ? "#b91c1c" : type === "success" ? "#166534" : "#374151";
+  }
+
+  function ensureLeadSuccessModalStyle() {
+    if (document.getElementById("rsaLeadSuccessModalStyle")) return;
+    const style = document.createElement("style");
+    style.id = "rsaLeadSuccessModalStyle";
+    style.textContent = `
+      .rsa-lead-success-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+        padding: 22px;
+        background: rgba(15, 23, 42, 0.62);
+        backdrop-filter: blur(4px);
+      }
+      .rsa-lead-success-modal {
+        width: min(460px, 100%);
+        border-radius: 24px;
+        background: #fff;
+        box-shadow: 0 28px 70px rgba(15, 23, 42, 0.26);
+        padding: 30px 28px 26px;
+        text-align: center;
+        border: 1px solid rgba(185, 28, 28, 0.12);
+      }
+      .rsa-lead-success-icon {
+        width: 62px;
+        height: 62px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 18px;
+        border-radius: 999px;
+        background: #dcfce7;
+        color: #166534;
+        font-size: 28px;
+      }
+      .rsa-lead-success-modal h2 {
+        margin: 0 0 10px;
+        color: #111827;
+        font-size: 1.35rem;
+        font-weight: 900;
+      }
+      .rsa-lead-success-modal p {
+        margin: 0;
+        color: #4b5563;
+        line-height: 1.6;
+      }
+      .rsa-lead-success-ok {
+        margin-top: 22px;
+        border: 0;
+        border-radius: 999px;
+        background: #b91c1c;
+        color: #fff;
+        font-weight: 900;
+        padding: 12px 28px;
+        cursor: pointer;
+        box-shadow: 0 16px 28px rgba(185, 28, 28, 0.22);
+      }
+      .rsa-lead-success-ok:hover { background: #991b1b; }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function showLeadSuccessModal(title, message) {
+    ensureLeadSuccessModalStyle();
+    const existing = document.querySelector(".rsa-lead-success-overlay");
+    if (existing) existing.remove();
+
+    const overlay = document.createElement("div");
+    overlay.className = "rsa-lead-success-overlay";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.innerHTML = `
+      <div class="rsa-lead-success-modal">
+        <div class="rsa-lead-success-icon"><i class="fa-solid fa-check"></i></div>
+        <h2>${escapeHtml(title)}</h2>
+        <p>${escapeHtml(message)}</p>
+        <button class="rsa-lead-success-ok" type="button" data-rsa-lead-success-ok>OK</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    const ok = overlay.querySelector("[data-rsa-lead-success-ok]");
+    if (ok) {
+      ok.focus();
+      ok.addEventListener("click", () => {
+        window.location.href = "index.html";
+      });
+    }
   }
 
   function getField(form, name) {
@@ -3021,9 +3184,13 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
           setSubmitting(bookingForm, true);
           setFormStatus(bookingForm, "Sending booking request...", "loading");
-          const result = await postJson("/api/bookings", payload);
-          setFormStatus(bookingForm, `Booking request sent. Reference: ${result.booking_id || "received"}`, "success");
+          await postJson("/api/bookings", payload);
+          setFormStatus(bookingForm, "", "success");
           bookingForm.reset();
+          showLeadSuccessModal(
+            "Booking Request Received",
+            "Thank you. Your booking request has been sent successfully. Our team will contact you soon to confirm the details."
+          );
         } catch (error) {
           console.error("Booking submit failed", error);
           setFormStatus(bookingForm, `Could not send booking request: ${error.message}`, "error");
@@ -3042,9 +3209,13 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
           setSubmitting(inquiryForm, true);
           setFormStatus(inquiryForm, "Sending inquiry...", "loading");
-          const result = await postJson("/api/inquiries", payload);
-          setFormStatus(inquiryForm, `Inquiry sent. Reference: ${result.inquiry_id || "received"}`, "success");
+          await postJson("/api/inquiries", payload);
+          setFormStatus(inquiryForm, "", "success");
           inquiryForm.reset();
+          showLeadSuccessModal(
+            "Inquiry Sent Successfully",
+            "Thank you. Your inquiry has been sent successfully. Our team will review your message and contact you soon."
+          );
         } catch (error) {
           console.error("Inquiry submit failed", error);
           setFormStatus(inquiryForm, `Could not send inquiry: ${error.message}`, "error");

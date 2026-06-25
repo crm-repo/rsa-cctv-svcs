@@ -55,7 +55,7 @@
       singular: 'Contact Record',
       kicker: 'Contact Content',
       columns: [['contact_us_id', 'ID'], ['contact_type', 'Type'], ['display_seq', 'Display Seq'], ['show_flag', 'Visible'], ['company_email', 'Company Email'], ['person_name', 'Person'], ['platform_name', 'Platform']],
-      detailFields: ['contact_us_id', 'show_flag', 'contact_type', 'display_seq', 'primary_contact_number', 'secondary_contact_number', 'company_email', 'company_address', 'showroom_address', 'whatsapp_number', 'viber_number', 'business_hours', 'person_image_path', 'person_name', 'position_title', 'department', 'phone_number', 'email_address', 'platform_name', 'platform_key', 'profile_url', 'icon_code', 'created_at', 'updated_at']
+      detailFields: ['contact_us_id', 'show_flag', 'contact_type', 'display_seq', 'primary_contact_number', 'secondary_contact_number', 'company_email', 'company_address', 'showroom_address', 'business_hours', 'person_image_path', 'person_name', 'position_title', 'department', 'phone_number', 'email_address', 'platform_name', 'platform_key', 'profile_url', 'icon_code', 'created_at', 'updated_at']
     }
   };
 
@@ -120,7 +120,7 @@
   }
 
   function detailRows(record) {
-    return config.detailFields.map(field => `<div class="detail-row"><span>${esc(field.replace(/_/g, ' '))}</span><span>${esc(fmt(field, record[field]))}</span></div>`).join('');
+    return config.detailFields.map(field => `<div class="detail-row"><span>${esc((field === 'profile_url' ? 'Phone Number/URL' : field.replace(/_/g, ' ')))}</span><span>${esc(fmt(field, record[field]))}</span></div>`).join('');
   }
 
   function requiredLabel(labelText, attrs = '') { return String(attrs || '').includes('required') ? `${labelText} <span class="required-star" aria-hidden="true">*</span>` : labelText; }
@@ -216,8 +216,6 @@
         ${input('company_email', 'Company Email', record.company_email || '', 'email')}
         ${textarea('company_address', 'Company Address', record.company_address || '')}
         ${textarea('showroom_address', 'Showroom Address', record.showroom_address || '')}
-        ${input('whatsapp_number', 'WhatsApp Number', record.whatsapp_number || '')}
-        ${input('viber_number', 'Viber Number', record.viber_number || '')}
         ${input('business_hours', 'Business Hours', record.business_hours || '')}
         ${input('person_image_path', 'Contact Person Photo', record.person_image_path || '')}
         ${input('person_name', 'Person Name', record.person_name || '')}
@@ -227,7 +225,7 @@
         ${input('email_address', 'Email Address', record.email_address || '', 'email')}
         ${input('platform_name', 'Platform Name', record.platform_name || '')}
         ${input('platform_key', 'Platform Key', record.platform_key || '', 'text', 'readonly data-system-key="true"')}
-        ${input('profile_url', 'Profile URL', record.profile_url || '')}
+        ${input('profile_url', 'Phone Number/URL', record.profile_url || '')}
         ${input('icon_code', 'Icon Code', record.icon_code || '')}
       </div>${drawerActions(isCreate)}`;
   }
@@ -409,3 +407,137 @@
 
   document.addEventListener('DOMContentLoaded', async () => { setup(); await loadRecords(); if (new URLSearchParams(window.location.search).get('action') === 'create') openDrawer({}, 'create'); });
 }());
+
+
+/* batch60c-2a-contact-type-conditional-fields */
+(function () {
+  const companyFields = [
+    'primary_contact_number',
+    'secondary_contact_number',
+    'company_email',
+    'company_address',
+    'showroom_address',
+    'business_hours'
+  ];
+
+  const personFields = [
+    'person_image_path',
+    'person_name',
+    'position_title',
+    'department',
+    'phone_number',
+    'email_address'
+  ];
+
+  const socialFields = [
+    'platform_name',
+    'platform_key',
+    'profile_url',
+    'icon_code'
+  ];
+
+  const removedFields = ['whatsapp_number', 'viber_number'];
+
+  function markFields(form, names, group) {
+    names.forEach((name) => {
+      const field = form.querySelector(`[name="${name}"]`);
+      if (!field) return;
+
+      field.dataset.contactGroup = group;
+      const label = field.closest('label');
+      if (label) label.dataset.contactGroup = group;
+    });
+  }
+
+  function renameProfileUrl(form) {
+    const field = form.querySelector('[name="profile_url"]');
+    if (!field) return;
+
+    const label = field.closest('label');
+    if (!label) return;
+
+    const span = label.querySelector('span');
+    if (span) span.textContent = 'Phone Number/URL';
+  }
+
+  function hideRemovedFields(form) {
+    removedFields.forEach((name) => {
+      const field = form.querySelector(`[name="${name}"]`);
+      if (!field) return;
+
+      field.disabled = true;
+      const label = field.closest('label');
+      if (label) label.hidden = true;
+    });
+  }
+
+  function applyVisibility(form) {
+    const typeField = form.querySelector('[name="contact_type"]');
+    if (!typeField) return;
+
+    const selected = typeField.value || 'Contact Person';
+    const visibleGroup = selected === 'Company Contact'
+      ? 'company'
+      : selected === 'Social Media'
+        ? 'social'
+        : 'person';
+
+    form.querySelectorAll('[data-contact-group]').forEach((field) => {
+      const label = field.closest('label');
+      const visible = field.dataset.contactGroup === visibleGroup;
+
+      field.disabled = !visible;
+      if (label) label.hidden = !visible;
+    });
+  }
+
+  function enhanceForm(form) {
+    if (!form || form.dataset.batch60cContactVisibilityBound === 'true') return;
+    if (!form.querySelector('[name="contact_type"]')) return;
+
+    form.dataset.batch60cContactVisibilityBound = 'true';
+
+    markFields(form, companyFields, 'company');
+    markFields(form, personFields, 'person');
+    markFields(form, socialFields, 'social');
+    renameProfileUrl(form);
+    hideRemovedFields(form);
+    applyVisibility(form);
+
+    const typeField = form.querySelector('[name="contact_type"]');
+    if (typeField) {
+      typeField.addEventListener('change', () => {
+        renameProfileUrl(form);
+        hideRemovedFields(form);
+        applyVisibility(form);
+      });
+    }
+  }
+
+  function enhanceAllContactForms() {
+    document.querySelectorAll('form').forEach(enhanceForm);
+  }
+
+  document.addEventListener('change', (event) => {
+    if (!event.target || !event.target.matches('[name="contact_type"]')) return;
+    enhanceForm(event.target.closest('form'));
+    applyVisibility(event.target.closest('form'));
+  });
+
+  const observer = new MutationObserver(() => enhanceAllContactForms());
+
+  function start() {
+    enhanceAllContactForms();
+    if (document.body) {
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
+
+/* batch60c-2a-admin-contact-dashboard-polish */
