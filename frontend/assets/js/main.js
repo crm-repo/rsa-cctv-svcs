@@ -2741,7 +2741,58 @@ document.addEventListener("DOMContentLoaded", function () {
     return { about: Array.isArray(about.items) ? about.items[0] : about };
   }
 
-  function renderHomePage(data, services) {
+  
+/* batch60c-4a-featured-products-flag-helpers */
+function rsaCmsHomepageFlagIsYes(value) {
+  if (value === true) return true;
+  if (value === 1) return true;
+  if (value === false || value === 0 || value == null) return false;
+
+  const normalized = String(value).trim().toLowerCase();
+  return ["y", "yes", "true", "1", "on"].includes(normalized);
+}
+
+function rsaCmsHomepageProductIsPackage(product = {}) {
+  const categoryValues = [
+    product.category_key,
+    product.categoryKey,
+    product.category,
+    product.category_name,
+    product.categoryName,
+    product.product_category_key,
+    product.productCategoryKey,
+    product.product_category,
+    product.productCategory
+  ]
+    .filter((value) => value != null)
+    .map((value) => String(value).trim().toLowerCase());
+
+  return categoryValues.some((value) => {
+    const compact = value.replace(/[^a-z0-9]/g, "");
+    return (
+      compact === "packages" ||
+      compact === "package" ||
+      compact === "packageskits" ||
+      compact === "packagekits" ||
+      compact.includes("packageskits") ||
+      compact.includes("packagekit")
+    );
+  });
+}
+
+function rsaCmsHomepageProductIsFeatured(product = {}) {
+  return (
+    !rsaCmsHomepageProductIsPackage(product) &&
+    rsaCmsHomepageFlagIsYes(product.show_pack_flag ?? product.showPackFlag)
+  );
+}
+
+function renderHomePage(data, services) {
+  /* batch60c-4a-homepage-featured-products-filter */
+  const homepageFeaturedProducts = (Array.isArray(data.products) ? data.products : [])
+    .filter(rsaCmsHomepageProductIsFeatured)
+    .slice(0, 15);
+
     const packageSlider = document.getElementById("homePackageSlider");
     const featuredGrid = document.getElementById("featuredProductsGrid");
     const promoGrid = document.getElementById("promoProductsGrid");
@@ -2760,7 +2811,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (featuredGrid) {
-      featuredGrid.innerHTML = data.products.slice(0, 15).map(renderFeaturedCard).join("") || `<div class="rsa-cms-loading-state">No featured products available.</div>`;
+      featuredGrid.innerHTML = homepageFeaturedProducts.map(renderFeaturedCard).join("") || `<div class="rsa-cms-loading-state">No featured products available.</div>`;
       setupPagedDisplay({ container: featuredGrid, itemSelector: ".featured-product-card", dots: "#featuredProductsDots", prev: ".home-featured-arrow-prev", next: ".home-featured-arrow-next", desktop: 5, mobile: 6, display: "grid", dotClass: "featured-dot" });
     }
 

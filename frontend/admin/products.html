@@ -82,6 +82,216 @@
   <script src="./assets/js/admin-catalog.js"></script>
   <script src="./assets/js/admin-header-utilities-55d.js"></script>
   <script src="./assets/js/admin-role-guard-59a.js"></script>
+
+
+<script>
+/* batch60c-4a-products-featured-flag-ui */
+(function () {
+  const FLAG_SELECTOR = [
+    '[name="show_pack_flag"]',
+    '[name="showPackFlag"]',
+    '[data-field="show_pack_flag"]',
+    '[data-name="show_pack_flag"]',
+    '[data-admin-field="show_pack_flag"]'
+  ].join(',');
+
+  const CATEGORY_SELECTOR = [
+    '[name="category_key"]',
+    '[name="categoryKey"]',
+    '[name="category"]',
+    '[name="category_id"]',
+    '[name="categoryId"]',
+    '[data-field="category_key"]',
+    '[data-field="category"]',
+    '[data-name="category_key"]',
+    '[data-name="category"]',
+    '[data-admin-field="category_key"]',
+    '[data-admin-field="category"]'
+  ].join(',');
+
+  function compactCategory(value) {
+    return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+  }
+
+  function isPackageCategory(categoryField) {
+    if (!categoryField) return false;
+
+    const values = [categoryField.value];
+
+    if (categoryField.options && categoryField.selectedIndex >= 0) {
+      const option = categoryField.options[categoryField.selectedIndex];
+      values.push(option ? option.textContent : '');
+      values.push(option ? option.getAttribute('data-category-key') : '');
+      values.push(option ? option.getAttribute('data-key') : '');
+    }
+
+    return values.some((value) => {
+      const compact = compactCategory(value);
+      return (
+        compact === 'packages' ||
+        compact === 'package' ||
+        compact === 'packageskits' ||
+        compact === 'packagekits' ||
+        compact.includes('packageskits') ||
+        compact.includes('packagekit')
+      );
+    });
+  }
+
+  function findContext(field) {
+    return (
+      field.closest('form') ||
+      field.closest('[role="dialog"]') ||
+      field.closest('.admin-drawer') ||
+      field.closest('.drawer') ||
+      field.closest('.modal') ||
+      field.closest('.admin-modal') ||
+      document
+    );
+  }
+
+  function findCategoryFieldFor(flagField) {
+    const context = findContext(flagField);
+    return context.querySelector(CATEGORY_SELECTOR) || document.querySelector(CATEGORY_SELECTOR);
+  }
+
+  function findLabelForField(field) {
+    if (!field) return null;
+
+    if (field.id && window.CSS && CSS.escape) {
+      const explicitLabel = document.querySelector('label[for="' + CSS.escape(field.id) + '"]');
+      if (explicitLabel) return explicitLabel;
+    }
+
+    const parentLabel = field.closest('label');
+    if (parentLabel) return parentLabel;
+
+    const wrapper = field.closest(
+      '.admin-form-field, .form-field, .field-row, .form-group, .drawer-field, .admin-field, .modal-field, .input-group, .field'
+    );
+
+    if (!wrapper) return null;
+
+    const candidates = Array.from(wrapper.querySelectorAll('label, .admin-field-label, .form-label, .field-label, span, strong'));
+    return (
+      candidates.find((candidate) => /Promote Package|Featured Product|Package Placement/i.test(candidate.textContent || '')) ||
+      candidates.find((candidate) => (candidate.textContent || '').trim().length > 0) ||
+      null
+    );
+  }
+
+  function setLabelText(label, text) {
+    if (!label) return;
+
+    const current = label.textContent || '';
+    const requiredSuffix = current.includes('*') ? ' *' : '';
+
+    const textTargets = Array.from(label.querySelectorAll('span, strong, b, small')).filter((node) =>
+      /Promote Package|Featured Product|Package Placement/i.test(node.textContent || '')
+    );
+
+    if (textTargets.length) {
+      textTargets[0].textContent = text + requiredSuffix;
+      return;
+    }
+
+    for (const node of Array.from(label.childNodes)) {
+      if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+        node.textContent = node.textContent.replace(
+          /Promote Package|Featured Product|Package Placement/i,
+          text
+        );
+
+        if (!/Promote Package|Featured Product|Package Placement/i.test(node.textContent)) {
+          node.textContent = text + requiredSuffix;
+        }
+        return;
+      }
+    }
+
+    label.textContent = text + requiredSuffix;
+  }
+
+  function enableFeaturedFlagField(flagField) {
+    if (!flagField) return;
+
+    flagField.disabled = false;
+    flagField.readOnly = false;
+    flagField.removeAttribute('disabled');
+    flagField.removeAttribute('readonly');
+    flagField.removeAttribute('aria-disabled');
+
+    const disabledWrapper = flagField.closest('.disabled, .is-disabled, .field-disabled, [aria-disabled="true"]');
+    if (disabledWrapper) {
+      disabledWrapper.classList.remove('disabled', 'is-disabled', 'field-disabled');
+      disabledWrapper.removeAttribute('aria-disabled');
+    }
+  }
+
+  function updateOneFlag(flagField) {
+    enableFeaturedFlagField(flagField);
+
+    const categoryField = findCategoryFieldFor(flagField);
+    const labelText = isPackageCategory(categoryField) ? 'Promote Package' : 'Featured Product';
+
+    setLabelText(findLabelForField(flagField), labelText);
+
+    const wrapper = flagField.closest('.admin-form-field, .form-field, .field-row, .form-group, .drawer-field, .admin-field, .modal-field, .field');
+    if (wrapper) {
+      wrapper.setAttribute('data-batch60c-4a-featured-flag-label', labelText);
+    }
+  }
+
+  function updateFeaturedFlagUi() {
+    document.querySelectorAll(FLAG_SELECTOR).forEach(updateOneFlag);
+  }
+
+  function scheduleUpdate() {
+    window.requestAnimationFrame(updateFeaturedFlagUi);
+    window.setTimeout(updateFeaturedFlagUi, 50);
+    window.setTimeout(updateFeaturedFlagUi, 250);
+  }
+
+  document.addEventListener('DOMContentLoaded', scheduleUpdate);
+  document.addEventListener('change', function (event) {
+    if (event.target && (event.target.matches(CATEGORY_SELECTOR) || event.target.matches(FLAG_SELECTOR))) {
+      scheduleUpdate();
+    }
+  }, true);
+
+  document.addEventListener('input', function (event) {
+    if (event.target && event.target.matches(CATEGORY_SELECTOR)) {
+      scheduleUpdate();
+    }
+  }, true);
+
+  document.addEventListener('submit', function () {
+    updateFeaturedFlagUi();
+  }, true);
+
+  document.addEventListener('click', function (event) {
+    const clicked = event.target;
+    if (
+      clicked &&
+      clicked.closest &&
+      clicked.closest('button[type="submit"], [data-save], [data-admin-save], .admin-save-btn, .modal-save-btn')
+    ) {
+      updateFeaturedFlagUi();
+    }
+  }, true);
+
+  const observer = new MutationObserver(scheduleUpdate);
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['disabled', 'readonly', 'aria-disabled', 'class', 'value']
+  });
+
+  scheduleUpdate();
+})();
+</script>
+
 </body>
 </html>
 
