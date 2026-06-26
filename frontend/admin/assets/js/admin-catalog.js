@@ -27,7 +27,7 @@
       title: 'Products',
       singular: 'Product',
       kicker: 'Product Catalog',
-      columns: [['product_id', 'Product ID'], ['product_name', 'Product'], ['category_name', 'Category'], ['product_brand_name', 'Brand'], ['price', 'Price'], ['sale_price', 'Sale Price'], ['show_flag', 'Visible'], ['show_pack_flag', 'Promote Package'], ['stock_quantity', 'Stock']],
+      columns: [['product_id', 'Product ID'], ['product_name', 'Product'], ['category_name', 'Category'], ['product_brand_name', 'Brand'], ['price', 'Price'], ['sale_price', 'Sale Price'], ['show_flag', 'Visible'], ['show_pack_flag', 'Featured / Promote'], ['stock_quantity', 'Stock']],
       detailFields: ['product_id', 'product_name', 'product_model', 'product_slug', 'category_id', 'category_key', 'category_name', 'category_prefix', 'subcategory_key', 'subcategory', 'brand_id', 'product_brand_key', 'product_brand_name', 'description', 'price', 'sale_price', 'stock_quantity', 'low_stock_threshold', 'show_flag', 'show_pack_flag', 'image_path', 'feature_01', 'feature_02', 'feature_03', 'feature_04', 'feature_05', 'feature_06', 'feature_07', 'feature_08', 'feature_09', 'feature_10', 'created_at', 'updated_at']
     },
     categories: {
@@ -433,6 +433,7 @@
     const subcategoryName = form.querySelector('[name="subcategory"]');
     const showPackSelect = form.querySelector('[name="show_pack_flag"]');
 
+    const showPackLabel = form.querySelector('[data-show-pack-label]');
     function renderSubcategories() {
       if (!categorySelect || !subcategoryKey) return;
       const current = subcategoryKey.value || subcategoryKey.dataset.currentValue || '';
@@ -442,15 +443,25 @@
       if (subcategoryName) subcategoryName.value = selected ? (selected.subcategory_name || '') : '';
     }
 
-    function updateShowPackAvailability() {
-      if (!showPackSelect || !categorySelect) return;
-      const isPackage = categorySelect.value === 'packages';
-      if (!isPackage) showPackSelect.value = 'N';
-      showPackSelect.disabled = !isPackage;
-      showPackSelect.closest('label')?.classList.toggle('is-readonly-field', !isPackage);
-      const note = form.querySelector('[data-show-pack-note]');
-      if (note) note.textContent = isPackage ? 'Package products can be promoted on homepage/package highlights.' : 'Promote Package is available only for Packages/Kits.';
-    }
+      function updateShowPackAvailability() {
+        if (!showPackSelect || !categorySelect) return;
+        const isPackage = String(categorySelect.value || '').trim().toLowerCase() === 'packages';
+
+        if (showPackLabel) showPackLabel.textContent = isPackage ? 'Promote Package' : 'Featured Product';
+
+        showPackSelect.disabled = false;
+        showPackSelect.removeAttribute('disabled');
+        showPackSelect.removeAttribute('readonly');
+        showPackSelect.removeAttribute('aria-disabled');
+        showPackSelect.closest('label')?.classList.remove('is-readonly-field');
+
+        const note = form.querySelector('[data-show-pack-note]');
+        if (note) {
+          note.textContent = '';
+          note.hidden = true;
+          note.style.display = 'none';
+        }
+      }
 
 
     if (productName && !productName.dataset.boundNamePreview) {
@@ -558,7 +569,7 @@
         ${input('price', 'Price', record.price ?? '', 'number', 'step="0.01"')}
         ${input('sale_price', 'Sale Price', record.sale_price ?? '', 'number', 'step="0.01"')}
         ${select('show_flag', 'Public Visibility', record.show_flag || 'Y', [{ value: 'Y', label: 'Y - Visible' }, { value: 'N', label: 'N - Hidden' }], 'required')}
-        <label><span>Promote Package</span><select name="show_pack_flag"><option value="N" ${String(record.show_pack_flag || 'N') !== 'Y' ? 'selected' : ''}>No</option><option value="Y" ${String(record.show_pack_flag || 'N') === 'Y' ? 'selected' : ''}>Yes</option></select><small data-show-pack-note>Promote Package is available only for Packages/Kits.</small></label>
+        <label><span data-show-pack-label>Promote Package</span><select name="show_pack_flag"><option value="N" ${String(record.show_pack_flag || 'N') !== 'Y' ? 'selected' : ''}>No</option><option value="Y" ${String(record.show_pack_flag || 'N') === 'Y' ? 'selected' : ''}>Yes</option></select><small data-show-pack-note hidden></small></label>
         ${input('image_path', 'Product Image', record.image_path || '')}
         <label class="span-2"><span>Description</span><textarea name="description" rows="4">${esc(record.description || '')}</textarea></label>
       </div>
@@ -681,9 +692,10 @@
         payload[key] = value;
       }
     }
-    if (page === 'products' && payload.category_key !== 'packages') {
-      payload.show_pack_flag = 'N';
-    }
+      if (page === 'products') {
+        const normalizedShowPackFlag = String(payload.show_pack_flag || 'N').toUpperCase();
+        payload.show_pack_flag = normalizedShowPackFlag === 'Y' ? 'Y' : 'N';
+      }
     payload.updated_by = 'local-admin';
     return payload;
   }
