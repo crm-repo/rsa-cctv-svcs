@@ -292,6 +292,118 @@
 })();
 </script>
 
+
+
+<script>
+/* batch60c-4b-featured-field-enable-note-cleanup */
+(function () {
+  const FLAG_SELECTORS = [
+    '[name="show_pack_flag"]',
+    '[name="showPackFlag"]',
+    '[data-field="show_pack_flag"]',
+    '[data-name="show_pack_flag"]',
+    '[data-admin-field="show_pack_flag"]'
+  ];
+
+  const NOTE_PATTERN = /Promote Package is available only for Packages\/Kits\.?/i;
+
+  function findFlagFields() {
+    return FLAG_SELECTORS.flatMap((selector) => Array.from(document.querySelectorAll(selector)));
+  }
+
+  function unlockField(field) {
+    if (!field) return;
+
+    field.disabled = false;
+    field.readOnly = false;
+    field.removeAttribute('disabled');
+    field.removeAttribute('readonly');
+    field.removeAttribute('aria-disabled');
+    field.removeAttribute('data-readonly');
+    field.removeAttribute('data-disabled');
+
+    field.classList.remove('disabled', 'is-disabled', 'readonly', 'is-readonly', 'field-disabled');
+
+    const wrappers = [
+      field.closest('.admin-form-field'),
+      field.closest('.form-field'),
+      field.closest('.field-row'),
+      field.closest('.form-group'),
+      field.closest('.drawer-field'),
+      field.closest('.admin-field'),
+      field.closest('.modal-field'),
+      field.closest('.field')
+    ].filter(Boolean);
+
+    wrappers.forEach((wrapper) => {
+      wrapper.classList.remove('disabled', 'is-disabled', 'readonly', 'is-readonly', 'field-disabled');
+      wrapper.removeAttribute('aria-disabled');
+      wrapper.removeAttribute('data-readonly');
+      wrapper.removeAttribute('data-disabled');
+      wrapper.setAttribute('data-batch60c-4b-featured-field-enabled', 'true');
+
+      wrapper.querySelectorAll('select, input, button, textarea').forEach((control) => {
+        if (
+          control === field ||
+          control.name === 'show_pack_flag' ||
+          control.name === 'showPackFlag' ||
+          control.getAttribute('data-field') === 'show_pack_flag'
+        ) {
+          control.disabled = false;
+          control.readOnly = false;
+          control.removeAttribute('disabled');
+          control.removeAttribute('readonly');
+          control.removeAttribute('aria-disabled');
+          control.removeAttribute('data-readonly');
+          control.removeAttribute('data-disabled');
+          control.classList.remove('disabled', 'is-disabled', 'readonly', 'is-readonly', 'field-disabled');
+        }
+      });
+    });
+  }
+
+  function removeOldPackageNote() {
+    const candidates = Array.from(document.querySelectorAll('small, p, div, span, em'));
+    candidates.forEach((node) => {
+      const text = (node.textContent || '').trim();
+      if (NOTE_PATTERN.test(text)) {
+        node.setAttribute('data-batch60c-4b-removed-package-note', 'true');
+        node.style.display = 'none';
+        node.textContent = '';
+      }
+    });
+  }
+
+  function applyFeaturedFieldCleanup() {
+    findFlagFields().forEach(unlockField);
+    removeOldPackageNote();
+  }
+
+  function scheduleCleanup() {
+    window.requestAnimationFrame(applyFeaturedFieldCleanup);
+    window.setTimeout(applyFeaturedFieldCleanup, 25);
+    window.setTimeout(applyFeaturedFieldCleanup, 100);
+    window.setTimeout(applyFeaturedFieldCleanup, 300);
+  }
+
+  document.addEventListener('DOMContentLoaded', scheduleCleanup);
+  document.addEventListener('change', scheduleCleanup, true);
+  document.addEventListener('input', scheduleCleanup, true);
+  document.addEventListener('click', scheduleCleanup, true);
+  document.addEventListener('submit', applyFeaturedFieldCleanup, true);
+
+  const observer = new MutationObserver(scheduleCleanup);
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['disabled', 'readonly', 'aria-disabled', 'data-readonly', 'data-disabled', 'class']
+  });
+
+  scheduleCleanup();
+})();
+</script>
+
 </body>
 </html>
 
