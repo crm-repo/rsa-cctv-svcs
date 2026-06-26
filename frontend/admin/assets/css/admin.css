@@ -2710,7 +2710,9 @@ body.admin-login-page img[src$="rsa-logo.png"] {
 }
 
 
-/* batch60c-3k-sidebar-active-pill-restore */
+/*
+
+/* batch60c-3l-sidebar-original-active-reset */
 body .admin-sidebar .brand-lockup,
 body .admin-sidebar .brand-lockup.admin-logo-only {
   display: flex !important;
@@ -2762,50 +2764,6 @@ body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap img {
   filter: drop-shadow(0 8px 14px rgba(0,0,0,0.16));
 }
 
-/* Normalize active sidebar pill so Dashboard matches Products */
-body .admin-sidebar nav,
-body .admin-sidebar .admin-nav,
-body .admin-sidebar .sidebar-nav,
-body .admin-sidebar .sidebar-menu,
-body .admin-sidebar .nav-section {
-  overflow: visible !important;
-}
-
-body .admin-sidebar .nav-item,
-body .admin-sidebar a.nav-item,
-body .admin-sidebar .nav-link,
-body .admin-sidebar a.nav-link,
-body .admin-sidebar .sidebar-link,
-body .admin-sidebar a.sidebar-link {
-  box-sizing: border-box !important;
-  overflow: visible !important;
-}
-
-body .admin-sidebar .nav-item.active,
-body .admin-sidebar .nav-item.is-active,
-body .admin-sidebar a.nav-item.active,
-body .admin-sidebar a.nav-item.is-active,
-body .admin-sidebar .nav-link.active,
-body .admin-sidebar .nav-link.is-active,
-body .admin-sidebar a.nav-link.active,
-body .admin-sidebar a.nav-link.is-active,
-body .admin-sidebar .sidebar-link.active,
-body .admin-sidebar .sidebar-link.is-active,
-body .admin-sidebar a.sidebar-link.active,
-body .admin-sidebar a.sidebar-link.is-active,
-body .admin-sidebar a[aria-current="page"],
-body .admin-sidebar button[aria-current="page"] {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-height: 54px !important;
-  display: flex !important;
-  align-items: center !important;
-  border-radius: 16px !important;
-  box-sizing: border-box !important;
-  overflow: visible !important;
-  clip-path: none !important;
-}
-
 @media (max-width: 760px) {
   body .admin-sidebar .brand-lockup,
   body .admin-sidebar .brand-lockup.admin-logo-only {
@@ -2827,91 +2785,3 @@ body .admin-sidebar button[aria-current="page"] {
   }
 }
 
-/* Safely reduce only the gap before Dashboard without touching active item sizing */
-body .admin-sidebar .admin-nav,
-body .admin-sidebar .sidebar-nav,
-body .admin-sidebar .sidebar-menu {
-  margin-top: 2px !important;
-  padding-top: 0 !important;
-  overflow: visible !important;
-}
-
-body .admin-sidebar nav {
-  overflow: visible !important;
-}
-
-body .admin-sidebar a,
-body .admin-sidebar .nav-link,
-body .admin-sidebar .sidebar-link,
-body .admin-sidebar .admin-nav-item {
-  overflow: visible !important;
-}
-
-@media (max-width: 760px) {
-  body .admin-sidebar .brand-lockup,
-  body .admin-sidebar .brand-lockup.admin-logo-only {
-    min-height: 70px !important;
-    padding-bottom: 8px !important;
-    margin-bottom: 8px !important;
-  }
-
-  body .admin-sidebar .brand-lockup .brand-logo-wrap,
-  body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap {
-    max-width: 180px !important;
-    height: 52px !important;
-  }
-
-  body .admin-sidebar .brand-lockup .brand-logo-wrap img,
-  body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap img {
-    width: 150px !important;
-    transform: scale(1.18) !important;
-  }
-}
-
-/* Reduce the top gap before the Dashboard menu item only */
-body .admin-sidebar .admin-nav,
-body .admin-sidebar .sidebar-nav,
-body .admin-sidebar .sidebar-menu,
-body .admin-sidebar nav {
-  margin-top: 4px !important;
-  padding-top: 0 !important;
-}
-
-body .admin-sidebar .admin-nav > :first-child,
-body .admin-sidebar .sidebar-nav > :first-child,
-body .admin-sidebar .sidebar-menu > :first-child,
-body .admin-sidebar nav > :first-child {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-body .admin-sidebar .admin-nav a:first-child,
-body .admin-sidebar .sidebar-nav a:first-child,
-body .admin-sidebar .sidebar-menu a:first-child,
-body .admin-sidebar nav a:first-child,
-body .admin-sidebar .admin-nav .active:first-child,
-body .admin-sidebar .sidebar-nav .active:first-child,
-body .admin-sidebar .sidebar-menu .active:first-child {
-  margin-top: 0 !important;
-}
-
-@media (max-width: 760px) {
-  body .admin-sidebar .brand-lockup,
-  body .admin-sidebar .brand-lockup.admin-logo-only {
-    min-height: 70px !important;
-    padding-bottom: 8px !important;
-    margin-bottom: 10px !important;
-  }
-
-  body .admin-sidebar .brand-lockup .brand-logo-wrap,
-  body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap {
-    max-width: 180px !important;
-    height: 52px !important;
-  }
-
-  body .admin-sidebar .brand-lockup .brand-logo-wrap img,
-  body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap img {
-    width: 150px !important;
-    transform: scale(1.18) !important;
-  }
-}

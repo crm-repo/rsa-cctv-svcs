@@ -37,14 +37,17 @@
       display: block !important;
     }
     .admin-login-brand { display: none !important; }
-    /* batch60c-3k-login-card-smaller-logo-larger */
+    /*
+
+    /* batch60c-3l-login-compact-logo-final */
     .admin-login-brand-row {
       display: flex !important;
       align-items: center !important;
-      justify-content: center !important;
+      justify-content: flex-start !important;
       gap: 18px !important;
       width: 100% !important;
-      margin: 0 auto 18px !important;
+      margin: 0 0 10px !important;
+      padding: 0 !important;
     }
 
     .admin-login-brand-row .admin-login-eyebrow {
@@ -67,15 +70,16 @@
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      width: 120px !important;
-      max-width: 120px !important;
-      min-height: 52px !important;
+      width: 96px !important;
+      max-width: 96px !important;
+      min-height: 40px !important;
+      height: 40px !important;
       margin: 0 !important;
-      padding: 5px 6px !important;
+      padding: 3px 4px !important;
       background: #03070d !important;
       border: 1px solid rgba(255,255,255,0.06) !important;
-      border-radius: 12px !important;
-      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.11) !important;
+      border-radius: 10px !important;
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.10) !important;
       overflow: hidden !important;
     }
 
@@ -100,16 +104,19 @@
 
     .admin-login-intro-note {
       text-align: left !important;
+      margin-top: 8px !important;
+      margin-bottom: 12px !important;
       padding-left: 0 !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
+      padding-right: 0 !important;
     }
 
     @media (max-width: 640px) {
       .admin-login-brand-row {
         flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
         gap: 12px !important;
-        margin-bottom: 18px !important;
+        margin-bottom: 12px !important;
       }
 
       .admin-login-brand-row .admin-login-eyebrow {
@@ -123,9 +130,10 @@
       .admin-login-brand-row .admin-login-brand-card,
       .admin-login-brand-row .login-logo-card,
       .admin-login-brand-row .login-brand-card {
-        width: 120px !important;
-        max-width: 120px !important;
-        min-height: 52px !important;
+        width: 96px !important;
+        max-width: 96px !important;
+        min-height: 40px !important;
+        height: 40px !important;
       }
 
       .admin-login-brand-row .admin-login-logo-card img,
@@ -136,12 +144,6 @@
         width: 142px !important;
       }
     }
-
-
-
-
-
-
 
   </style>
   <style>
