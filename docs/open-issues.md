@@ -5,7 +5,7 @@
 This document tracks risks, unresolved questions, blockers, technical debt, and dependencies. Implementation status is controlled by [feature-status.md](./feature-status.md).
 
 Last updated: 2026-06-26  
-Update scope: Phase 8 documentation checkpoint through Batch 60C completion-for-now, Batch 60B next planning, Batch 60A demo readiness, and post-demo/domain deferrals.
+Update scope: Phase 8 Batch 60B backup/restore/production safety notes completed, Batch 60A demo readiness next, and post-demo/domain deferrals preserved.
 
 
 ## Current Open / Deferred Items After Batch 60C
@@ -16,8 +16,8 @@ Update scope: Phase 8 documentation checkpoint through Batch 60C completion-for-
 | Batch 59A Cognito Groups + Users | Complete / Local testing passed | Settings > Users backed by Cognito admin APIs through FastAPI only; Admin/Standard roles implemented for current scope. EC2 role smoke remains part of Batch 60A. |
 | Batch 59B Admin-only restricted/delete actions | Planned / confirm before demo | Standard users hidden/blocked; leads remain non-delete. Confirm completion or run before Batch 60A. |
 | Batch 60C public/admin polish | Complete for now / accepted scope | Inserted polish batch. Code changes accepted for current scope; final EC2 active-release confirmation remains part of Batch 60A because the last pasted 60C deploy attempt stopped before release switch. |
-| Batch 60B backup/restore/safety notes | Planned / next | Operational runbooks for DynamoDB/S3/Git/EC2/Nginx rollback safety. |
-| Batch 60A EC2 public-IP demo readiness pass | Planned / final demo gate | Final EC2 smoke regression, active-release confirmation, admin/public/browser smoke, role checks, media checks, lead capture, and demo data sanity check. |
+| Batch 60B backup/restore/safety notes | Complete | Operational runbooks documented for DynamoDB/S3/Git/EC2/Nginx rollback safety. Documentation/procedure only; no paid backup services added. |
+| Batch 60A EC2 public-IP demo readiness pass | Planned / next final demo gate | Final EC2 smoke regression, active-release confirmation, admin/public/browser smoke, role checks, media checks, lead capture, and demo data sanity check. |
 | Batch 61 domain/HTTPS/CloudFront/Route 53 | Deferred | Planned after customer demo/launch approval and final domain confirmation. |
 | SEO metadata/page titles | Deferred | Defer until Route 53/final domain. |
 | Canonical URLs/Open Graph URLs | Deferred | Do not use EC2 IP as canonical. |
@@ -45,6 +45,7 @@ Update scope: Phase 8 documentation checkpoint through Batch 60C completion-for-
 | Image lazy loading | Completed/local testing passed in Batch 58. |
 | Cognito Groups + Settings > Users | Completed/local testing passed in Batch 59A for the current scope; EC2 smoke remains part of Batch 60A. |
 | Batch 60C public/admin polish | Completed for now by user decision; includes Featured/Product Promote flag reuse and public/admin UI polish. |
+| Batch 60B backup/restore/safety notes | Completed; operational runbooks documented for backup/restore/rollback/import/secrets/cost-safety. |
 
 ## Known Issues
 
@@ -88,7 +89,7 @@ Update scope: Phase 8 documentation checkpoint through Batch 60C completion-for-
 | Full role/permission matrix absent | Medium | Deferred | Cognito prep exists; fine-grained role control is future work |
 | `rsa_product_types` absent | Low | Deferred | Subcategory remains manual at launch |
 | Real image optimization pipeline absent | Medium | Open | Needed before production media rollout |
-| Production backup/restore procedure absent | Medium | Open | Next planned Batch 60B; needed before real launch data is treated as production. |
+| Production backup/restore procedure absent | Medium | Resolved | Batch 60B documented DynamoDB/S3/Git/EC2/Nginx/import/secrets/cost-safety procedures. Future automation remains optional and separately approved. |
 | Import overwrite behavior not finalized | Low | Open | Current safe behavior should skip existing by default unless explicit overwrite is approved later |
 
 ## Risks

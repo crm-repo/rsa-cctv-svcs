@@ -22,6 +22,7 @@ As of the Batch 60C documentation checkpoint, the working architecture has moved
 - Homepage Featured Products uses non-package products with `show_flag=Y` and `show_pack_flag=Y`, keeping the existing display limit, per-page carousel behavior, ordering, and empty-state behavior.
 - Admin Products reuses the stored `show_pack_flag` field with a category-scoped label: `Promote Package` for Packages/Kits and `Featured Product` for non-package products.
 - Brands hero is already dynamic through the public brands API and must not be overwritten by duplicate renderers.
+- Batch 60B documents backup/restore/rollback safety procedures for DynamoDB, S3 media, Git, EC2 release folders, Nginx config, import safety, secret handling, and EC2/cost-safety. No paid backup service is added by default.
 
 ### EC2/Nginx deployment notes from Batch 56B
 

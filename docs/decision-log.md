@@ -672,3 +672,15 @@ This document records significant project decisions and their rationale. For imp
 | Decision | Reuse the same stored `show_pack_flag` field as a category-scoped UI/business flag. For Packages/Kits, the admin label remains `Promote Package` and continues to control package/recommended/promo placement. For non-package products, the admin label becomes `Featured Product`, and the homepage Featured Products card filters non-package products where `show_flag=Y` and `show_pack_flag=Y`. |
 | Reasoning | Avoids a DynamoDB schema/data migration and keeps the admin UI simple while still giving the business explicit control over homepage Featured Products. |
 | Impact | No new database attribute is added. Existing display limits, carousel page-size behavior, sort behavior, and empty-state behavior are preserved. Batch 60A must confirm the current EC2 active release and smoke this behavior before demo. |
+
+## ADR-063: Batch 60B Backup/Restore Safety Is Documentation-Only and Free-Tier-First
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 60B |
+| Status | Accepted |
+| Context | Before final public-IP demo readiness and production data handling, the project needs practical operational safety procedures for data backup, media preservation, deployment rollback, import safety, and secret handling. |
+| Decision | Complete Batch 60B as documentation/procedure only. Document DynamoDB backup/export/restore, S3 media backup/restore, Git rollback, EC2 release rollback, Nginx config rollback, import dry-run rules, `rsa_id_counters` safety, secret handling, and EC2/cost-safety reminders. Do not add paid backup services, PITR, AWS Backup plans, or extra infrastructure without separate cost review and approval. |
+| Reasoning | The current demo/pre-launch stage needs reliable operator guidance while preserving the AWS Free-Tier-first constraint and avoiding unnecessary paid services. |
+| Impact | Batch 60B becomes the operational safety reference for Batch 60A and launch planning. Future backup automation or paid backup services remain optional and require separate approval. |
+

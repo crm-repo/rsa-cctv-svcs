@@ -15,6 +15,7 @@ Current completed state:
 - Promotions hero now uses promoted package products only.
 - Homepage Featured Products now uses the category-scoped `show_pack_flag` rule for non-package featured products.
 - Batch 60C public/admin polish is accepted as complete for now; final EC2 active-release verification remains part of Batch 60A.
+- Batch 60B backup/restore/production safety notes are documented and should be used as the operational safety reference before demo/launch work.
 - Batch 57 SEO work is intentionally deferred until Route 53/final domain.
 
 Current active/planned work:
@@ -23,8 +24,8 @@ Current active/planned work:
 - Batch 59A: Cognito Groups + Settings > Users management completed/local testing passed for the current scope.
 - Batch 59B: Admin-only restricted/delete actions; confirm completion or run before the final demo pass.
 - Batch 60C: inserted public/admin polish batch accepted as complete for now.
-- Batch 60B: backup/restore/production safety notes, next recommended batch.
-- Batch 60A: final EC2 public-IP demo smoke checklist / demo readiness pass after 60B and any required 59B confirmation.
+- Batch 60B: backup/restore/production safety notes completed as documentation/procedure package.
+- Batch 60A: final EC2 public-IP demo smoke checklist / demo readiness pass is next after any required 59B confirmation.
 - Batch 61: Route 53 + ACM + CloudFront + EC2 origin planning, deferred until customer domain approval.
 
 Deferred until later/final launch planning:

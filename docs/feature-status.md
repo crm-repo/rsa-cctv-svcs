@@ -5,7 +5,7 @@
 This document is the authoritative implementation progress tracker. If status here conflicts with another document, this document controls implementation status.
 
 Last updated: 2026-06-26  
-Update scope: Phase 8 documentation checkpoint through Batch 60C public/admin polish completion-for-now, Batch 60B next planning, Batch 60A final demo-readiness pass, and Batch 61/domain deferral.
+Update scope: Phase 8 Batch 60B backup/restore/production safety notes completed, Batch 60A final demo-readiness pass next, Batch 59B confirmation still pending, and Batch 61/domain deferral preserved.
 
 
 ## Phase 8 Continuation Status — Batches 30 to 60C
@@ -59,8 +59,8 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Batch 59A | Complete / Local testing passed | Cognito Groups + Settings > Users management completed for the current local/admin scope, including Admin/Standard roles, one-time temporary password handling, and first-login password-change UI. EC2 role/user smoke remains part of Batch 60A. |
 | Batch 59B | Planned / confirm before demo | Admin-only restricted actions/delete controls. Standard users should not see Settings/delete controls; backend should still enforce 403. Leads remain non-delete. Confirm completion or run before Batch 60A if not already applied. |
 | Batch 60C | Complete for now / accepted scope | Inserted public/admin polish batch. Includes public contact/social polish, admin logo/product UI polish, login/sidebar logo polish, and homepage Featured Products criteria update using `show_pack_flag` for non-package featured products. Code was committed; EC2 final active release must be confirmed during Batch 60A. |
-| Batch 60B | Planned / next | Backup/restore/production safety notes and operational runbooks. Supersedes earlier Batch 64 backup/rollback idea. |
-| Batch 60A | Planned / final demo gate | EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression, active-release confirmation, admin smoke, media display/upload checks, and demo data sanity check. Supersedes earlier Batch 62 regression idea for demo readiness. |
+| Batch 60B | Complete | Backup/restore/production safety notes and operational runbooks documented. Supersedes earlier Batch 64 backup/rollback idea. Documentation/procedure only; no paid backup services added. |
+| Batch 60A | Planned / next final demo gate | EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression, active-release confirmation, admin smoke, media display/upload checks, and demo data sanity check. Supersedes earlier Batch 62 regression idea for demo readiness. |
 | Batch 61 | Deferred / Later | Route 53/domain, ACM, SSL/HTTPS, CloudFront, and EC2 origin planning after final customer domain/cost approval. Supersedes earlier Batch 65 domain planning idea. |
 | Batch 62 | Deferred / Later | Final launch checklist after domain/security/backup readiness, if needed. |
 
@@ -211,8 +211,8 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 
 | Feature | Notes |
 |---|---|
-| Batch 60B backup/restore/safety notes | Next recommended batch before final public-IP demo readiness pass. |
-| Batch 60A demo-readiness pass | Final gate after Batch 60B and any required Batch 59B confirmation; must verify current EC2 active release, public/admin smoke, roles, media, lead capture, and demo data. |
+| Batch 60B backup/restore/safety notes | Completed documentation/procedure package; use as the operational safety reference before 60A. |
+| Batch 60A demo-readiness pass | Next final gate after Batch 60B and any required Batch 59B confirmation; must verify current EC2 active release, public/admin smoke, roles, media, lead capture, and demo data. |
 
 ## Planned Features
 
@@ -244,20 +244,19 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 
 ## Known Gaps
 
-- Batch 60B backup/restore/production safety notes are still pending.
 - Batch 60A final EC2 public-IP demo readiness pass is still pending.
 - Batch 59B Admin-only restricted/delete action completion should be confirmed before the final demo pass.
 - Batch 60C code was committed and accepted for the current scope; the final EC2 active release should be confirmed during Batch 60A because the last pasted EC2 deploy attempt stopped at an environment/tooling check before release switch.
 - SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, and robots.txt remain deferred until the final domain is confirmed.
 - Route 53/domain, ACM, CloudFront, and HTTPS remain deferred until customer demo/launch approval and final domain confirmation.
-- Production backup/restore procedure is still pending until Batch 60B is completed.
+- Production backup/restore procedure is documented by Batch 60B; future automation remains optional and requires separate approval.
 - Final company launch data still requires review/import before production launch.
 
 ## Current Priorities
 
-1. Complete Batch 60B backup/restore/production safety notes.
-2. Confirm whether Batch 59B restricted/delete actions are complete or still need to run before demo.
-3. Run Batch 60A as the final EC2 public-IP demo readiness gate.
+1. Confirm whether Batch 59B restricted/delete actions are complete or still need to run before demo.
+2. Run Batch 60A as the final EC2 public-IP demo readiness gate.
+3. Use Batch 60B backup/restore/production safety notes as the operational safety reference during 60A and launch planning.
 4. Confirm the current EC2 active release and smoke-test the accepted Batch 60C behavior during Batch 60A.
 5. Keep EC2 stopped unless actively testing or deploying.
 6. Keep SEO/domain/HTTPS work deferred until the final customer domain is approved.

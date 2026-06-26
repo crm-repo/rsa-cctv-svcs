@@ -74,9 +74,9 @@ For current local testing, prefer:
 
 - Batch 60A is the EC2 public-IP demo smoke checklist and demo data sanity pass. It supersedes the earlier Batch 62 regression idea for demo readiness.
 - Batch 60C was inserted as a public/admin polish batch and is accepted as complete for now; do not extend it unless a demo-blocking issue appears.
-- Batch 60B is the backup/restore/production safety notes batch. It supersedes the earlier Batch 64 backup/rollback idea and should run next.
+- Batch 60B is the backup/restore/production safety notes batch. It supersedes the earlier Batch 64 backup/rollback idea and is now documented as the operational safety reference.
 - During Batch 60A, repeat the full demo checklist before declaring the app demo-ready. Batch 60A must also confirm the current EC2 active release and smoke the accepted Batch 60C behavior.
-- Batch 60B should document DynamoDB, S3, Git, EC2 deployment, Nginx rollback, import safety, and secret-handling procedures.
+- Batch 60B documents DynamoDB, S3, Git, EC2 deployment, Nginx rollback, import safety, secret-handling procedures, and EC2/cost-safety reminders. It remains documentation/procedure only unless a separate safety script is approved.
 
 ### Domain / HTTPS / CloudFront planning
 
