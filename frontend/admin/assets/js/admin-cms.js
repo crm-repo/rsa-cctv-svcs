@@ -250,60 +250,68 @@
     const typeField = form.querySelector('[name="contact_type"]');
     if (!typeField) return;
 
-    const companyFields = ['primary_contact_number', 'secondary_contact_number', 'company_email', 'company_address', 'showroom_address', 'business_hours'];
-    const personFields = ['person_image_path', 'person_name', 'position_title', 'department', 'phone_number', 'email_address'];
-    const socialFields = ['platform_name', 'platform_key', 'profile_url', 'icon_code'];
+    const groups = {
+      company: ['primary_contact_number', 'secondary_contact_number', 'company_email', 'company_address', 'showroom_address', 'business_hours'],
+      person: ['person_image_path', 'person_name', 'position_title', 'department', 'phone_number', 'email_address'],
+      social: ['platform_name', 'platform_key', 'profile_url', 'icon_code']
+    };
     const removedFields = ['whatsapp_number', 'viber_number'];
 
-    function mark(names, group) {
-      names.forEach((name) => {
-        const field = form.querySelector(`[name="${name}"]`);
-        if (!field) return;
-        field.dataset.contactGroup = group;
-        const label = field.closest('label');
-        if (label) label.dataset.contactGroup = group;
-      });
+    function labelFor(field) {
+      return field ? field.closest('label') : null;
     }
 
-    function hideRemoved() {
+    function setFieldGroup(name, group) {
+      const field = form.querySelector(`[name="${name}"]`);
+      if (!field) return;
+      field.dataset.contactGroup = group;
+      const label = labelFor(field);
+      if (label) label.dataset.contactGroup = group;
+    }
+
+    Object.entries(groups).forEach(([group, names]) => {
+      names.forEach((name) => setFieldGroup(name, group));
+    });
+
+    function hideRemovedFields() {
       removedFields.forEach((name) => {
         const field = form.querySelector(`[name="${name}"]`);
         if (!field) return;
         field.disabled = true;
-        const label = field.closest('label');
+        const label = labelFor(field);
         if (label) label.hidden = true;
       });
     }
 
     function renameProfileUrl() {
       const field = form.querySelector('[name="profile_url"]');
-      const label = field ? field.closest('label') : null;
+      const label = labelFor(field);
       const span = label ? label.querySelector('span') : null;
       if (span) span.textContent = 'Phone Number/URL';
     }
 
-    function applyVisibility() {
+    function selectedGroup() {
       const selected = typeField.value || 'Contact Person';
-      const visibleGroup = selected === 'Company Contact' ? 'company' : selected === 'Social Media' ? 'social' : 'person';
+      if (selected === 'Company Contact') return 'company';
+      if (selected === 'Social Media') return 'social';
+      return 'person';
+    }
+
+    function applyVisibility() {
+      const visibleGroup = selectedGroup();
 
       form.querySelectorAll('[data-contact-group]').forEach((field) => {
-        const label = field.closest('label');
+        const label = labelFor(field);
         const visible = field.dataset.contactGroup === visibleGroup;
         field.disabled = !visible;
         if (label) label.hidden = !visible;
       });
 
-      hideRemoved();
+      hideRemovedFields();
       renameProfileUrl();
     }
 
-    delete form.dataset.batch60cContactVisibilityBound;
-
-    mark(companyFields, 'company');
-    mark(personFields, 'person');
-    mark(socialFields, 'social');
-
-    typeField.addEventListener('change', applyVisibility);
+    typeField.onchange = applyVisibility;
     applyVisibility();
   }
 
@@ -355,6 +363,9 @@
     form.dataset.recordId = record[config.idField] || '';
     form.innerHTML = formHtml(record);
     bindContactTypeVisibility(form);
+    /* batch60c-3a-contact-switch-hotfix-timeouts */
+    setTimeout(() => bindContactTypeVisibility(form), 0);
+    setTimeout(() => bindContactTypeVisibility(form), 120);
     bindSystemGeneratedKeys(form);
     bindDirtyTracking(form);
     if (window.RSAAdminMedia && typeof window.RSAAdminMedia.enhanceAll === 'function') window.RSAAdminMedia.enhanceAll(form);
@@ -474,135 +485,96 @@
 }());
 
 
-/* batch60c-2a-contact-type-conditional-fields */
+/* batch60c-2a-contact-type-conditional-fields disabled by batch60c-3a-contact-switch-hotfix */
+
+/* batch60c-2a-admin-contact-dashboard-polish */
+
+
+/* batch60c-3a-contact-switch-hotfix-watcher */
 (function () {
-  const companyFields = [
-    'primary_contact_number',
-    'secondary_contact_number',
-    'company_email',
-    'company_address',
-    'showroom_address',
-    'business_hours'
-  ];
+  if (!/\/admin\/contact-us\.html(?:$|\?)/.test(window.location.pathname + window.location.search)) return;
 
-  const personFields = [
-    'person_image_path',
-    'person_name',
-    'position_title',
-    'department',
-    'phone_number',
-    'email_address'
-  ];
-
-  const socialFields = [
-    'platform_name',
-    'platform_key',
-    'profile_url',
-    'icon_code'
-  ];
+  const groups = {
+    company: ['primary_contact_number', 'secondary_contact_number', 'company_email', 'company_address', 'showroom_address', 'business_hours'],
+    person: ['person_image_path', 'person_name', 'position_title', 'department', 'phone_number', 'email_address'],
+    social: ['platform_name', 'platform_key', 'profile_url', 'icon_code']
+  };
 
   const removedFields = ['whatsapp_number', 'viber_number'];
+  let scheduled = false;
 
-  function markFields(form, names, group) {
-    names.forEach((name) => {
-      const field = form.querySelector(`[name="${name}"]`);
-      if (!field) return;
-
-      field.dataset.contactGroup = group;
-      const label = field.closest('label');
-      if (label) label.dataset.contactGroup = group;
-    });
+  function labelFor(field) {
+    return field ? field.closest('label') : null;
   }
 
-  function renameProfileUrl(form) {
-    const field = form.querySelector('[name="profile_url"]');
-    if (!field) return;
+  function applyForm(form) {
+    if (!form) return;
 
-    const label = field.closest('label');
-    if (!label) return;
-
-    const span = label.querySelector('span');
-    if (span) span.textContent = 'Phone Number/URL';
-  }
-
-  function hideRemovedFields(form) {
-    removedFields.forEach((name) => {
-      const field = form.querySelector(`[name="${name}"]`);
-      if (!field) return;
-
-      field.disabled = true;
-      const label = field.closest('label');
-      if (label) label.hidden = true;
-    });
-  }
-
-  function applyVisibility(form) {
     const typeField = form.querySelector('[name="contact_type"]');
     if (!typeField) return;
 
+    Object.entries(groups).forEach(([group, names]) => {
+      names.forEach((name) => {
+        const field = form.querySelector(`[name="${name}"]`);
+        if (!field) return;
+        field.dataset.contactGroup = group;
+        const label = labelFor(field);
+        if (label) label.dataset.contactGroup = group;
+      });
+    });
+
     const selected = typeField.value || 'Contact Person';
-    const visibleGroup = selected === 'Company Contact'
-      ? 'company'
-      : selected === 'Social Media'
-        ? 'social'
-        : 'person';
+    const visibleGroup = selected === 'Company Contact' ? 'company' : selected === 'Social Media' ? 'social' : 'person';
 
     form.querySelectorAll('[data-contact-group]').forEach((field) => {
-      const label = field.closest('label');
+      const label = labelFor(field);
       const visible = field.dataset.contactGroup === visibleGroup;
-
       field.disabled = !visible;
       if (label) label.hidden = !visible;
     });
+
+    removedFields.forEach((name) => {
+      const field = form.querySelector(`[name="${name}"]`);
+      if (!field) return;
+      field.disabled = true;
+      const label = labelFor(field);
+      if (label) label.hidden = true;
+    });
+
+    const profileField = form.querySelector('[name="profile_url"]');
+    const profileLabel = labelFor(profileField);
+    const profileSpan = profileLabel ? profileLabel.querySelector('span') : null;
+    if (profileSpan) profileSpan.textContent = 'Phone Number/URL';
   }
 
-  function enhanceForm(form) {
-    if (!form) return;
-    if (!form.querySelector('[name="contact_type"]')) return;
-
-    form.dataset.batch60cContactVisibilityBound = 'true';
-
-    markFields(form, companyFields, 'company');
-    markFields(form, personFields, 'person');
-    markFields(form, socialFields, 'social');
-    renameProfileUrl(form);
-    hideRemovedFields(form);
-    applyVisibility(form);
-
-    const typeField = form.querySelector('[name="contact_type"]');
-    if (typeField) {
-      typeField.addEventListener('change', () => {
-        renameProfileUrl(form);
-        hideRemovedFields(form);
-        applyVisibility(form);
-      });
-    }
+  function applyAll() {
+    scheduled = false;
+    document.querySelectorAll('form').forEach(applyForm);
   }
 
-  function enhanceAllContactForms() {
-    document.querySelectorAll('form').forEach(enhanceForm);
+  function scheduleApply() {
+    if (scheduled) return;
+    scheduled = true;
+    setTimeout(applyAll, 40);
   }
 
   document.addEventListener('change', (event) => {
-    if (!event.target || !event.target.matches('[name="contact_type"]')) return;
-    enhanceForm(event.target.closest('form'));
-    applyVisibility(event.target.closest('form'));
-  });
-
-  const observer = new MutationObserver(() => enhanceAllContactForms());
-
-  function start() {
-    enhanceAllContactForms();
-    if (document.body) {
-      observer.observe(document.body, { childList: true, subtree: true });
+    if (event.target && event.target.matches('[name="contact_type"]')) {
+      applyForm(event.target.closest('form'));
     }
+  }, true);
+
+  document.addEventListener('click', () => {
+    setTimeout(applyAll, 80);
+  }, true);
+
+  if (document.body) {
+    new MutationObserver(scheduleApply).observe(document.body, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start);
+    document.addEventListener('DOMContentLoaded', applyAll);
   } else {
-    start();
+    applyAll();
   }
 })();
-
-/* batch60c-2a-admin-contact-dashboard-polish */

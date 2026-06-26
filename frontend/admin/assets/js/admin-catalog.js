@@ -356,7 +356,7 @@
     }
     body.innerHTML = state.filtered.map((record, index) => {
       const cells = config.columns.map(([field]) => {
-        if (page === 'products' && field === 'product_name') return productNameCell(record, value);
+        if (page === 'products' && field === 'product_name') return productNameCell(record, record[field]);
         if (field === 'show_flag') return `<td>${flag(record[field], false)}</td>`;
         if (field === 'show_pack_flag') return `<td>${flag(record[field], true)}</td>`;
         if (field === 'subcategories') return `<td>${esc(fmt(field, record[field]))}</td>`;

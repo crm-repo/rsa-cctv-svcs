@@ -2562,3 +2562,49 @@ body.admin-login-page img[src$="rsa-logo.png"] {
   .brand-lockup.admin-logo-only .brand-logo-wrap img { height: 68px !important; object-position: center; }
   .admin-product-hover-preview { display: none !important; }
 }
+
+
+/* batch60c-3a-sidebar-logo-hotfix */
+.admin-sidebar .brand-lockup,
+.admin-sidebar .brand-lockup.admin-logo-only {
+  display: block !important;
+  width: 100% !important;
+  padding: 0 0 26px !important;
+  margin: 0 0 22px !important;
+  border-bottom: 1px solid rgba(255,255,255,0.14) !important;
+}
+
+.admin-sidebar .brand-copy,
+.admin-sidebar .brand-logo-fallback {
+  display: none !important;
+}
+
+.admin-sidebar .brand-logo-wrap {
+  width: 100% !important;
+  height: 102px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+.admin-sidebar .brand-logo-wrap img {
+  width: 96% !important;
+  height: 96px !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block !important;
+}
+
+@media (max-width: 760px) {
+  .admin-sidebar .brand-logo-wrap {
+    height: 82px !important;
+  }
+
+  .admin-sidebar .brand-logo-wrap img {
+    height: 78px !important;
+  }
+}
