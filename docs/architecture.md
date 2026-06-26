@@ -5,9 +5,9 @@
 This document is the authoritative technical design reference for RSA CMS / Mini-CRM. For implementation progress, use [feature-status.md](./feature-status.md). For business requirements, use [requirements.md](./requirements.md).
 
 
-## Current Phase 8 Continuation Architecture — Through Batch 56D
+## Current Phase 8 Continuation Architecture — Through Batch 60C
 
-As of Batch 56D, the working architecture has moved beyond the Batch 29 local-only baseline:
+As of the Batch 60C documentation checkpoint, the working architecture has moved beyond the Batch 29 local-only baseline:
 
 - Public frontend remains static HTML/CSS/JavaScript, but major public sections are now API-rendered.
 - Public Products, Promotions, Brands, Homepage, About, Services, Contact, and Booking pages are API-backed where implemented.
@@ -19,6 +19,8 @@ As of Batch 56D, the working architecture has moved beyond the Batch 29 local-on
 - Admin media upload integration writes resolved `/api/media/...` paths for Products, Brands, Project Gallery, and Contact Person images.
 - Products/Brands static image records were backfilled to S3; Project Gallery and Contact Person backfill were intentionally left for manual handling.
 - Promotions hero uses promoted package products only (`show_flag=Y`, `show_pack_flag=Y`, package/kits category).
+- Homepage Featured Products uses non-package products with `show_flag=Y` and `show_pack_flag=Y`, keeping the existing display limit, per-page carousel behavior, ordering, and empty-state behavior.
+- Admin Products reuses the stored `show_pack_flag` field with a category-scoped label: `Promote Package` for Packages/Kits and `Featured Product` for non-package products.
 - Brands hero is already dynamic through the public brands API and must not be overwritten by duplicate renderers.
 
 ### EC2/Nginx deployment notes from Batch 56B
@@ -127,7 +129,7 @@ Approved launch summary:
 - Launch with 12 DynamoDB tables and 5 GSIs.
 - Store package products in `rsa_products`; do not create `rsa_package_banners`.
 - Use `show_flag` for normal public visibility.
-- Use `show_pack_flag` only for package homepage/promo hero placement.
+- Use `show_pack_flag` as a category-scoped placement flag: for Packages/Kits it controls Promote Package placement; for non-package products it controls homepage Featured Product inclusion.
 - Use `display_seq` instead of `display_order`.
 - Use category-based product IDs with four-letter prefixes.
 - Use `rsa_id_counters` for backend-generated sequential IDs.
@@ -494,7 +496,7 @@ Example statuses:
 |---|---|
 | product_id | Primary identifier; category-based ID such as `CCTV-0000001`, `RECO-0000001`, or `PACK-0000001` |
 | show_flag | Normal public visibility for catalog, promotions grid, search/filter results, and package category listing |
-| show_pack_flag | Additional package-only placement flag for homepage promo/package cards and promotions hero/highlight section |
+| show_pack_flag | Category-scoped placement flag. For Packages/Kits, `Y` means Promote Package for package/recommended/promo placement. For non-package products, `Y` means Featured Product for the homepage Featured Products card. |
 | display_seq | Manual ordering; replaces `display_order` |
 | product_name | Public display name; may default from brand + feature_01 + subcategory but remains editable |
 | product_model | Model/SKU |
@@ -569,7 +571,7 @@ Packages are stored in `rsa_products` using:
 category_key = packages
 ```
 
-`GET /api/package-banners` reads from `rsa_products` and filters:
+`GET /api/package-banners` reads from `rsa_products` and filters package products only:
 
 ```text
 show_flag = Y
@@ -586,6 +588,20 @@ banner_image_path = image_path
 display_seq = display_seq
 show_pack_flag = show_pack_flag
 ```
+
+### Homepage Featured Products
+
+Batch 60C intentionally reuses the existing `show_pack_flag` field rather than adding a new database attribute.
+
+For non-package products, the homepage Featured Products card filters products using:
+
+```text
+show_flag = Y
+category_key != packages
+show_pack_flag = Y
+```
+
+The existing sort/order, total display limit, per-page carousel behavior, and empty-state behavior are preserved. Package/Kits records are excluded from the Featured Products card and continue to use the same field as `Promote Package` for package placement.
 
 ### Customers
 

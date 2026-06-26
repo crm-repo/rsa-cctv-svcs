@@ -366,7 +366,7 @@ This document records significant project decisions and their rationale. For imp
 | Context | Package products are already part of the product catalog and do not need duplicate banner records for launch. |
 | Decision | Store packages in `rsa_products` using `category_key = packages`. Keep `GET /api/package-banners` as an API endpoint if useful, but source it from `rsa_products` filtered by `show_flag = Y`, `category_key = packages`, and `show_pack_flag = Y`. |
 | Reasoning | Reduces table count, removes duplicate data, and keeps package management in product admin. |
-| Impact | Do not create `rsa_package_banners` for launch. `show_flag` controls normal catalog/promotions grid visibility. `show_pack_flag` controls homepage/promo hero placement only. |
+| Impact | Do not create `rsa_package_banners` for launch. `show_flag` controls normal catalog/promotions grid visibility. `show_pack_flag` originally controlled package homepage/promo placement; Batch 60C later extends it as a category-scoped flag for non-package homepage Featured Products without adding a new database field. |
 
 ## ADR-034: Consolidated Contact Us Table
 
@@ -661,3 +661,14 @@ This document records significant project decisions and their rationale. For imp
 | Decision | Keep main project Markdown docs and Phase 8 batch Markdown files directly under the root `docs/` folder. Use normal filenames such as `phase8_batch58_image_lazy_loading.md`. Keep apply/verify/cleanup scripts under `backend/scripts/`. Do not create root-level README/TXT files or nested Phase 8 README folders for new batch packages. |
 | Reasoning | A flat docs folder matches the current project expectation, keeps batch documentation easy to find, and prevents duplicate README files from drifting out of sync. |
 | Impact | Batch 59A and later packages must follow the cleaned docs/package structure. Existing nested README files should be consolidated into normal root `docs/phase8_*.md` files. |
+
+## ADR-062: Reuse show_pack_flag for Non-Package Featured Products
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 60C |
+| Status | Accepted |
+| Context | The homepage Featured Products card previously used the first visible products by `display_seq` and had no dedicated featured flag. The existing `show_pack_flag` field was already used by package records for Promote Package placement. |
+| Decision | Reuse the same stored `show_pack_flag` field as a category-scoped UI/business flag. For Packages/Kits, the admin label remains `Promote Package` and continues to control package/recommended/promo placement. For non-package products, the admin label becomes `Featured Product`, and the homepage Featured Products card filters non-package products where `show_flag=Y` and `show_pack_flag=Y`. |
+| Reasoning | Avoids a DynamoDB schema/data migration and keeps the admin UI simple while still giving the business explicit control over homepage Featured Products. |
+| Impact | No new database attribute is added. Existing display limits, carousel page-size behavior, sort behavior, and empty-state behavior are preserved. Batch 60A must confirm the current EC2 active release and smoke this behavior before demo. |

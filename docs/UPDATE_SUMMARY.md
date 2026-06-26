@@ -1,45 +1,56 @@
-﻿# RSA CMS / Mini-CRM Documentation Cleanup and Latest Status Update
+# RSA CMS / Mini-CRM Documentation Cleanup and Latest Status Update
 
-Update batch: Phase 8 documentation cleanup after Batch 58 local testing and before Batch 59A implementation  
-Date: 2026-06-17
+Update batch: Phase 8 Batch 60C documentation checkpoint before Batch 60B  
+Date: 2026-06-26
 
 ## Purpose
 
-This cleaned `docs/` package restores a consistent documentation layout after several recent packages used mixed README locations.
-
-## Folder cleanup decisions
-
-- Main project Markdown files remain directly under `docs/`.
-- Phase 8 batch Markdown files are also directly under `docs/` using normal filenames such as `phase8_batch58_image_lazy_loading.md`.
-- The nested `docs/Phase 8 README/` folder is removed.
-- The nested `docs/phase8/` folder is removed.
-- Root-level README `.txt` files are not kept; the Batch 29 text note was converted to `phase8_batch29_documentation_status_update.md`.
-- The old single Batch 60 README is replaced by `phase8_batch60_superseded_by_60a_60b.md`; active planning uses Batch 60A and Batch 60B.
+This package updates the source-of-truth Markdown docs after the inserted Batch 60C public/admin polish work and before starting Batch 60B backup/restore/safety notes.
 
 ## Latest status captured
 
 ```text
-Batch 56D â€” Promotions Hero Promoted Packages Only â€” Complete / pushed
-Batch 57  â€” SEO metadata/page titles â€” Deferred until final domain
-Batch 58  â€” Image Lazy Loading â€” Local testing passed
-Batch 59A â€” Cognito Groups + Settings > Users â€” Current Active
-Batch 59B â€” Admin-only Restricted/Delete Actions â€” Planned
-Batch 60A â€” EC2 Public-IP Demo Smoke Checklist / Demo Readiness Pass â€” Planned
-Batch 60B â€” Backup / Restore / Production Safety Notes â€” Planned
-Batch 61  â€” Route 53 + ACM + CloudFront + EC2 origin â€” Deferred until customer/domain approval
+Batch 56D — Promotions Hero Promoted Packages Only — Complete / pushed
+Batch 57  — SEO metadata/page titles — Deferred until final domain
+Batch 58  — Image Lazy Loading — Complete / local testing passed
+Batch 59A — Cognito Groups + Settings > Users — Complete / local testing passed for current scope
+Batch 59B — Admin-only Restricted/Delete Actions — Planned / confirm before demo
+Batch 60C — Public/Admin Polish — Complete for now / accepted scope
+Batch 60B — Backup / Restore / Production Safety Notes — Planned / next
+Batch 60A — EC2 Public-IP Demo Smoke Checklist / Demo Readiness Pass — Planned / final demo gate
+Batch 61  — Route 53 + ACM + CloudFront + EC2 origin — Deferred until customer/domain approval
 ```
 
-## Batch 58 local note
+## Batch 60C notes
 
-Batch 58 testing passed after the local backend was started with S3 media mode and the approved S3 bucket. Local tests that load current DynamoDB media paths should use:
+- Batch 60C was inserted after the original before-demo sequence for public/admin polish.
+- Public/admin polish is accepted as complete for now by user decision.
+- The existing `show_pack_flag` field is now category-scoped:
+  - Packages/Kits: admin label is `Promote Package` and the field controls package/recommended/promo placement.
+  - Non-package products: admin label is `Featured Product` and the field controls homepage Featured Products inclusion.
+- Homepage Featured Products now filters non-package products with `show_flag=Y` and `show_pack_flag=Y`.
+- Existing total limit, carousel per-page behavior, sort behavior, and empty-state behavior are retained.
+- The risky inline `products.html` scripts from early 60C-4A/4B attempts were superseded by a safer `admin-catalog.js` approach.
+- EC2 deploy verification for the final safe 60C admin behavior was interrupted by EC2 environment/tooling checks in the pasted output; Batch 60A should confirm the current active release and smoke 60C behavior before demo.
 
-```powershell
-$env:RSA_MEDIA_STORAGE_MODE="s3"
-$env:RSA_MEDIA_S3_BUCKET="rsa-cms-media-537765358118-ap-southeast-1"
-$env:RSA_MEDIA_MAX_UPLOAD_MB="5"
+## Next recommended order
+
+```text
+1. Batch 60B — Backup / Restore / Production Safety Notes
+2. Confirm/run Batch 59B if not already completed
+3. Batch 60A — Final EC2 public-IP demo readiness pass
+4. Post-demo/domain-dependent work: Batch 57, Batch 61, Batch 62
 ```
 
-## Cost-control reminder
+## Files updated in this package
 
-AWS Free-Tier-first remains mandatory. Keep EC2 stopped when not actively deploying/testing. Continue avoiding ALB, NAT Gateway, RDS, paid WAF, multiple always-on EC2 instances, SMS/MFA costs, unnecessary paid notifications, and high-cost logging unless explicitly approved after cost review.
-
+```text
+docs/feature-status.md
+docs/open-issues.md
+docs/decision-log.md
+docs/architecture.md
+docs/project-overview.md
+docs/implementation-guidelines.md
+docs/UPDATE_SUMMARY.md
+docs/phase8_batch60c_docs_status_checkpoint.md
+```

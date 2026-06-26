@@ -1,14 +1,14 @@
-﻿# RSA CMS / Mini-CRM Feature Status
+# RSA CMS / Mini-CRM Feature Status
 
 ## Authority
 
 This document is the authoritative implementation progress tracker. If status here conflicts with another document, this document controls implementation status.
 
-Last updated: 2026-06-17  
-Update scope: Phase 8 continuation update through Batch 58 local testing pass, Batch 59A current active, Batch 60A/60B demo-readiness split, Batch 61 deferral, and documentation folder cleanup.
+Last updated: 2026-06-26  
+Update scope: Phase 8 documentation checkpoint through Batch 60C public/admin polish completion-for-now, Batch 60B next planning, Batch 60A final demo-readiness pass, and Batch 61/domain deferral.
 
 
-## Phase 8 Continuation Status â€” Batches 30 to 60
+## Phase 8 Continuation Status — Batches 30 to 60C
 
 This section supersedes older Batch 29-only planning notes for deployment/security/media/admin continuation work.
 
@@ -50,16 +50,17 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Batch 56C | Complete | Products/Brands S3 image backfill; Project Gallery and Contact Person backfill intentionally skipped/manual. |
 | Batch 56D | Complete | Promotions hero fixed to show promoted package products only; Brands left unchanged because already dynamic. Pushed to Git. |
 
-### Deferred / current / planned batches
+### Deferred / current / planned batches after Batch 56D
 
 | Batch | Status | Summary |
 |---|---|---|
 | Batch 57 | Deferred | SEO metadata/page titles deferred until Route 53/final domain is ready to avoid duplicate canonical/Open Graph/sitemap/robots work. |
 | Batch 58 | Complete / Local testing passed | Image lazy loading applied and locally tested; no backend/S3 path changes. Local backend must use S3 media mode when validating `/api/media/...` paths. |
-| Batch 59A | Current Active | Cognito Groups + Settings > Users management. Use Admin and Standard groups; no DynamoDB users table. |
-| Batch 59B | Complete | Admin-only restricted actions/delete controls completed. Admin users can see approved catalog delete actions; Standard users remain hidden/blocked; backend still enforces 403. Leads remain non-delete. |
-| Batch 60A | Planned | EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression and demo data sanity check. Supersedes earlier Batch 62 regression idea for demo readiness. |
-| Batch 60B | Planned | Backup/restore/production safety notes and operational runbooks. Supersedes earlier Batch 64 backup/rollback idea. |
+| Batch 59A | Complete / Local testing passed | Cognito Groups + Settings > Users management completed for the current local/admin scope, including Admin/Standard roles, one-time temporary password handling, and first-login password-change UI. EC2 role/user smoke remains part of Batch 60A. |
+| Batch 59B | Planned / confirm before demo | Admin-only restricted actions/delete controls. Standard users should not see Settings/delete controls; backend should still enforce 403. Leads remain non-delete. Confirm completion or run before Batch 60A if not already applied. |
+| Batch 60C | Complete for now / accepted scope | Inserted public/admin polish batch. Includes public contact/social polish, admin logo/product UI polish, login/sidebar logo polish, and homepage Featured Products criteria update using `show_pack_flag` for non-package featured products. Code was committed; EC2 final active release must be confirmed during Batch 60A. |
+| Batch 60B | Planned / next | Backup/restore/production safety notes and operational runbooks. Supersedes earlier Batch 64 backup/rollback idea. |
+| Batch 60A | Planned / final demo gate | EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression, active-release confirmation, admin smoke, media display/upload checks, and demo data sanity check. Supersedes earlier Batch 62 regression idea for demo readiness. |
 | Batch 61 | Deferred / Later | Route 53/domain, ACM, SSL/HTTPS, CloudFront, and EC2 origin planning after final customer domain/cost approval. Supersedes earlier Batch 65 domain planning idea. |
 | Batch 62 | Deferred / Later | Final launch checklist after domain/security/backup readiness, if needed. |
 
@@ -99,7 +100,7 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Homepage | Complete | High | Complete for current phase; do not reopen unless requested |
 | Homepage Hero | Complete | High | Static/frontend layout implemented |
 | Recommended Packages | Complete | High | Package cards are now backed by the approved product/package API path when using backend data |
-| Featured Products Preview | Complete | High | Public API connection completed in Phase 8 |
+| Featured Products Preview | Complete | High | Public API connection completed in Phase 8; Batch 60C updates homepage Featured Products to show only non-package products with `show_flag=Y` and `show_pack_flag=Y`, retaining existing display limit/page-size behavior and empty-state behavior. |
 | Products on Sale Preview | Complete | High | Uses sale products; sale is determined by `sale_price` |
 | Homepage Top Brands | Complete | Medium | Public API connection completed in Phase 8 |
 | Homepage Services Preview | Complete | High | Public API connection completed in Phase 8 |
@@ -132,14 +133,14 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | CMS Management Admin | Complete | High | About, project gallery, services, and contact-us admin pages/actions implemented |
 | Contact Person Photo Prep | Complete | Medium | Contact Person image/profile photo field uses the media prep workflow; Company Contact and Social Media do not add photo upload fields |
 | Customer CRM | Complete for Phase 8 | High | Customers auto-created/linked from bookings and inquiries; admin customer list/detail available |
-| User Roles / Permissions | Planned | Medium | Use Cognito Groups (`Admin`, `Standard`) in Batch 59A; no DynamoDB users table for launch |
+| User Roles / Permissions | Complete / Local testing passed | Medium | Cognito Groups (`Admin`, `Standard`) and Settings > Users were implemented in Batch 59A; no DynamoDB users table for launch. EC2 role smoke remains part of Batch 60A. |
 | Audit Logs | Deferred | Medium | Future admin audit trail |
 | Backend FastAPI | Complete | High | Local FastAPI backend, route modules, config, CORS, health endpoint, Swagger docs |
 | Repository Layer | Complete | High | Mock/DynamoDB repository mode switch implemented; mock remains safe default |
 | DynamoDB Integration | Complete | High | Approved 12 tables created in AWS `ap-southeast-1`; DynamoDB mode tested successfully |
 | DynamoDB Seed Data | Complete | High | JSON seed data and safe seed loader implemented; null cleanup applied |
 | DynamoDB Regression Tests | Complete | High | Public/admin DynamoDB regression tests passed |
-| Cognito Admin Auth | Complete | High | Cognito login/JWT protection deployed for admin/API access; group-based roles planned in Batch 59A |
+| Cognito Admin Auth | Complete | High | Cognito login/JWT protection deployed for admin/API access; Batch 59A adds Cognito Groups-based Admin/Standard user management for the current scope. |
 | S3 / Image Upload | Complete | High | Private S3 media storage, backend upload/display routes, admin upload integration, and EC2 smoke completed in Batches 56A/56B |
 | Excel/CSV Launch Data Templates | Complete | Medium | Company-friendly launch data templates created and validated |
 | Launch Data Import Loader | Complete | Medium | Safe dry-run-first CSV/Excel import loader implemented; writes only with `--execute` |
@@ -151,7 +152,7 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Free-Tier Deployment Review | Planned | High | Required before backend/admin public testing |
 | SEO Metadata | Deferred | High | Deferred until final Route 53/domain to avoid duplicate canonical/Open Graph work |
 | Sitemap / robots.txt | Deferred | High | Deferred until final domain and launch URL are ready |
-| Image Optimization / Lazy Loading | Complete / Local testing passed | High | Batch 58 lazy loading completed locally; image compression remains separate only if reopened |
+| Image Optimization / Lazy Loading | Complete / Local testing passed | High | Batch 58 lazy loading completed locally; image compression remains optional/future only if reopened. |
 | Analytics | Deferred | Low | Optional unless business requires |
 
 ## Phase 8 Batch Completion Snapshot
@@ -210,8 +211,8 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 
 | Feature | Notes |
 |---|---|
-| Phase 8 documentation/status update | Batch 29 updates source-of-truth Markdown files after completed implementation/regression |
-| Next planning | Deployment/security/pre-launch phase planning should start after docs are committed |
+| Batch 60B backup/restore/safety notes | Next recommended batch before final public-IP demo readiness pass. |
+| Batch 60A demo-readiness pass | Final gate after Batch 60B and any required Batch 59B confirmation; must verify current EC2 active release, public/admin smoke, roles, media, lead capture, and demo data. |
 
 ## Planned Features
 
@@ -243,21 +244,21 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 
 ## Known Gaps
 
-- External/public deployment has not been completed.
-- AWS billing alerts still need to be configured before external AWS testing.
-- Free-Tier deployment review still needs to be completed before external demo/public testing.
-- Real Cognito protection is not enabled yet; admin auth is prepared but disabled locally by default.
-- S3 binary upload/storage is not enabled yet; admin media fields currently prepare/select resolved media paths/keys.
-- SEO metadata, sitemap.xml, robots.txt, and image optimization remain pre-launch tasks.
-- Product/promotions static markup duplication has been reduced by API integration, but full production data migration depends on final imported company content.
+- Batch 60B backup/restore/production safety notes are still pending.
+- Batch 60A final EC2 public-IP demo readiness pass is still pending.
+- Batch 59B Admin-only restricted/delete action completion should be confirmed before the final demo pass.
+- Batch 60C code was committed and accepted for the current scope; the final EC2 active release should be confirmed during Batch 60A because the last pasted EC2 deploy attempt stopped at an environment/tooling check before release switch.
+- SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, and robots.txt remain deferred until the final domain is confirmed.
+- Route 53/domain, ACM, CloudFront, and HTTPS remain deferred until customer demo/launch approval and final domain confirmation.
+- Production backup/restore procedure is still pending until Batch 60B is completed.
+- Final company launch data still requires review/import before production launch.
 
 ## Current Priorities
 
-1. Commit Batch 29 documentation/status update.
-2. Plan the next phase for deployment/security/pre-launch readiness.
-3. Configure AWS billing alerts before any public/external AWS test.
-4. Keep mock repository mode as the safe local default.
-5. Use DynamoDB mode intentionally only for AWS-backed regression/import testing.
-6. Keep completed public pages closed unless explicitly reopened.
-7. Preserve the AWS Free-Tier-first architecture during deployment planning.
-
+1. Complete Batch 60B backup/restore/production safety notes.
+2. Confirm whether Batch 59B restricted/delete actions are complete or still need to run before demo.
+3. Run Batch 60A as the final EC2 public-IP demo readiness gate.
+4. Confirm the current EC2 active release and smoke-test the accepted Batch 60C behavior during Batch 60A.
+5. Keep EC2 stopped unless actively testing or deploying.
+6. Keep SEO/domain/HTTPS work deferred until the final customer domain is approved.
+7. Preserve the AWS Free-Tier-first architecture during all remaining demo and launch planning.

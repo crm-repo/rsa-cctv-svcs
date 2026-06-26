@@ -1,6 +1,6 @@
 # RSA CMS / Mini-CRM Implementation Guidelines
 
-## Phase 8 Continuation Guardrails — Batch 56D Onward
+## Phase 8 Continuation Guardrails — Batch 60C Onward
 
 ### Documentation/package folder standard
 
@@ -73,8 +73,9 @@ For current local testing, prefer:
 ### Demo readiness and safety batches
 
 - Batch 60A is the EC2 public-IP demo smoke checklist and demo data sanity pass. It supersedes the earlier Batch 62 regression idea for demo readiness.
-- Batch 60B is the backup/restore/production safety notes batch. It supersedes the earlier Batch 64 backup/rollback idea.
-- During Batch 60A, repeat the full demo checklist before declaring the app demo-ready.
+- Batch 60C was inserted as a public/admin polish batch and is accepted as complete for now; do not extend it unless a demo-blocking issue appears.
+- Batch 60B is the backup/restore/production safety notes batch. It supersedes the earlier Batch 64 backup/rollback idea and should run next.
+- During Batch 60A, repeat the full demo checklist before declaring the app demo-ready. Batch 60A must also confirm the current EC2 active release and smoke the accepted Batch 60C behavior.
 - Batch 60B should document DynamoDB, S3, Git, EC2 deployment, Nginx rollback, import safety, and secret-handling procedures.
 
 ### Domain / HTTPS / CloudFront planning
@@ -489,7 +490,7 @@ Key implementation guardrails:
 - Do not create split Contact Us tables; use `rsa_contact_us` with `contact_type`.
 - Do not create `old_price`, sale boolean fields, customer email GSI, contact_type GSI, product show_pack GSI, or product sale GSI for launch.
 - Use `display_seq` consistently in new code.
-- Use `show_flag` and `show_pack_flag` according to the approved visibility rules.
+- Use `show_flag` and `show_pack_flag` according to the approved visibility rules. After Batch 60C, `show_pack_flag` is category-scoped: Packages/Kits uses the admin label `Promote Package`; non-package products use the admin label `Featured Product` and are eligible for the homepage Featured Products card when `show_flag=Y` and `show_pack_flag=Y`.
 - Use backend/server-side ID generation through `rsa_id_counters`.
 - Keep admin-style routes unprotected only for local testing; add Cognito protection before external/public admin testing.
 

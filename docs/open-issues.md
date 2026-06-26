@@ -1,22 +1,23 @@
-﻿# RSA CMS / Mini-CRM Open Issues
+# RSA CMS / Mini-CRM Open Issues
 
 ## Authority
 
 This document tracks risks, unresolved questions, blockers, technical debt, and dependencies. Implementation status is controlled by [feature-status.md](./feature-status.md).
 
-Last updated: 2026-06-17  
-Update scope: Phase 8 continuation update through Batch 58 local testing pass, Batch 59A current active, Batch 60A/60B planning, and Batch 61 deferral.
+Last updated: 2026-06-26  
+Update scope: Phase 8 documentation checkpoint through Batch 60C completion-for-now, Batch 60B next planning, Batch 60A demo readiness, and post-demo/domain deferrals.
 
 
-## Current Open / Deferred Items After Batch 56D
+## Current Open / Deferred Items After Batch 60C
 
 | Item | Status | Notes |
 |---|---|---|
 | Batch 58 image lazy loading | Complete / Local testing passed | Frontend-only browser loading hints applied and locally tested; no image compression or S3 path changes. |
-| Batch 59A Cognito Groups + Users | Current Active | Settings > Users backed by Cognito admin APIs through FastAPI only. |
-| Batch 59B Admin-only restricted/delete actions | Complete | Admin-only catalog delete actions completed; Standard users hidden/blocked; leads remain non-delete. |
-| Batch 60A EC2 public-IP demo readiness pass | Planned | Final EC2 smoke regression and demo data sanity check after Batch 58/59A/59B. |
-| Batch 60B backup/restore/safety notes | Planned | Operational runbooks for DynamoDB/S3/Git/EC2/Nginx rollback safety. |
+| Batch 59A Cognito Groups + Users | Complete / Local testing passed | Settings > Users backed by Cognito admin APIs through FastAPI only; Admin/Standard roles implemented for current scope. EC2 role smoke remains part of Batch 60A. |
+| Batch 59B Admin-only restricted/delete actions | Planned / confirm before demo | Standard users hidden/blocked; leads remain non-delete. Confirm completion or run before Batch 60A. |
+| Batch 60C public/admin polish | Complete for now / accepted scope | Inserted polish batch. Code changes accepted for current scope; final EC2 active-release confirmation remains part of Batch 60A because the last pasted 60C deploy attempt stopped before release switch. |
+| Batch 60B backup/restore/safety notes | Planned / next | Operational runbooks for DynamoDB/S3/Git/EC2/Nginx rollback safety. |
+| Batch 60A EC2 public-IP demo readiness pass | Planned / final demo gate | Final EC2 smoke regression, active-release confirmation, admin/public/browser smoke, role checks, media checks, lead capture, and demo data sanity check. |
 | Batch 61 domain/HTTPS/CloudFront/Route 53 | Deferred | Planned after customer demo/launch approval and final domain confirmation. |
 | SEO metadata/page titles | Deferred | Defer until Route 53/final domain. |
 | Canonical URLs/Open Graph URLs | Deferred | Do not use EC2 IP as canonical. |
@@ -41,16 +42,19 @@ Update scope: Phase 8 continuation update through Batch 58 local testing pass, B
 | S3 media upload/storage | Completed for current scope in Batches 56A/56B. |
 | Products/Brands S3 backfill | Completed in Batch 56C. |
 | Promotions hero promoted package filtering | Completed in Batch 56D. |
+| Image lazy loading | Completed/local testing passed in Batch 58. |
+| Cognito Groups + Settings > Users | Completed/local testing passed in Batch 59A for the current scope; EC2 smoke remains part of Batch 60A. |
+| Batch 60C public/admin polish | Completed for now by user decision; includes Featured/Product Promote flag reuse and public/admin UI polish. |
 
 ## Known Issues
 
 | Issue | Severity | Impact | Status | Notes |
 |---|---|---|---|---|
-| Public/external deployment not completed | High | High | Open | EC2/IP-based deployment is the next major phase |
-| AWS billing alerts not configured | High | High | Open | Must be configured before public/external AWS testing |
+| Final public-IP demo readiness pass pending | High | High | Open | EC2 public-IP deployment exists; Batch 60A must confirm current active release, public/admin smoke, roles, media, lead capture, and demo data. |
+| AWS billing/cost safety review before extended demo | High | High | Open | Keep Free-Tier-first design and stop EC2 when not actively testing. Billing/cost alert status should be confirmed before prolonged public testing. |
 | Free-Tier deployment review pending | High | High | Open | Must verify no ALB, NAT Gateway, RDS, SMS/MFA cost drift, extra always-on instances, or unnecessary paid services |
-| Real Cognito enforcement not enabled | High | High | Open | Auth prep exists, but local admin auth remains disabled by default until deployment/security phase |
-| Real S3 binary upload/storage not enabled | Medium | Medium | Open | Admin media fields prepare/resolve paths/keys; actual upload/storage is later |
+| Final Cognito role smoke pending | High | Medium | Open | Cognito auth is deployed; Batch 60A should verify Admin vs Standard behavior on the current EC2 release. |
+| Final S3 media smoke pending | Medium | Medium | Open | S3 upload/display was implemented; Batch 60A should smoke media display/upload on the current EC2 release. |
 | SEO metadata incomplete | High | Medium | Open | Required before production launch |
 | sitemap.xml and robots.txt missing/incomplete | High | Medium | Open | Required before production launch |
 | Image compression/optimization pipeline pending | Low | Medium | Deferred | Batch 58 lazy loading passed locally; compression pipeline remains optional/future unless reopened. |
@@ -84,7 +88,7 @@ Update scope: Phase 8 continuation update through Batch 58 local testing pass, B
 | Full role/permission matrix absent | Medium | Deferred | Cognito prep exists; fine-grained role control is future work |
 | `rsa_product_types` absent | Low | Deferred | Subcategory remains manual at launch |
 | Real image optimization pipeline absent | Medium | Open | Needed before production media rollout |
-| Production backup/restore procedure absent | Medium | Open | Needed before real launch data is treated as production |
+| Production backup/restore procedure absent | Medium | Open | Next planned Batch 60B; needed before real launch data is treated as production. |
 | Import overwrite behavior not finalized | Low | Open | Current safe behavior should skip existing by default unless explicit overwrite is approved later |
 
 ## Risks
@@ -117,7 +121,7 @@ Update scope: Phase 8 continuation update through Batch 58 local testing pass, B
 | S3 bucket naming and CloudFront path strategy | Open | Keep Free-Tier-first and simple |
 | Cognito admin user setup | Open | Avoid SMS/MFA costs; email/password only unless explicitly changed |
 | Production import overwrite behavior | Open | Keep skip-existing default unless an explicit overwrite process is approved |
-| Whether product prices can be hidden as â€œContact for Priceâ€ | Open | Current data supports price/sale_price; business may decide later |
+| Whether product prices can be hidden as “Contact for Price” | Open | Current data supports price/sale_price; business may decide later |
 | Whether assigned contact persons should be selectable from Contact Us records | Open | Current assigned person can be free text |
 | Package banner click behavior | Deferred | Data source approved as products with `show_pack_flag`; UI behavior can be adjusted later |
 
@@ -154,7 +158,7 @@ Update scope: Phase 8 continuation update through Batch 58 local testing pass, B
 | Launch table count | 12 tables |
 | Launch GSI count | 5 GSIs |
 | Package banner storage | No separate table; source package display from `rsa_products` |
-| Package visibility | `show_flag` for normal public visibility; `show_pack_flag` for package hero/promo placement only |
+| Package/Featured visibility | `show_flag` for normal public visibility. `show_pack_flag` is category-scoped after Batch 60C: Packages/Kits uses it as Promote Package; non-package products use it as Featured Product for the homepage Featured Products card. |
 | Product ordering field | Use `display_seq` |
 | Product sale fields | No `old_price`; sale is determined by `sale_price` |
 | Product ID generation | Category-based four-letter prefix with `rsa_id_counters` |
@@ -166,4 +170,3 @@ Update scope: Phase 8 continuation update through Batch 58 local testing pass, B
 | Customer email GSI | Do not create at launch; store normalized email only |
 | Product GSIs | Add category and brand product GSIs at launch |
 | Product types | `rsa_product_types` deferred and not for launch |
-

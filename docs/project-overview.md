@@ -1,6 +1,6 @@
-﻿# RSA CMS / Mini-CRM Project Overview
+# RSA CMS / Mini-CRM Project Overview
 
-## Current Project Status â€” Phase 8 Continuation Through Batch 56D
+## Current Project Status — Phase 8 Continuation Through Batch 60C
 
 The project has progressed beyond the original Batch 29 documentation baseline.
 
@@ -13,15 +13,18 @@ Current completed state:
 - Admin media upload works for Products, Brands, Project Gallery, and Contact Person images.
 - Products/Brands media backfill to S3 is complete for Batch 56C scope.
 - Promotions hero now uses promoted package products only.
+- Homepage Featured Products now uses the category-scoped `show_pack_flag` rule for non-package featured products.
+- Batch 60C public/admin polish is accepted as complete for now; final EC2 active-release verification remains part of Batch 60A.
 - Batch 57 SEO work is intentionally deferred until Route 53/final domain.
 
 Current active/planned work:
 
 - Batch 58: image lazy loading local testing passed.
-- Batch 59A: Cognito Groups + Settings > Users management, including Option A onboarding, one-time temporary passwords, first-login password change, First Name/Last Name forms, and generated Full Name table display.
-- Batch 59B: Admin-only restricted/delete actions; Standard users do not see Settings/delete controls; no delete for lead records.
-- Batch 60A: EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression and demo data sanity check.
-- Batch 60B: backup/restore/production safety notes.
+- Batch 59A: Cognito Groups + Settings > Users management completed/local testing passed for the current scope.
+- Batch 59B: Admin-only restricted/delete actions; confirm completion or run before the final demo pass.
+- Batch 60C: inserted public/admin polish batch accepted as complete for now.
+- Batch 60B: backup/restore/production safety notes, next recommended batch.
+- Batch 60A: final EC2 public-IP demo smoke checklist / demo readiness pass after 60B and any required 59B confirmation.
 - Batch 61: Route 53 + ACM + CloudFront + EC2 origin planning, deferred until customer domain approval.
 
 Deferred until later/final launch planning:
@@ -124,7 +127,7 @@ The following are deferred unless explicitly reopened:
 - Swipe-to-close modal gesture
 - Brand modal popups
 - Separate Brands-specific CTA
-- Scrolling logo strip under â€œWhy We Use These Brandsâ€
+- Scrolling logo strip under “Why We Use These Brands”
 
 ## High-Level Architecture Summary
 
@@ -176,7 +179,7 @@ Default cost guardrails:
 
 The project is successful when:
 
-1. Visitors can quickly understand the companyâ€™s CCTV services, products, packages, and value proposition.
+1. Visitors can quickly understand the company’s CCTV services, products, packages, and value proposition.
 2. Recommended CCTV packages are immediately visible on the homepage.
 3. Products can be browsed by category, brand, sale status, search, and sorting.
 4. Promotions page shows sale/promotional items only.
@@ -238,7 +241,7 @@ The Phase 8 DynamoDB/API access-pattern plan is approved for implementation. The
 Main approved backend direction:
 
 - Product catalog and package products are stored in `rsa_products`.
-- Package homepage/promo placement uses `show_pack_flag`.
+- Category-scoped homepage placement uses `show_pack_flag`: Packages/Kits = Promote Package; non-package products = Featured Product for the homepage Featured Products card.
 - Contact Us content is consolidated into `rsa_contact_us`.
 - Customer matching at launch uses contact number GSI only.
 - Product category and brand filtering are optimized with two product GSIs.
@@ -271,4 +274,3 @@ Still outside this completed baseline:
 - CloudFront/SSL/domain.
 - SEO/sitemap/robots/image optimization.
 - Billing-alert and Free-Tier deployment readiness verification.
-
