@@ -37,21 +37,24 @@
       display: block !important;
     }
     .admin-login-brand { display: none !important; }
-    /* batch60c-3k-login-card-smaller-logo-larger */
+    /*
+
+    /* batch60c-3n-login-logo-height-and-left-align */
     .admin-login-brand-row {
       display: flex !important;
       align-items: center !important;
-      justify-content: center !important;
-      gap: 18px !important;
+      justify-content: flex-start !important;
+      gap: 22px !important;
       width: 100% !important;
-      margin: 0 auto 18px !important;
+      margin: 0 0 8px !important;
+      padding: 0 !important;
     }
 
     .admin-login-brand-row .admin-login-eyebrow {
       margin: 0 !important;
       text-align: left !important;
       max-width: none !important;
-      font-size: 1.02rem !important;
+      font-size: 1.04rem !important;
       line-height: 1.2 !important;
       letter-spacing: 0.01em !important;
       color: #07111f !important;
@@ -67,15 +70,20 @@
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      width: 120px !important;
-      max-width: 120px !important;
-      min-height: 52px !important;
+
+      /* keep width close to the reverted 3K version, reduce HEIGHT only */
+      width: 150px !important;
+      max-width: 150px !important;
+      height: 44px !important;
+      min-height: 44px !important;
+      max-height: 44px !important;
+
       margin: 0 !important;
-      padding: 5px 6px !important;
+      padding: 2px 6px !important;
       background: #03070d !important;
       border: 1px solid rgba(255,255,255,0.06) !important;
-      border-radius: 12px !important;
-      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.11) !important;
+      border-radius: 11px !important;
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.10) !important;
       overflow: hidden !important;
     }
 
@@ -85,7 +93,7 @@
     .admin-login-brand-row .login-logo-card img,
     .admin-login-brand-row .login-brand-card img {
       display: block !important;
-      width: 142px !important;
+      width: 160px !important;
       max-width: none !important;
       height: auto !important;
       margin: 0 auto !important;
@@ -99,17 +107,33 @@
     }
 
     .admin-login-intro-note {
+      width: 100% !important;
+      min-height: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+
+      /* align text with Email label / input left edge */
       text-align: left !important;
-      padding-left: 0 !important;
       margin-left: 0 !important;
       margin-right: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+
+      /* reduce top/bottom gap */
+      margin-top: 4px !important;
+      margin-bottom: 10px !important;
+      padding-top: 8px !important;
+      padding-bottom: 8px !important;
     }
 
     @media (max-width: 640px) {
       .admin-login-brand-row {
         flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
         gap: 12px !important;
-        margin-bottom: 18px !important;
+        margin-bottom: 10px !important;
       }
 
       .admin-login-brand-row .admin-login-eyebrow {
@@ -123,9 +147,11 @@
       .admin-login-brand-row .admin-login-brand-card,
       .admin-login-brand-row .login-logo-card,
       .admin-login-brand-row .login-brand-card {
-        width: 120px !important;
-        max-width: 120px !important;
-        min-height: 52px !important;
+        width: 150px !important;
+        max-width: 150px !important;
+        height: 44px !important;
+        min-height: 44px !important;
+        max-height: 44px !important;
       }
 
       .admin-login-brand-row .admin-login-logo-card img,
@@ -133,15 +159,9 @@
       .admin-login-brand-row .admin-login-brand-card img,
       .admin-login-brand-row .login-logo-card img,
       .admin-login-brand-row .login-brand-card img {
-        width: 142px !important;
+        width: 160px !important;
       }
     }
-
-
-
-
-
-
 
   </style>
   <style>
