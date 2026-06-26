@@ -5,7 +5,7 @@
 This document is the authoritative implementation progress tracker. If status here conflicts with another document, this document controls implementation status.
 
 Last updated: 2026-06-26  
-Update scope: Phase 8 Batch 60B backup/restore/production safety notes completed, Batch 60A final demo-readiness pass next, Batch 59B confirmation still pending, and Batch 61/domain deferral preserved.
+Update scope: Phase 8 Batch 59B user-confirmed complete, Batch 60A demo-readiness accepted complete, Batch 60B backup/restore/production safety notes complete, Batch 60C deployed/browser-tested by user, and Batch 61/domain deferral preserved.
 
 
 ## Phase 8 Continuation Status — Batches 30 to 60C
@@ -56,11 +56,11 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 |---|---|---|
 | Batch 57 | Deferred | SEO metadata/page titles deferred until Route 53/final domain is ready to avoid duplicate canonical/Open Graph/sitemap/robots work. |
 | Batch 58 | Complete / Local testing passed | Image lazy loading applied and locally tested; no backend/S3 path changes. Local backend must use S3 media mode when validating `/api/media/...` paths. |
-| Batch 59A | Complete / Local testing passed | Cognito Groups + Settings > Users management completed for the current local/admin scope, including Admin/Standard roles, one-time temporary password handling, and first-login password-change UI. EC2 role/user smoke remains part of Batch 60A. |
-| Batch 59B | Planned / confirm before demo | Admin-only restricted actions/delete controls. Standard users should not see Settings/delete controls; backend should still enforce 403. Leads remain non-delete. Confirm completion or run before Batch 60A if not already applied. |
-| Batch 60C | Complete for now / accepted scope | Inserted public/admin polish batch. Includes public contact/social polish, admin logo/product UI polish, login/sidebar logo polish, and homepage Featured Products criteria update using `show_pack_flag` for non-package featured products. Code was committed; EC2 final active release must be confirmed during Batch 60A. |
+| Batch 59A | Complete / Local testing passed | Cognito Groups + Settings > Users management completed for the current local/admin scope, including Admin/Standard roles, one-time temporary password handling, and first-login password-change UI. Demo readiness was later accepted in Batch 60A. |
+| Batch 59B | Complete / user-confirmed | Admin-only restricted actions/delete controls confirmed complete by user before demo. Standard users should not see restricted controls; backend restrictions remain required. Leads remain non-delete. |
+| Batch 60C | Complete / deployed and browser-tested by user | Inserted public/admin polish batch. Includes public contact/social polish, admin logo/product UI polish, login/sidebar logo polish, and homepage Featured Products criteria update using `show_pack_flag` for non-package featured products. User confirmed Git push, EC2 deployment, and browser behavior before marking 60C complete. |
 | Batch 60B | Complete | Backup/restore/production safety notes and operational runbooks documented. Supersedes earlier Batch 64 backup/rollback idea. Documentation/procedure only; no paid backup services added. |
-| Batch 60A | Planned / next final demo gate | EC2 public-IP demo smoke checklist / demo readiness pass, including final EC2 smoke regression, active-release confirmation, admin smoke, media display/upload checks, and demo data sanity check. Supersedes earlier Batch 62 regression idea for demo readiness. |
+| Batch 60A | Complete / demo-ready accepted | EC2 public-IP demo readiness accepted by user. No further smoke testing requested for now. Current project state is demo ready; any issue before, during, or after demo should be reopened as a targeted hotfix. |
 | Batch 61 | Deferred / Later | Route 53/domain, ACM, SSL/HTTPS, CloudFront, and EC2 origin planning after final customer domain/cost approval. Supersedes earlier Batch 65 domain planning idea. |
 | Batch 62 | Deferred / Later | Final launch checklist after domain/security/backup readiness, if needed. |
 
@@ -133,7 +133,7 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | CMS Management Admin | Complete | High | About, project gallery, services, and contact-us admin pages/actions implemented |
 | Contact Person Photo Prep | Complete | Medium | Contact Person image/profile photo field uses the media prep workflow; Company Contact and Social Media do not add photo upload fields |
 | Customer CRM | Complete for Phase 8 | High | Customers auto-created/linked from bookings and inquiries; admin customer list/detail available |
-| User Roles / Permissions | Complete / Local testing passed | Medium | Cognito Groups (`Admin`, `Standard`) and Settings > Users were implemented in Batch 59A; no DynamoDB users table for launch. EC2 role smoke remains part of Batch 60A. |
+| User Roles / Permissions | Complete | Medium | Cognito Groups (`Admin`, `Standard`) and Settings > Users were implemented in Batch 59A; Batch 59B was user-confirmed complete before demo acceptance. No DynamoDB users table for launch. |
 | Audit Logs | Deferred | Medium | Future admin audit trail |
 | Backend FastAPI | Complete | High | Local FastAPI backend, route modules, config, CORS, health endpoint, Swagger docs |
 | Repository Layer | Complete | High | Mock/DynamoDB repository mode switch implemented; mock remains safe default |
@@ -211,8 +211,9 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 
 | Feature | Notes |
 |---|---|
-| Batch 60B backup/restore/safety notes | Completed documentation/procedure package; use as the operational safety reference before 60A. |
-| Batch 60A demo-readiness pass | Next final gate after Batch 60B and any required Batch 59B confirmation; must verify current EC2 active release, public/admin smoke, roles, media, lead capture, and demo data. |
+| EC2 public-IP demo | Current project state is demo ready by user acceptance after Batch 60A. |
+| Demo issue triage | Any issue before, during, or after the demo should be reopened as a targeted hotfix, not as broad polish work. |
+| Post-demo/domain work | Batch 57 SEO and Batch 61 Route 53/ACM/CloudFront remain deferred until customer/domain approval. |
 
 ## Planned Features
 
@@ -244,9 +245,10 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 
 ## Known Gaps
 
-- Batch 60A final EC2 public-IP demo readiness pass is still pending.
-- Batch 59B Admin-only restricted/delete action completion should be confirmed before the final demo pass.
-- Batch 60C code was committed and accepted for the current scope; the final EC2 active release should be confirmed during Batch 60A because the last pasted EC2 deploy attempt stopped at an environment/tooling check before release switch.
+- Batch 60A EC2 public-IP demo readiness is accepted complete by user decision.
+- Batch 59B Admin-only restricted/delete actions were confirmed complete by user before demo acceptance.
+- Batch 60C code was Git-pushed, deployed to EC2, and browser-tested by user before being marked complete.
+- Any issue before, during, or after demo should be tracked as a targeted issue/hotfix.
 - SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, and robots.txt remain deferred until the final domain is confirmed.
 - Route 53/domain, ACM, CloudFront, and HTTPS remain deferred until customer demo/launch approval and final domain confirmation.
 - Production backup/restore procedure is documented by Batch 60B; future automation remains optional and requires separate approval.
@@ -254,10 +256,9 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 
 ## Current Priorities
 
-1. Confirm whether Batch 59B restricted/delete actions are complete or still need to run before demo.
-2. Run Batch 60A as the final EC2 public-IP demo readiness gate.
-3. Use Batch 60B backup/restore/production safety notes as the operational safety reference during 60A and launch planning.
-4. Confirm the current EC2 active release and smoke-test the accepted Batch 60C behavior during Batch 60A.
-5. Keep EC2 stopped unless actively testing or deploying.
-6. Keep SEO/domain/HTTPS work deferred until the final customer domain is approved.
-7. Preserve the AWS Free-Tier-first architecture during all remaining demo and launch planning.
+1. Proceed with the EC2 public-IP demo using the current accepted project state.
+2. Track any issue before, during, or after the demo as a targeted hotfix.
+3. Use Batch 60B backup/restore/production safety notes as the operational safety reference during demo and launch planning.
+4. Keep EC2 stopped unless actively preparing, testing, or demoing.
+5. Keep SEO/domain/HTTPS work deferred until final customer domain approval.
+6. Preserve the AWS Free-Tier-first architecture during all remaining demo and launch planning.

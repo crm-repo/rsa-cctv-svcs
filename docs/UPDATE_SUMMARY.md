@@ -1,11 +1,11 @@
 # RSA CMS / Mini-CRM Documentation Cleanup and Latest Status Update
 
-Update batch: Phase 8 Batch 60B backup/restore/production safety notes  
+Update batch: Phase 8 Batch 60A demo readiness acceptance checkpoint  
 Date: 2026-06-26
 
 ## Purpose
 
-This package completes Batch 60B by adding the backup/restore/production safety runbook and updating the source-of-truth Markdown documentation before the final EC2 public-IP demo readiness pass.
+This package records the user-accepted demo-ready status after Batch 60B documentation and Batch 60C public/admin polish. It updates the source-of-truth Markdown documentation so the project no longer shows Batch 59B and Batch 60A as pending before-demo work.
 
 ## Latest status captured
 
@@ -14,42 +14,33 @@ Batch 56D — Promotions Hero Promoted Packages Only — Complete / pushed
 Batch 57  — SEO metadata/page titles — Deferred until final domain
 Batch 58  — Image Lazy Loading — Complete / local testing passed
 Batch 59A — Cognito Groups + Settings > Users — Complete / local testing passed for current scope
-Batch 59B — Admin-only Restricted/Delete Actions — Planned / confirm before demo
-Batch 60C — Public/Admin Polish — Complete for now / accepted scope
+Batch 59B — Admin-only Restricted/Delete Actions — Complete / user-confirmed
+Batch 60C — Public/Admin Polish — Complete / Git-pushed, EC2-deployed, browser-tested by user
 Batch 60B — Backup / Restore / Production Safety Notes — Complete / documentation-procedure only
-Batch 60A — EC2 Public-IP Demo Smoke Checklist / Demo Readiness Pass — Planned / next final demo gate
+Batch 60A — EC2 Public-IP Demo Readiness — Complete / demo-ready accepted by user
 Batch 61  — Route 53 + ACM + CloudFront + EC2 origin — Deferred until customer/domain approval
 ```
 
-## Batch 60B deliverable
+## Demo readiness acceptance
 
-```text
-docs/phase8_batch60b_backup_restore_safety.md
-```
+The user confirmed:
 
-The runbook covers:
-
-- DynamoDB backup/export/restore approach.
-- `rsa_id_counters` safety and no-downward-reset rule.
-- S3 media backup/preservation/restore procedure.
-- Git rollback rules.
-- EC2 release rollback using `/opt/rsa-cms/releases` and `/opt/rsa-cms/current`.
-- Nginx config backup/rollback, including `/api/media/` and `client_max_body_size 8m` preservation.
-- Import rollback, dry-run-first, no table deletion, and no unapproved overwrite rules.
-- Secret/token/password handling rules.
-- EC2 and AWS Free-Tier-first cost-safety reminders.
-- Batch 60A handoff checklist.
-
-## Batch 60B safety decision
-
-Batch 60B is documentation/procedure only. It does not add paid backup services, DynamoDB PITR, AWS Backup plans, new infrastructure, or automation scripts unless separately approved after cost review.
+- Batch 59B is done.
+- Batch 60C is Git-pushed, EC2-deployed, and browser-tested.
+- Accepted Batch 60C behavior was already tested when 60C was marked complete.
+- Admin and Standard demo users are available.
+- No further 60A smoke testing is requested for now.
+- Current project state is demo ready.
+- Any issue before, during, or after the demo will be flagged and handled as a targeted issue/hotfix.
 
 ## Next recommended order
 
 ```text
-1. Confirm/run Batch 59B if not already completed
-2. Batch 60A — Final EC2 public-IP demo readiness pass
-3. Post-demo/domain-dependent work: Batch 57, Batch 61, Batch 62
+1. Proceed with the EC2 public-IP demo using the current accepted state.
+2. Track demo feedback/issues as targeted hotfixes if they arise.
+3. Keep Batch 57 SEO and Batch 61 domain/HTTPS/CloudFront deferred until customer/domain approval.
+4. Use Batch 60B backup/restore/production safety notes as the operational safety reference.
+5. Stop EC2 when not actively preparing, testing, or demoing.
 ```
 
 ## Files updated in this package
@@ -57,12 +48,9 @@ Batch 60B is documentation/procedure only. It does not add paid backup services,
 ```text
 docs/feature-status.md
 docs/open-issues.md
-docs/decision-log.md
-docs/architecture.md
 docs/project-overview.md
-docs/implementation-guidelines.md
-docs/requirements.md
 docs/UPDATE_SUMMARY.md
+docs/phase8_batch60a_demo_readiness_acceptance.md
 docs/phase8_batch60b_backup_restore_safety.md
 docs/phase8_batch60c_docs_status_checkpoint.md
 ```

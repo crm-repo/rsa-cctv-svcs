@@ -5,19 +5,19 @@
 This document tracks risks, unresolved questions, blockers, technical debt, and dependencies. Implementation status is controlled by [feature-status.md](./feature-status.md).
 
 Last updated: 2026-06-26  
-Update scope: Phase 8 Batch 60B backup/restore/production safety notes completed, Batch 60A demo readiness next, and post-demo/domain deferrals preserved.
+Update scope: Phase 8 Batch 59B confirmed complete, Batch 60A demo readiness accepted complete, Batch 60B complete, Batch 60C deployed/browser-tested by user, and post-demo/domain deferrals preserved.
 
 
-## Current Open / Deferred Items After Batch 60C
+## Current Open / Deferred Items After Batch 60A Demo Acceptance
 
 | Item | Status | Notes |
 |---|---|---|
 | Batch 58 image lazy loading | Complete / Local testing passed | Frontend-only browser loading hints applied and locally tested; no image compression or S3 path changes. |
-| Batch 59A Cognito Groups + Users | Complete / Local testing passed | Settings > Users backed by Cognito admin APIs through FastAPI only; Admin/Standard roles implemented for current scope. EC2 role smoke remains part of Batch 60A. |
-| Batch 59B Admin-only restricted/delete actions | Planned / confirm before demo | Standard users hidden/blocked; leads remain non-delete. Confirm completion or run before Batch 60A. |
-| Batch 60C public/admin polish | Complete for now / accepted scope | Inserted polish batch. Code changes accepted for current scope; final EC2 active-release confirmation remains part of Batch 60A because the last pasted 60C deploy attempt stopped before release switch. |
+| Batch 59A Cognito Groups + Users | Complete / Local testing passed | Settings > Users backed by Cognito admin APIs through FastAPI only; Admin/Standard roles implemented for current scope. Demo readiness was later accepted in Batch 60A. |
+| Batch 59B Admin-only restricted/delete actions | Complete / user-confirmed | User confirmed completion before demo acceptance. Standard users remain restricted; leads remain non-delete. |
+| Batch 60C public/admin polish | Complete / deployed and browser-tested by user | User confirmed Git push, EC2 deployment, and browser behavior before marking Batch 60C complete. |
 | Batch 60B backup/restore/safety notes | Complete | Operational runbooks documented for DynamoDB/S3/Git/EC2/Nginx rollback safety. Documentation/procedure only; no paid backup services added. |
-| Batch 60A EC2 public-IP demo readiness pass | Planned / next final demo gate | Final EC2 smoke regression, active-release confirmation, admin/public/browser smoke, role checks, media checks, lead capture, and demo data sanity check. |
+| Batch 60A EC2 public-IP demo readiness pass | Complete / demo-ready accepted | User accepted current project state as EC2 public-IP demo ready. No further 60A smoke testing requested for now. |
 | Batch 61 domain/HTTPS/CloudFront/Route 53 | Deferred | Planned after customer demo/launch approval and final domain confirmation. |
 | SEO metadata/page titles | Deferred | Defer until Route 53/final domain. |
 | Canonical URLs/Open Graph URLs | Deferred | Do not use EC2 IP as canonical. |
@@ -43,19 +43,18 @@ Update scope: Phase 8 Batch 60B backup/restore/production safety notes completed
 | Products/Brands S3 backfill | Completed in Batch 56C. |
 | Promotions hero promoted package filtering | Completed in Batch 56D. |
 | Image lazy loading | Completed/local testing passed in Batch 58. |
-| Cognito Groups + Settings > Users | Completed/local testing passed in Batch 59A for the current scope; EC2 smoke remains part of Batch 60A. |
+| Cognito Groups + Settings > Users | Completed/local testing passed in Batch 59A for the current scope; Batch 59B was user-confirmed complete before demo acceptance. |
 | Batch 60C public/admin polish | Completed for now by user decision; includes Featured/Product Promote flag reuse and public/admin UI polish. |
 | Batch 60B backup/restore/safety notes | Completed; operational runbooks documented for backup/restore/rollback/import/secrets/cost-safety. |
+| Batch 59B admin-only restricted/delete actions | Completed by user confirmation before demo readiness acceptance. |
+| Batch 60A demo readiness acceptance | Completed by user acceptance; current project state is EC2 public-IP demo ready. |
 
 ## Known Issues
 
 | Issue | Severity | Impact | Status | Notes |
 |---|---|---|---|---|
-| Final public-IP demo readiness pass pending | High | High | Open | EC2 public-IP deployment exists; Batch 60A must confirm current active release, public/admin smoke, roles, media, lead capture, and demo data. |
-| AWS billing/cost safety review before extended demo | High | High | Open | Keep Free-Tier-first design and stop EC2 when not actively testing. Billing/cost alert status should be confirmed before prolonged public testing. |
+| AWS billing/cost safety review before extended/demo exposure | High | High | Open | Keep Free-Tier-first design and stop EC2 when not actively testing/demoing. Billing/cost alert status should be confirmed before prolonged public testing. |
 | Free-Tier deployment review pending | High | High | Open | Must verify no ALB, NAT Gateway, RDS, SMS/MFA cost drift, extra always-on instances, or unnecessary paid services |
-| Final Cognito role smoke pending | High | Medium | Open | Cognito auth is deployed; Batch 60A should verify Admin vs Standard behavior on the current EC2 release. |
-| Final S3 media smoke pending | Medium | Medium | Open | S3 upload/display was implemented; Batch 60A should smoke media display/upload on the current EC2 release. |
 | SEO metadata incomplete | High | Medium | Open | Required before production launch |
 | sitemap.xml and robots.txt missing/incomplete | High | Medium | Open | Required before production launch |
 | Image compression/optimization pipeline pending | Low | Medium | Deferred | Batch 58 lazy loading passed locally; compression pipeline remains optional/future unless reopened. |
@@ -108,9 +107,9 @@ Update scope: Phase 8 Batch 60B backup/restore/production safety notes completed
 | Blocker | Status | Notes |
 |---|---|---|
 | Billing alert setup | Open | Required before public/external AWS testing |
-| EC2/IP-based deployment plan | Open | Required before live backend/admin demo |
-| Cognito enforcement | Open | Required before external/public admin testing |
-| S3 upload/storage enablement | Open | Required before real admin image upload |
+| EC2/IP-based deployment plan | Resolved for demo | EC2 public-IP demo path is accepted demo-ready by user. |
+| Cognito enforcement | Resolved for demo scope | Cognito-protected admin/API path exists for current demo scope. |
+| S3 upload/storage enablement | Resolved for demo scope | S3 media upload/display is implemented for current scope. |
 | Final company launch data | Open | Needed before production demo/launch |
 | SEO/sitemap/robots/image optimization | Open | Needed before production launch |
 

@@ -1,6 +1,6 @@
 # RSA CMS / Mini-CRM Project Overview
 
-## Current Project Status — Phase 8 Continuation Through Batch 60C
+## Current Project Status — Phase 8 Continuation Through Batch 60A Demo Acceptance
 
 The project has progressed beyond the original Batch 29 documentation baseline.
 
@@ -14,25 +14,28 @@ Current completed state:
 - Products/Brands media backfill to S3 is complete for Batch 56C scope.
 - Promotions hero now uses promoted package products only.
 - Homepage Featured Products now uses the category-scoped `show_pack_flag` rule for non-package featured products.
-- Batch 60C public/admin polish is accepted as complete for now; final EC2 active-release verification remains part of Batch 60A.
+- Batch 60C public/admin polish is accepted complete; user confirmed Git push, EC2 deployment, and browser-tested behavior.
 - Batch 60B backup/restore/production safety notes are documented and should be used as the operational safety reference before demo/launch work.
+- Batch 59B admin-only restricted/delete actions are confirmed complete by user.
+- Batch 60A demo readiness is accepted complete by user; current project state is EC2 public-IP demo ready.
 - Batch 57 SEO work is intentionally deferred until Route 53/final domain.
 
 Current active/planned work:
 
 - Batch 58: image lazy loading local testing passed.
 - Batch 59A: Cognito Groups + Settings > Users management completed/local testing passed for the current scope.
-- Batch 59B: Admin-only restricted/delete actions; confirm completion or run before the final demo pass.
-- Batch 60C: inserted public/admin polish batch accepted as complete for now.
+- Batch 59B: Admin-only restricted/delete actions confirmed complete by user.
+- Batch 60C: inserted public/admin polish batch accepted complete; Git-pushed, EC2-deployed, and browser-tested by user.
 - Batch 60B: backup/restore/production safety notes completed as documentation/procedure package.
-- Batch 60A: final EC2 public-IP demo smoke checklist / demo readiness pass is next after any required 59B confirmation.
+- Batch 60A: EC2 public-IP demo readiness accepted complete by user; no further smoke testing requested for now.
+- Current next activity: run the demo, then triage any issue before, during, or after demo as a targeted hotfix.
 - Batch 61: Route 53 + ACM + CloudFront + EC2 origin planning, deferred until customer domain approval.
 
 Deferred until later/final launch planning:
 
 - SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, robots.txt until the final domain is confirmed.
 - Route 53/domain, SSL/HTTPS, and CloudFront implementation until customer/domain approval.
-- Final launch checklist after demo readiness, backup/safety notes, and domain readiness.
+- Final launch checklist after demo feedback, backup/safety notes, and domain readiness.
 
 ## Document Purpose
 
