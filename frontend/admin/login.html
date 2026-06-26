@@ -7,17 +7,45 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="./assets/css/admin.css" />
   <link rel="stylesheet" href="./assets/css/admin-auth.css" />
+  <style>
+    /* batch60c-3-admin-login-style */
+    .admin-login-card .admin-login-eyebrow {
+      margin: 0 0 22px !important;
+      text-align: center !important;
+      color: #111827 !important;
+      font-size: clamp(1.18rem, 2vw, 1.55rem) !important;
+      font-weight: 900 !important;
+      letter-spacing: 0.01em !important;
+      text-transform: none !important;
+    }
+    .admin-login-logo-card {
+      width: min(260px, 78vw) !important;
+      min-height: 118px !important;
+      margin: 0 auto 26px !important;
+      display: grid !important;
+      place-items: center !important;
+      padding: 20px 24px !important;
+      border-radius: 24px !important;
+      background: #05070c !important;
+      box-shadow: 0 24px 48px rgba(15, 23, 42, 0.22) !important;
+    }
+    .admin-login-logo-card img {
+      width: min(210px, 64vw) !important;
+      height: auto !important;
+      max-height: 88px !important;
+      object-fit: contain !important;
+      display: block !important;
+    }
+    .admin-login-brand { display: none !important; }
+  </style>
 </head>
 <body class="admin-login-page">
   <main class="admin-login-card">
-    <p class="admin-login-eyebrow">R.S.A. CCTV Installation Services</p>
-    <div class="admin-login-brand">
+    <p class="admin-login-eyebrow">Admin Panel Secured Sign-In</p>
+    <div class="admin-login-logo-card" aria-label="RSA CCTV Installation Services">
       <img src="./assets/images/rsa-logo.png" alt="RSA CCTV Installation Services" />
-      <div>
-        <h1>RSA Admin</h1>
-        <p>Secure CMS and Mini-CRM sign-in</p>
-      </div>
     </div>
+</div>
 
     <p class="admin-login-note" data-admin-login-note>
       Preparing admin sign-in…
@@ -204,3 +232,5 @@
 </script>
 </body>
 </html>
+
+<!-- batch60c-3-admin-login-markup -->

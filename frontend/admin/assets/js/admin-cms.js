@@ -243,6 +243,70 @@
   }
 
 
+  /* batch60c-3-contact-type-visibility-direct-bind */
+  function bindContactTypeVisibility(form) {
+    if (page !== 'contact-us' || !form) return;
+
+    const typeField = form.querySelector('[name="contact_type"]');
+    if (!typeField) return;
+
+    const companyFields = ['primary_contact_number', 'secondary_contact_number', 'company_email', 'company_address', 'showroom_address', 'business_hours'];
+    const personFields = ['person_image_path', 'person_name', 'position_title', 'department', 'phone_number', 'email_address'];
+    const socialFields = ['platform_name', 'platform_key', 'profile_url', 'icon_code'];
+    const removedFields = ['whatsapp_number', 'viber_number'];
+
+    function mark(names, group) {
+      names.forEach((name) => {
+        const field = form.querySelector(`[name="${name}"]`);
+        if (!field) return;
+        field.dataset.contactGroup = group;
+        const label = field.closest('label');
+        if (label) label.dataset.contactGroup = group;
+      });
+    }
+
+    function hideRemoved() {
+      removedFields.forEach((name) => {
+        const field = form.querySelector(`[name="${name}"]`);
+        if (!field) return;
+        field.disabled = true;
+        const label = field.closest('label');
+        if (label) label.hidden = true;
+      });
+    }
+
+    function renameProfileUrl() {
+      const field = form.querySelector('[name="profile_url"]');
+      const label = field ? field.closest('label') : null;
+      const span = label ? label.querySelector('span') : null;
+      if (span) span.textContent = 'Phone Number/URL';
+    }
+
+    function applyVisibility() {
+      const selected = typeField.value || 'Contact Person';
+      const visibleGroup = selected === 'Company Contact' ? 'company' : selected === 'Social Media' ? 'social' : 'person';
+
+      form.querySelectorAll('[data-contact-group]').forEach((field) => {
+        const label = field.closest('label');
+        const visible = field.dataset.contactGroup === visibleGroup;
+        field.disabled = !visible;
+        if (label) label.hidden = !visible;
+      });
+
+      hideRemoved();
+      renameProfileUrl();
+    }
+
+    delete form.dataset.batch60cContactVisibilityBound;
+
+    mark(companyFields, 'company');
+    mark(personFields, 'person');
+    mark(socialFields, 'social');
+
+    typeField.addEventListener('change', applyVisibility);
+    applyVisibility();
+  }
+
   function bindSystemGeneratedKeys(form) {
     if (!form || form.dataset.boundSystemKeys === 'true') return;
     form.dataset.boundSystemKeys = 'true';
@@ -290,6 +354,7 @@
     form.hidden = false;
     form.dataset.recordId = record[config.idField] || '';
     form.innerHTML = formHtml(record);
+    bindContactTypeVisibility(form);
     bindSystemGeneratedKeys(form);
     bindDirtyTracking(form);
     if (window.RSAAdminMedia && typeof window.RSAAdminMedia.enhanceAll === 'function') window.RSAAdminMedia.enhanceAll(form);
@@ -492,7 +557,7 @@
   }
 
   function enhanceForm(form) {
-    if (!form || form.dataset.batch60cContactVisibilityBound === 'true') return;
+    if (!form) return;
     if (!form.querySelector('[name="contact_type"]')) return;
 
     form.dataset.batch60cContactVisibilityBound = 'true';

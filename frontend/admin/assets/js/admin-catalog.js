@@ -287,6 +287,65 @@
     head.innerHTML = `<tr>${config.columns.map(([, labelText]) => `<th>${esc(labelText)}</th>`).join('')}<th>Action</th></tr>`;
   }
 
+  /* batch60c-3-product-table-image-hover */
+  function productImageSrc(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return '';
+    if (/^(https?:|data:|blob:)/i.test(raw)) return raw;
+    if (raw.startsWith('/')) return raw;
+    if (raw.startsWith('./') || raw.startsWith('../')) return raw;
+    return raw;
+  }
+
+  function productNameCell(record, value) {
+    const imageSrc = productImageSrc(record.image_path);
+    const thumb = imageSrc
+      ? `<span class="admin-product-row-thumb" data-product-image-src="${esc(imageSrc)}" aria-label="Preview product image"><img src="${esc(imageSrc)}" alt="" loading="lazy" onerror="this.closest('.admin-product-row-thumb')?.remove()" /></span>`
+      : '';
+
+    return `<td><div class="admin-product-name-cell">${thumb}<span>${esc(value)}</span></div></td>`;
+  }
+
+  function bindProductTableImageHover() {
+    if (page !== 'products' || document.body.dataset.batch60cProductHoverBound === 'true') return;
+    document.body.dataset.batch60cProductHoverBound = 'true';
+
+    const preview = document.createElement('div');
+    preview.className = 'admin-product-hover-preview';
+    preview.hidden = true;
+    preview.innerHTML = '<img alt="Product image preview" />';
+    document.body.appendChild(preview);
+
+    function move(event) {
+      const margin = 18;
+      const maxLeft = window.innerWidth - preview.offsetWidth - margin;
+      const maxTop = window.innerHeight - preview.offsetHeight - margin;
+      const left = Math.max(margin, Math.min(event.clientX + margin, maxLeft));
+      const top = Math.max(margin, Math.min(event.clientY + margin, maxTop));
+      preview.style.left = `${left}px`;
+      preview.style.top = `${top}px`;
+    }
+
+    document.addEventListener('mouseover', (event) => {
+      const thumb = event.target.closest('.admin-product-row-thumb[data-product-image-src]');
+      if (!thumb) return;
+
+      const image = preview.querySelector('img');
+      image.src = thumb.dataset.productImageSrc || '';
+      preview.hidden = false;
+      move(event);
+    });
+
+    document.addEventListener('mousemove', (event) => {
+      if (!preview.hidden) move(event);
+    });
+
+    document.addEventListener('mouseout', (event) => {
+      if (!event.target.closest('.admin-product-row-thumb')) return;
+      preview.hidden = true;
+    });
+  }
+
   function renderTable() {
     const body = document.querySelector('[data-table-body]');
     if (!body) return;
@@ -297,6 +356,7 @@
     }
     body.innerHTML = state.filtered.map((record, index) => {
       const cells = config.columns.map(([field]) => {
+        if (page === 'products' && field === 'product_name') return productNameCell(record, value);
         if (field === 'show_flag') return `<td>${flag(record[field], false)}</td>`;
         if (field === 'show_pack_flag') return `<td>${flag(record[field], true)}</td>`;
         if (field === 'subcategories') return `<td>${esc(fmt(field, record[field]))}</td>`;
@@ -695,6 +755,7 @@
   }
 
   function setup() {
+    bindProductTableImageHover();
     const toggle = document.querySelector('[data-sidebar-toggle]');
     if (toggle && app) toggle.addEventListener('click', () => app.classList.toggle('sidebar-open'));
     ['[data-catalog-search]', '[data-admin-search]', '[data-category-filter]', '[data-brand-filter]', '[data-sort-filter]'].forEach(selector => {
