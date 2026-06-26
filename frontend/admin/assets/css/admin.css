@@ -2710,7 +2710,7 @@ body.admin-login-page img[src$="rsa-logo.png"] {
 }
 
 
-/* batch60c-3j-sidebar-active-restore */
+/* batch60c-3k-sidebar-active-pill-restore */
 body .admin-sidebar .brand-lockup,
 body .admin-sidebar .brand-lockup.admin-logo-only {
   display: flex !important;
@@ -2760,6 +2760,50 @@ body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap img {
   transform: scale(1.30) !important;
   transform-origin: center center !important;
   filter: drop-shadow(0 8px 14px rgba(0,0,0,0.16));
+}
+
+/* Normalize active sidebar pill so Dashboard matches Products */
+body .admin-sidebar nav,
+body .admin-sidebar .admin-nav,
+body .admin-sidebar .sidebar-nav,
+body .admin-sidebar .sidebar-menu,
+body .admin-sidebar .nav-section {
+  overflow: visible !important;
+}
+
+body .admin-sidebar .nav-item,
+body .admin-sidebar a.nav-item,
+body .admin-sidebar .nav-link,
+body .admin-sidebar a.nav-link,
+body .admin-sidebar .sidebar-link,
+body .admin-sidebar a.sidebar-link {
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+body .admin-sidebar .nav-item.active,
+body .admin-sidebar .nav-item.is-active,
+body .admin-sidebar a.nav-item.active,
+body .admin-sidebar a.nav-item.is-active,
+body .admin-sidebar .nav-link.active,
+body .admin-sidebar .nav-link.is-active,
+body .admin-sidebar a.nav-link.active,
+body .admin-sidebar a.nav-link.is-active,
+body .admin-sidebar .sidebar-link.active,
+body .admin-sidebar .sidebar-link.is-active,
+body .admin-sidebar a.sidebar-link.active,
+body .admin-sidebar a.sidebar-link.is-active,
+body .admin-sidebar a[aria-current="page"],
+body .admin-sidebar button[aria-current="page"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 54px !important;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 16px !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  clip-path: none !important;
 }
 
 @media (max-width: 760px) {

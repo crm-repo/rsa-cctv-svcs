@@ -37,14 +37,14 @@
       display: block !important;
     }
     .admin-login-brand { display: none !important; }
-    /* batch60c-3j-login-card-half-size */
+    /* batch60c-3k-login-card-smaller-logo-larger */
     .admin-login-brand-row {
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
       gap: 18px !important;
       width: 100% !important;
-      margin: 0 auto 28px !important;
+      margin: 0 auto 18px !important;
     }
 
     .admin-login-brand-row .admin-login-eyebrow {
@@ -67,15 +67,15 @@
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      width: 150px !important;
-      max-width: 150px !important;
-      min-height: 66px !important;
+      width: 120px !important;
+      max-width: 120px !important;
+      min-height: 52px !important;
       margin: 0 !important;
-      padding: 8px 10px !important;
+      padding: 5px 6px !important;
       background: #03070d !important;
       border: 1px solid rgba(255,255,255,0.06) !important;
-      border-radius: 14px !important;
-      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12) !important;
+      border-radius: 12px !important;
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.11) !important;
       overflow: hidden !important;
     }
 
@@ -85,11 +85,12 @@
     .admin-login-brand-row .login-logo-card img,
     .admin-login-brand-row .login-brand-card img {
       display: block !important;
-      width: 128px !important;
-      max-width: 100% !important;
+      width: 142px !important;
+      max-width: none !important;
       height: auto !important;
       margin: 0 auto !important;
       object-fit: contain !important;
+      object-position: center center !important;
       transform: none !important;
       filter: none !important;
       background: transparent !important;
@@ -97,11 +98,18 @@
       box-shadow: none !important;
     }
 
+    .admin-login-intro-note {
+      text-align: left !important;
+      padding-left: 0 !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+
     @media (max-width: 640px) {
       .admin-login-brand-row {
         flex-direction: column !important;
-        gap: 14px !important;
-        margin-bottom: 24px !important;
+        gap: 12px !important;
+        margin-bottom: 18px !important;
       }
 
       .admin-login-brand-row .admin-login-eyebrow {
@@ -115,9 +123,9 @@
       .admin-login-brand-row .admin-login-brand-card,
       .admin-login-brand-row .login-logo-card,
       .admin-login-brand-row .login-brand-card {
-        width: 150px !important;
-        max-width: 150px !important;
-        min-height: 66px !important;
+        width: 120px !important;
+        max-width: 120px !important;
+        min-height: 52px !important;
       }
 
       .admin-login-brand-row .admin-login-logo-card img,
@@ -125,9 +133,10 @@
       .admin-login-brand-row .admin-login-brand-card img,
       .admin-login-brand-row .login-logo-card img,
       .admin-login-brand-row .login-brand-card img {
-        width: 128px !important;
+        width: 142px !important;
       }
     }
+
 
 
 
