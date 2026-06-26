@@ -2710,7 +2710,7 @@ body.admin-login-page img[src$="rsa-logo.png"] {
 }
 
 
-/* batch60c-3i-sidebar-active-gap-fix */
+/* batch60c-3j-sidebar-active-restore */
 body .admin-sidebar .brand-lockup,
 body .admin-sidebar .brand-lockup.admin-logo-only {
   display: flex !important;
@@ -2719,7 +2719,7 @@ body .admin-sidebar .brand-lockup.admin-logo-only {
   width: 100% !important;
   min-height: 78px !important;
   padding: 0 8px 10px !important;
-  margin: 0 0 8px !important;
+  margin: 0 0 10px !important;
   border-bottom: 1px solid rgba(255,255,255,0.14) !important;
   overflow: visible !important;
 }
@@ -2760,6 +2760,27 @@ body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap img {
   transform: scale(1.30) !important;
   transform-origin: center center !important;
   filter: drop-shadow(0 8px 14px rgba(0,0,0,0.16));
+}
+
+@media (max-width: 760px) {
+  body .admin-sidebar .brand-lockup,
+  body .admin-sidebar .brand-lockup.admin-logo-only {
+    min-height: 70px !important;
+    padding-bottom: 8px !important;
+    margin-bottom: 10px !important;
+  }
+
+  body .admin-sidebar .brand-lockup .brand-logo-wrap,
+  body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap {
+    max-width: 180px !important;
+    height: 52px !important;
+  }
+
+  body .admin-sidebar .brand-lockup .brand-logo-wrap img,
+  body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap img {
+    width: 150px !important;
+    transform: scale(1.18) !important;
+  }
 }
 
 /* Safely reduce only the gap before Dashboard without touching active item sizing */
