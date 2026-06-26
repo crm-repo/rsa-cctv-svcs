@@ -287,7 +287,7 @@
     head.innerHTML = `<tr>${config.columns.map(([, labelText]) => `<th>${esc(labelText)}</th>`).join('')}<th>Action</th></tr>`;
   }
 
-  /* batch60c-3-product-table-image-hover */
+  /* batch60c-3b-product-table-hover-only */
   function productImageSrc(value) {
     const raw = String(value || '').trim();
     if (!raw) return '';
@@ -299,11 +299,9 @@
 
   function productNameCell(record, value) {
     const imageSrc = productImageSrc(record.image_path);
-    const thumb = imageSrc
-      ? `<span class="admin-product-row-thumb" data-product-image-src="${esc(imageSrc)}" aria-label="Preview product image"><img src="${esc(imageSrc)}" alt="" loading="lazy" onerror="this.closest('.admin-product-row-thumb')?.remove()" /></span>`
-      : '';
-
-    return `<td><div class="admin-product-name-cell">${thumb}<span>${esc(value)}</span></div></td>`;
+    const attrs = imageSrc ? ` data-product-image-src="${esc(imageSrc)}"` : '';
+    const klass = imageSrc ? 'admin-product-name-cell admin-product-name-hoverable' : 'admin-product-name-cell';
+    return `<td><div class="${klass}"${attrs}><span>${esc(value)}</span></div></td>`;
   }
 
   function bindProductTableImageHover() {
@@ -327,11 +325,11 @@
     }
 
     document.addEventListener('mouseover', (event) => {
-      const thumb = event.target.closest('.admin-product-row-thumb[data-product-image-src]');
-      if (!thumb) return;
+      const target = event.target.closest('.admin-product-name-cell[data-product-image-src]');
+      if (!target) return;
 
       const image = preview.querySelector('img');
-      image.src = thumb.dataset.productImageSrc || '';
+      image.src = target.dataset.productImageSrc || '';
       preview.hidden = false;
       move(event);
     });
@@ -341,12 +339,14 @@
     });
 
     document.addEventListener('mouseout', (event) => {
-      if (!event.target.closest('.admin-product-row-thumb')) return;
+      const target = event.target.closest('.admin-product-name-cell[data-product-image-src]');
+      if (!target) return;
       preview.hidden = true;
     });
   }
 
   function renderTable() {
+
     const body = document.querySelector('[data-table-body]');
     if (!body) return;
     setCount(`${state.filtered.length} ${config.title} records found`);

@@ -2608,3 +2608,103 @@ body.admin-login-page img[src$="rsa-logo.png"] {
     height: 78px !important;
   }
 }
+
+
+/* batch60c-3b-sidebar-logo-consistency */
+.admin-sidebar .brand-lockup,
+.admin-sidebar .brand-lockup.admin-logo-only {
+  display: block !important;
+  width: 100% !important;
+  padding: 0 0 28px !important;
+  margin: 0 0 24px !important;
+  border-bottom: 1px solid rgba(255,255,255,0.14) !important;
+}
+
+.admin-sidebar .brand-copy,
+.admin-sidebar .brand-logo-fallback {
+  display: none !important;
+}
+
+.admin-sidebar .brand-logo-wrap {
+  width: 100% !important;
+  height: 126px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+.admin-sidebar .brand-logo-wrap img {
+  display: block !important;
+  width: 94% !important;
+  max-width: 250px !important;
+  height: 118px !important;
+  margin: 0 auto !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+@media (max-width: 760px) {
+  .admin-sidebar .brand-logo-wrap {
+    height: 96px !important;
+  }
+
+  .admin-sidebar .brand-logo-wrap img {
+    width: 92% !important;
+    max-width: 210px !important;
+    height: 88px !important;
+  }
+}
+
+
+/* batch60c-3b-product-hover-only-css */
+.admin-products-page .admin-product-row-thumb {
+  display: none !important;
+}
+
+.admin-products-page .admin-product-name-cell {
+  display: block !important;
+  min-width: 220px;
+}
+
+.admin-products-page .admin-product-name-cell.admin-product-name-hoverable {
+  cursor: zoom-in;
+}
+
+.admin-products-page .admin-product-name-cell.admin-product-name-hoverable span {
+  display: inline-block;
+}
+
+.admin-product-hover-preview {
+  position: fixed;
+  z-index: 5000;
+  width: 320px;
+  min-height: 220px;
+  padding: 14px;
+  border-radius: 22px;
+  background: #fff;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 28px 68px rgba(15, 23, 42, 0.30);
+  pointer-events: none;
+}
+
+.admin-product-hover-preview[hidden] {
+  display: none !important;
+}
+
+.admin-product-hover-preview img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+}
+
+@media (max-width: 760px) {
+  .admin-product-hover-preview {
+    display: none !important;
+  }
+}
