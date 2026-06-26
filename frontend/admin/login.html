@@ -38,30 +38,39 @@
     }
     .admin-login-brand { display: none !important; }
 
-    /* batch60c-3o-login-note-align-logo-height-corrected */
+    /*
+
+    /* batch60c-3p-login-logo-title-fit */
     .admin-login-brand-row {
       display: flex !important;
       align-items: center !important;
       justify-content: flex-start !important;
-      gap: 22px !important;
+      gap: 12px !important;
       width: 100% !important;
+      max-width: 100% !important;
       margin: 0 0 6px !important;
       padding: 0 !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
     }
 
     .admin-login-brand-row .admin-login-eyebrow {
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
       margin: 0 !important;
       text-align: left !important;
-      max-width: none !important;
-      font-size: 1.04rem !important;
+      max-width: 100% !important;
+      font-size: 1.01rem !important;
       line-height: 1.2 !important;
-      letter-spacing: 0.01em !important;
+      letter-spacing: 0.005em !important;
       color: #07111f !important;
       white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: clip !important;
     }
 
     .admin-login-brand-row .admin-login-logo-card {
-      flex: 0 0 auto !important;
+      flex: 0 0 150px !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
@@ -77,11 +86,12 @@
       border-radius: 11px !important;
       box-shadow: 0 10px 20px rgba(15, 23, 42, 0.10) !important;
       overflow: hidden !important;
+      box-sizing: border-box !important;
     }
 
     .admin-login-brand-row .admin-login-logo-card img {
       display: block !important;
-      width: 166px !important;
+      width: 200px !important;
       max-width: none !important;
       height: auto !important;
       margin: 0 auto !important;
@@ -101,14 +111,10 @@
       min-height: 0 !important;
       display: block !important;
       text-align: left !important;
-
-      /* same left edge as Email label and input */
       margin-left: 0 !important;
       margin-right: 0 !important;
       padding-left: 0 !important;
       padding-right: 0 !important;
-
-      /* reduced vertical spacing around the text */
       margin-top: 4px !important;
       margin-bottom: 10px !important;
       padding-top: 6px !important;
@@ -121,17 +127,20 @@
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 12px !important;
+        gap: 10px !important;
         margin-bottom: 8px !important;
+        overflow: visible !important;
       }
 
       .admin-login-brand-row .admin-login-eyebrow {
         text-align: center !important;
         white-space: normal !important;
         max-width: 300px !important;
+        overflow: visible !important;
       }
 
       .admin-login-brand-row .admin-login-logo-card {
+        flex-basis: auto !important;
         width: 150px !important;
         max-width: 150px !important;
         height: 58px !important;
@@ -140,10 +149,9 @@
       }
 
       .admin-login-brand-row .admin-login-logo-card img {
-        width: 166px !important;
+        width: 200px !important;
       }
     }
-
 
   </style>
 </head>
