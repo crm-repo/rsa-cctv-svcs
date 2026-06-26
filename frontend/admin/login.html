@@ -37,6 +37,40 @@
       display: block !important;
     }
     .admin-login-brand { display: none !important; }
+  
+    /* batch60c-3e-login-logo-direct-display */
+    .admin-login-logo-card,
+    .admin-login-logo-panel,
+    .admin-login-brand-card,
+    .login-logo-card,
+    .login-brand-card {
+      background: transparent !important;
+      box-shadow: none !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      padding: 8px 0 14px !important;
+      min-height: 0 !important;
+      width: 100% !important;
+      max-width: none !important;
+    }
+
+    .admin-login-logo-card img,
+    .admin-login-logo-panel img,
+    .admin-login-brand-card img,
+    .login-logo-card img,
+    .login-brand-card img,
+    .admin-login-card img[src*="rsa-logo"],
+    .auth-card img[src*="rsa-logo"] {
+      display: block !important;
+      width: min(360px, 76vw) !important;
+      max-width: 360px !important;
+      height: auto !important;
+      margin: 0 auto !important;
+      object-fit: contain !important;
+      transform: none !important;
+      filter: drop-shadow(0 16px 28px rgba(0,0,0,0.18));
+    }
+
   </style>
   <style>
     /* batch60c-3a-login-logo-size-hotfix */

@@ -2710,16 +2710,16 @@ body.admin-login-page img[src$="rsa-logo.png"] {
 }
 
 
-/* batch60c-3d-sidebar-logo-public-sized */
+/* batch60c-3e-sidebar-logo-final-spacing */
 body .admin-sidebar .brand-lockup,
 body .admin-sidebar .brand-lockup.admin-logo-only {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   width: 100% !important;
-  min-height: 112px !important;
-  padding: 4px 8px 24px !important;
-  margin: 0 0 24px !important;
+  min-height: 94px !important;
+  padding: 0 8px 16px !important;
+  margin: 0 0 18px !important;
   border-bottom: 1px solid rgba(255,255,255,0.14) !important;
   overflow: visible !important;
 }
@@ -2734,8 +2734,8 @@ body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-fallback {
 body .admin-sidebar .brand-lockup .brand-logo-wrap,
 body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap {
   width: 100% !important;
-  max-width: 225px !important;
-  height: 82px !important;
+  max-width: 215px !important;
+  height: 70px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -2750,14 +2750,14 @@ body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap {
 body .admin-sidebar .brand-lockup .brand-logo-wrap img,
 body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap img {
   display: block !important;
-  width: 190px !important;
+  width: 180px !important;
   max-width: none !important;
   height: auto !important;
   max-height: none !important;
   object-fit: contain !important;
   object-position: center center !important;
   margin: 0 auto !important;
-  transform: scale(1.38) !important;
+  transform: scale(1.30) !important;
   transform-origin: center center !important;
   filter: drop-shadow(0 8px 14px rgba(0,0,0,0.16));
 }
@@ -2765,19 +2765,20 @@ body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap img {
 @media (max-width: 760px) {
   body .admin-sidebar .brand-lockup,
   body .admin-sidebar .brand-lockup.admin-logo-only {
-    min-height: 96px !important;
-    padding-bottom: 18px !important;
+    min-height: 84px !important;
+    padding-bottom: 14px !important;
+    margin-bottom: 16px !important;
   }
 
   body .admin-sidebar .brand-lockup .brand-logo-wrap,
   body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap {
-    max-width: 190px !important;
-    height: 68px !important;
+    max-width: 180px !important;
+    height: 60px !important;
   }
 
   body .admin-sidebar .brand-lockup .brand-logo-wrap img,
   body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap img {
-    width: 160px !important;
-    transform: scale(1.22) !important;
+    width: 150px !important;
+    transform: scale(1.18) !important;
   }
 }
