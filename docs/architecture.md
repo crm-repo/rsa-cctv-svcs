@@ -50,6 +50,22 @@ No `rsa_admin_users` DynamoDB table is required for launch unless later profile 
 
 Batch 59A user onboarding uses suppressed Cognito invitation email and a backend-generated temporary password shown once only after create/reset. Temporary passwords are not stored, logged, or re-viewable. First-login password change must be handled in the browser. User create/view/edit fields use First Name and Last Name (`given_name`, `family_name`); the main Users table shows generated Full Name.
 
+
+### Release artifact and GitHub decoupling architecture — Batch 62A
+
+GitHub is the source-control system and may be used for development deployment. Production runtime must not depend on GitHub downloads, raw GitHub URLs, moving Git branches, or GitHub credentials.
+
+For production go-live, the approved release should be packaged as a tagged release artifact and deployed to EC2 using the existing release-folder model:
+
+```text
+/opt/rsa-cms/releases/<release-folder>
+/opt/rsa-cms/current -> /opt/rsa-cms/releases/<release-folder>
+```
+
+A controlled artifact copy should be retained outside GitHub deployment downloads, such as private S3 or a local/offline backup. Runtime dependencies remain EC2, Nginx, FastAPI, DynamoDB, S3 media through `/api/media/...`, Cognito, and later CloudFront/Route 53 after domain approval. GitHub should not be required for the already-deployed application to continue serving traffic or for local EC2 rollback.
+
+Before production cutover, the active EC2 release, Nginx config, and systemd service files should be checked for `github.com`, `raw.githubusercontent.com`, `api.github.com`, and GitHub tokens.
+
 ### Planned domain/HTTPS architecture — Batch 61
 
 After customer demo/launch approval and final domain confirmation, the approved HTTPS architecture is:

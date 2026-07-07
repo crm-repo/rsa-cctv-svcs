@@ -19,6 +19,7 @@ Current completed state:
 - Batch 59B admin-only restricted/delete actions are confirmed complete by user.
 - Batch 60A demo readiness is accepted complete by user; current project state is EC2 public-IP demo ready.
 - Batch 57 SEO work is intentionally deferred until Route 53/final domain.
+- Batch 62A Release Artifact / GitHub Decoupling Safety is added to the post-demo/pre-launch pipeline to ensure production runtime does not depend on GitHub downloads or GitHub credentials.
 
 Current active/planned work:
 
@@ -29,13 +30,15 @@ Current active/planned work:
 - Batch 60B: backup/restore/production safety notes completed as documentation/procedure package.
 - Batch 60A: EC2 public-IP demo readiness accepted complete by user; no further smoke testing requested for now.
 - Current next activity: run the demo, then triage any issue before, during, or after demo as a targeted hotfix.
+- Batch 62A: Release Artifact / GitHub Decoupling Safety; planned post-demo/pre-launch before final launch/cutover.
 - Batch 61: Route 53 + ACM + CloudFront + EC2 origin planning, deferred until customer domain approval.
 
 Deferred until later/final launch planning:
 
+- Release artifact / GitHub deployment decoupling safety before final launch/cutover.
 - SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, robots.txt until the final domain is confirmed.
 - Route 53/domain, SSL/HTTPS, and CloudFront implementation until customer/domain approval.
-- Final launch checklist after demo feedback, backup/safety notes, and domain readiness.
+- Final launch checklist after demo feedback, release artifact safety, backup/safety notes, and domain readiness.
 
 ## Document Purpose
 

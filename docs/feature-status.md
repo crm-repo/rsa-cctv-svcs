@@ -5,7 +5,7 @@
 This document is the authoritative implementation progress tracker. If status here conflicts with another document, this document controls implementation status.
 
 Last updated: 2026-06-26  
-Update scope: Phase 8 Batch 59B user-confirmed complete, Batch 60A demo-readiness accepted complete, Batch 60B backup/restore/production safety notes complete, Batch 60C deployed/browser-tested by user, and Batch 61/domain deferral preserved.
+Update scope: Phase 8 Batch 59B user-confirmed complete, Batch 60A demo-readiness accepted complete, Batch 60B backup/restore/production safety notes complete, Batch 60C deployed/browser-tested by user, Batch 62A release artifact/GitHub decoupling added to post-demo pipeline, and Batch 61/domain deferral preserved.
 
 
 ## Phase 8 Continuation Status — Batches 30 to 60C
@@ -62,7 +62,8 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Batch 60B | Complete | Backup/restore/production safety notes and operational runbooks documented. Supersedes earlier Batch 64 backup/rollback idea. Documentation/procedure only; no paid backup services added. |
 | Batch 60A | Complete / demo-ready accepted | EC2 public-IP demo readiness accepted by user. No further smoke testing requested for now. Current project state is demo ready; any issue before, during, or after demo should be reopened as a targeted hotfix. |
 | Batch 61 | Deferred / Later | Route 53/domain, ACM, SSL/HTTPS, CloudFront, and EC2 origin planning after final customer domain/cost approval. Supersedes earlier Batch 65 domain planning idea. |
-| Batch 62 | Deferred / Later | Final launch checklist after domain/security/backup readiness, if needed. |
+| Batch 62A | Deferred / Post-demo pre-launch | Release Artifact / GitHub Decoupling Safety. Ensure production runtime does not depend on GitHub downloads, moving branches, raw GitHub URLs, or GitHub credentials. Prepare tagged release artifact, controlled artifact storage, manual/S3 deploy path, runtime GitHub grep checks, and EC2 release rollback proof. |
+| Batch 62 | Deferred / Later | Final launch/cutover checklist after demo feedback, release artifact safety, domain/security/backup readiness, and final launch approval, if needed. |
 
 ### Current authorization and user-management decision
 
@@ -213,6 +214,7 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 |---|---|
 | EC2 public-IP demo | Current project state is demo ready by user acceptance after Batch 60A. |
 | Demo issue triage | Any issue before, during, or after the demo should be reopened as a targeted hotfix, not as broad polish work. |
+| Post-demo/pre-launch safety | Batch 62A Release Artifact / GitHub Decoupling Safety is now the recommended first post-demo pre-launch safety batch before domain/SEO cutover. |
 | Post-demo/domain work | Batch 57 SEO and Batch 61 Route 53/ACM/CloudFront remain deferred until customer/domain approval. |
 
 ## Planned Features
@@ -226,6 +228,7 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 - sitemap.xml and robots.txt.
 - Image optimization.
 - CloudFront/SSL/domain planning after IP-based testing/demo.
+- Release artifact / GitHub deployment decoupling for production go-live safety.
 
 ## Deferred Features
 
@@ -251,6 +254,7 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 - Any issue before, during, or after demo should be tracked as a targeted issue/hotfix.
 - SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, and robots.txt remain deferred until the final domain is confirmed.
 - Route 53/domain, ACM, CloudFront, and HTTPS remain deferred until customer demo/launch approval and final domain confirmation.
+- Batch 62A release artifact/GitHub decoupling is added as a post-demo pre-launch safety step before final launch/cutover.
 - Production backup/restore procedure is documented by Batch 60B; future automation remains optional and requires separate approval.
 - Final company launch data still requires review/import before production launch.
 

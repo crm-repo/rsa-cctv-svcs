@@ -5,7 +5,7 @@
 This document tracks risks, unresolved questions, blockers, technical debt, and dependencies. Implementation status is controlled by [feature-status.md](./feature-status.md).
 
 Last updated: 2026-06-26  
-Update scope: Phase 8 Batch 59B confirmed complete, Batch 60A demo readiness accepted complete, Batch 60B complete, Batch 60C deployed/browser-tested by user, and post-demo/domain deferrals preserved.
+Update scope: Phase 8 Batch 59B confirmed complete, Batch 60A demo readiness accepted complete, Batch 60B complete, Batch 60C deployed/browser-tested by user, Batch 62A release artifact/GitHub decoupling added to the post-demo pipeline, and post-demo/domain deferrals preserved.
 
 
 ## Current Open / Deferred Items After Batch 60A Demo Acceptance
@@ -19,6 +19,7 @@ Update scope: Phase 8 Batch 59B confirmed complete, Batch 60A demo readiness acc
 | Batch 60B backup/restore/safety notes | Complete | Operational runbooks documented for DynamoDB/S3/Git/EC2/Nginx rollback safety. Documentation/procedure only; no paid backup services added. |
 | Batch 60A EC2 public-IP demo readiness pass | Complete / demo-ready accepted | User accepted current project state as EC2 public-IP demo ready. No further 60A smoke testing requested for now. |
 | Batch 61 domain/HTTPS/CloudFront/Route 53 | Deferred | Planned after customer demo/launch approval and final domain confirmation. |
+| Batch 62A release artifact / GitHub decoupling | Planned / post-demo pre-launch | Production runtime should not depend on GitHub downloads, raw GitHub URLs, moving branches, or GitHub credentials. Prepare tagged release artifact, controlled artifact copy, manual/S3 deploy path, runtime GitHub grep check, and EC2 rollback proof. |
 | SEO metadata/page titles | Deferred | Defer until Route 53/final domain. |
 | Canonical URLs/Open Graph URLs | Deferred | Do not use EC2 IP as canonical. |
 | sitemap.xml/robots.txt | Deferred | Defer until final domain and launch URL. |
@@ -61,6 +62,7 @@ Update scope: Phase 8 Batch 59B confirmed complete, Batch 60A demo readiness acc
 | Production content import not completed | Medium | High | Open | Excel/CSV templates and import loader exist; final company data still needed |
 | Product/promotions legacy static markup | Medium | Medium | Partially reduced | API integration exists; final cleanup depends on production data migration and launch readiness |
 | GitHub Pages/backend split | Medium | Medium | Open | Public static site can run separately; backend/admin production hosting still needs deployment plan |
+| GitHub deployment-download dependency | Medium | Medium | Planned / Batch 62A | Current development deploy flow may download from GitHub by commit/branch. Before production go-live, release artifact deployment should decouple runtime and rollback from GitHub availability or credentials. |
 
 ## Resolved / Completed Implementation Items
 
@@ -117,7 +119,7 @@ Update scope: Phase 8 Batch 59B confirmed complete, Batch 60A demo readiness acc
 
 | Decision | Status | Options / Notes |
 |---|---|---|
-| Production deployment cutover sequence | Open | EC2 public IP first, Route 53/domain later |
+| Production deployment cutover sequence | Open | EC2 public IP first, Route 53/domain later; add Batch 62A release artifact/GitHub decoupling before final cutover |
 | S3 bucket naming and CloudFront path strategy | Open | Keep Free-Tier-first and simple |
 | Cognito admin user setup | Open | Avoid SMS/MFA costs; email/password only unless explicitly changed |
 | Production import overwrite behavior | Open | Keep skip-existing default unless an explicit overwrite process is approved |

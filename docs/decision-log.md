@@ -684,3 +684,15 @@ This document records significant project decisions and their rationale. For imp
 | Reasoning | The current demo/pre-launch stage needs reliable operator guidance while preserving the AWS Free-Tier-first constraint and avoiding unnecessary paid services. |
 | Impact | Batch 60B becomes the operational safety reference for Batch 60A and launch planning. Future backup automation or paid backup services remain optional and require separate approval. |
 
+
+## ADR-064: Release Artifacts Decouple Production Runtime From GitHub
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Post-Demo / Pre-Launch Planning |
+| Status | Accepted / Deferred to Batch 62A |
+| Context | Development and demo deployments sometimes used GitHub commit hashes, branch archives, or raw GitHub file downloads to put updated files onto EC2. This is useful for reproducibility during development, but the production runtime should not depend on GitHub availability, moving branch state, or GitHub credentials. |
+| Decision | Add Batch 62A — Release Artifact / GitHub Decoupling Safety — to the post-demo/pre-launch pipeline. Production go-live should use a tagged release artifact zip/tarball and a controlled artifact copy, such as private S3 or local/offline backup. EC2 must continue to run from `/opt/rsa-cms/releases/*` with `/opt/rsa-cms/current` pointing to the active release. Runtime files must not require `github.com`, `raw.githubusercontent.com`, or GitHub tokens. |
+| Reasoning | The live website/admin should continue running even if GitHub is unavailable, a branch changes, or deployment credentials rotate. Tagged artifacts, checksums, and local EC2 release folders make launches and rollbacks more reproducible. |
+| Impact | Batch 62A is inserted before final launch/cutover. GitHub remains source control, but production runtime and rollback should use deployed release artifacts and local EC2 release folders. No paid CI/CD, ALB, NAT Gateway, RDS, paid WAF, or extra always-on infrastructure is added by default. |
+

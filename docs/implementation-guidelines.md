@@ -78,6 +78,21 @@ For current local testing, prefer:
 - During Batch 60A, repeat the full demo checklist before declaring the app demo-ready. Batch 60A must also confirm the current EC2 active release and smoke the accepted Batch 60C behavior.
 - Batch 60B documents DynamoDB, S3, Git, EC2 deployment, Nginx rollback, import safety, secret-handling procedures, and EC2/cost-safety reminders. It remains documentation/procedure only unless a separate safety script is approved.
 
+
+### Release artifact / GitHub decoupling safety — Batch 62A
+
+- GitHub remains source control, but production runtime must not depend on GitHub availability, raw GitHub URLs, moving branches, or GitHub credentials.
+- Do not rely on branch archives or `raw.githubusercontent.com` as the production go-live deployment source.
+- Create a tagged release, for example `v1.0.0`, for traceability.
+- Create a release artifact zip/tarball from the approved source tree, excluding `.git`, `.env`, temporary credentials, local virtual environments, caches, and logs.
+- Store a copy of the release artifact outside GitHub deployment downloads, preferably private S3 and/or a controlled local/offline backup.
+- Deploy production from the artifact while preserving `/opt/rsa-cms/releases/*` and `/opt/rsa-cms/current` rollback behavior.
+- Do not edit `/opt/rsa-cms/current` directly. Always create a new release folder and switch the symlink.
+- Runtime files must not require `github.com`, `raw.githubusercontent.com`, `api.github.com`, or GitHub tokens.
+- GitHub tokens must not be present in frontend JavaScript, Nginx config, systemd service files, backend runtime environment, release artifacts, or public logs.
+- Before launch, run a runtime grep check against the active EC2 release, Nginx config, and systemd unit files for GitHub URLs/tokens.
+- Batch 62A should happen after demo feedback/hotfixes and before final launch/cutover. It does not add paid CI/CD or new infrastructure unless separately approved after cost review.
+
 ### Domain / HTTPS / CloudFront planning
 
 - Batch 61 replaces the earlier Batch 65 CloudFront/SSL/domain planning idea.

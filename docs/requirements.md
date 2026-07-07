@@ -73,6 +73,20 @@ Brands hero must remain dynamic from the Brands API and must not be patched by d
 - Batch 60B is documentation/procedure only unless a separately approved safety script is requested.
 - Batch 60B must not add paid backup services unless separately approved after cost review.
 
+
+### Release artifact / GitHub decoupling requirements — Batch 62A
+
+- Batch 62A is a post-demo/pre-launch safety batch.
+- GitHub remains source control, but production runtime must not depend on GitHub downloads, raw GitHub URLs, moving branches, or GitHub credentials.
+- A tagged release should be created for approved production/go-live code, for example `v1.0.0`.
+- A release artifact zip/tarball and checksum should be created from the approved source tree.
+- Release artifacts must not include `.env`, AWS credentials, Cognito tokens, bearer tokens, generated temporary passwords, local virtual environments, caches, or secret logs.
+- A controlled artifact copy should be stored outside GitHub deployment downloads, such as private S3 or a controlled local/offline backup.
+- Production deployment should use the artifact and preserve the `/opt/rsa-cms/releases/*` and `/opt/rsa-cms/current` rollback model.
+- Runtime files, Nginx config, systemd service files, public frontend files, and backend runtime environment must not require GitHub URLs or GitHub tokens.
+- Before launch, run a runtime check for `github.com`, `raw.githubusercontent.com`, `api.github.com`, and GitHub tokens in the active EC2 release and runtime configs.
+- Batch 62A must preserve the AWS Free-Tier-first model and must not add paid CI/CD, ALB, NAT Gateway, RDS, paid WAF, or extra always-on infrastructure unless separately approved after cost review.
+
 ### Domain / HTTPS / CloudFront / Route 53 requirements — Batch 61
 
 - Batch 61 remains deferred until customer demo/launch approval and final domain confirmation.
