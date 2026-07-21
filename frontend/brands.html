@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +9,7 @@
 
   <link href="./assets/css/output.css" rel="stylesheet">
   <link href="./assets/css/custom.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 
 <body class="bg-white text-gray-900 brands-page">
@@ -19,33 +20,31 @@
 
   <header class="bg-black text-white relative">
 
-    <button id="mobileMenuButton"
-            class="md:hidden text-white text-3xl absolute right-5 top-5 z-[9999] leading-none">
+    <button id="mobileMenuButton" class="md:hidden text-white text-3xl absolute right-5 top-5 z-[9999] leading-none">
       ☰
     </button>
 
     <div class="max-w-7xl mx-auto px-4 py-2 flex flex-col md:flex-row justify-between items-center gap-3">
 
       <a href="index.html" class="block">
-        <img src="./assets/images/rsa-logo.png"
-             alt="R.S.A. CCTV Installation Services"
-             class="main-logo">
+        <img src="./assets/images/rsa-logo.png" alt="R.S.A. CCTV Installation Services" class="main-logo">
       </a>
 
       <!-- MOBILE CONTACT + SOCIAL AREA -->
       <div class="md:hidden w-full mobile-header-extra">
 
-        <div class="mobile-contact-row w-full flex items-center justify-center gap-4 text-white text-sm border-t border-b border-red-950 py-3">
+        <div
+          class="mobile-contact-row w-full flex items-center justify-center gap-4 text-white text-sm border-t border-b border-red-950 py-3">
           <div class="flex items-center gap-4 whitespace-nowrap">
             <i class="fa-solid fa-phone text-red-600 text-xl"></i>
-            <span>+63 912 345 6789</span>
+            <span data-rsa-company-phone></span>
           </div>
 
           <div class="h-5 w-px bg-gray-700"></div>
 
           <div class="flex items-center gap-4 whitespace-nowrap">
             <i class="fa-solid fa-envelope text-red-600 text-xl"></i>
-            <span>company@email.com</span>
+            <span data-rsa-company-email></span>
           </div>
         </div>
 
@@ -70,14 +69,14 @@
 
         <div class="flex items-center gap-3 text-white whitespace-nowrap">
           <i class="fa-solid fa-envelope text-red-600 text-xl"></i>
-          <span>company@email.com</span>
+          <span data-rsa-company-email></span>
         </div>
 
         <div class="h-6 w-px bg-gray-700"></div>
 
         <div class="flex items-center gap-3 text-white whitespace-nowrap">
           <i class="fa-solid fa-phone text-red-600 text-xl"></i>
-          <span>+63 912 345 6789</span>
+          <span data-rsa-company-phone></span>
         </div>
 
         <div class="h-6 w-px bg-gray-700"></div>
@@ -120,7 +119,8 @@
 
         </ul>
         <div id="mobileMenuOverlay" class="hidden fixed inset-0 bg-black/70 z-[9997]"></div>
-        <ul id="mobileMenu" class="hidden fixed top-0 right-0 h-screen w-[80%] max-w-[360px] bg-black z-[9998] flex-col px-8 pt-24 space-y-7 text-xl font-bold uppercase shadow-2xl">
+        <ul id="mobileMenu"
+          class="hidden fixed top-0 right-0 h-screen w-[80%] max-w-[360px] bg-black z-[9998] flex-col px-8 pt-24 space-y-7 text-xl font-bold uppercase shadow-2xl">
           <li><a href="index.html">Home</a></li>
           <li><a href="brands.html">Brands</a></li>
           <li><a href="products.html">Products</a></li>
@@ -135,44 +135,44 @@
 
   </header>
 
-<section class="brands-hero-section bg-black text-white overflow-hidden border-b border-gray-900">
-  <div class="max-w-7xl mx-auto px-4 py-14 md:py-16 brands-hero-content">
+  <section class="brands-hero-section bg-black text-white overflow-hidden border-b border-gray-900">
+    <div class="max-w-7xl mx-auto px-4 py-14 md:py-16 brands-hero-content">
 
-    <div class="brands-hero-text">
-      <h1>
-        Trusted CCTV &<br>
-        <span>Security Brands</span>
-      </h1>
+      <div class="brands-hero-text">
+        <h1>
+          Trusted CCTV &<br>
+          <span>Security Brands</span>
+        </h1>
 
-      <p>
-        We supply and install genuine CCTV cameras, recorders, networking devices,
-        storage solutions, and security accessories from leading global brands.
-      </p>
+        <p>
+          We supply and install genuine CCTV cameras, recorders, networking devices,
+          storage solutions, and security accessories from leading global brands.
+        </p>
 
-      <div class="brands-hero-features">
-        <div><i class="fa-solid fa-thumbs-up"></i><span>Genuine Products</span></div>
-        <div><i class="fa-solid fa-certificate"></i><span>Reliable Warranty</span></div>
-        <div><i class="fa-solid fa-medal"></i><span>Proven Performance</span></div>
+        <div class="brands-hero-features">
+          <div><i class="fa-solid fa-thumbs-up"></i><span>Genuine Products</span></div>
+          <div><i class="fa-solid fa-certificate"></i><span>Reliable Warranty</span></div>
+          <div><i class="fa-solid fa-medal"></i><span>Proven Performance</span></div>
+        </div>
       </div>
-    </div>
 
-    <div class="brands-hero-grid">
-      <div><img src="./assets/images/brands/dahua.png" alt="Dahua"></div>
-      <div><img src="./assets/images/brands/hikvision.png" alt="Hikvision"></div>
-      <div><img src="./assets/images/brands/uniview.png" alt="Uniview"></div>
-      <div><img src="./assets/images/brands/ezviz.png" alt="EZVIZ"></div>
-      <div><img src="./assets/images/brands/aqara.png" alt="TP-Link"></div>
-      <div><img src="./assets/images/brands/eufy.png" alt="D-Link"></div>
-      <div><img src="./assets/images/brands/bosch.png" alt="Bosch"></div>
-      <div><img src="./assets/images/brands/arlo.png" alt="Seagate"></div>
-      <div><img src="./assets/images/brands/avtech.png" alt="Western Digital"></div>
-      <div><img loading="lazy" decoding="async" src="./assets/images/brands/hanwha.png" alt="Hanwha"></div>
-      <div><img loading="lazy" decoding="async" src="./assets/images/brands/axis.png" alt="Axis"></div>
-      <div><img loading="lazy" decoding="async" src="./assets/images/brands/imou.png" alt="Imou"></div>
-    </div>
+      <div class="brands-hero-grid">
+        <div><img src="./assets/images/brands/dahua.png" alt="Dahua"></div>
+        <div><img src="./assets/images/brands/hikvision.png" alt="Hikvision"></div>
+        <div><img src="./assets/images/brands/uniview.png" alt="Uniview"></div>
+        <div><img src="./assets/images/brands/ezviz.png" alt="EZVIZ"></div>
+        <div><img src="./assets/images/brands/aqara.png" alt="TP-Link"></div>
+        <div><img src="./assets/images/brands/eufy.png" alt="D-Link"></div>
+        <div><img src="./assets/images/brands/bosch.png" alt="Bosch"></div>
+        <div><img src="./assets/images/brands/arlo.png" alt="Seagate"></div>
+        <div><img src="./assets/images/brands/avtech.png" alt="Western Digital"></div>
+        <div><img loading="lazy" decoding="async" src="./assets/images/brands/hanwha.png" alt="Hanwha"></div>
+        <div><img loading="lazy" decoding="async" src="./assets/images/brands/axis.png" alt="Axis"></div>
+        <div><img loading="lazy" decoding="async" src="./assets/images/brands/imou.png" alt="Imou"></div>
+      </div>
 
-  </div>
-</section>
+    </div>
+  </section>
 
   <main class="bg-gray-100">
 
@@ -199,28 +199,50 @@
           <div class="brand-strip-scroll-wrap">
             <button class="brand-scroll-btn brand-scroll-left" type="button">‹</button>
             <div id="brandsPageStrip" class="brand-strip-row">
-              <div class="brand-strip-item" data-brand-filter="dahua"><img loading="lazy" decoding="async" src="./assets/images/brands/dahua.png" alt="Dahua"></div>
-              <div class="brand-strip-item" data-brand-filter="hikvision"><img loading="lazy" decoding="async" src="./assets/images/brands/hikvision.png" alt="Hikvision"></div>
-              <div class="brand-strip-item" data-brand-filter="axis"><img loading="lazy" decoding="async" src="./assets/images/brands/axis.png" alt="Axis Communcations"></div>
-              <div class="brand-strip-item" data-brand-filter="bosch"><img loading="lazy" decoding="async" src="./assets/images/brands/bosch.png" alt="Bosch"></div>
-              <div class="brand-strip-item" data-brand-filter="hanhwa"><img loading="lazy" decoding="async" src="./assets/images/brands/hanwha.png" alt="Hanwha"></div>
-              <div class="brand-strip-item" data-brand-filter="ezviz"><img loading="lazy" decoding="async" src="./assets/images/brands/ezviz.png" alt="EZVIZ"></div>
-              <div class="brand-strip-item" data-brand-filter="avtech"><img loading="lazy" decoding="async" src="./assets/images/brands/avtech.png" alt="AVTech"></div>
-              <div class="brand-strip-item" data-brand-filter="uniview"><img loading="lazy" decoding="async" src="./assets/images/brands/uniview.png" alt="UNV"></div>
-              <div class="brand-strip-item" data-brand-filter="imou"><img loading="lazy" decoding="async" src="./assets/images/brands/imou.png" alt="imou"></div>
-              <div class="brand-strip-item" data-brand-filter="panasonic"><img loading="lazy" decoding="async" src="./assets/images/brands/panasonic.png" alt="Panasonic"></div>
-              <div class="brand-strip-item" data-brand-filter="tplink"><img loading="lazy" decoding="async" src="./assets/images/brands/tplink.png" alt="TP-Link"></div>
-              <div class="brand-strip-item" data-brand-filter="dlink"><img loading="lazy" decoding="async" src="./assets/images/brands/dlink.png" alt="D-Link"></div>
-              <div class="brand-strip-item" data-brand-filter="cisco"><img loading="lazy" decoding="async" src="./assets/images/brands/cisco.png" alt="Cisco"></div>
-              <div class="brand-strip-item" data-brand-filter="eufy"><img loading="lazy" decoding="async" src="./assets/images/brands/eufy.png" alt="eufy"></div>
-              <div class="brand-strip-item" data-brand-filter="aqara"><img loading="lazy" decoding="async" src="./assets/images/brands/aqara.png" alt="aqara"></div>
-              <div class="brand-strip-item" data-brand-filter="igloohome"><img loading="lazy" decoding="async" src="./assets/images/brands/igloohome.png" alt="igloohome"></div>
-              <div class="brand-strip-item" data-brand-filter="arlo"><img loading="lazy" decoding="async" src="./assets/images/brands/arlo.png" alt="arlo"></div>
-              <div class="brand-strip-item" data-brand-filter="unifi"><img loading="lazy" decoding="async" src="./assets/images/brands/unifi.png" alt="unifi"></div>
-              <div class="brand-strip-item" data-brand-filter="mercusys"><img loading="lazy" decoding="async" src="./assets/images/brands/mercusys.png" alt="mercusys"></div>
-              <div class="brand-strip-item" data-brand-filter="yale"><img loading="lazy" decoding="async" src="./assets/images/brands/yale.png" alt="yale"></div>
-              <div class="brand-strip-item" data-brand-filter="wd"><img loading="lazy" decoding="async" src="./assets/images/brands/wd.png" alt="Western Digital"></div>
-              <div class="brand-strip-item" data-brand-filter="seagate"><img loading="lazy" decoding="async" src="./assets/images/brands/seagate.png" alt="Seagate"></div>
+              <div class="brand-strip-item" data-brand-filter="dahua"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/dahua.png" alt="Dahua"></div>
+              <div class="brand-strip-item" data-brand-filter="hikvision"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/hikvision.png" alt="Hikvision"></div>
+              <div class="brand-strip-item" data-brand-filter="axis"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/axis.png" alt="Axis Communcations"></div>
+              <div class="brand-strip-item" data-brand-filter="bosch"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/bosch.png" alt="Bosch"></div>
+              <div class="brand-strip-item" data-brand-filter="hanhwa"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/hanwha.png" alt="Hanwha"></div>
+              <div class="brand-strip-item" data-brand-filter="ezviz"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/ezviz.png" alt="EZVIZ"></div>
+              <div class="brand-strip-item" data-brand-filter="avtech"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/avtech.png" alt="AVTech"></div>
+              <div class="brand-strip-item" data-brand-filter="uniview"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/uniview.png" alt="UNV"></div>
+              <div class="brand-strip-item" data-brand-filter="imou"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/imou.png" alt="imou"></div>
+              <div class="brand-strip-item" data-brand-filter="panasonic"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/panasonic.png" alt="Panasonic"></div>
+              <div class="brand-strip-item" data-brand-filter="tplink"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/tplink.png" alt="TP-Link"></div>
+              <div class="brand-strip-item" data-brand-filter="dlink"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/dlink.png" alt="D-Link"></div>
+              <div class="brand-strip-item" data-brand-filter="cisco"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/cisco.png" alt="Cisco"></div>
+              <div class="brand-strip-item" data-brand-filter="eufy"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/eufy.png" alt="eufy"></div>
+              <div class="brand-strip-item" data-brand-filter="aqara"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/aqara.png" alt="aqara"></div>
+              <div class="brand-strip-item" data-brand-filter="igloohome"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/igloohome.png" alt="igloohome"></div>
+              <div class="brand-strip-item" data-brand-filter="arlo"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/arlo.png" alt="arlo"></div>
+              <div class="brand-strip-item" data-brand-filter="unifi"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/unifi.png" alt="unifi"></div>
+              <div class="brand-strip-item" data-brand-filter="mercusys"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/mercusys.png" alt="mercusys"></div>
+              <div class="brand-strip-item" data-brand-filter="yale"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/yale.png" alt="yale"></div>
+              <div class="brand-strip-item" data-brand-filter="wd"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/wd.png" alt="Western Digital"></div>
+              <div class="brand-strip-item" data-brand-filter="seagate"><img loading="lazy" decoding="async"
+                  src="./assets/images/brands/seagate.png" alt="Seagate"></div>
             </div>
             <button class="brand-scroll-btn brand-scroll-right" type="button">›</button>
           </div>
@@ -229,53 +251,59 @@
         <div class="products-category-scroll-wrap">
           <button class="category-scroll-btn category-scroll-left" type="button">‹</button>
           <!-- Category Filters -->
-            <div class="products-category-filter flex gap-4 overflow-x-auto pb-4 mb-6">
-              <button class="product-filter-btn" data-filter="all"><i class="fa-solid fa-table-cells-large"></i>All Products</button>
-              <button class="product-filter-btn" data-filter="packages"><i class="fa-solid fa-box-open"></i>Packages/Kits</button>
-              <button class="product-filter-btn" data-filter="cctv"><i class="fa-solid fa-video"></i>CCTV Cameras</button>
-              <button class="product-filter-btn" data-filter="recorders"><i class="fa-solid fa-hard-drive"></i>Recorders</button>
-              <button class="product-filter-btn" data-filter="networking"><i class="fa-solid fa-network-wired"></i>Networking</button>
-              <button class="product-filter-btn" data-filter="accessories"><i class="fa-solid fa-screwdriver-wrench"></i>Accessories</button>
-              <button class="product-filter-btn" data-filter="power"><i class="fa-solid fa-plug"></i>Power Supply</button>
-              <button class="product-filter-btn" data-filter="storage"><i class="fa-solid fa-database"></i>Storage</button>
-            </div>
+          <div class="products-category-filter flex gap-4 overflow-x-auto pb-4 mb-6">
+            <button class="product-filter-btn" data-filter="all"><i class="fa-solid fa-table-cells-large"></i>All
+              Products</button>
+            <button class="product-filter-btn" data-filter="packages"><i
+                class="fa-solid fa-box-open"></i>Packages/Kits</button>
+            <button class="product-filter-btn" data-filter="cctv"><i class="fa-solid fa-video"></i>CCTV Cameras</button>
+            <button class="product-filter-btn" data-filter="recorders"><i
+                class="fa-solid fa-hard-drive"></i>Recorders</button>
+            <button class="product-filter-btn" data-filter="networking"><i
+                class="fa-solid fa-network-wired"></i>Networking</button>
+            <button class="product-filter-btn" data-filter="accessories"><i
+                class="fa-solid fa-screwdriver-wrench"></i>Accessories</button>
+            <button class="product-filter-btn" data-filter="power"><i class="fa-solid fa-plug"></i>Power Supply</button>
+            <button class="product-filter-btn" data-filter="storage"><i
+                class="fa-solid fa-database"></i>Storage</button>
+          </div>
           <button class="category-scroll-btn category-scroll-right" type="button">›</button>
         </div>
         <!-- Products Header -->
-          <div class="products-toolbar mb-8">
+        <div class="products-toolbar mb-8">
 
-            <h2 id="productsSectionTitle" class="products-section-title">
-               &nbsp;Products per Brand
-            </h2>
+          <h2 id="productsSectionTitle" class="products-section-title">
+            &nbsp;Products per Brand
+          </h2>
 
-            <div class="products-toolbar-right">
-              <p id="productsCount" class="products-count">Loading products...</p>
-              <select class="products-sort-dropdown" id="productsSortDropdown">
-                <option value="default">Sort By:</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="newest">Newly Added</option>
-                <option value="sale">On Sale</option>
-              </select>
-            </div>
+          <div class="products-toolbar-right">
+            <p id="productsCount" class="products-count">Loading products...</p>
+            <select class="products-sort-dropdown" id="productsSortDropdown">
+              <option value="default">Sort By:</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="newest">Newly Added</option>
+              <option value="sale">On Sale</option>
+            </select>
           </div>
-          <!-- Products Grid -->
-          <div class="products-catalog-grid">
-            <div class="products-loading-state text-center text-gray-500 py-8">Loading products...</div>
-          </div>
-          <div id="productsEmptyState" class="products-empty-state hidden">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <h3>No products found.</h3>
-            <p>
-              Try another keyword or select a different category.
-            </p>
-         </div>
-          <!-- Pagination Preview -->
-          <div class="products-pagination">
-            <button id="productsPrevBtn" class="product-page-btn">‹ Previous</button>
-            <div id="productsPageNumbers" class="flex gap-3"></div>
-            <button id="productsNextBtn" class="product-page-btn">Next ›</button>
-          </div>
+        </div>
+        <!-- Products Grid -->
+        <div class="products-catalog-grid">
+          <div class="products-loading-state text-center text-gray-500 py-8">Loading products...</div>
+        </div>
+        <div id="productsEmptyState" class="products-empty-state hidden">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <h3>No products found.</h3>
+          <p>
+            Try another keyword or select a different category.
+          </p>
+        </div>
+        <!-- Pagination Preview -->
+        <div class="products-pagination">
+          <button id="productsPrevBtn" class="product-page-btn">‹ Previous</button>
+          <div id="productsPageNumbers" class="flex gap-3"></div>
+          <button id="productsNextBtn" class="product-page-btn">Next ›</button>
+        </div>
 
       </div>
     </section>
@@ -324,23 +352,22 @@
     <section class="products-cta-section bg-black text-white py-10 border-t border-red-950 mt-2">
       <div class="max-w-7xl mx-auto px-4 text-center">
 
-      <p class="text-red-600 text-sm font-bold uppercase mb-3">
-        Need CCTV Installation?
-      </p>
+        <p class="text-red-600 text-sm font-bold uppercase mb-3">
+          Need CCTV Installation?
+        </p>
 
-      <h2 class="text-3xl md:text-4xl font-black uppercase mb-4">
-        Ready to Secure Your Property?
-      </h2>
+        <h2 class="text-3xl md:text-4xl font-black uppercase mb-4">
+          Ready to Secure Your Property?
+        </h2>
 
-      <p class="text-gray-300 max-w-2xl mx-auto text-sm md:text-base leading-7 mb-8">
-        Book a site visit today and let R.S.A. CCTV Installation Services help you choose
-        the right security solution for your home or business.
-      </p>
+        <p class="text-gray-300 max-w-2xl mx-auto text-sm md:text-base leading-7 mb-8">
+          Book a site visit today and let R.S.A. CCTV Installation Services help you choose
+          the right security solution for your home or business.
+        </p>
 
-      <a href="booking.html"
-        class="inline-block bg-red-700 hover:bg-red-800 text-white font-bold px-8 py-3 rounded">
-        Request Site Visit
-      </a>
+        <a href="booking.html" class="inline-block bg-red-700 hover:bg-red-800 text-white font-bold px-8 py-3 rounded">
+          Request Site Visit
+        </a>
 
       </div>
     </section>
@@ -408,4 +435,5 @@
   </div>
   <script src="./assets/js/main.js"></script>
 </body>
+
 </html>

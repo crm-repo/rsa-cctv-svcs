@@ -2843,10 +2843,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!company) return;
     const phone = firstNonEmpty(company.primary_contact_number, company.secondary_contact_number, company.whatsapp_number, company.viber_number);
     const email = firstNonEmpty(company.company_email, company.email_address);
-    document.querySelectorAll(".mobile-contact-row span, .hidden.md\\:flex span").forEach((span) => {
-      const text = span.textContent || "";
-      if (text.includes("@") && email) span.textContent = email;
-      if ((text.includes("+63") || text.includes("091")) && phone) span.textContent = phone;
+    document.querySelectorAll("[data-rsa-company-phone]").forEach((element) => {
+      if (phone) {
+        element.textContent = phone;
+      }
+    });
+
+    document.querySelectorAll("[data-rsa-company-email]").forEach((element) => {
+      if (email) {
+        element.textContent = email;
+      }
     });
     document.querySelectorAll('a[href^="tel:"]').forEach((a) => {
       if (phone && (a.textContent.includes("+63") || a.textContent.includes("091") || a.classList.contains("about-page-secondary-btn"))) a.href = telHref(phone);
@@ -3062,6 +3068,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const isContact = document.body.classList.contains("contact-page");
     const isBooking = document.body.classList.contains("booking-page");
 
+    const hasContactDataTargets = Boolean(
+      document.querySelector(
+        [
+          "[data-rsa-company-phone]",
+          "[data-rsa-company-email]",
+          ".contact-info-list",
+          ".contact-channel-grid",
+          ".booking-contact-links"
+        ].join(", ")
+      )
+    );
+
     bindLeadForms();
 
     if (isHome) {
@@ -3083,11 +3101,14 @@ document.addEventListener("DOMContentLoaded", function () {
       catch (error) { console.error("Unable to load services API content.", error); }
     }
 
-    if (isContact || isBooking) {
-      try { renderContactInfo(await loadContactPage()); }
-      catch (error) { console.error("Unable to load contact API content.", error); }
+    if (hasContactDataTargets) {
+        try {
+          renderContactInfo(await loadContactPage());
+        } catch (error) {
+          console.error("Unable to load contact API content.", error);
+        }
+      }
     }
-  }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initializePublicCmsPages);
