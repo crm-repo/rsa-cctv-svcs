@@ -7,19 +7,189 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="./assets/css/admin.css" />
   <link rel="stylesheet" href="./assets/css/admin-auth.css" />
+  <style>
+    /* batch60c-3-admin-login-style */
+    .admin-login-card .admin-login-eyebrow {
+      margin: 0 0 22px !important;
+      text-align: center !important;
+      color: #111827 !important;
+      font-size: clamp(1.18rem, 2vw, 1.55rem) !important;
+      font-weight: 900 !important;
+      letter-spacing: 0.01em !important;
+      text-transform: none !important;
+    }
+    .admin-login-logo-card {
+      width: min(260px, 78vw) !important;
+      min-height: 118px !important;
+      margin: 0 auto 26px !important;
+      display: grid !important;
+      place-items: center !important;
+      padding: 20px 24px !important;
+      border-radius: 24px !important;
+      background: #05070c !important;
+      box-shadow: 0 24px 48px rgba(15, 23, 42, 0.22) !important;
+    }
+    .admin-login-logo-card img {
+      width: min(210px, 64vw) !important;
+      height: auto !important;
+      max-height: 88px !important;
+      object-fit: contain !important;
+      display: block !important;
+    }
+    .admin-login-brand { display: none !important; }
+
+    /*
+
+    /* batch60c-3p-login-logo-title-fit */
+    .admin-login-brand-row {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 12px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 0 6px !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+
+    .admin-login-brand-row .admin-login-eyebrow {
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      text-align: left !important;
+      max-width: 100% !important;
+      font-size: 1.01rem !important;
+      line-height: 1.2 !important;
+      letter-spacing: 0.005em !important;
+      color: #07111f !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: clip !important;
+    }
+
+    .admin-login-brand-row .admin-login-logo-card {
+      flex: 0 0 150px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 150px !important;
+      max-width: 150px !important;
+      height: 58px !important;
+      min-height: 58px !important;
+      max-height: 58px !important;
+      margin: 0 !important;
+      padding: 4px 6px !important;
+      background: #03070d !important;
+      border: 1px solid rgba(255,255,255,0.06) !important;
+      border-radius: 11px !important;
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.10) !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    .admin-login-brand-row .admin-login-logo-card img {
+      display: block !important;
+      width: 240px !important;
+      max-width: none !important;
+      height: auto !important;
+      margin: 0 auto !important;
+      object-fit: contain !important;
+      object-position: center center !important;
+      transform: none !important;
+      filter: none !important;
+      background: transparent !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
+    .admin-login-card > .admin-login-note[data-admin-login-note],
+    .admin-login-card > .admin-login-intro-note[data-admin-login-note] {
+      box-sizing: border-box !important;
+      width: 100% !important;
+      min-height: 0 !important;
+      display: block !important;
+      text-align: left !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      margin-top: 4px !important;
+      margin-bottom: 10px !important;
+      padding-top: 6px !important;
+      padding-bottom: 6px !important;
+      line-height: 1.2 !important;
+    }
+
+    @media (max-width: 640px) {
+      .admin-login-brand-row {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        margin-bottom: 8px !important;
+        overflow: visible !important;
+      }
+
+      .admin-login-brand-row .admin-login-eyebrow {
+        text-align: center !important;
+        white-space: normal !important;
+        max-width: 300px !important;
+        overflow: visible !important;
+      }
+
+      .admin-login-brand-row .admin-login-logo-card {
+        flex-basis: auto !important;
+        width: 150px !important;
+        max-width: 150px !important;
+        height: 58px !important;
+        min-height: 58px !important;
+        max-height: 58px !important;
+      }
+
+      .admin-login-brand-row .admin-login-logo-card img {
+        width: 240px !important;
+      }
+    }
+
+    /* batch60c-3q-login-logo-inner-20pct-bigger */
+    .admin-login-card .admin-login-brand-row .admin-login-logo-card img {
+      width: 240px !important;
+      max-width: none !important;
+      min-width: 240px !important;
+      height: auto !important;
+      transform: none !important;
+      object-fit: contain !important;
+      object-position: center center !important;
+    }
+
+    /* batch60c-3r-login-logo-visible-force-scale */
+    .admin-login-card .admin-login-brand-row .admin-login-logo-card img {
+      width: 240px !important;
+      min-width: 240px !important;
+      max-width: none !important;
+      height: auto !important;
+      transform: scale(1.20) !important;
+      transform-origin: center center !important;
+      object-fit: contain !important;
+      object-position: center center !important;
+    }
+
+  </style>
 </head>
 <body class="admin-login-page">
   <main class="admin-login-card">
-    <p class="admin-login-eyebrow">R.S.A. CCTV Installation Services</p>
-    <div class="admin-login-brand">
-      <img src="./assets/images/rsa-logo.png" alt="RSA CCTV Installation Services" />
-      <div>
-        <h1>RSA Admin</h1>
-        <p>Secure CMS and Mini-CRM sign-in</p>
-      </div>
+    <div class="admin-login-brand-row">
+
+      <div class="admin-login-logo-card" aria-label="RSA CCTV Installation Services">
+      <img src="./assets/images/rsa-logo.png" alt="RSA CCTV Installation Services" style="width:240px!important;min-width:240px!important;max-width:none!important;height:auto!important;transform:scale(1.20)!important;transform-origin:center center!important;object-fit:contain!important;object-position:center center!important;" data-batch60c-3r-logo-scale="true" />
     </div>
 
-    <p class="admin-login-note" data-admin-login-note>
+      <p class="admin-login-eyebrow">Admin Panel Secured Sign-In</p>
+
+    </div>
+    <p class="admin-login-note admin-login-intro-note" data-admin-login-note>
       Preparing admin sign-in…
     </p>
 
@@ -206,3 +376,5 @@
 </script>
 </body>
 </html>
+
+<!-- batch60c-3-admin-login-markup -->
