@@ -328,35 +328,64 @@ if (promoGrid && promoDotsContainer) {
 
 /* =========================
    PROMOTIONS HERO MOBILE SLIDER
+   Supports dynamically rendered API banners.
 ========================= */
 
 const promoHeroGrid = document.querySelector(".promotions-hero-grid");
 
 if (promoHeroGrid) {
-  const promoHeroSlides = Array.from(
-    promoHeroGrid.querySelectorAll(".promotions-hero-banner")
-  );
-
   let promoHeroIndex = 0;
 
+  function isPromoHeroMobileView() {
+    return window.matchMedia(
+      "(max-width: 767px) and (orientation: portrait)"
+    ).matches;
+  }
+
+  function getPromoHeroSlides() {
+    return Array.from(
+      promoHeroGrid.querySelectorAll(".promotions-hero-banner")
+    );
+  }
+
   function renderPromoHeroSlide() {
+    const promoHeroSlides = getPromoHeroSlides();
+
+    if (!promoHeroSlides.length) return;
+
+    if (!isPromoHeroMobileView()) {
+      promoHeroIndex = 0;
+
+      promoHeroSlides.forEach((slide) => {
+        slide.style.transform = "translateX(0)";
+      });
+
+      return;
+    }
+
+    if (promoHeroIndex >= promoHeroSlides.length) {
+      promoHeroIndex = 0;
+    }
+
     promoHeroSlides.forEach((slide) => {
-      slide.style.transform = `translateX(-${promoHeroIndex * 100}%)`;
+      slide.style.transform =
+        `translateX(-${promoHeroIndex * 100}%)`;
     });
   }
 
-  if (promoHeroSlides.length > 1) {
-    setInterval(() => {
-      const isMobilePortrait = window.matchMedia(
-        "(max-width: 767px) and (orientation: portrait)"
-      ).matches;
+  setInterval(() => {
+    const promoHeroSlides = getPromoHeroSlides();
 
-      if (!isMobilePortrait) return;
+    if (!isPromoHeroMobileView()) return;
+    if (promoHeroSlides.length <= 1) return;
 
-      promoHeroIndex = (promoHeroIndex + 1) % promoHeroSlides.length;
-      renderPromoHeroSlide();
-    }, 3000);
-  }
+    promoHeroIndex =
+      (promoHeroIndex + 1) % promoHeroSlides.length;
+
+    renderPromoHeroSlide();
+  }, 3000);
+
+  window.addEventListener("resize", renderPromoHeroSlide);
 }
 
 /* =========================
@@ -2555,13 +2584,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderServicesPageCard(service) {
     const s = normalizeService(service);
+
     return `
       <article class="services-page-card">
-        <div class="services-page-card-icon"><i class="${escapeHtml(s.iconClass)}"></i></div>
+        <div class="services-page-card-icon">
+          <i class="${escapeHtml(s.iconClass)}"></i>
+        </div>
         <div>
           <h3>${escapeHtml(s.title)}</h3>
           <p>${escapeHtml(s.description)}</p>
-          ${s.ctaUrl ? `<a href="${escapeHtml(s.ctaUrl)}">${escapeHtml(s.ctaLabel)} <i class="fa-solid fa-arrow-right"></i></a>` : ""}
         </div>
       </article>`;
   }

@@ -157,11 +157,13 @@
           await window.RSAAdminAuth.mockLogin(password);
           status.textContent = 'Mock login saved. Redirecting…';
           redirectAfterLogin();
-        } catch (error) {
-          status.textContent = `Login failed: ${error.message}`;
-        } finally {
-          submitButton.disabled = false;
-        }
+          } catch (error) {
+            console.error('Admin login failed.', error);
+            status.textContent =
+              'Login failed. Please check your email and password and try again.';
+          } finally {
+            submitButton.disabled = false;
+          }
       });
 
       init().catch((error) => {

@@ -59,12 +59,24 @@
     });
   }
 
-  function sortOptions(includeDisplaySeq) {
-    return `<option value="recent" selected>Most Recent</option>${includeDisplaySeq ? '<option value="display_seq">Display Seq</option>' : ''}<option value="oldest">Oldest First</option><option value="az">Name A-Z</option><option value="za">Name Z-A</option>`;
+  function sortOptions(includeDisplaySeq, includeSale = false) {
+    return [
+      '<option value="recent" selected>Most Recent</option>',
+      includeSale
+        ? '<option value="sale">Sale Products</option>'
+        : '',
+      includeDisplaySeq
+        ? '<option value="display_seq">Display Seq</option>'
+        : '',
+      '<option value="oldest">Oldest First</option>',
+      '<option value="az">Name A-Z</option>',
+      '<option value="za">Name Z-A</option>'
+    ].join('');
   }
 
   function ensureSortToolbar() {
     const page = pageKey();
+    const includeSale = page === 'products';
     const catalogPages = new Set(['products', 'categories', 'brands', 'key-features']);
     const cmsPages = new Set(['about', 'project-gallery', 'services', 'contact-us']);
     const crmPages = new Set(['customers', 'bookings', 'inquiries']);
@@ -81,12 +93,18 @@
       });
       let sort = group.querySelector('[data-sort-filter]');
       if (!sort) {
-        group.insertAdjacentHTML('afterbegin', `<label><span>Sort By</span><select data-sort-filter>${sortOptions(includeDisplaySeq)}</select></label>`);
+        group.insertAdjacentHTML(
+          'afterbegin',
+          `<label><span>Sort By</span><select data-sort-filter>${sortOptions(includeDisplaySeq, includeSale)}</select></label>`
+        );
       } else {
         const label = sort.closest('label');
         const span = label ? label.querySelector('span') : null;
         if (span) span.textContent = 'Sort By';
-        sort.innerHTML = sortOptions(includeDisplaySeq);
+        sort.innerHTML = sortOptions(
+          includeDisplaySeq,
+          includeSale
+        );
         sort.value = 'recent';
       }
     }

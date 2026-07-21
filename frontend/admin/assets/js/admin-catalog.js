@@ -256,16 +256,49 @@
   function displayName(record) {
     return String(record.product_name || record.category_name || record.brand_name || record.key_feat_name || record[config.idField] || '').toLowerCase();
   }
-  function sortRecords(records) {
-    const mode = sortValue();
-    return records.slice().sort((a, b) => {
-      if (mode === 'display_seq') return Number(a.display_seq || 0) - Number(b.display_seq || 0);
-      if (mode === 'oldest') return recordDateValue(a) - recordDateValue(b);
-      if (mode === 'az') return displayName(a).localeCompare(displayName(b));
-      if (mode === 'za') return displayName(b).localeCompare(displayName(a));
-      return recordDateValue(b) - recordDateValue(a);
-    });
+  function hasSalePrice(record) {
+    const value = record ? record.sale_price : null;
+
+    return (
+      value !== null &&
+      value !== undefined &&
+      String(value).trim() !== ''
+    );
   }
+function sortRecords(records) {
+  const mode = sortValue();
+
+  return records.slice().sort((a, b) => {
+    if (page === 'products' && mode === 'sale') {
+      const saleComparison =
+        Number(hasSalePrice(b)) - Number(hasSalePrice(a));
+
+      if (saleComparison !== 0) {
+        return saleComparison;
+      }
+
+      return recordDateValue(b) - recordDateValue(a);
+    }
+
+    if (mode === 'display_seq') {
+      return Number(a.display_seq || 0) - Number(b.display_seq || 0);
+    }
+
+    if (mode === 'oldest') {
+      return recordDateValue(a) - recordDateValue(b);
+    }
+
+    if (mode === 'az') {
+      return displayName(a).localeCompare(displayName(b));
+    }
+
+    if (mode === 'za') {
+      return displayName(b).localeCompare(displayName(a));
+    }
+
+    return recordDateValue(b) - recordDateValue(a);
+  });
+}
 
   function applyFilters() {
     const query = searchValue();

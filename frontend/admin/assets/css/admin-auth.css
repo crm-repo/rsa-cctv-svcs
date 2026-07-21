@@ -102,9 +102,19 @@
 }
 
 .admin-login-status {
-  margin-top: 12px;
-  font-size: 13px;
-  color: #4b5563;
+  margin-top: 20px;
+  padding: 14px 16px;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.admin-login-status:empty {
+  display: none;
 }
 
 .admin-login-hint {
