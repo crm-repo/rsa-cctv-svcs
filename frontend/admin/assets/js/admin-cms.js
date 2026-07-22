@@ -82,44 +82,232 @@
   function displayName(record) { return String(record.hero_title || record.project_title || record.service_title || record.person_name || record.platform_name || record.contact_us_id || '').toLowerCase(); }
   function sortRecords(records) { const mode = sortValue(); return records.slice().sort((a,b)=>{ if(mode==='display_seq') return Number(a.display_seq || 0)-Number(b.display_seq || 0); if(mode==='oldest') return recordDateValue(a)-recordDateValue(b); if(mode==='az') return displayName(a).localeCompare(displayName(b)); if(mode==='za') return displayName(b).localeCompare(displayName(a)); return recordDateValue(b)-recordDateValue(a); }); }
 
-  function applyFilters() {
-    const query = searchValue();
-    const contactType = document.querySelector('[data-contact-type-filter]')?.value || '';
-    state.filtered = sortRecords(state.records.filter(record =>
-      (!query || text(record).includes(query)) &&
-      (!contactType || record.contact_type === contactType)
-    ));
-    renderTable();
+  /* batch60e-contact-split-tables */
+function applyFilters() {
+  const query = searchValue();
+
+  state.filtered = sortRecords(
+    state.records.filter(
+      record => !query || text(record).includes(query)
+    )
+  );
+
+  renderTable();
+}
+
+function setCount(message) {
+  const element = document.querySelector('[data-record-count]');
+  if (element) element.textContent = message;
+}
+
+const contactTableConfigs = [
+  {
+    key: 'company',
+    type: 'Company Contact',
+    title: 'Company Contact',
+    columns: [
+      ['contact_us_id', 'ID'],
+      ['display_seq', 'Display Seq'],
+      ['show_flag', 'Visible'],
+      ['primary_contact_number', 'Primary Contact'],
+      ['company_email', 'Company Email'],
+      ['business_hours', 'Business Hours']
+    ]
+  },
+  {
+    key: 'person',
+    type: 'Contact Person',
+    title: 'Contact Person',
+    columns: [
+      ['contact_us_id', 'ID'],
+      ['display_seq', 'Display Seq'],
+      ['show_flag', 'Visible'],
+      ['person_name', 'Person'],
+      ['position_title', 'Position'],
+      ['department', 'Department'],
+      ['phone_number', 'Phone Number'],
+      ['email_address', 'Email']
+    ]
+  },
+  {
+    key: 'social',
+    type: 'Social Media',
+    title: 'Social Media',
+    columns: [
+      ['contact_us_id', 'ID'],
+      ['display_seq', 'Display Seq'],
+      ['show_flag', 'Visible'],
+      ['platform_name', 'Platform'],
+      ['profile_url', 'Phone Number/URL'],
+      ['icon_code', 'Icon Code']
+    ]
+  }
+];
+
+function renderTableHead(head, columns) {
+  if (!head) return;
+
+  head.innerHTML = `
+    <tr>
+      ${columns
+        .map(([, labelText]) => `<th>${esc(labelText)}</th>`)
+        .join('')}
+      <th>Action</th>
+    </tr>
+  `;
+}
+
+function renderTableCell(field, record) {
+  if (field === 'show_flag') {
+    return `<td>${flag(record[field])}</td>`;
   }
 
-  function setCount(message) { const el = document.querySelector('[data-record-count]'); if (el) el.textContent = message; }
+  const value = fmt(field, record[field]);
 
-  function renderHead() {
-    const head = document.querySelector('[data-table-head]');
-    if (!head || !config) return;
-    head.innerHTML = `<tr>${config.columns.map(([, labelText]) => `<th>${esc(labelText)}</th>`).join('')}<th>Action</th></tr>`;
+  if (field.endsWith('_id')) {
+    return `<td><strong>${esc(value)}</strong></td>`;
   }
 
-  function renderTable() {
-    const body = document.querySelector('[data-table-body]');
-    if (!body || !config) return;
-    setCount(`${state.filtered.length} ${config.title} records found`);
-    if (!state.filtered.length) {
-      body.innerHTML = `<tr><td colspan="${config.columns.length + 1}" class="empty-cell">No matching ${esc(config.title)} records found.</td></tr>`;
+  return `<td>${esc(value)}</td>`;
+}
+
+function renderContactTables() {
+  contactTableConfigs.forEach(section => {
+    const head = document.querySelector(
+      `[data-contact-table-head="${section.key}"]`
+    );
+    const body = document.querySelector(
+      `[data-contact-table-body="${section.key}"]`
+    );
+    const count = document.querySelector(
+      `[data-contact-table-count="${section.key}"]`
+    );
+
+    renderTableHead(head, section.columns);
+
+    const records = state.filtered
+      .map((record, index) => ({ record, index }))
+      .filter(item => item.record.contact_type === section.type);
+
+    if (count) {
+      const noun = records.length === 1 ? 'record' : 'records';
+      count.textContent = `${records.length} ${noun} found`;
+    }
+
+    if (!body) return;
+
+    if (!records.length) {
+      body.innerHTML = `
+        <tr>
+          <td
+            colspan="${section.columns.length + 1}"
+            class="empty-cell"
+          >
+            No matching ${esc(section.title)} records found.
+          </td>
+        </tr>
+      `;
       return;
     }
-    body.innerHTML = state.filtered.map((record, index) => {
-      const cells = config.columns.map(([field]) => {
-        if (field === 'show_flag') return `<td>${flag(record[field])}</td>`;
-        const value = fmt(field, record[field]);
-        if (field.endsWith('_id')) return `<td><strong>${esc(value)}</strong></td>`;
-        return `<td>${esc(value)}</td>`;
-      }).join('');
-      return `<tr data-row-index="${index}">${cells}<td><button class="table-action-link" type="button" data-view-index="${index}">View / Edit</button></td></tr>`;
-    }).join('');
+
+    body.innerHTML = records
+      .map(({ record, index }) => {
+        const cells = section.columns
+          .map(([field]) => renderTableCell(field, record))
+          .join('');
+
+        return `
+          <tr data-row-index="${index}">
+            ${cells}
+            <td>
+              <button
+                class="table-action-link"
+                type="button"
+                data-view-index="${index}"
+              >
+                View / Edit
+              </button>
+            </td>
+          </tr>
+        `;
+      })
+      .join('');
+  });
+}
+
+function renderHead() {
+  if (!config) return;
+
+  if (page === 'contact-us') {
+    contactTableConfigs.forEach(section => {
+      renderTableHead(
+        document.querySelector(
+          `[data-contact-table-head="${section.key}"]`
+        ),
+        section.columns
+      );
+    });
+    return;
   }
 
-  function detailRows(record) {
+  const head = document.querySelector('[data-table-head]');
+  if (!head) return;
+
+  renderTableHead(head, config.columns);
+}
+
+function renderTable() {
+  if (!config) return;
+
+  if (page === 'contact-us') {
+    renderContactTables();
+    return;
+  }
+
+  const body = document.querySelector('[data-table-body]');
+  if (!body) return;
+
+  setCount(`${state.filtered.length} ${config.title} records found`);
+
+  if (!state.filtered.length) {
+    body.innerHTML = `
+      <tr>
+        <td
+          colspan="${config.columns.length + 1}"
+          class="empty-cell"
+        >
+          No matching ${esc(config.title)} records found.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  body.innerHTML = state.filtered
+    .map((record, index) => {
+      const cells = config.columns
+        .map(([field]) => renderTableCell(field, record))
+        .join('');
+
+      return `
+        <tr data-row-index="${index}">
+          ${cells}
+          <td>
+            <button
+              class="table-action-link"
+              type="button"
+              data-view-index="${index}"
+            >
+              View / Edit
+            </button>
+          </td>
+        </tr>
+      `;
+    })
+    .join('');
+}
+
+function detailRows(record) {
     return config.detailFields.map(field => `<div class="detail-row"><span>${esc((field === 'profile_url' ? 'Phone Number/URL' : field.replace(/_/g, ' ')))}</span><span>${esc(fmt(field, record[field]))}</span></div>`).join('');
   }
 

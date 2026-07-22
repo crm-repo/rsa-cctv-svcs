@@ -2785,3 +2785,128 @@ body .admin-sidebar .brand-lockup.admin-logo-only .brand-logo-wrap img {
   }
 }
 
+/* batch60e-contact-split-tables */
+.contact-table-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.contact-type-table {
+  min-height: 0;
+}
+
+.contact-type-table .panel-header {
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.contact-type-table .panel-header .eyebrow {
+  margin-bottom: 5px;
+}
+
+.contact-type-table .panel-header h2 {
+  font-size: 1.08rem;
+}
+
+.contact-type-table .lead-table-wrap {
+  max-height: none;
+}
+
+.contact-type-table .admin-data-table {
+  min-width: 880px;
+}
+
+.contact-type-table[data-contact-table="person"] .admin-data-table {
+  min-width: 1120px;
+}
+
+.contact-type-table .panel-tag {
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .contact-table-stack {
+    gap: 16px;
+  }
+
+  .contact-type-table .panel-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* batch60f-dashboard-quick-actions-one-row */
+.quick-actions-panel .quick-actions {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.quick-actions-panel .quick-action-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 11px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 62px !important;
+  padding: 12px 18px !important;
+  white-space: nowrap;
+}
+
+.quick-action-add-indicator {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border: 2px solid currentColor;
+  border-radius: 9px;
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.quick-actions-panel .quick-action-link:hover
+.quick-action-add-indicator {
+  background: var(--rsa-red, #b91c1c);
+  border-color: var(--rsa-red, #b91c1c);
+  color: #ffffff;
+}
+
+@media (max-width: 760px) {
+  .quick-actions-panel .quick-actions {
+    grid-template-columns: 1fr !important;
+  }
+
+  .quick-actions-panel .quick-action-link {
+    white-space: normal;
+  }
+}
+
+/* batch60f1-dashboard-quick-actions-row-fix */
+.quick-actions.quick-actions-one-row {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  gap: 14px !important;
+  width: 100% !important;
+}
+
+.quick-actions.quick-actions-one-row .quick-action-link {
+  grid-column: auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 62px !important;
+}
+
+.quick-actions.quick-actions-one-row
+.quick-action-link:last-child:nth-child(odd) {
+  grid-column: auto !important;
+}
+
+@media (max-width: 720px) {
+  .quick-actions.quick-actions-one-row {
+    grid-template-columns: 1fr !important;
+  }
+}

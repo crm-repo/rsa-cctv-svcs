@@ -84,12 +84,7 @@
         </div>
       </section>
       <section class="catalog-toolbar panel">
-        <div class="catalog-toolbar-group"><label><span>Contact Type</span><select data-contact-type-filter>
-              <option value="">All types</option>
-              <option value="Company Contact">Company Contact</option>
-              <option value="Contact Person">Contact Person</option>
-              <option value="Social Media">Social Media</option>
-            </select></label><label><span>Sort By</span><select data-sort-filter>
+        <div class="catalog-toolbar-group"><label><span>Sort By</span><select data-sort-filter>
               <option value="recent" selected>Most Recent</option>
               <option value="display_seq">Display Seq</option>
               <option value="oldest">Oldest First</option>
@@ -102,23 +97,89 @@
             data-refresh-list>Refresh</button><button class="admin-button" type="button" data-open-create>Add Contact
             Record</button></div>
       </section>
-      <section class="panel lead-table-panel catalog-table-panel">
-        <div class="panel-header">
-          <div>
-            <h2 data-list-title>Contact Us</h2>
-          </div><span class="panel-tag" data-record-count>Loading…</span>
-        </div>
-        <div class="table-wrap lead-table-wrap">
-          <table class="admin-data-table">
-            <thead data-table-head></thead>
-            <tbody data-table-body>
-              <tr>
-                <td class="empty-cell">Loading records…</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <!-- batch60e-contact-split-tables -->
+<div class="contact-table-stack" data-contact-table-stack>
+  <section
+    class="panel lead-table-panel catalog-table-panel contact-type-table"
+    data-contact-table="company"
+  >
+    <div class="panel-header">
+      <div>
+        <p class="eyebrow">Company Details</p>
+        <h2>Company Contact</h2>
+      </div>
+      <span
+        class="panel-tag"
+        data-contact-table-count="company"
+      >Loading…</span>
+    </div>
+
+    <div class="table-wrap lead-table-wrap">
+      <table class="admin-data-table">
+        <thead data-contact-table-head="company"></thead>
+        <tbody data-contact-table-body="company">
+          <tr>
+            <td class="empty-cell">Loading company contact…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section
+    class="panel lead-table-panel catalog-table-panel contact-type-table"
+    data-contact-table="person"
+  >
+    <div class="panel-header">
+      <div>
+        <p class="eyebrow">Team Directory</p>
+        <h2>Contact Persons</h2>
+      </div>
+      <span
+        class="panel-tag"
+        data-contact-table-count="person"
+      >Loading…</span>
+    </div>
+
+    <div class="table-wrap lead-table-wrap">
+      <table class="admin-data-table">
+        <thead data-contact-table-head="person"></thead>
+        <tbody data-contact-table-body="person">
+          <tr>
+            <td class="empty-cell">Loading contact persons…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section
+    class="panel lead-table-panel catalog-table-panel contact-type-table"
+    data-contact-table="social"
+  >
+    <div class="panel-header">
+      <div>
+        <p class="eyebrow">Public Channels</p>
+        <h2>Social Media</h2>
+      </div>
+      <span
+        class="panel-tag"
+        data-contact-table-count="social"
+      >Loading…</span>
+    </div>
+
+    <div class="table-wrap lead-table-wrap">
+      <table class="admin-data-table">
+        <thead data-contact-table-head="social"></thead>
+        <tbody data-contact-table-body="social">
+          <tr>
+            <td class="empty-cell">Loading social media records…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
       <aside class="detail-drawer" data-detail-drawer aria-hidden="true">
         <div class="drawer-backdrop" data-close-drawer></div>
         <div class="drawer-panel catalog-drawer-panel" role="dialog" aria-modal="true" aria-label="CMS detail">

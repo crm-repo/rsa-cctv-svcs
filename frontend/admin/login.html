@@ -217,7 +217,13 @@
       <button type="submit" data-admin-login-submit>Continue</button>
     </form>
 
-    <p class="admin-login-status" data-admin-login-status></p>
+    <!-- batch60g-login-status-error-only-v3 -->
+    <p
+      class="admin-login-status"
+      data-admin-login-status
+      role="alert"
+      aria-live="polite"
+    ></p>
   </main>
 
   <script src="./assets/js/admin-auth.js"></script>
@@ -250,7 +256,8 @@
         newPasswordFields.hidden = false;
         passwordLabel.textContent = 'Temporary password';
         submitButton.textContent = 'Set new password and continue';
-        status.textContent = 'First login requires a new permanent password.';
+        note.textContent = 'First login requires a new permanent password.';
+        status.textContent = '';
       }
 
       async function init() {
@@ -273,15 +280,15 @@
             ? 'Enter your admin email and password.'
             : 'Cognito mode is selected, but user pool/app client settings are missing.';
           status.textContent = authConfig.is_cognito_configured
-            ? 'Enter your Cognito admin credentials.'
-            : 'Admin authentication is not ready. Please check the configuration.';
+            ? ''
+            : 'Admin authentication is not ready. Please contact the system administrator.';
           return;
         }
 
         note.innerHTML = 'Enter your admin access token.';
         document.querySelector('[data-cognito-field]').hidden = true;
         form.elements.password.placeholder = 'Admin access token';
-        status.textContent = 'Enter your admin access token to continue.';
+        status.textContent = '';
       }
 
       form.addEventListener('submit', async (event) => {
@@ -293,13 +300,12 @@
 
         try {
           submitButton.disabled = true;
+          status.textContent = '';
           if (form.dataset.localPreview === 'true') {
-            status.textContent = 'Opening dashboard…';
             window.localStorage.removeItem('rsa_admin_logged_out');
             redirectAfterLogin();
             return;
           }
-          status.textContent = 'Signing in…';
 
           if (authConfig && authConfig.mode === 'cognito') {
             if (pendingCognitoSession) {
@@ -308,7 +314,6 @@
                 newPassword,
                 pendingCognitoSession
               );
-              status.textContent = 'New password set. Redirecting…';
               redirectAfterLogin();
               return;
             }
@@ -319,13 +324,11 @@
               return;
             }
 
-            status.textContent = 'Cognito login successful. Redirecting…';
             redirectAfterLogin();
             return;
           }
 
           await window.RSAAdminAuth.mockLogin(password);
-          status.textContent = 'Mock login saved. Redirecting…';
           redirectAfterLogin();
           } catch (error) {
             console.error('Admin login failed.', error);
@@ -337,7 +340,10 @@
       });
 
       init().catch((error) => {
-        status.textContent = `Unable to load auth config: ${error.message}`;
+        console.error('Unable to load admin auth config.', error);
+        status.textContent =
+          'Admin sign-in is temporarily unavailable. '
+          + 'Please try again later.';
       });
     }());
   </script>
