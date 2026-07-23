@@ -2964,6 +2964,102 @@ function renderHomePage(data, services) {
     return email ? `mailto:${email}` : "#";
   }
 
+  function socialHref(value) {
+    const url = String(value || "").trim();
+
+    if (!url) return "#";
+    if (/^https?:\/\//i.test(url)) return url;
+    if (/^\/\//.test(url)) return `https:${url}`;
+
+    return `https://${url.replace(/^\/+/, "")}`;
+  }
+
+  /* batch60h-dynamic-header-social-links:
+     Render only URL-backed Social Media records in the existing header icon
+     slots while preserving the current anchor classes and layout. */
+  function headerSocialUrl(record) {
+    const raw = String(firstNonEmpty(
+      record && record.profile_url,
+      record && record.phone_number_url,
+      record && record.url,
+      record && record.contact_value
+    ) || "").trim();
+
+    if (!raw) return "";
+    if (/^(tel:|sms:|mailto:|viber:)/i.test(raw)) return "";
+    if (/^\+?\d[\d\s().-]+$/.test(raw)) return "";
+
+    const hasWebAddress =
+      /^https?:\/\//i.test(raw) ||
+      /^\/\//.test(raw) ||
+      /[a-z0-9-]+\.[a-z]{2,}/i.test(raw);
+
+    if (!hasWebAddress) return "";
+
+    const normalized = socialHref(raw);
+    return /^https?:\/\//i.test(normalized) ? normalized : "";
+  }
+
+  function renderHeaderSocialGroup(selector, items) {
+    const links = Array.from(document.querySelectorAll(selector));
+    if (!links.length) return;
+
+    const groups = [];
+
+    links.forEach((link) => {
+      const parent = link.parentElement;
+      if (!parent) return;
+
+      let group = groups.find((entry) => entry.parent === parent);
+      if (!group) {
+        group = { parent, links: [] };
+        groups.push(group);
+      }
+
+      group.links.push(link);
+    });
+
+    groups.forEach(({ links: groupLinks }) => {
+      const template = groupLinks[0];
+      let lastLink = groupLinks[groupLinks.length - 1];
+
+      items.forEach(({ record, url }, index) => {
+        let link = groupLinks[index];
+
+        if (!link) {
+          link = template.cloneNode(true);
+          lastLink.insertAdjacentElement("afterend", link);
+          lastLink = link;
+        }
+
+        const label = firstNonEmpty(
+          record && record.platform_name,
+          record && record.platform_key,
+          "Social Media"
+        );
+
+        /* batch60h1-header-social-icon-size-new-tab */
+        link.hidden = false;
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.setAttribute("aria-label", label);
+        link.setAttribute("title", label);
+        link.innerHTML =
+          `<i class="${escapeHtml(socialIconClass(record))} header-social-icon" aria-hidden="true"></i>`;
+      });
+
+      groupLinks.slice(items.length).forEach((link) => {
+        link.hidden = true;
+        link.removeAttribute("href");
+        link.removeAttribute("target");
+        link.removeAttribute("rel");
+        link.removeAttribute("aria-label");
+        link.removeAttribute("title");
+      });
+    });
+  }
+
   function updateGlobalHeaderContact(company, socials) {
     if (!company) return;
     const phone = firstNonEmpty(company.primary_contact_number, company.secondary_contact_number);
@@ -2986,11 +3082,15 @@ function renderHomePage(data, services) {
       if (email) a.href = mailHref(email);
     });
 
-    const socialLinks = Array.from(document.querySelectorAll(".header-social-link, .mobile-social-row a"));
-    socialLinks.forEach((link, index) => {
-      const record = socials[index];
-      if (record && record.profile_url) link.href = record.profile_url;
-    });
+    const headerSocials = (Array.isArray(socials) ? socials : [])
+      .map((record) => ({
+        record,
+        url: headerSocialUrl(record)
+      }))
+      .filter((item) => item.url);
+
+    renderHeaderSocialGroup(".header-social-link", headerSocials);
+    renderHeaderSocialGroup(".mobile-social-row a", headerSocials);
   }
 
   function socialContactValue(record) {
@@ -3015,7 +3115,7 @@ function renderHomePage(data, services) {
     if (raw.includes("@") && !raw.includes(" ")) return mailHref(raw);
     if (/^\+?\d[\d\s().-]+$/.test(raw) || digits.length >= 7) return telHref(raw);
 
-    return raw;
+    return socialHref(raw);
   }
 
   function renderContactInfo(payload) {
@@ -3066,7 +3166,7 @@ function renderHomePage(data, services) {
       }).filter((channel) => channel.detail);
 
       channelGrid.innerHTML = channels.map((channel) => `
-        <a href="${escapeHtml(channel.url)}" class="home-soft-card contact-channel-card">
+        <a href="${escapeHtml(channel.url)}" target="_blank" rel="noopener noreferrer" class="home-soft-card contact-channel-card">
           <i class="${escapeHtml(channel.icon)}"></i><h3>${escapeHtml(channel.title)}</h3><p>${escapeHtml(channel.detail)}</p>
         </a>`).join("") || `<div class="rsa-cms-loading-state">No social media contacts available.</div>`;
     }

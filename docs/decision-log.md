@@ -696,3 +696,35 @@ This document records significant project decisions and their rationale. For imp
 | Reasoning | The live website/admin should continue running even if GitHub is unavailable, a branch changes, or deployment credentials rotate. Tagged artifacts, checksums, and local EC2 release folders make launches and rollbacks more reproducible. |
 | Impact | Batch 62A is inserted before final launch/cutover. GitHub remains source control, but production runtime and rollback should use deployed release artifacts and local EC2 release folders. No paid CI/CD, ALB, NAT Gateway, RDS, paid WAF, or extra always-on infrastructure is added by default. |
 
+## ADR-065: Keep Consolidated Contact Us Storage and Split the Admin Presentation
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 60E |
+| Status | Accepted / locally implemented and browser-tested |
+| Context | `rsa_contact_us` correctly consolidates Company Contact, Contact Person, and Social Media records, but one combined admin table showed many non-applicable fields as `---` and made operational review harder. |
+| Decision | Keep the single `rsa_contact_us` table and existing APIs. In the Contact Us admin page, render three separate tables filtered by `contact_type`: Company Contact, Contact Persons, and Social Media. Each table must show only fields applicable to that type. Keep the shared search/sort/refresh/add/view-edit workflows and existing conditional drawer forms. |
+| Reasoning | Improves readability and admin workflow without adding DynamoDB tables, GSIs, API routes, or data migration risk. |
+| Impact | This is a frontend/admin presentation change only. Company Contact remains the fixed/default company record, Contact Person photo scope is unchanged, and public Contact Us rendering remains unchanged. |
+
+## ADR-066: Dashboard Quick Actions Use Three Equal Desktop Add Buttons
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 60F-1 |
+| Status | Accepted / locally implemented and browser-tested |
+| Context | The dashboard has exactly three Quick Actions, but the older two-column grid placed the third action on a second row and reduced visual balance. |
+| Decision | Render Add Product, Add Category, and Add Brand as three equal desktop columns on one row. Each action includes a boxed `+` indicator to emphasize that it opens an add/create workflow. On small screens, stack the actions in one column. |
+| Reasoning | Uses the available dashboard width better, makes the add intent immediately visible, and preserves responsive usability. |
+| Impact | Batch 60F initial selector-scoped CSS is superseded by Batch 60F-1's dedicated Quick Actions class and override. No route, API, or drawer behavior changes. |
+
+## ADR-067: Reserve the Emphasized Login Status Area for Real Errors
+
+| Field | Value |
+|---|---|
+| Date | Phase 8 Batch 60G |
+| Status | Accepted / locally implemented and browser-tested |
+| Context | The login page already has a normal instruction note, while the emphasized red status area also displayed routine guidance and progress messages before any error occurred. This made normal page state look like an error. |
+| Decision | Keep normal email/password guidance in the information note and increase that note to `16px`. Keep the emphasized status area empty/hidden during normal page load, submission progress, and successful redirect. Show it only for actual login/authentication/configuration errors, using friendly non-technical wording. |
+| Reasoning | Establishes a clear visual hierarchy: instructions are informational; the emphasized red area signals a real problem only. |
+| Impact | Cognito flow, JWT behavior, first-login password challenge, and backend security are unchanged. The status element keeps accessible alert/live-region attributes. |

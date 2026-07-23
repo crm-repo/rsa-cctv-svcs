@@ -1,6 +1,6 @@
 # RSA CMS / Mini-CRM Implementation Guidelines
 
-## Phase 8 Continuation Guardrails — Batch 60C Onward
+## Phase 8 Continuation Guardrails — Batch 60G Onward
 
 ### Documentation/package folder standard
 
@@ -40,6 +40,24 @@ scripts/...
 
 Temporary patch/apply folders may be used outside the repository, but must not be committed.
 
+For one-command local polish batches, a script-only package is acceptable when the script is extracted to:
+
+```text
+backend/scripts/
+```
+
+Repository batch apply/verify/cleanup scripts should use Python (`.py`) to match the existing cross-platform project convention. PowerShell (`.ps1`) remains appropriate for Windows/EC2 deployment tooling already established under `deploy/`, but should not be introduced for ordinary repository patch batches without a specific reason.
+
+A one-command batch script should:
+
+- infer the repository root from `backend/scripts`;
+- validate expected files/markers before editing;
+- create a timestamped backup outside the Git working tree;
+- preserve current line endings/encoding where practical;
+- fail safely and restore modified targets if validation fails;
+- run syntax or `git diff --check` validation where applicable;
+- not commit, push, deploy, start EC2, or expose credentials.
+
 ### Runtime proof before patching
 
 Before changing public/admin behavior:
@@ -74,6 +92,9 @@ For current local testing, prefer:
 
 - Batch 60A is the EC2 public-IP demo smoke checklist and demo data sanity pass. It supersedes the earlier Batch 62 regression idea for demo readiness.
 - Batch 60C was inserted as a public/admin polish batch and is accepted as complete for now; do not extend it unless a demo-blocking issue appears.
+- Batch 60C integration recovery plus Batches 60E, 60F-1, and 60G are locally browser-tested in the current local baseline. Before closing the consolidated release, push the exact local commit, deploy it through the existing EC2 release flow, and smoke the affected pages.
+- Batch 60F initial layout selector is superseded by Batch 60F-1; do not reintroduce the older two-column/odd-item behavior.
+- Login routine guidance belongs in the information note; the emphasized login status region is reserved for actual errors.
 - Batch 60B is the backup/restore/production safety notes batch. It supersedes the earlier Batch 64 backup/rollback idea and is now documented as the operational safety reference.
 - During Batch 60A, repeat the full demo checklist before declaring the app demo-ready. Batch 60A must also confirm the current EC2 active release and smoke the accepted Batch 60C behavior.
 - Batch 60B documents DynamoDB, S3, Git, EC2 deployment, Nginx rollback, import safety, secret-handling procedures, and EC2/cost-safety reminders. It remains documentation/procedure only unless a separate safety script is approved.

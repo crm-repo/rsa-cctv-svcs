@@ -5,7 +5,7 @@
 This document is the authoritative business, functional, and non-functional requirements specification for RSA CMS / Mini-CRM. For implementation progress, use [feature-status.md](./feature-status.md). For technical design, use [architecture.md](./architecture.md).
 
 
-## Phase 8 Continuation Requirements — Batches 56D to 61
+## Phase 8 Continuation Requirements — Batches 56D to 62A
 
 ### Promotions hero promoted package rule
 
@@ -51,6 +51,19 @@ Brands hero must remain dynamic from the Brands API and must not be patched by d
 - Leads must not expose delete controls even for Admin. Keep booking, inquiry, and customer/lead records for traceability.
 - Prefer hide/archive/disable where data relationships or operational traceability matter.
 - Existing category/subcategory/brand dependency protections remain required.
+
+### Admin presentation polish requirements — Batches 60E to 60G
+
+- Contact Us admin must show separate tables for `Company Contact`, `Contact Person`, and `Social Media`.
+- Those three admin tables must continue to use the single consolidated Contact Us API/data source and must not create split DynamoDB tables.
+- Each Contact Us table must omit fields that are not applicable to its `contact_type`; non-applicable columns should not be shown as repeated `---` values.
+- Existing Search, Sort By, Clear Filters, Refresh, Add Contact Record, and View / Edit workflows must remain available.
+- Dashboard Quick Actions must show Add Product, Add Category, and Add Brand as three equal desktop actions on one row.
+- Each dashboard add shortcut should include a visible boxed `+` indicator; small screens may stack the actions vertically.
+- The admin login information note should display the normal email/password instruction at a slightly larger readable size.
+- The emphasized login status area must remain hidden while no error exists and must show only actual authentication/configuration errors.
+- Login errors must use friendly non-technical wording and must not expose raw Cognito error text.
+- These changes are frontend/admin presentation changes only and must not weaken Cognito protection or alter backend/API/database behavior.
 
 ### SEO/domain requirements
 
@@ -137,7 +150,7 @@ The approved Phase 8 backend/CMS requirements are documented in [PHASE8_FINAL_DY
 ### Contact Us Requirements
 
 - Contact Us data must be stored in one consolidated table: `rsa_contact_us`.
-- The admin page may still show 3 separate sections: Company Contact, Contact Person, and Social Media.
+- The admin page must show 3 separate type-specific tables: Company Contact, Contact Persons, and Social Media. Each table must display only fields applicable to that type.
 - The table must use `contact_type` with values `Company Contact`, `Contact Person`, and `Social Media`.
 - Company Contact should use fixed/default record `CONT-0000001`.
 - Company Contact fields must include office address and showroom address, plus separate office/showroom map embed/link fields.
@@ -501,7 +514,7 @@ Package banners should not duplicate modal key features as long bullet lists ins
 
 ## Admin CMS Requirements
 
-Future admin must support:
+Admin must support:
 
 - Dashboard
 - Products

@@ -4,11 +4,11 @@
 
 This document is the authoritative implementation progress tracker. If status here conflicts with another document, this document controls implementation status.
 
-Last updated: 2026-06-26  
-Update scope: Phase 8 Batch 59B user-confirmed complete, Batch 60A demo-readiness accepted complete, Batch 60B backup/restore/production safety notes complete, Batch 60C deployed/browser-tested by user, Batch 62A release artifact/GitHub decoupling added to post-demo pipeline, and Batch 61/domain deferral preserved.
+Last updated: 2026-07-22  
+Update scope: Batch 60C branch integration was recovered into the current local `main` baseline and browser-regression tested; Batch 60E Contact Us split tables, Batch 60F-1 dashboard shortcut polish, and Batch 60G login status polish are complete in local browser testing. GitHub push and EC2 deployment of the consolidated current local version remain pending confirmation. Batch 57, Batch 61, Batch 62A, and final launch deferrals remain unchanged.
 
 
-## Phase 8 Continuation Status — Batches 30 to 60C
+## Phase 8 Continuation Status — Batches 30 to 60G
 
 This section supersedes older Batch 29-only planning notes for deployment/security/media/admin continuation work.
 
@@ -59,6 +59,10 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Batch 59A | Complete / Local testing passed | Cognito Groups + Settings > Users management completed for the current local/admin scope, including Admin/Standard roles, one-time temporary password handling, and first-login password-change UI. Demo readiness was later accepted in Batch 60A. |
 | Batch 59B | Complete / user-confirmed | Admin-only restricted actions/delete controls confirmed complete by user before demo. Standard users should not see restricted controls; backend restrictions remain required. Leads remain non-delete. |
 | Batch 60C | Complete / deployed and browser-tested by user | Inserted public/admin polish batch. Includes public contact/social polish, admin logo/product UI polish, login/sidebar logo polish, and homepage Featured Products criteria update using `show_pack_flag` for non-package featured products. User confirmed Git push, EC2 deployment, and browser behavior before marking 60C complete. |
+| Batch 60E | Complete / local browser-tested | Admin Contact Us record list split into three type-specific tables: Company Contact, Contact Persons, and Social Media. Each table shows only applicable fields. The consolidated `rsa_contact_us` storage model, API routes, drawer forms, and public Contact Us behavior remain unchanged. |
+| Batch 60F | Superseded by Batch 60F-1 | Initial dashboard Quick Actions one-row patch added boxed `+` indicators, but an older global odd-item grid rule still forced the third action onto a second row. |
+| Batch 60F-1 | Complete / local browser-tested | Dashboard Quick Actions now show Add Product, Add Category, and Add Brand as three equal desktop buttons on one row, each with a boxed `+` indicator. Mobile retains one-column stacking. |
+| Batch 60G | Complete / local browser-tested | Admin login emphasized status box is hidden during normal page load and shown only for actual authentication/configuration errors. The normal email/password instruction remains in the smaller note at a larger `16px` size, and the friendly login error is preserved. |
 | Batch 60B | Complete | Backup/restore/production safety notes and operational runbooks documented. Supersedes earlier Batch 64 backup/rollback idea. Documentation/procedure only; no paid backup services added. |
 | Batch 60A | Complete / demo-ready accepted | EC2 public-IP demo readiness accepted by user. No further smoke testing requested for now. Current project state is demo ready; any issue before, during, or after demo should be reopened as a targeted hotfix. |
 | Batch 61 | Deferred / Later | Route 53/domain, ACM, SSL/HTTPS, CloudFront, and EC2 origin planning after final customer domain/cost approval. Supersedes earlier Batch 65 domain planning idea. |
@@ -125,13 +129,15 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Booking Form Validation / Submit | Complete | High | Public form posts to backend booking API |
 | Inquiry CTA / Contact Inquiry Flow | Complete | High | Contact/inquiry form posts to backend inquiry API |
 | Admin Panel Shell | Complete | High | Admin dashboard shell and page navigation implemented |
-| Admin Dashboard | Complete | Medium | Dashboard shell and admin landing page implemented |
+| Admin Dashboard | Complete | Medium | Dashboard shell and admin landing page implemented; Batch 60F-1 adds a three-button one-row Quick Actions layout with boxed add indicators on desktop |
+| Admin Dashboard Quick Actions | Complete / local browser-tested | Low | Add Product, Add Category, and Add Brand render in one desktop row with boxed `+` emphasis; small screens stack to one column |
 | Admin Lead Management | Complete | High | Bookings, inquiries, customers pages implemented with list/detail/update workflows |
 | Product Management Admin | Complete | High | Create/update, filters, detail drawer, media field prep, product-name preview, feature suggestions |
 | Category Management Admin | Complete | High | Create/update and display-sequence/show-flag management implemented |
 | Brand Management Admin | Complete | High | Create/update and logo/media field prep implemented |
 | Key Feature Management Admin | Complete | Medium | Create/update and reusable suggestions supported |
-| CMS Management Admin | Complete | High | About, project gallery, services, and contact-us admin pages/actions implemented |
+| CMS Management Admin | Complete | High | About, project gallery, services, and contact-us admin pages/actions implemented; Batch 60E presents Contact Us records in three type-specific tables while retaining consolidated storage |
+| Admin Contact Us Table Presentation | Complete / local browser-tested | Medium | Company Contact, Contact Persons, and Social Media render as separate tables with type-applicable columns only; no backend/database split was introduced |
 | Contact Person Photo Prep | Complete | Medium | Contact Person image/profile photo field uses the media prep workflow; Company Contact and Social Media do not add photo upload fields |
 | Customer CRM | Complete for Phase 8 | High | Customers auto-created/linked from bookings and inquiries; admin customer list/detail available |
 | User Roles / Permissions | Complete | Medium | Cognito Groups (`Admin`, `Standard`) and Settings > Users were implemented in Batch 59A; Batch 59B was user-confirmed complete before demo acceptance. No DynamoDB users table for launch. |
@@ -141,7 +147,8 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | DynamoDB Integration | Complete | High | Approved 12 tables created in AWS `ap-southeast-1`; DynamoDB mode tested successfully |
 | DynamoDB Seed Data | Complete | High | JSON seed data and safe seed loader implemented; null cleanup applied |
 | DynamoDB Regression Tests | Complete | High | Public/admin DynamoDB regression tests passed |
-| Cognito Admin Auth | Complete | High | Cognito login/JWT protection deployed for admin/API access; Batch 59A adds Cognito Groups-based Admin/Standard user management for the current scope. |
+| Cognito Admin Auth | Complete | High | Cognito login/JWT protection deployed for admin/API access; Batch 59A adds Cognito Groups-based Admin/Standard user management, and Batch 60G keeps the emphasized login status area error-only. |
+| Admin Login Status Messaging | Complete / local browser-tested | Medium | Normal instructions remain in the note; emphasized status appears only for real errors and uses friendly non-technical wording |
 | S3 / Image Upload | Complete | High | Private S3 media storage, backend upload/display routes, admin upload integration, and EC2 smoke completed in Batches 56A/56B |
 | Excel/CSV Launch Data Templates | Complete | Medium | Company-friendly launch data templates created and validated |
 | Launch Data Import Loader | Complete | Medium | Safe dry-run-first CSV/Excel import loader implemented; writes only with `--execute` |
@@ -149,8 +156,8 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | CloudFront / SSL | Planned | High | Required for production/domain launch |
 | AWS EC2 Deployment | Complete for demo | High | Single Free-Tier-first EC2 public-IP deployment path implemented and tested; keep instance stopped unless actively testing |
 | Route 53 / Domain | Planned | Medium | Delayed until after EC2 public-IP testing/demo |
-| AWS Billing Alerts | Planned | High | Required before public/external AWS testing |
-| Free-Tier Deployment Review | Planned | High | Required before backend/admin public testing |
+| AWS Billing Alerts | Complete for demo setup | High | Batch 30 cost-safety/billing-alert checklist and script prepared |
+| Free-Tier Deployment Review | Complete for demo | High | EC2/IAM/security/deployment preflight and demo deployment path completed in Batches 31-39 |
 | SEO Metadata | Deferred | High | Deferred until final Route 53/domain to avoid duplicate canonical/Open Graph work |
 | Sitemap / robots.txt | Deferred | High | Deferred until final domain and launch URL are ready |
 | Image Optimization / Lazy Loading | Complete / Local testing passed | High | Batch 58 lazy loading completed locally; image compression remains optional/future only if reopened. |
@@ -190,7 +197,7 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 | Batch 26 | Complete | Launch data import loader |
 | Batch 27 | Complete | Final admin UI polish |
 | Batch 28 | Complete | Full public/admin regression checklist |
-| Batch 29 | Current Active | Documentation/status update |
+| Batch 29 | Complete | Documentation/status baseline; later continuation batches are tracked in the section above |
 
 ## Completed Features
 
@@ -203,6 +210,9 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 - Admin lead management for bookings, inquiries, and customers.
 - Admin catalog management for products, categories, brands, and key features.
 - Admin CMS management for About, Project Gallery, Services, and Contact Us.
+- Batch 60E Contact Us admin presentation with separate Company Contact, Contact Persons, and Social Media tables using the same consolidated API/data source.
+- Batch 60F-1 dashboard Quick Actions one-row layout with boxed add indicators.
+- Batch 60G login status behavior that reserves the emphasized message area for actual errors only.
 - Admin media upload preparation, including Contact Person photo/profile-image field.
 - Cognito/admin-auth preparation with auth disabled locally by default.
 - Excel/CSV launch data templates and safe import loader.
@@ -212,23 +222,21 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 
 | Feature | Notes |
 |---|---|
-| EC2 public-IP demo | Current project state is demo ready by user acceptance after Batch 60A. |
-| Demo issue triage | Any issue before, during, or after the demo should be reopened as a targeted hotfix, not as broad polish work. |
-| Post-demo/pre-launch safety | Batch 62A Release Artifact / GitHub Decoupling Safety is now the recommended first post-demo pre-launch safety batch before domain/SEO cutover. |
+| Consolidated local release sync | Current local `main` includes the recovered Batch 60C changes plus locally tested Batches 60E, 60F-1, and 60G. Commit/push and EC2 deployment of this consolidated version remain pending confirmation. |
+| EC2 smoke after sync | After deployment, verify login, dashboard Quick Actions, Contact Us split tables, merged Batch 60C public/admin behavior, API health, and protected admin access. |
+| Demo issue triage | Any issue before, during, or after the demo should be reopened as a targeted hotfix, not broad uncontrolled polish. |
+| Post-demo/pre-launch safety | Batch 62A Release Artifact / GitHub Decoupling Safety remains the recommended pre-launch safety batch before domain/SEO cutover. |
 | Post-demo/domain work | Batch 57 SEO and Batch 61 Route 53/ACM/CloudFront remain deferred until customer/domain approval. |
 
 ## Planned Features
 
-- EC2 public-IP backend/admin deployment test.
-- Free-Tier deployment review.
-- AWS billing alerts.
-- Real Cognito admin protection before external/public admin testing.
-- S3 binary upload/storage enablement for admin media fields.
-- SEO metadata.
-- sitemap.xml and robots.txt.
-- Image optimization.
-- CloudFront/SSL/domain planning after IP-based testing/demo.
-- Release artifact / GitHub deployment decoupling for production go-live safety.
+- Commit and push the consolidated current local `main` version after final local verification.
+- Deploy the consolidated current local version to the existing EC2 release-folder path and complete browser/API smoke verification.
+- Batch 62A release artifact / GitHub deployment decoupling for production go-live safety.
+- Batch 57 SEO metadata, canonical URLs, Open Graph, sitemap.xml, and robots.txt after the final domain is confirmed.
+- Batch 61 Route 53, ACM, CloudFront, HTTPS, and final-domain cutover.
+- Batch 62 final launch/cutover checklist after demo feedback and pre-launch safety readiness.
+- Optional image compression, audit logs, and analytics only if separately reopened and approved.
 
 ## Deferred Features
 
@@ -248,21 +256,19 @@ This section supersedes older Batch 29-only planning notes for deployment/securi
 
 ## Known Gaps
 
-- Batch 60A EC2 public-IP demo readiness is accepted complete by user decision.
-- Batch 59B Admin-only restricted/delete actions were confirmed complete by user before demo acceptance.
-- Batch 60C code was Git-pushed, deployed to EC2, and browser-tested by user before being marked complete.
+- The consolidated current local version containing the recovered Batch 60C changes and Batches 60E, 60F-1, and 60G has passed local browser checks, but GitHub push and EC2 deployment/smoke are not yet confirmed in this documentation checkpoint.
 - Any issue before, during, or after demo should be tracked as a targeted issue/hotfix.
 - SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, and robots.txt remain deferred until the final domain is confirmed.
 - Route 53/domain, ACM, CloudFront, and HTTPS remain deferred until customer demo/launch approval and final domain confirmation.
-- Batch 62A release artifact/GitHub decoupling is added as a post-demo pre-launch safety step before final launch/cutover.
+- Batch 62A release artifact/GitHub decoupling remains a post-demo pre-launch safety step before final launch/cutover.
 - Production backup/restore procedure is documented by Batch 60B; future automation remains optional and requires separate approval.
 - Final company launch data still requires review/import before production launch.
 
 ## Current Priorities
 
-1. Proceed with the EC2 public-IP demo using the current accepted project state.
-2. Track any issue before, during, or after the demo as a targeted hotfix.
-3. Use Batch 60B backup/restore/production safety notes as the operational safety reference during demo and launch planning.
-4. Keep EC2 stopped unless actively preparing, testing, or demoing.
-5. Keep SEO/domain/HTTPS work deferred until final customer domain approval.
+1. Commit and push the current consolidated local `main` version after final local verification.
+2. Deploy that exact version to the existing EC2 release-folder path and smoke the Batch 60C recovery plus Batches 60E, 60F-1, and 60G.
+3. Keep EC2 stopped unless actively deploying, testing, or demoing.
+4. Track any new issue as a targeted hotfix.
+5. Keep Batch 57 SEO and Batch 61 domain/HTTPS work deferred until final customer domain approval.
 6. Preserve the AWS Free-Tier-first architecture during all remaining demo and launch planning.

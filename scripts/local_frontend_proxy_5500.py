@@ -1,4 +1,4 @@
-﻿from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 import urllib.request
 
@@ -54,7 +54,21 @@ class Handler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(e.read())
 
-print(f"Serving frontend from {ROOT}")
-print(f"Proxying /api/* to {BACKEND}")
-print("Open http://127.0.0.1:5500/index.html")
-ThreadingHTTPServer(("127.0.0.1", 5500), Handler).serve_forever()
+def main():
+    server = ThreadingHTTPServer(("127.0.0.1", 5500), Handler)
+
+    print(f"Serving frontend from {ROOT}")
+    print(f"Proxying /api/* to {BACKEND}")
+    print("Open http://127.0.0.1:5500/index.html")
+    print("Press Ctrl+C to stop the frontend proxy.")
+
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("\nFrontend proxy stopped.")
+    finally:
+        server.server_close()
+
+
+if __name__ == "__main__":
+    main()

@@ -4,8 +4,8 @@
 
 This document tracks risks, unresolved questions, blockers, technical debt, and dependencies. Implementation status is controlled by [feature-status.md](./feature-status.md).
 
-Last updated: 2026-06-26  
-Update scope: Phase 8 Batch 59B confirmed complete, Batch 60A demo readiness accepted complete, Batch 60B complete, Batch 60C deployed/browser-tested by user, Batch 62A release artifact/GitHub decoupling added to the post-demo pipeline, and post-demo/domain deferrals preserved.
+Last updated: 2026-07-22  
+Update scope: Batch 60C integration recovery and Batches 60E, 60F-1, and 60G are complete in local browser testing. The remaining immediate operational item is to commit/push the consolidated local version and deploy/smoke it on EC2. Post-demo release-artifact, SEO, and domain deferrals remain preserved.
 
 
 ## Current Open / Deferred Items After Batch 60A Demo Acceptance
@@ -16,6 +16,11 @@ Update scope: Phase 8 Batch 59B confirmed complete, Batch 60A demo readiness acc
 | Batch 59A Cognito Groups + Users | Complete / Local testing passed | Settings > Users backed by Cognito admin APIs through FastAPI only; Admin/Standard roles implemented for current scope. Demo readiness was later accepted in Batch 60A. |
 | Batch 59B Admin-only restricted/delete actions | Complete / user-confirmed | User confirmed completion before demo acceptance. Standard users remain restricted; leads remain non-delete. |
 | Batch 60C public/admin polish | Complete / deployed and browser-tested by user | User confirmed Git push, EC2 deployment, and browser behavior before marking Batch 60C complete. |
+| Batch 60C integration recovery | Complete / local browser-tested | Previously separate Batch 60C branch changes were recovered into the current local `main` baseline and tested with newer fixes preserved. Current consolidated GitHub/EC2 sync remains pending confirmation. |
+| Batch 60E Contact Us split tables | Complete / local browser-tested | Three admin tables now present Company Contact, Contact Persons, and Social Media with applicable columns only; consolidated backend/data model unchanged. |
+| Batch 60F-1 Dashboard Quick Actions | Complete / local browser-tested | Three equal one-row desktop add actions with boxed `+` indicators; initial Batch 60F selector scope was superseded. |
+| Batch 60G Login status polish | Complete / local browser-tested | Emphasized status is hidden until a real error; normal instruction note is larger and friendly login error remains. |
+| Consolidated GitHub/EC2 sync | Current open operational item | Commit/push the exact current local `main`, deploy through the existing EC2 release script, and smoke the current release before closing. |
 | Batch 60B backup/restore/safety notes | Complete | Operational runbooks documented for DynamoDB/S3/Git/EC2/Nginx rollback safety. Documentation/procedure only; no paid backup services added. |
 | Batch 60A EC2 public-IP demo readiness pass | Complete / demo-ready accepted | User accepted current project state as EC2 public-IP demo ready. No further 60A smoke testing requested for now. |
 | Batch 61 domain/HTTPS/CloudFront/Route 53 | Deferred | Planned after customer demo/launch approval and final domain confirmation. |
@@ -52,6 +57,9 @@ Update scope: Phase 8 Batch 59B confirmed complete, Batch 60A demo readiness acc
 
 ## Known Issues
 
+- No blocking UI issue is currently known in the locally tested Batch 60C/60E/60F-1/60G baseline.
+- The current consolidated local version is not documented as deployed until GitHub push, EC2 release deployment, API health checks, and browser verification are confirmed.
+
 | Issue | Severity | Impact | Status | Notes |
 |---|---|---|---|---|
 | AWS billing/cost safety review before extended/demo exposure | High | High | Open | Keep Free-Tier-first design and stop EC2 when not actively testing/demoing. Billing/cost alert status should be confirmed before prolonged public testing. |
@@ -65,6 +73,11 @@ Update scope: Phase 8 Batch 59B confirmed complete, Batch 60A demo readiness acc
 | GitHub deployment-download dependency | Medium | Medium | Planned / Batch 62A | Current development deploy flow may download from GitHub by commit/branch. Before production go-live, release artifact deployment should decouple runtime and rollback from GitHub availability or credentials. |
 
 ## Resolved / Completed Implementation Items
+
+- Batch 60C separate-branch integration recovery completed locally without discarding newer phone/email, sale sorting, promotions rotation, services CTA, or login error fixes.
+- Batch 60E Contact Us admin split-table presentation completed locally.
+- Batch 60F-1 dashboard Quick Actions one-row fix completed locally; Batch 60F initial selector approach is superseded.
+- Batch 60G login error-only status presentation completed locally.
 
 | Item | Status | Notes |
 |---|---|---|

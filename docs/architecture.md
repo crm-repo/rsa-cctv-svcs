@@ -5,7 +5,7 @@
 This document is the authoritative technical design reference for RSA CMS / Mini-CRM. For implementation progress, use [feature-status.md](./feature-status.md). For business requirements, use [requirements.md](./requirements.md).
 
 
-## Current Phase 8 Continuation Architecture — Through Batch 60C
+## Current Phase 8 Continuation Architecture — Through Batch 60G Local Polish
 
 As of the Batch 60C documentation checkpoint, the working architecture has moved beyond the Batch 29 local-only baseline:
 
@@ -23,6 +23,10 @@ As of the Batch 60C documentation checkpoint, the working architecture has moved
 - Admin Products reuses the stored `show_pack_flag` field with a category-scoped label: `Promote Package` for Packages/Kits and `Featured Product` for non-package products.
 - Brands hero is already dynamic through the public brands API and must not be overwritten by duplicate renderers.
 - Batch 60B documents backup/restore/rollback safety procedures for DynamoDB, S3 media, Git, EC2 release folders, Nginx config, import safety, secret handling, and EC2/cost-safety. No paid backup service is added by default.
+- Batch 60E keeps `rsa_contact_us` consolidated but renders Company Contact, Contact Persons, and Social Media as three type-specific admin tables with applicable columns only.
+- Batch 60F-1 uses a dedicated dashboard Quick Actions class to render three equal one-row desktop add actions with boxed `+` indicators and a mobile one-column fallback.
+- Batch 60G keeps the emphasized login status region empty during normal state and shows it only for real errors; normal guidance remains in the information note.
+- The recovered Batch 60C changes and Batches 60E, 60F-1, and 60G are locally browser-tested; deployment of the consolidated current local version remains pending confirmation.
 
 ### EC2/Nginx deployment notes from Batch 56B
 
@@ -49,6 +53,25 @@ The browser must not call Cognito admin APIs directly. Settings > Users should c
 No `rsa_admin_users` DynamoDB table is required for launch unless later profile metadata/audit requirements are added.
 
 Batch 59A user onboarding uses suppressed Cognito invitation email and a backend-generated temporary password shown once only after create/reset. Temporary passwords are not stored, logged, or re-viewable. First-login password change must be handled in the browser. User create/view/edit fields use First Name and Last Name (`given_name`, `family_name`); the main Users table shows generated Full Name.
+
+### Admin presentation refinements — Batches 60E to 60G
+
+The admin Contact Us page is a presentation view over the existing consolidated Contact Us API and repository:
+
+```text
+rsa_contact_us / contact API
+  -> admin-cms.js
+  -> Company Contact table
+  -> Contact Persons table
+  -> Social Media table
+```
+
+No additional DynamoDB table or `contact_type` GSI is introduced. The browser groups the already-loaded records by `contact_type` and renders a type-specific column definition for each table.
+
+Dashboard Quick Actions remain normal links to the existing create flows. Batch 60F-1 adds a dedicated layout class so the three shortcuts occupy one equal desktop row and are not affected by older generic odd-item grid rules.
+
+The login status element remains an accessible alert/live region but stays empty and hidden during normal page state. Routine instructions use the login note; only authentication/configuration failures populate the emphasized status element.
+
 
 
 ### Release artifact and GitHub decoupling architecture — Batch 62A
@@ -185,13 +208,13 @@ Simplified launch capacity count:
 | Layer | Technology | Status |
 |---|---|---|
 | Frontend | HTML, Tailwind CSS, custom CSS, JavaScript | Current |
-| Backend API | Python FastAPI | Planned |
-| Database | AWS DynamoDB | Planned |
-| Authentication | AWS Cognito | Planned |
-| Image/File Storage | AWS S3 | Planned |
+| Backend API | Python FastAPI | Current / deployed for demo |
+| Database | AWS DynamoDB | Current / deployed for demo |
+| Authentication | AWS Cognito | Current / deployed for admin |
+| Image/File Storage | AWS S3 | Current / private media bucket |
 | CDN / HTTPS | AWS CloudFront | Planned |
-| Backend Hosting | AWS EC2 | Planned |
-| Admin UI | Custom admin interface | Planned |
+| Backend Hosting | AWS EC2 | Current / release-folder demo deployment |
+| Admin UI | Custom admin interface | Current / operational |
 
 ## Infrastructure Design
 
@@ -676,6 +699,8 @@ The existing sort/order, total display limit, per-page carousel behavior, and em
 ### Contact Us
 
 `rsa_contact_us` consolidates Company Contact, Contact Person, and Social Media records in one table.
+
+The admin presentation uses three separate type-specific tables over this same dataset. This is a client/admin rendering choice, not a storage split. The public grouped Contact page API and individual contact APIs remain compatible with the consolidated repository.
 
 Shared fields:
 

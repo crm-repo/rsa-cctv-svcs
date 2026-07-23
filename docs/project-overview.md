@@ -1,6 +1,6 @@
 # RSA CMS / Mini-CRM Project Overview
 
-## Current Project Status — Phase 8 Continuation Through Batch 60A Demo Acceptance
+## Current Project Status — Phase 8 Continuation Through Batch 60G Local Polish
 
 The project has progressed beyond the original Batch 29 documentation baseline.
 
@@ -8,35 +8,28 @@ Current completed state:
 
 - Public website pages are effectively complete for the current phase.
 - Public catalog/CMS/lead pages are API-backed where implemented.
-- Backend FastAPI, DynamoDB mode, Cognito admin auth, EC2 demo deployment, Nginx routing, and S3 media storage are implemented for the current scope.
+- Backend FastAPI, DynamoDB mode, Cognito admin auth, EC2 demo deployment, Nginx routing, and private S3 media storage are implemented for the current scope.
 - Admin catalog/CMS/lead pages are operational with Cognito-protected access.
-- Admin media upload works for Products, Brands, Project Gallery, and Contact Person images.
-- Products/Brands media backfill to S3 is complete for Batch 56C scope.
-- Promotions hero now uses promoted package products only.
-- Homepage Featured Products now uses the category-scoped `show_pack_flag` rule for non-package featured products.
-- Batch 60C public/admin polish is accepted complete; user confirmed Git push, EC2 deployment, and browser-tested behavior.
-- Batch 60B backup/restore/production safety notes are documented and should be used as the operational safety reference before demo/launch work.
-- Batch 59B admin-only restricted/delete actions are confirmed complete by user.
-- Batch 60A demo readiness is accepted complete by user; current project state is EC2 public-IP demo ready.
-- Batch 57 SEO work is intentionally deferred until Route 53/final domain.
-- Batch 62A Release Artifact / GitHub Decoupling Safety is added to the post-demo/pre-launch pipeline to ensure production runtime does not depend on GitHub downloads or GitHub credentials.
+- Batch 60C public/admin polish was previously deployed and browser-tested; its separate-branch changes have now also been recovered into the current local `main` baseline and locally regression-tested.
+- Batch 60E is complete in local browser testing: Contact Us admin records are shown in three type-specific tables while remaining stored in the single consolidated `rsa_contact_us` table.
+- Batch 60F-1 is complete in local browser testing: Dashboard Quick Actions show Add Product, Add Category, and Add Brand as three equal one-row desktop actions with boxed `+` indicators.
+- Batch 60G is complete in local browser testing: the emphasized login status is error-only, the normal instruction remains in a larger information note, and friendly error wording is preserved.
+- Batch 60B backup/restore/production safety notes remain the operational safety reference.
+- Batch 60A demo readiness remains accepted complete for the previously deployed EC2 public-IP demo state.
+- Batch 57 SEO work remains deferred until Route 53/final domain.
+- Batch 62A Release Artifact / GitHub Decoupling Safety remains in the post-demo/pre-launch pipeline.
 
-Current active/planned work:
+Current active work:
 
-- Batch 58: image lazy loading local testing passed.
-- Batch 59A: Cognito Groups + Settings > Users management completed/local testing passed for the current scope.
-- Batch 59B: Admin-only restricted/delete actions confirmed complete by user.
-- Batch 60C: inserted public/admin polish batch accepted complete; Git-pushed, EC2-deployed, and browser-tested by user.
-- Batch 60B: backup/restore/production safety notes completed as documentation/procedure package.
-- Batch 60A: EC2 public-IP demo readiness accepted complete by user; no further smoke testing requested for now.
-- Current next activity: run the demo, then triage any issue before, during, or after demo as a targeted hotfix.
-- Batch 62A: Release Artifact / GitHub Decoupling Safety; planned post-demo/pre-launch before final launch/cutover.
-- Batch 61: Route 53 + ACM + CloudFront + EC2 origin planning, deferred until customer domain approval.
+- Commit and push the consolidated current local `main` version.
+- Deploy that exact version to EC2 using the existing release-folder deployment flow.
+- Smoke the login page, dashboard shortcuts, Contact Us split tables, recovered Batch 60C behavior, API health, and protected admin access.
+- Stop EC2 after deployment/browser verification unless continuing directly with testing or demo activity.
 
 Deferred until later/final launch planning:
 
 - Release artifact / GitHub deployment decoupling safety before final launch/cutover.
-- SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, robots.txt until the final domain is confirmed.
+- SEO metadata, canonical URLs, Open Graph URLs, sitemap.xml, and robots.txt until the final domain is confirmed.
 - Route 53/domain, SSL/HTTPS, and CloudFront implementation until customer/domain approval.
 - Final launch checklist after demo feedback, release artifact safety, backup/safety notes, and domain readiness.
 
@@ -199,7 +192,7 @@ The project is successful when:
 
 ## Latest Authoritative Project Status
 
-`feature-status.md` is the authoritative implementation tracker. The summary below reflects the latest known state after Phase 8 Batch 28 regression and Batch 29 documentation/status update.
+`feature-status.md` is the authoritative implementation tracker. The summary below reflects the latest known state through the Batch 60C integration recovery and locally tested Batches 60E, 60F-1, and 60G.
 
 | Area | Latest Status | Notes |
 |---|---|---|
@@ -211,22 +204,23 @@ The project is successful when:
 | Admin Lead Management | Complete for Phase 8 | Bookings, inquiries, and customers can be listed/viewed/updated |
 | Admin Catalog Management | Complete for Phase 8 | Products, categories, brands, and key features support create/update workflows |
 | Admin CMS Management | Complete for Phase 8 | About, project gallery, services, and contact-us records support create/update workflows |
-| Admin UI Polish | Complete for Phase 8 | Product-name preview, key-feature suggestions, media-field presentation, and drawer/toolbar polish completed |
-| Admin Auth | Prepared | Cognito/admin-auth preparation exists; real protection remains disabled locally until deployment/security phase |
-| Media Upload | Prepared | Choose File/media-key prep exists; real S3 binary upload/storage remains a later enablement step |
+| Admin UI Polish | Complete / current local polish tested | Includes Batch 60C recovery, Batch 60E Contact Us split tables, Batch 60F-1 dashboard Quick Actions, and Batch 60G login status polish |
+| Admin Auth | Complete for current demo scope | Cognito JWT protection and Admin/Standard groups are implemented; Batch 60G refines login status presentation without changing auth security |
+| Media Upload | Complete for approved scope | Private S3 upload/display is implemented for Products, Brands, Project Gallery, and Contact Person images |
 | Launch Data Templates / Import | Complete for Phase 8 | Excel/CSV templates and safe dry-run-first import loader are implemented |
 | Regression Testing | Complete for Phase 8 | Full public/admin regression checklist and script passed in current testing |
-| SEO / Deployment | Planned | Required before production launch |
+| EC2 Demo Deployment | Complete for prior demo release; current sync pending | Existing release-folder deployment path is proven. The consolidated current local version still needs confirmed GitHub push and EC2 deploy/smoke. |
+| SEO / Domain Launch | Deferred | SEO, canonical URLs, sitemap/robots, Route 53, ACM, CloudFront, and HTTPS wait for the final approved domain |
 
 ## Current Authoritative Updates
 
-1. **Phase 8 backend/admin implementation is complete for the current local/regression phase.** Older statements that backend/admin are only planned are superseded by `feature-status.md`.
-2. **Mock repository mode remains the safe default.** DynamoDB mode is used intentionally for AWS-backed regression/import testing.
-3. **The approved Phase 8 Final v5 DynamoDB/API plan remains the technical baseline.** The launch table set is 12 DynamoDB tables with 5 approved GSIs.
-4. **Admin auth is prepared but not externally enabled.** Cognito protection must be completed before public/external admin testing.
-5. **Admin media fields use Browse/Choose File preparation.** Real S3 binary upload/storage remains a later deployment/storage task.
-6. **Launch data should be collected through Excel/CSV templates, not manual JSON editing.** JSON seed data remains useful for developer testing.
-7. **Completed public pages should not be reopened unless explicitly requested.**
+1. **The current local `main` baseline includes the recovered Batch 60C changes and locally tested Batches 60E, 60F-1, and 60G.**
+2. **Contact Us remains one consolidated DynamoDB table.** Batch 60E changes only the admin presentation into three type-specific tables and removes non-applicable display columns.
+3. **Dashboard Quick Actions use one desktop row.** Batch 60F-1 provides three equal add actions with boxed `+` emphasis and mobile one-column fallback.
+4. **The emphasized login status area is error-only.** Normal email/password guidance remains in the smaller information note, now slightly larger; friendly non-technical errors remain required.
+5. **Cognito, DynamoDB, EC2, Nginx, and private S3 media are implemented for the current demo scope.**
+6. **Mock mode remains useful for safe development, but current local validation of real project data should use DynamoDB and S3 media mode through the local proxy.**
+7. **GitHub push and EC2 deployment of the consolidated current local version remain pending confirmation at this checkpoint.**
 8. **AWS Free-Tier-first remains mandatory.** Avoid ALB, NAT Gateway, RDS, multiple always-on EC2 instances, SMS/MFA costs, and unnecessary paid features.
 
 ## Documentation Map
@@ -259,25 +253,28 @@ See [PHASE8_FINAL_DYNAMODB_API_PLAN_v5.md](./PHASE8_FINAL_DYNAMODB_API_PLAN_v5.m
 
 ## Phase 8 Current Implemented Baseline
 
-As of Batch 29, Phase 8 has completed the local backend/admin/CMS/Mini-CRM implementation and regression baseline.
+As of 2026-07-22, Phase 8 includes the deployed backend/admin/CMS/Mini-CRM foundation plus the current locally tested Batch 60C recovery and Batches 60E, 60F-1, and 60G polish.
 
 Implemented baseline:
 
-- FastAPI backend with public and admin route modules.
-- Mock repository mode as the safe default.
-- DynamoDB repository mode for AWS-backed testing.
+- FastAPI backend with public and protected admin route modules.
+- Mock repository mode for safe development and DynamoDB repository mode for current AWS-backed data.
 - Approved `rsa_` DynamoDB tables created and verified ACTIVE in `ap-southeast-1`.
 - Public website pages connected to backend APIs.
-- Public booking and inquiry form submission connected to backend APIs.
-- Admin dashboard, lead management, catalog management, CMS management, auth prep, and media prep.
+- Public booking and inquiry submissions connected to backend APIs.
+- Cognito-protected admin dashboard, lead management, catalog management, CMS management, and Settings > Users.
+- Private S3 media upload/display for the approved admin media scope.
 - Excel/CSV launch templates and safe import loader.
-- Full public/admin regression script and manual checklist.
+- EC2/Nginx release-folder deployment and rollback model.
+- Batch 60E type-specific Contact Us admin tables using the consolidated Contact Us API/data model.
+- Batch 60F-1 one-row dashboard Quick Actions with boxed add indicators.
+- Batch 60G login error-only emphasized status behavior.
+- Full public/admin regression and demo-readiness procedures.
 
-Still outside this completed baseline:
+Still outside the completed launch baseline:
 
-- Production deployment.
-- Real Cognito enforcement.
-- Real S3 binary upload/storage.
-- CloudFront/SSL/domain.
-- SEO/sitemap/robots/image optimization.
-- Billing-alert and Free-Tier deployment readiness verification.
+- Confirmed GitHub push and EC2 deployment/smoke of the current consolidated local version.
+- Batch 62A tagged release artifact / GitHub runtime decoupling.
+- Final customer domain, Route 53, ACM, CloudFront, and HTTPS.
+- Domain-dependent SEO metadata, canonical/Open Graph URLs, sitemap.xml, and robots.txt.
+- Final launch/cutover approval and checklist.
